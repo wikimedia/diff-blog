@@ -1,0 +1,3 @@
+[submodule "client-mu-plugins/vip-go-wpcom-compat"]
+	path = client-mu-plugins/vip-go-wpcom-compat
+	url = https://github.com/Automattic/vip-go-wpcom-compat.git
