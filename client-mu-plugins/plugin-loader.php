@@ -18,3 +18,4 @@
  * wpcom_vip_load_plugin only loads plugins from the `WP_PLUGIN_DIR` directory.
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
+wpcom_vip_load_plugin( 'amp' );
