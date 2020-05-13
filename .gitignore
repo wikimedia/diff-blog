@@ -13,6 +13,9 @@
 /plugins/two-factor/
 /plugins/vaultpress/
 
+# Node Modules
+*/*/node_modules/
+
 # Uploads directory
 /uploads/
 
