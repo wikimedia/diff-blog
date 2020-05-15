@@ -19,3 +19,5 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 wpcom_vip_load_plugin( 'amp' );
+wpcom_vip_load_plugin('publishpress');
+wpcom_vip_load_plugin('capability-manager-enhanced');
