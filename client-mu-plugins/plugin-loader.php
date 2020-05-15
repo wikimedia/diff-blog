@@ -20,4 +20,4 @@
  */
 wpcom_vip_load_plugin( 'amp' );
 wpcom_vip_load_plugin('publishpress');
-wpcom_vip_load_plugin('capability-manager-enhanced');
+wpcom_vip_load_plugin('capsman-enhanced');
