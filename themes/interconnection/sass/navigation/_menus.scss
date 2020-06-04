@@ -1,87 +1,183 @@
-.main-navigation {
-	display: block;
+.site-header {
+	z-index: 2000;
 	width: 100%;
+	position: fixed;
+	top: 0;
+	background: $color__background-body;
+	transition: top .25s ease;
+	border-bottom: 1px $base80 solid;
 
-	ul {
+	.top-nav {
+		height: rem($size__navigation);
+	}
+}
+
+.admin-bar .site-header {
+	@media screen and (min-width: $small-bp) {
+		top: 32px;
+	}
+}
+
+.site-branding {
+	display: inline-block;
+	order: 3;
+
+	.site-title {
+		margin: 0.5rem 1rem 0.5rem 0;
+
+		a {
+			color: $base10;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+
+	@media screen and (max-width: $small-bp) {
 		display: none;
+	}
+}
+
+.custom-logo-link {
+	order: 2;
+}
+
+.main-navigation {
+	display: inline-block;
+	margin-right: 1rem;
+	order: 1;
+
+	@media screen and (min-width: $small-bp) {
+		order: 4;
+	}
+
+	.menu {
+		display: none;
+		position: absolute;
 		list-style: none;
 		margin: 0;
 		padding-left: 0;
+		background-color: rgba(255, 255, 255, 0.96);
 
-		ul {
-			box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+		@media screen and (min-width: $small-bp) {
+			display: block;
+			position: relative;
+		}
+
+		> li {
+			@media screen and (min-width: $small-bp) {
+				margin-right: 1rem;
+				
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.sub-menu {
 			float: left;
 			position: absolute;
 			top: 100%;
 			left: -999em;
 			z-index: 99999;
-
-			ul {
-				left: -999em;
-				top: 0;
-			}
-
-			li {
-
-				&:hover > ul,
-				&.focus > ul {
-					display: block;
-					left: auto;
-				}
-			}
+			padding: 0.5rem 1rem;
+			margin: 0;
+			list-style: none;
+			white-space: nowrap;
+			background-color: rgba(255, 255, 255, 0.96);
+			border: 1px solid $base50;
+			border-radius: 2px;
 
 			a {
-				width: 200px;
-			}
-
-			:hover > a,
-			.focus > a {
+				@include padding(4, 4, 4, 0);
 			}
 
 			a:hover,
 			a.focus {
+				background: none;
+				text-decoration: underline;
 			}
 		}
 
 		li:hover > ul,
 		li.focus > ul {
-			left: auto;
+			left: - rem(8); // based on .menu li padding-left
 		}
 	}
 
 	li {
 		position: relative;
+		a {
+			color: $base10;
+			@include padding(4, 4, 8, 8);
+			transition: $transition;
+		}
 
 		&:hover > a,
 		&.focus > a {
+			text-decoration: underline;
 		}
 	}
 
 	a {
 		display: block;
 		text-decoration: none;
+		cursor: pointer;
 	}
 
 	.current_page_item > a,
 	.current-menu-item > a,
 	.current_page_ancestor > a,
 	.current-menu-ancestor > a {
+		color: $base10;
 	}
+}
+
+.main-navigation.toggled {
+	.menu {
+		position: absolute;
+		left: 0;
+		top: rem($size__navigation);
+		width: 100%;
+		padding: 1rem rem(30);
+		border-top: 1px $base80 solid;
+		border-bottom: 1px $base80 solid;
+		font-weight: bold;
+	
+		.sub-menu {
+			float: none;
+			left: auto;
+			position: relative;
+			padding: 0;
+			margin-left: 1rem;
+			overflow: scroll;
+			background-color: transparent;
+			border: none;
+
+			li {
+				padding: 0.25rem;
+			}
+		}
+	}
+}
+
+.site-main {
+	margin-top: rem($site-main-shift);	
 }
 
 /* Small menu. */
 .menu-toggle,
-.main-navigation.toggled ul {
+.main-navigation.toggled .menu {
 	display: block;
 }
 
-@media screen and (min-width: 37.5em) {
-
+@media screen and (min-width: $small-bp) {
 	.menu-toggle {
 		display: none;
 	}
 
-	.main-navigation ul {
+	.main-navigation .menu {
 		display: flex;
 	}
 }

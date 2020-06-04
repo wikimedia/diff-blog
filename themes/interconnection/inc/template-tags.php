@@ -24,14 +24,8 @@ if ( ! function_exists( 'interconnection_posted_on' ) ) :
 			esc_attr( get_the_modified_date( DATE_W3C ) ),
 			esc_html( get_the_modified_date() )
 		);
-
-		$posted_on = sprintf(
-			/* translators: %s: post date. */
-			esc_html_x( 'Posted on %s', 'post date', 'interconnection' ),
-			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
-		);
-
-		echo '<span class="posted-on">' . $posted_on . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	
+		echo '<span class="posted-on">' . $time_string . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	}
 endif;
@@ -120,24 +114,26 @@ if ( ! function_exists( 'interconnection_post_thumbnail' ) ) :
 	 * element when on single views.
 	 */
 	function interconnection_post_thumbnail() {
-		if ( post_password_required() || is_attachment() || ! has_post_thumbnail() ) {
+		if ( post_password_required() || is_attachment() ) {
 			return;
 		}
 
 		if ( is_singular() ) :
-			?>
+		?>
 
-			<div class="post-thumbnail">
+			<div class="post-thumbnail wrapper-medium">
 				<?php the_post_thumbnail(); ?>
 			</div><!-- .post-thumbnail -->
 
 		<?php else : ?>
 
-			<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-				<?php
+			<a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
+				<?php 
+				if ( has_post_thumbnail() && get_the_post_thumbnail() ) {
 					the_post_thumbnail(
-						'post-thumbnail',
+						array(600, 400),
 						array(
+							'class' => 'home-thumbnail',
 							'alt' => the_title_attribute(
 								array(
 									'echo' => false,
@@ -145,10 +141,11 @@ if ( ! function_exists( 'interconnection_post_thumbnail' ) ) :
 							),
 						)
 					);
-				?>
+				} else { ?>
+				<div class="home-thumbnail"></div>
 			</a>
-
-			<?php
+			<?php };
+			
 		endif; // End is_singular().
 	}
 endif;

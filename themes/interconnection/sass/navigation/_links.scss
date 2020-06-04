@@ -1,5 +1,6 @@
 a {
 	color: $color__link;
+	text-decoration: none;
 
 	&:visited {
 		color: $color__link-visited;
@@ -9,6 +10,7 @@ a {
 	&:focus,
 	&:active {
 		color: $color__link-hover;
+		text-decoration: underline;
 	}
 
 	&:focus {
@@ -19,4 +21,9 @@ a {
 	&:active {
 		outline: 0;
 	}
+}
+
+.posts-grid a,
+.posts-grid a:visited {
+	color: $base10;
 }
