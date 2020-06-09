@@ -70,5 +70,3 @@ function diff_calendar_toolbar( $wp_admin_bar ) {
         );
         $wp_admin_bar->add_node( $args );
 }
-
-?>
