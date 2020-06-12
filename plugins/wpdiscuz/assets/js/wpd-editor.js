@@ -141,10 +141,10 @@ class WpdEditor {
                     this.container = editor.container.id;
                 }
             });
-            editor.clipboard.addMatcher('PRE', (node, delta) => {
-                var Delta = Quill.import('delta');
-                return new Delta([{insert: this._htmlEntities(node.innerHTML), attributes: {'code-block': true}}]);
-            });
+//            editor.clipboard.addMatcher('PRE', (node, delta) => {
+//                var Delta = Quill.import('delta');
+//                return new Delta([{insert: this._htmlEntities(node.innerHTML), attributes: {'code-block': true}}]);
+//            });
             editor.clipboard.addMatcher('a', (node, delta) => {
                 if (node.getAttribute("href") === node.innerHTML) {
                     var Delta = Quill.import('delta');
@@ -175,11 +175,11 @@ class WpdEditor {
         return this.currentEditor;
     }
 
-    _htmlEntities(str) {
-        var txt = document.createElement('textarea');
-        txt.innerHTML = str;
-        return txt.value.replace(/<\!\-\-\?php/g, '<?php').replace(/\?\-\->/g, '?>').replace(/\-\-\->/g, '->');
-    }
+//    _htmlEntities(str) {
+//        var txt = document.createElement('textarea');
+//        txt.innerHTML = str;
+//        return txt.value.replace(/<\!\-\-\?php/g, '<?php').replace(/\?\-\->/g, '?>').replace(/\-\-\->/g, '->');
+//    }
 
     removeEditor(container) {
         this.container = container;
@@ -193,9 +193,11 @@ class WpdEditor {
                 textEditorHtml = document.getElementById(textEditorID);
         textEditorHtml.style.cssText = "display: none;";
         editor.addContainer(this.textEditorContainer).appendChild(textEditorHtml);
-        if (editor.container.id.indexOf('-edit_') > 0) {
-            editor.clipboard.dangerouslyPasteHTML(0, textEditorHtml.value);
-        }
+//        if (editor.container.id.indexOf('-edit_') > 0) {
+//            console.log(textEditorHtml.value);
+//            editor.clipboard.dangerouslyPasteHTML(0, textEditorHtml.value);
+//            editor.update();
+//        }
         /* editor.on('text-change', (delta, oldDelta, source) => {
          if (source === Quill.sources.USER) {
          textEditorHtml.value = editor.root.innerHTML;

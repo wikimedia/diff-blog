@@ -1,9 +1,9 @@
 === Comments - wpDiscuz ===
 Contributors: gVectors Team
-Tags: comment, comments, ajax comments, custom comment form, custom comment field
+Tags: comment, comments, ajax comments, comment form, comment fields
 Requires at least: 5.0
 Tested up to: 5.4
-Stable tag: 7.0.0
+Stable tag: 7.0.2
 Requires PHP: 5.4 and higher
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -14,8 +14,7 @@ AJAX powered realtime comments. Designed to extend WordPress native comments. Cu
 
 AJAX realtime comment system with custom comment form and fields. Designed to supercharge WordPress native comments. Super fast and responsive with dozens of features. This is the best alternative to Disqus and Jetpack Comments, if you want to keep your comments in your database.
 
-wpDiscuz version 7 is a revolutionary perspective on the commenting world!
-This plugin changes your website commenting experience and provides you with new user engagement features. It’s totally improved with brand new innovative features bringing live to your website.
+wpDiscuz version 7 is a revolutionary perspective on the commenting world! This plugin changes your website commenting experience and provides you with new user engagement features. It’s totally improved with brand new innovative features bringing live to your website.
 
 
 * wpDiscuz Demo: [https://wpdiscuz.com/](https://wpdiscuz.com/)
@@ -179,11 +178,11 @@ Nothing will be lost!  **Comments - wpDiscuz** will show all old comments.
 
 == Changelog ==
 
-= Comments - wpDiscuz v7.0.0 =
+= Comments - wpDiscuz v7.0.0 / v7.0.1 / v7.0.2 =
 
 **IMPORTANT!**
 This is a major version update!
-As you can see we jump from 5.3.5 version to 7.0.0, so you should understand, that lots of things are changed. This is a totally different wpDiscuz. Therefore, we recommend you follow these steps before updating to version 7:
+As you can see we jump from 5.3.5 version to 7.0.x, so you should understand, that lots of things are changed. This is a totally different wpDiscuz. Therefore, we recommend you follow these steps before updating to version 7:
 
 1. You'll lose old wpDiscuz template customization in the active WordPress theme /wpdiscuz/ folder. If you don't have customized wpDiscuz template files, just ignore this note.
 2. Please check [wpDiscuz v7 demo](https://wpdiscuz.com/) to make sure you want to update.
@@ -193,6 +192,27 @@ As you can see we jump from 5.3.5 version to 7.0.0, so you should understand, th
 
 **What's new in wpDiscuz 7!**
 
+* version 7.0.2
+* Added: New Option - Enable WordPress Shortcodes in Comment Content
+* Fixed Bug: Rating is not updated because of cache plugins
+* Fixed Bug: Paragraph HTML code in Dashboard comment editor
+* Fixed Bug: Problem with duplicated IDs in the HTML code
+* Fixed Bug: Problem with the [collapsed | expended] comment form option
+* Disabled Feature: Aggregate Rating Schema is disabled. Google has removed the "Article" type, so we don't have a general type for all. We have to disable it to avoid Google Search Console error reports. We'll add a FAQ topic in wpDiscuz support forum for users who want to enable it for existing [Rating Types](https://webmasters.googleblog.com/2019/09/making-review-rich-results-more-helpful.html)
+* ----------
+* version 7.0.1
+* Added: New option to collapse/expend comment form fields
+* Added: New option to disable Social Network icons on avatars
+* Added: Missing Phrases (Inline feedback submit button [comment])
+* Adapted: LiteSpeed Cache Image Lazy Load function conflict
+* Changed: Aggregate Rating Schema is disabled by default
+* Fixed Bug: Conflict with BuddyPress Profile Pages
+* Fixed Bug: Image uploading issue when mime type is not found
+* Fixed Bug: Problem with comment text field placeholder removing
+* Fixed Bug: Notice: Undefined index: allow_guests_rate_on_post
+* Fixed Bug: reCaptcha validation issues
+* ----------
+* version 7.0.0
 * Added: The design is fully changed
 * Added: Three nice and modern comment layouts.
 * Added: Inline commenting and feedback. Commenting on post content.
@@ -218,7 +238,6 @@ As you can see we jump from 5.3.5 version to 7.0.0, so you should understand, th
 * Added: Improved working speed and security.
 * Added: Better performance and database optimized database queries.
 * Fixed Bug: About a hundred of big and small bugs are fixed.
-
 
 
 

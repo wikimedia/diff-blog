@@ -393,7 +393,7 @@ class Form {
             if ($can_rate && is_singular()) {
                 if (!empty($currentUserId)) {
                     $class = wpDiscuz()->dbManager->isUserRated($currentUserId, "", $post->ID) ? "" : " class='wpd-not-rated'";
-                } else if ($this->generalOptions["allow_guests_rate_on_post"]) {
+                } else if ($this->getUserCanRateOnPost()) {
                     $class = wpDiscuz()->dbManager->isUserRated(0, md5(wpDiscuz()->helper->getRealIPAddr()), $post->ID) ? "" : " class='wpd-not-rated'";
                 }
             }
@@ -401,23 +401,18 @@ class Form {
             $count = (int) get_post_meta($post->ID, wpdFormConst::POSTMETA_POST_RATING_COUNT, true);
             $prefix = (int) $rating;
             $suffix = $rating - $prefix;
-            $showSchema = $this->wpdOptions->rating["enablePostRatingSchema"] && $count;
             $fullStarSVG = apply_filters("wpdiscuz_full_star_svg", "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path class='wpd-star' d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/><path d='M0 0h24v24H0z' fill='none'/></svg>", "post", "fas fa-star");
             $halfStarSVG = apply_filters("wpdiscuz_half_star_svg", "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 24 24'><defs><path id='a' d='M0 0h24v24H0V0z'/></defs><clipPath id='b'><use xlink:href='#a' overflow='visible'/></clipPath><path class='wpd-star wpd-active' clip-path='url(#b)' d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/></svg>", "post", "fas fa-star");
             $html .= "<div id='wpd-post-rating'{$class}>
-            <div" . ($showSchema ? " itemscope itemtype='http://schema.org/Product'" : "") . " class='wpd-rating-wrap'>
+            <div class='wpd-rating-wrap'>
             <div class='wpd-rating-left'></div>
             <div class='wpd-rating-data'>
-                <div class='wpd-rating-value'" . ($showSchema ? " itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'" : "") . ">
-                    <span class='wpdrv'" . ($showSchema ? " itemprop='ratingValue'" : "") . ">" . esc_html($rating) . "</span>
-                    <span class='wpdrc'" . ($showSchema ? " itemprop='ratingCount'" : "") . ">" . esc_html($count) . "</span>
+                <div class='wpd-rating-value'>
+                    <span class='wpdrv'>" . esc_html($rating) . "</span>
+                    <span class='wpdrc'>" . esc_html($count) . "</span>
                     <span class='wpdrt'>" . ((int) $count > 1 ? esc_html($this->wpdOptions->phrases["wc_votes_phrase"]) : esc_html($this->wpdOptions->phrases["wc_vote_phrase"])) . "</span>";
-            if ($showSchema) {
-                $html .= "<span style='display:none!important;' itemprop='bestRating'>5</span>
-                    <span style='display:none!important;' itemprop='worstRating'>1</span>";
-            }
             $html .= "</div>
-                <div class='wpd-rating-title'" . ($showSchema ? " itemprop='name'" : "") . ">" . esc_html($this->getPostRatingTitle()) . "</div>
+                <div class='wpd-rating-title'>" . esc_html($this->getPostRatingTitle()) . "</div>
                 <div class='wpd-rating-stars'>";
             if ($prefix) {
                 for ($i = 1; $i < 6; $i++) {
@@ -440,6 +435,9 @@ class Form {
             }
             $html .= "</div>
             <div class='wpd-rating-right'></div></div></div>";
+            if ($this->wpdOptions->rating["enablePostRatingSchema"] && $count) {
+                $html .= apply_filters("wpdiscuz_rating_schema", "<div style='display: none;' itemscope itemtype='http://schema.org/Product'><meta itemprop='name' content='" . esc_html($this->getPostRatingTitle()) . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_html($rating) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>", "post", $post->ID);
+            }
         }
         return $html;
     }
@@ -463,20 +461,22 @@ class Form {
             } else {
                 global $post;
             }
-            $atts["postid"] = $post->ID;
-            $this->resetData();
-            $wpdiscuz = wpDiscuz();
-            $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
-            if (is_rtl()) {
-                wp_enqueue_style("wpdiscuz-ratings-rtl");
-            } else {
-                wp_enqueue_style("wpdiscuz-ratings");
+            if (!empty($post->ID)) {
+                $atts["postid"] = $post->ID;
+                $this->resetData();
+                $wpdiscuz = wpDiscuz();
+                $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
+                if (is_rtl()) {
+                    wp_enqueue_style("wpdiscuz-ratings-rtl");
+                } else {
+                    wp_enqueue_style("wpdiscuz-ratings");
+                }
+                $html = $form->getRatingMetaHtml($atts);
+                $form->resetData();
+                global $post;
+                $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
+                return $html;
             }
-            $html = $form->getRatingMetaHtml($atts);
-            $form->resetData();
-            global $post;
-            $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
-            return $html;
         } else {
             $post = get_post($atts["postid"]);
             $this->initFormFields();
@@ -512,12 +512,12 @@ class Form {
                             $html .= $this->getSingleRatingHtml($key, $value, $atts);
                         }
                         if ($atts["itemprop"]) {
-                            $html .= $this->getRatingSchema($atts["metakey"], $ratingList);
+                            $html .= $this->getRatingSchema($atts["metakey"], $ratingList, $atts["postid"]);
                         }
                     } else {
                         $html .= $this->getSingleRatingHtml($atts["metakey"], $ratingList[$atts["metakey"]], $atts);
                         if ($atts["itemprop"] && $ratingList[$atts["metakey"]]["count"]) {
-                            $html .= $this->getRatingSchema($atts["metakey"], $ratingList);
+                            $html .= $this->getRatingSchema($atts["metakey"], $ratingList, $atts["postid"]);
                         }
                     }
                     $html .= "</div>";
@@ -573,7 +573,7 @@ class Form {
         return $html;
     }
 
-    private function getRatingSchema($key, $ratingList) {
+    private function getRatingSchema($key, $ratingList, $postId) {
         $average = 0;
         $count = 0;
         if ($key === "" || $key === "all") {
@@ -592,7 +592,7 @@ class Form {
         }
         $schema = "";
         if ($average) {
-            $schema = "<div style='display: none;' itemscope itemtype='http://schema.org/Product'><meta itemprop='name' content='" . esc_attr__("Average Rating", "wpdiscuz") . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_attr($average) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>";
+            $schema = apply_filters("wpdiscuz_rating_schema", "<div style='display: none;' itemscope itemtype='http://schema.org/Product'><meta itemprop='name' content='" . esc_attr__("Average Rating", "wpdiscuz") . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_attr($average) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>", $key, $postId);
         }
         return $schema;
     }
@@ -807,7 +807,7 @@ class Form {
                             </div>
                         </div>
                     </div>
-                    <div class="wpd-form-foot">
+                    <div class="wpd-form-foot" <?php echo $this->wpdOptions->form["commentFormView"] === "collapsed" ? "style='display:none;'" : ""; ?>>
                         <div class="wpdiscuz-textarea-foot">
                             <?php do_action("wpdiscuz_button", $uniqueId, $currentUser, $this); ?>
                             <div class="wpdiscuz-button-actions"><?php do_action("wpdiscuz_button_actions", $uniqueId, $currentUser, $this); ?></div>
@@ -828,12 +828,12 @@ class Form {
         <?php
     }
 
-    private function renderTextEditor($uniqueId, $commentsCount, $data = "") {
+    private function renderTextEditor($uniqueId, $commentsCount) {
         if ($this->wpdOptions->form["richEditor"] === "both" || (!wp_is_mobile() && $this->wpdOptions->form["richEditor"] === "desktop")) {
             ?>
             <div id="wpd-editor-wraper-<?php echo esc_attr($uniqueId); ?>" style="display: none;">
                 <div id="wpd-editor-char-counter-<?php echo esc_attr($uniqueId); ?>" class="wpd-editor-char-counter"></div>
-                <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" required name="wc_comment" class="wc_comment wpd-field"><?php echo $data; ?></textarea>
+                <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" required name="wc_comment" class="wc_comment wpd-field"></textarea>
                 <div id="wpd-editor-<?php echo esc_attr($uniqueId); ?>"></div>
                 <?php $this->renderTextEditorButtons($uniqueId); ?>
             </div>
@@ -845,7 +845,7 @@ class Form {
                 $textarea_placeholder = $this->wpdOptions->phrases["wc_be_the_first_text"];
             }
             ?>
-            <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" placeholder="<?php echo esc_attr($textarea_placeholder); ?>" required name="wc_comment" class="wc_comment wpd-field"><?php echo $data; ?></textarea>
+            <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" placeholder="<?php echo esc_attr($textarea_placeholder); ?>" required name="wc_comment" class="wc_comment wpd-field"></textarea>
             <?php
             echo apply_filters("wpdiscuz_editor_buttons_html", "", $uniqueId);
         }
@@ -912,8 +912,9 @@ class Form {
         $uniqueId = $comment->comment_ID . "_" . $comment->comment_parent;
         $html = "<div class='wpdiscuz-edit-form-wrap'><form id='wpdiscuz-edit-form'>";
         $html .= "<div class='wpdiscuz-item wpdiscuz-textarea-wrap'>";
+        $content = str_replace(["<code>", "</code>"], ["`", "`"], ($this->wpdOptions->form["richEditor"] === "both" || (!wp_is_mobile() && $this->wpdOptions->form["richEditor"] === "desktop") ? str_replace(["</p>\n","<br />\n"],["</p><br>","<br />"],wpautop($comment->comment_content)) : $comment->comment_content));
         ob_start();
-        $this->renderTextEditor("edit_" . $uniqueId, 1, str_replace(["<code>", "</code>"], ["`", "`"], $comment->comment_content));
+        $this->renderTextEditor("edit_" . $uniqueId, 1);
         $html .= ob_get_clean();
         $html .= "</div>";
         if ($this->formCustomFields) {
@@ -932,7 +933,7 @@ class Form {
         $html .= "<input type='hidden' name='wpdiscuz_unique_id' value='" . esc_attr($uniqueId) . "'>";
         $html .= "<div class='wc_save_wrap'><input class='wc_cancel_edit wpd-second-button' type='button' value='" . esc_attr($this->wpdOptions->phrases["wc_comment_edit_cancel_button"]) . "'><input id='wpd-field-submit-edit_" . esc_attr($uniqueId) . "' class='wc_save_edited_comment wpd-prim-button' type='submit' value='" . esc_attr($this->wpdOptions->phrases["wc_comment_edit_save_button"]) . "'></div>";
         $html .= "</form></div>";
-        return $html;
+        return wp_send_json_success(['html'=>$html,'content'=>$content]);
     }
 
     public function renderEditAdminCommentForm($comment) {

@@ -684,6 +684,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
             }
             $response["callbackFunctions"] = [];
             $response = apply_filters("wpdiscuz_comment_vote", $response);
+            clean_post_cache($comment->comment_post_ID);
             wp_send_json_success($response);
         } else {
             wp_send_json_error("wc_voting_error");
@@ -703,7 +704,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                 $response .= "<input name='wpd_inline_name' class='wpd-inline-name-input' placeholder='" . esc_html($this->options->phrases["wc_inline_form_name"]) . "' required='required' />";
                 $response .= "<input name='wpd_inline_email' class='wpd-inline-name-input' placeholder='" . esc_html($this->options->phrases["wc_inline_form_email"]) . "' />";
             }
-            $response .= "<button class='wpd-inline-submit wpd_not_clicked' type='submit' name='wpd_inline_submit'><span>COMMENT</span><svg xmlns='http://www.w3.org/2000/svg' class='wpd-inline-submit-icon' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-submit-icon-first' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/><path class='wpd-inline-submit-icon-second' d='M0 0h24v24H0z'/></svg></button>";
+            $response .= "<button class='wpd-inline-submit wpd_not_clicked' type='submit' name='wpd_inline_submit'><span>" . esc_html($this->options->phrases["wc_inline_form_comment_button"]) . "</span><svg xmlns='http://www.w3.org/2000/svg' class='wpd-inline-submit-icon' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-submit-icon-first' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/><path class='wpd-inline-submit-icon-second' d='M0 0h24v24H0z'/></svg></button>";
             $response .= "</div>";
             $response .= wp_nonce_field("wpd_inline_nonce_" . $post_id, "_wpd_inline_nonce", false, false);
             $response .= "</form>";
@@ -798,6 +799,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                     $count = count($data);
                     update_post_meta($post_id, self::POSTMETA_POST_RATING, round($votes / $count, 1));
                     update_post_meta($post_id, self::POSTMETA_POST_RATING_COUNT, $count);
+                    clean_post_cache($post_id);
                     wp_send_json_success();
                 } else {
                     wp_send_json_error("wc_cannot_rate_again");
@@ -814,6 +816,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                     $count = count($data);
                     update_post_meta($post_id, self::POSTMETA_POST_RATING, round($votes / $count, 1));
                     update_post_meta($post_id, self::POSTMETA_POST_RATING_COUNT, $count);
+                    clean_post_cache($post_id);
                     wp_send_json_success();
                 } else {
                     wp_send_json_error("wc_cannot_rate_again");

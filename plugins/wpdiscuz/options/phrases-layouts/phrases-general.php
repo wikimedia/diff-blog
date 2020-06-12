@@ -96,6 +96,10 @@ if (!defined("ABSPATH")) {
                 <td colspan="3"><input type="text" value="<?php echo esc_attr($this->phrases["wc_inline_form_email"]); ?>" name="wc_inline_form_email" id="wc_inline_form_email" /></td>
             </tr>
             <tr valign="top">
+                <th scope="row"><label for="wc_inline_form_comment_button"><?php esc_html_e("COMMENT", "wpdiscuz"); ?></label></th>
+                <td colspan="3"><input type="text" value="<?php echo esc_attr($this->phrases["wc_inline_form_comment_button"]); ?>" name="wc_inline_form_comment_button" id="wc_inline_form_comment_button" /></td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"><label for="wc_inline_comments_view_all"><?php esc_html_e("View all comments", "wpdiscuz"); ?></label></th>
                 <td colspan="3"><input type="text" value="<?php echo esc_attr($this->phrases["wc_inline_comments_view_all"]); ?>" name="wc_inline_comments_view_all" id="wc_inline_comments_view_all" /></td>
             </tr>

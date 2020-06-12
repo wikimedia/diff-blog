@@ -1,5 +1,9 @@
 jQuery(document).ready(function ($) {
 
+    $(document).delegate('#wpdcom .wmu-upload-wrap', 'click', function () {
+        $('.wpd-form-foot', $(this).parents('.wpd_comm_form')).slideDown(parseInt(wpdiscuzAjaxObj.enableDropAnimation) ? 500 : 0);
+    });
+
     $(document).delegate('.wmu-add-files', 'change', function () {
         var btn = $(this);
         var form = btn.parents('.wpd_comm_form');
@@ -68,7 +72,7 @@ jQuery(document).ready(function ($) {
                 } else if (key == wpdiscuzAjaxObj.wmuKeyFiles) {
                     pIcon = wpdiscuzAjaxObj.wmuIconFile;
                 }
-                var previewTemplate = wpdiscuzAjaxObj.wmuPreviewTemplate;
+                var previewTemplate = '<div class="wmu-preview [PREVIEW_TYPE_CLASS]" title="[PREVIEW_TITLE]" data-wmu-type="[PREVIEW_TYPE]" data-wmu-attachment="[PREVIEW_ID]"><div class="wmu-preview-remove"><img class="wmu-preview-img" src="[PREVIEW_ICON]"><div class="wmu-file-name">[PREVIEW_FILENAME]</div><div class="wmu-delete">&nbsp;</div></div></div>';
                 previewTemplate = previewTemplate.replace('[PREVIEW_TYPE_CLASS]', 'wmu-preview-' + key);
                 previewTemplate = previewTemplate.replace('[PREVIEW_TITLE]', pFullname);
                 previewTemplate = previewTemplate.replace('[PREVIEW_TYPE]', key);

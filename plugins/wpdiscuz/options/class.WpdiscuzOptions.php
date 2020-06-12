@@ -77,6 +77,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $options = maybe_unserialize($serialize_options);
         $defaultOptions = $this->getDefaultOptions();
         /* form */
+        $this->form["commentFormView"] = isset($options[self::TAB_FORM]["commentFormView"]) ? $options[self::TAB_FORM]["commentFormView"] : $defaultOptions[self::TAB_FORM]["commentFormView"];
         $this->form["enableDropAnimation"] = isset($options[self::TAB_FORM]["enableDropAnimation"]) ? $options[self::TAB_FORM]["enableDropAnimation"] : $defaultOptions[self::TAB_FORM]["enableDropAnimation"];
         $this->form["richEditor"] = isset($options[self::TAB_FORM]["richEditor"]) ? $options[self::TAB_FORM]["richEditor"] : $defaultOptions[self::TAB_FORM]["richEditor"];
         $this->form["boldButton"] = isset($options[self::TAB_FORM]["boldButton"]) ? $options[self::TAB_FORM]["boldButton"] : $defaultOptions[self::TAB_FORM]["boldButton"];
@@ -118,6 +119,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         /* social */
         $this->social["socialLoginAgreementCheckbox"] = isset($options[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"]) ? $options[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"] : $defaultOptions[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"];
         $this->social["socialLoginInSecondaryForm"] = isset($options[self::TAB_SOCIAL]["socialLoginInSecondaryForm"]) ? $options[self::TAB_SOCIAL]["socialLoginInSecondaryForm"] : $defaultOptions[self::TAB_SOCIAL]["socialLoginInSecondaryForm"];
+        $this->social["displayIconOnAvatar"] = isset($options[self::TAB_SOCIAL]["displayIconOnAvatar"]) ? $options[self::TAB_SOCIAL]["displayIconOnAvatar"] : $defaultOptions[self::TAB_SOCIAL]["displayIconOnAvatar"];
         // fb
         $this->social["enableFbLogin"] = isset($options[self::TAB_SOCIAL]["enableFbLogin"]) ? $options[self::TAB_SOCIAL]["enableFbLogin"] : $defaultOptions[self::TAB_SOCIAL]["enableFbLogin"];
         $this->social["enableFbShare"] = isset($options[self::TAB_SOCIAL]["enableFbShare"]) ? $options[self::TAB_SOCIAL]["enableFbShare"] : $defaultOptions[self::TAB_SOCIAL]["enableFbShare"];
@@ -255,6 +257,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $this->content["commentTextMinLength"] = isset($options[self::TAB_CONTENT]["commentTextMinLength"]) ? $options[self::TAB_CONTENT]["commentTextMinLength"] : $defaultOptions[self::TAB_CONTENT]["commentTextMinLength"];
         $this->content["commentTextMaxLength"] = isset($options[self::TAB_CONTENT]["commentTextMaxLength"]) ? $options[self::TAB_CONTENT]["commentTextMaxLength"] : $defaultOptions[self::TAB_CONTENT]["commentTextMaxLength"];
         $this->content["enableImageConversion"] = isset($options[self::TAB_CONTENT]["enableImageConversion"]) ? $options[self::TAB_CONTENT]["enableImageConversion"] : $defaultOptions[self::TAB_CONTENT]["enableImageConversion"];
+        $this->content["enableShortcodes"] = isset($options[self::TAB_CONTENT]["enableShortcodes"]) ? $options[self::TAB_CONTENT]["enableShortcodes"] : $defaultOptions[self::TAB_CONTENT]["enableShortcodes"];
         $this->content["commentReadMoreLimit"] = isset($options[self::TAB_CONTENT]["commentReadMoreLimit"]) ? $options[self::TAB_CONTENT]["commentReadMoreLimit"] : $defaultOptions[self::TAB_CONTENT]["commentReadMoreLimit"];
         $this->content["wmuIsEnabled"] = isset($options[self::TAB_CONTENT]["wmuIsEnabled"]) ? $options[self::TAB_CONTENT]["wmuIsEnabled"] : $defaultOptions[self::TAB_CONTENT]["wmuIsEnabled"];
         $this->content["wmuIsGuestAllowed"] = isset($options[self::TAB_CONTENT]["wmuIsGuestAllowed"]) ? $options[self::TAB_CONTENT]["wmuIsGuestAllowed"] : $defaultOptions[self::TAB_CONTENT]["wmuIsGuestAllowed"];
@@ -471,6 +474,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             "wc_inline_form_notify" => esc_html__("Notify me via email when a new reply is posted", "wpdiscuz"),
             "wc_inline_form_name" => esc_html__("Your Name*", "wpdiscuz"),
             "wc_inline_form_email" => esc_html__("Your Email", "wpdiscuz"),
+            "wc_inline_form_comment_button" => esc_html__("COMMENT", "wpdiscuz"),
             "wc_inline_comments_view_all" => esc_html__("View all comments", "wpdiscuz"),
             "wc_inline_feedbacks" => esc_html__("Inline Feedbacks", "wpdiscuz"),
             "wc_unable_sent_email" => esc_html__("Unable to send an email", "wpdiscuz"),
@@ -503,6 +507,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
     public function toArray() {
         $options = [
             self::TAB_FORM => [
+                "commentFormView" => $this->form["commentFormView"],
                 "enableDropAnimation" => $this->form["enableDropAnimation"],
                 "richEditor" => $this->form["richEditor"],
                 "boldButton" => $this->form["boldButton"],
@@ -543,6 +548,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             self::TAB_SOCIAL => [
                 "socialLoginAgreementCheckbox" => $this->social["socialLoginAgreementCheckbox"],
                 "socialLoginInSecondaryForm" => $this->social["socialLoginInSecondaryForm"],
+                "displayIconOnAvatar" => $this->social["displayIconOnAvatar"],
                 // fb
                 "enableFbLogin" => $this->social["enableFbLogin"],
                 "enableFbShare" => $this->social["enableFbShare"],
@@ -688,6 +694,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "commentTextMinLength" => $this->content["commentTextMinLength"],
                 "commentTextMaxLength" => $this->content["commentTextMaxLength"],
                 "enableImageConversion" => $this->content["enableImageConversion"],
+                "enableShortcodes" => $this->content["enableShortcodes"],
                 "commentReadMoreLimit" => $this->content["commentReadMoreLimit"],
                 "wmuIsEnabled" => $this->content["wmuIsEnabled"],
                 "wmuIsGuestAllowed" => $this->content["wmuIsGuestAllowed"],
@@ -744,6 +751,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
     public function getDefaultOptions() {
         return [
             self::TAB_FORM => [
+                "commentFormView" => "collapsed",
                 "enableDropAnimation" => 1,
                 "richEditor" => "desktop",
                 "boldButton" => 1,
@@ -784,6 +792,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             self::TAB_SOCIAL => [
                 "socialLoginAgreementCheckbox" => 1,
                 "socialLoginInSecondaryForm" => 0,
+                "displayIconOnAvatar" => 1,
                 "enableFbLogin" => 0,
                 "enableFbShare" => 0,
                 "fbUseOAuth2" => 0,
@@ -838,7 +847,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "okAppSecret" => "",
             ],
             self::TAB_RATING => [
-                "enablePostRatingSchema" => 1,
+                "enablePostRatingSchema" => 0,
                 "displayRatingOnPost" => ["before_comment_form"],
                 "ratingCssOnNoneSingular" => 0,
                 "ratingHoverColor" => "#FFED85",
@@ -913,6 +922,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "commentTextMinLength" => 1,
                 "commentTextMaxLength" => "",
                 "enableImageConversion" => 1,
+                "enableShortcodes" => 0,
                 "commentReadMoreLimit" => 100,
                 "wmuIsEnabled" => 1,
                 "wmuIsGuestAllowed" => 1,
@@ -950,7 +960,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "dateDiffFormat" => "[number] [time_unit] [adjective]",
                 "isUsePoMo" => 0,
                 "showPluginPoweredByLink" => 0,
-                "isGravatarCacheEnabled" => 1,
+                "isGravatarCacheEnabled" => 0,
                 "gravatarCacheMethod" => "cronjob",
                 "gravatarCacheTimeout" => 10,
             ],
@@ -1038,6 +1048,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $jsArgs["googleClientSecret"] = $this->social["googleClientSecret"];
         $jsArgs["cookiehash"] = COOKIEHASH;
         $jsArgs["isLoadOnlyParentComments"] = $this->thread_display["isLoadOnlyParentComments"];
+        $jsArgs["commentFormView"] = $this->form["commentFormView"];
         $jsArgs["enableDropAnimation"] = $this->form["enableDropAnimation"];
         $jsArgs["isNativeAjaxEnabled"] = $this->general["isNativeAjaxEnabled"];
         $jsArgs["enableBubble"] = $this->live["enableBubble"];
@@ -1080,13 +1091,6 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $jsArgs["wmuKeyImages"] = self::KEY_IMAGES;
         $jsArgs["wmuSingleImageWidth"] = $this->content["wmuSingleImageWidth"];
         $jsArgs["wmuSingleImageHeight"] = $this->content["wmuSingleImageHeight"];
-        $jsArgs["wmuPreviewTemplate"] = "<div class='wmu-preview [PREVIEW_TYPE_CLASS]' title='[PREVIEW_TITLE]' data-wmu-type='[PREVIEW_TYPE]' data-wmu-attachment='[PREVIEW_ID]'>";
-        $jsArgs["wmuPreviewTemplate"] .= "<div class='wmu-preview-remove'>";
-        $jsArgs["wmuPreviewTemplate"] .= "<img class='wmu-preview-img' src='[PREVIEW_ICON]'>";
-        $jsArgs["wmuPreviewTemplate"] .= "<div class='wmu-file-name'>[PREVIEW_FILENAME]</div>";
-        $jsArgs["wmuPreviewTemplate"] .= "<div class='wmu-delete'>&nbsp;</div>";
-        $jsArgs["wmuPreviewTemplate"] .= "</div>";
-        $jsArgs["wmuPreviewTemplate"] .= "</div>";
         return $jsArgs;
     }
 
@@ -1157,6 +1161,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             }
             check_admin_referer("wc_options_form-" . $_POST["wpd_tab"]);
             if (self::TAB_FORM === $_POST["wpd_tab"]) {
+                $this->form["commentFormView"] = isset($_POST[self::TAB_FORM]["commentFormView"]) ? trim($_POST[self::TAB_FORM]["commentFormView"]) : "collapsed";
                 $this->form["enableDropAnimation"] = isset($_POST[self::TAB_FORM]["enableDropAnimation"]) ? absint($_POST[self::TAB_FORM]["enableDropAnimation"]) : 0;
                 $this->form["richEditor"] = isset($_POST[self::TAB_FORM]["richEditor"]) ? trim($_POST[self::TAB_FORM]["richEditor"]) : "desktop";
                 $this->form["boldButton"] = isset($_POST[self::TAB_FORM]["boldButton"]) ? intval($_POST[self::TAB_FORM]["boldButton"]) : 0;
@@ -1206,6 +1211,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             } else if (self::TAB_SOCIAL === $_POST["wpd_tab"]) {
                 $this->social["socialLoginAgreementCheckbox"] = isset($_POST[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"]) ? absint($_POST[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"]) : 0;
                 $this->social["socialLoginInSecondaryForm"] = isset($_POST[self::TAB_SOCIAL]["socialLoginInSecondaryForm"]) ? absint($_POST[self::TAB_SOCIAL]["socialLoginInSecondaryForm"]) : 0;
+                $this->social["displayIconOnAvatar"] = isset($_POST[self::TAB_SOCIAL]["displayIconOnAvatar"]) ? absint($_POST[self::TAB_SOCIAL]["displayIconOnAvatar"]) : 0;
                 // fb
                 $this->social["enableFbLogin"] = isset($_POST[self::TAB_SOCIAL]["enableFbLogin"]) ? absint($_POST[self::TAB_SOCIAL]["enableFbLogin"]) : 0;
                 $this->social["enableFbShare"] = isset($_POST[self::TAB_SOCIAL]["enableFbShare"]) ? absint($_POST[self::TAB_SOCIAL]["enableFbShare"]) : 0;
@@ -1326,7 +1332,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->subscription["isReplyDefaultChecked"] = isset($_POST[self::TAB_SUBSCRIPTION]["isReplyDefaultChecked"]) ? absint($_POST[self::TAB_SUBSCRIPTION]["isReplyDefaultChecked"]) : 0;
                 $this->subscription["usePostmaticForCommentNotification"] = isset($_POST[self::TAB_SUBSCRIPTION]["usePostmaticForCommentNotification"]) ? absint($_POST[self::TAB_SUBSCRIPTION]["usePostmaticForCommentNotification"]) : 0;
                 $this->subscription["isFollowActive"] = isset($_POST[self::TAB_SUBSCRIPTION]["isFollowActive"]) ? absint($_POST[self::TAB_SUBSCRIPTION]["isFollowActive"]) : 0;
-                $this->subscription["disableFollowConfirmForUsers"] = isset($_POST[self::TAB_SUBSCRIPTION][self::TAB_SUBSCRIPTION]["disableFollowConfirmForUsers"]) ? absint($_POST[self::TAB_SUBSCRIPTION]["disableFollowConfirmForUsers"]) : 0;
+                $this->subscription["disableFollowConfirmForUsers"] = isset($_POST[self::TAB_SUBSCRIPTION]["disableFollowConfirmForUsers"]) ? absint($_POST[self::TAB_SUBSCRIPTION]["disableFollowConfirmForUsers"]) : 0;
             } else if (self::TAB_LABELS === $_POST["wpd_tab"]) {
                 $emptyRolesArray = array_combine(array_keys($this->labels["blogRoleLabels"]), array_pad([], count($this->labels["blogRoleLabels"]), 0));
                 $this->labels["blogRoleLabels"] = isset($_POST[self::TAB_LABELS]["blogRoleLabels"]) ? wp_parse_args($_POST[self::TAB_LABELS]["blogRoleLabels"], $emptyRolesArray) : $emptyRolesArray;
@@ -1344,6 +1350,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->content["commentTextMinLength"] = isset($_POST[self::TAB_CONTENT]["commentTextMinLength"]) && absint($_POST[self::TAB_CONTENT]["commentTextMinLength"]) > 0 ? absint($_POST[self::TAB_CONTENT]["commentTextMinLength"]) : 1;
                 $this->content["commentTextMaxLength"] = isset($_POST[self::TAB_CONTENT]["commentTextMaxLength"]) && absint($_POST[self::TAB_CONTENT]["commentTextMaxLength"]) > 0 ? absint($_POST[self::TAB_CONTENT]["commentTextMaxLength"]) : "";
                 $this->content["enableImageConversion"] = isset($_POST[self::TAB_CONTENT]["enableImageConversion"]) ? absint($_POST[self::TAB_CONTENT]["enableImageConversion"]) : 0;
+                $this->content["enableShortcodes"] = isset($_POST[self::TAB_CONTENT]["enableShortcodes"]) ? absint($_POST[self::TAB_CONTENT]["enableShortcodes"]) : 0;
                 $this->content["commentReadMoreLimit"] = isset($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) && absint($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) >= 0 ? absint($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) : 100;
                 $this->content["wmuIsEnabled"] = isset($_POST[self::TAB_CONTENT]["wmuIsEnabled"]) ? absint($_POST[self::TAB_CONTENT]["wmuIsEnabled"]) : 0;
                 $this->content["wmuIsGuestAllowed"] = isset($_POST[self::TAB_CONTENT]["wmuIsGuestAllowed"]) ? absint($_POST[self::TAB_CONTENT]["wmuIsGuestAllowed"]) : 0;
@@ -1564,6 +1571,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             $this->phrases["wc_inline_form_notify"] = esc_attr($_POST["wc_inline_form_notify"]);
             $this->phrases["wc_inline_form_name"] = esc_attr($_POST["wc_inline_form_name"]);
             $this->phrases["wc_inline_form_email"] = esc_attr($_POST["wc_inline_form_email"]);
+            $this->phrases["wc_inline_form_comment_button"] = esc_attr($_POST["wc_inline_form_comment_button"]);
             $this->phrases["wc_inline_comments_view_all"] = esc_attr($_POST["wc_inline_comments_view_all"]);
             $this->phrases["wc_inline_feedbacks"] = esc_attr($_POST["wc_inline_feedbacks"]);
             $this->phrases["wc_unable_sent_email"] = esc_attr($_POST["wc_unable_sent_email"]);
@@ -1826,7 +1834,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 <div class="updated notice wpdiscuz_addon_note is-dismissible" style="margin-top:10px;">
                     <p style="font-weight:normal; font-size:15px; border-bottom:1px dotted #DCDCDC; padding-bottom:10px; clear: both;">
                         <?php //esc_html_e("New Addons are available for wpDiscuz Comments Plugin");         ?>
-                <?php esc_html_e("Finally wpDiscuz Addons Bundle is ready for You!", "wpdiscuz"); ?>
+                        <?php esc_html_e("Finally wpDiscuz Addons Bundle is ready for You!", "wpdiscuz"); ?>
                     </p>
                     <div style="font-size:14px;">
                         <?php
@@ -1924,7 +1932,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             ?>
             <div class='notice notice-warning'>
                 <p style="font-size: 14px; font-weight: 600;">
-            <?php esc_html_e("Please complete required steps to start using wpDiscuz 7", "wpdiscuz"); ?> &nbsp;
+                    <?php esc_html_e("Please complete required steps to start using wpDiscuz 7", "wpdiscuz"); ?> &nbsp;
                     <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_SETTINGS . "&wpd_wizard=1")); ?>" class="button button-primary"><?php intval(get_option(self::OPTION_SLUG_WIZARD_AFTER_UPDATE)) ? esc_html_e("Go to Update Wizard &raquo;", "wpdiscuz") : esc_html_e("Go to Installation Wizard &raquo;", "wpdiscuz"); ?></a>
                 </p>
             </div>
@@ -1934,7 +1942,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             ?>
             <div class='notice notice-warning'>
                 <p>
-            <?php esc_html_e("Jetpack Comments are active.", "wpdiscuz"); ?>
+                    <?php esc_html_e("Jetpack Comments are active.", "wpdiscuz"); ?>
                 </p>
             </div>
             <?php
@@ -1943,7 +1951,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             ?>
             <div class='notice notice-warning'>
                 <p>
-            <?php esc_html_e("Comment votes meta data need to be regenerated", "wpdiscuz"); ?>&nbsp;
+                    <?php esc_html_e("Comment votes meta data need to be regenerated", "wpdiscuz"); ?>&nbsp;
                     <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab6")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Vote Metas", "wpdiscuz"); ?></a>
                 </p>
             </div>
@@ -1953,7 +1961,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             ?>
             <div class='notice notice-warning'>
                 <p>
-            <?php esc_html_e("Closed Comments data need be regenerated", "wpdiscuz"); ?>&nbsp;
+                    <?php esc_html_e("Closed Comments data need be regenerated", "wpdiscuz"); ?>&nbsp;
                     <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab7")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Closed Comments", "wpdiscuz"); ?></a>
                 </p>
             </div>
@@ -1963,7 +1971,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             ?>
             <div class='notice notice-warning'>
                 <p>
-            <?php esc_html_e("Comments votes data need to be regenerated", "wpdiscuz"); ?>&nbsp;
+                    <?php esc_html_e("Comments votes data need to be regenerated", "wpdiscuz"); ?>&nbsp;
                     <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab8")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Vote Data", "wpdiscuz"); ?></a>
                 </p>
             </div>
@@ -1973,7 +1981,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             ?>
             <div class='notice notice-warning'>
                 <p>
-            <?php esc_html_e("Please synchronize comment data for the best performance and fastest experience", "wpdiscuz"); ?>&nbsp;
+                    <?php esc_html_e("Please synchronize comment data for the best performance and fastest experience", "wpdiscuz"); ?>&nbsp;
                     <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab9")); ?>" class="button button-primary"><?php esc_html_e("Synchronize Commenters Data", "wpdiscuz"); ?></a>
                 </p>
             </div>
@@ -2503,6 +2511,13 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description_original" => "",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/comment-form/#comment-author-name-length-for-guests-only"
                         ],
+                        "commentFormView" => [
+                            "label" => esc_html__("Comment Form View", "wpdiscuz"),
+                            "label_original" => "Comment Form View",
+                            "description" => esc_html__('By default, only the comment text field is visible. When you click on the comment text field it opens all other fields (Name, Email, Website, etc...). If you want to keep all fields open, please set this option "expended".', "wpdiscuz"),
+                            "description_original" => 'By default, only the comment text field is visible. When you click on the comment text field it opens all other fields (Name, Email, Website, etc...). If you want to keep all fields open, please set this option "expended".',
+                            "docurl" => ""
+                        ],
                         "enableDropAnimation" => [
                             "label" => esc_html__("Enable drop animation for comment form and subscription bar", "wpdiscuz"),
                             "label_original" => "Enable drop animation for comment form and subscription bar",
@@ -2666,6 +2681,13 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description" => "",
                             "description_original" => "",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/social-login-and-share/#display-social-login-buttons-on-reply-forms"
+                        ],
+                        "displayIconOnAvatar" => [
+                            "label" => esc_html__("Display Social Network Icon on User Avatars", "wpdiscuz"),
+                            "label_original" => "Display Social Network Icon on User Avatars",
+                            "description" => "",
+                            "description_original" => "",
+                            "docurl" => ""
                         ],
                         "enableFbLogin" => [
                             "label" => esc_html__("Facebook Login Button", "wpdiscuz"),
@@ -3460,6 +3482,13 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description" => "",
                             "description_original" => "",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/comment-content-and-media/#image-source-url-to-image-conversion"
+                        ],
+                        "enableShortcodes" => [
+                            "label" => esc_html__("Enable WordPress Shortcodes in Comment Content", "wpdiscuz"),
+                            "label_original" => "Enable WordPress Shortcodes in Comment Content",
+                            "description" => esc_html__("This option allows embedding other plugins shortcodes in comment content. Some plugin shortcodes work very slow, so this may affect your page load speed if the shortcode provider plugin is not well optimized.", "wpdiscuz"),
+                            "description_original" => "This option allows embedding other plugins shortcodes in comment content. Some plugin shortcodes work very slow, so this may affect your page load speed if the shortcode provider plugin is not well optimized.",
+                            "docurl" => ""
                         ],
                         "commentReadMoreLimit" => [
                             "label" => esc_html__("The number of words before breaking comment text (Read more)", "wpdiscuz"),

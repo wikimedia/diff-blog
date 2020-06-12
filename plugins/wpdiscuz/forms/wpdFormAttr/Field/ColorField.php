@@ -85,8 +85,8 @@ class ColorField extends Field {
                 <div class="wpd-field-icon"><i style="opacity: 0.8;" class="<?php echo strpos(trim($args["icon"]), " ") ? esc_attr($args["icon"]) : "fas " . esc_attr($args["icon"]); ?>"></i></div>
             <?php } ?>
             <?php $required = $args["required"] ? "required='required'" : ""; ?>
-            <input id="<?php echo esc_attr($name); ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field wpd-field-color" type="color" name="<?php echo esc_attr($name); ?>" value="#000000" placeholder="#ff8040"  pattern="^\#[A-Za-z0-9]{6}$" title="#ff8040">
-            <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
+            <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field wpd-field-color" type="color" name="<?php echo esc_attr($name); ?>" value="#000000" placeholder="#ff8040"  pattern="^\#[A-Za-z0-9]{6}$" title="#ff8040">
+            <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
             <?php if ($args["desc"]) { ?>
                 <div class="wpd-field-desc"><i class="far fa-question-circle"></i><span><?php echo esc_html($args["desc"]); ?></span></div>
                     <?php } ?>

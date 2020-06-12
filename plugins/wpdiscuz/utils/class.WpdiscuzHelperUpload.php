@@ -298,7 +298,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
 
         $size = 0;
         foreach ($files as $file) {
-            $size += $file["size"];
+            $size += empty($file["size"]) ? 0 : intval($file["size"]);
         }
         if ($size > ($this->options->content["wmuMaxFileSize"] * 1024 * 1024)) {
             $response["errorCode"] = "wmuPhraseMaxFileSize";
@@ -309,24 +309,29 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
 
         foreach ($files as $file) {
             $error = false;
-            $filename = $file["name"];
-            $matches = wp_check_filetype($filename, $this->options->content["wmuMimeTypes"]);
+            $extension = pathinfo($file["name"], PATHINFO_EXTENSION);
+            $mimeType = $this->getMimeType($file, $extension);
 
-            if (empty($matches["ext"])) {
-                if ($this->getMimeTypeFromContent($file["tmp_name"])) {
-                    $filename .= ".jpg";
-                    $matches = wp_check_filetype($filename, $this->options->content["wmuMimeTypes"]);
-                    if (empty($matches["ext"])) {
-                        $error = true;
-                        $response["errors"][] = $file["name"] . "  - " . $this->options->phrases["wmuPhraseNotAllowedFile"];
-                    }
-                } else {
-                    $error = true;
-                    $response["errors"][] = $file["name"] . "  - " . $this->options->phrases["wmuPhraseNotAllowedFile"];
-                }
+            if (!$mimeType && $this->getMimeTypeFromContent($file["tmp_name"])) {
+                $matches = wp_check_filetype($file["name"], $this->options->content["wmuMimeTypes"]);
+                $mimeType = empty($matches["type"]) ? "" : $matches["type"];
             }
-            if (empty($file['type'])) {
-                $file['type'] = $matches['type'];
+
+            if ($this->isAllowedFileType($mimeType)) {
+                if (empty($extension)) {
+                    if (strpos($mimeType, "image/") !== false) {
+                        $file["name"] .= ".jpg";
+                    } else {
+                        $ext = array_search($mimeType, $this->options->content["wmuMimeTypes"]);
+                        $values = explode("|", $ext);
+                        $filtered = array_values(array_filter($values));
+                        $file["name"] .= empty($filtered[0]) ? "" : "." . $filtered[0];
+                    }
+                }
+                $file["type"] = $mimeType;
+            } else {
+                $error = true;
+                $response["errors"][] = $file["name"] . "  - " . $this->options->phrases["wmuPhraseNotAllowedFile"];
             }
 
             do_action("wpdiscuz_mu_preupload", $file);
@@ -358,6 +363,28 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
 
 
         wp_send_json_success($response);
+    }
+
+    private function isAllowedFileType($mimeType) {
+        $isAllowed = false;
+        if (!empty($this->options->content["wmuMimeTypes"]) && is_array($this->options->content["wmuMimeTypes"])) {
+            $isAllowed = in_array($mimeType, $this->options->content["wmuMimeTypes"]);
+        }
+        return $isAllowed;
+    }
+
+    private function getMimeType($file, $extension) {
+        $mimeType = "";
+        if (function_exists("mime_content_type")) {
+            $mimeType = mime_content_type($file["tmp_name"]);
+        } elseif (function_exists("finfo_open") && function_exists("finfo_file")) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $file["tmp_name"]);
+        } elseif ($extension) {
+            $matches = wp_check_filetype($file["name"], $this->options->content["wmuMimeTypes"]);
+            $mimeType = empty($matches["type"]) ? "" : $matches["type"];
+        }
+        return $mimeType;
     }
 
     public function removeAttachmentPreview() {
@@ -478,9 +505,6 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
         $pathInfo = pathinfo($fName);
         $realFileName = $pathInfo["filename"];
         $ext = empty($pathInfo["extension"]) ? "" : strtolower($pathInfo["extension"]);
-        if (!$ext && $this->getMimeTypeFromContent($file["tmp_name"])) {
-            $ext = "jpg";
-        }
         $sanitizedName = sanitize_file_name($realFileName);
         $cleanFileName = $sanitizedName . "-" . $currentTime . "." . $ext;
         $cleanRealFileName = $sanitizedName . "." . $ext;
@@ -491,7 +515,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
         }
 
         $success = apply_filters("wpdiscuz_mu_compress_image", false, $file["tmp_name"], $fileName, $q = 60);
-        if ($success || move_uploaded_file($file["tmp_name"], $fileName)) {
+        if ($success || @move_uploaded_file($file["tmp_name"], $fileName)) {
             $postParent = apply_filters("wpdiscuz_mu_attachment_parent", 0);
             $attachment = [
                 "guid" => $this->wpUploadsUrl . "/" . $cleanFileName,

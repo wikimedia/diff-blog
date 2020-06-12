@@ -50,6 +50,24 @@ if (!defined("ABSPATH")) {
 <!-- Option end -->
 
 <!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="enableShortcodes">
+    <div class="wpd-opt-name">
+        <label for="enableShortcodes"><?php echo esc_html($setting["options"]["enableShortcodes"]["label"]); ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["enableShortcodes"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <div class="wpd-switcher">
+            <input type="checkbox" <?php checked($this->content["enableShortcodes"] == 1) ?> value="1" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[enableShortcodes]" id="enableShortcodes">
+            <label for="enableShortcodes"></label>
+        </div>
+    </div>
+    <div class="wpd-opt-doc">
+        <a href="<?php echo esc_url_raw($setting["options"]["enableShortcodes"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+    </div>
+</div>
+<!-- Option end -->
+
+<!-- Option start -->
 <div class="wpd-opt-row" data-wpd-opt="commentReadMoreLimit">
     <div class="wpd-opt-name">
         <label for="commentReadMoreLimit"><?php echo esc_html($setting["options"]["commentReadMoreLimit"]["label"]) ?></label>
@@ -137,9 +155,9 @@ if (!defined("ABSPATH")) {
         $mimes = $this->getDefaultFileTypes();
         foreach ($mimes as $ext => $mime) {
             ?>
-            <div class="wpd-mublock-inline wpd-mu-mimes" style="min-width:19.5%">
+            <div class="wpd-mublock-inline wpd-mu-mimes" style="margin-right: 2px;">
                 <input type="checkbox" <?php checked(isset($this->content["wmuMimeTypes"][$ext]) && $this->content["wmuMimeTypes"][$ext] == $mime); ?> value="<?php echo esc_attr($mime); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[wmuMimeTypes][<?php echo esc_attr($ext); ?>]" id="wmu-<?php echo esc_attr($ext); ?>" style="margin:0px; vertical-align: middle;" />
-                <label for="wmu-<?php echo esc_attr($ext); ?>" title="<?php echo esc_attr($ext); ?>" style="white-space:nowrap; font-size:13px;"><?php echo esc_html(substr($ext, 0, 10)); ?></label>
+                <label for="wmu-<?php echo esc_attr($ext); ?>" title="<?php echo esc_attr($ext); ?>" style="white-space:nowrap; font-size:13px;"><?php echo esc_html($ext); ?></label>
             </div>
             <?php
         }

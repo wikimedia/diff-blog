@@ -108,6 +108,9 @@ jQuery(document).ready(function ($) {
         wpDiscuzEditor.createEditor('#wpd-editor-0_0');
     }
 
+    $(document).delegate('#wpdcom .ql-editor, #wpdcom .wc_comment', 'focus', function () {
+        $('.wpd-form-foot', $(this).parents('.wpd_comm_form')).slideDown(enableDropAnimation);
+    });
     $(document).delegate('#wpdcom textarea', 'focus', function () {
         if (!$(this).next('.autogrow-textarea-mirror').length) {
             $(this).autoGrow();
@@ -139,6 +142,7 @@ jQuery(document).ready(function ($) {
             editor.deleteText(0, editor.getLength(), Quill.sources.USER);
             var html = $('#wpd-editor-source-code').val();
             if (html.length) {
+                console.log(html);
                 editor.clipboard.dangerouslyPasteHTML(0, html, Quill.sources.USER);
             }
             editor.update();
@@ -153,7 +157,13 @@ jQuery(document).ready(function ($) {
         var uniqueID = getUniqueID($(this), 0);
         if ($(this).hasClass('wpdiscuz-clonned')) {
             if (wpdiscuzLoadRichEditor) {
-                wpDiscuzEditor.createEditor('#wpd-editor-' + uniqueID).focus();
+                setTimeout(function () {
+                    wpDiscuzEditor.createEditor('#wpd-editor-' + uniqueID).focus();
+                }, enableDropAnimation);
+            } else {
+                setTimeout(function () {
+                    $('#wc-textarea-' + uniqueID).trigger('focus');
+                }, enableDropAnimation);
             }
             $('#wpd-secondary-form-wrapper-' + uniqueID).slideToggle(enableDropAnimation);
         } else {
@@ -457,6 +467,9 @@ jQuery(document).ready(function ($) {
                     $(currentSubmitBtn).addClass('wpd_not_clicked');
                     if (typeof r === 'object') {
                         if (r.success) {
+                            if (wpdiscuzAjaxObj.commentFormView === "collapsed") {
+                                $('.wpd-form-foot', wcForm).slideUp(enableDropAnimation);
+                            }
                             $('.wpd-thread-info').html(r.data.wc_all_comments_count_new_html);
                             r.data.wc_all_comments_count_new = parseInt(r.data.wc_all_comments_count_new);
                             $('#wpd-bubble-all-comments-count').text(r.data.wc_all_comments_count_new);
@@ -465,11 +478,11 @@ jQuery(document).ready(function ($) {
                             } else {
                                 $('#wpd-bubble-all-comments-count').hide();
                             }
-                            var animateDelay = 0;
+                            var animateDelay = enableDropAnimation;
                             if (r.data.is_main) {
                                 addCommentsAfterSticky(r.data.message);
                             } else {
-                                animateDelay = 700;
+                                animateDelay = enableDropAnimation + 700;
                                 $('#wpd-secondary-form-wrapper-' + r.data.uniqueid).slideToggle(700);
                                 if (r.data.is_in_same_container == 1) {
                                     $('#wpd-secondary-form-wrapper-' + r.data.uniqueid).after(r.data.message);
@@ -596,10 +609,14 @@ jQuery(document).ready(function ($) {
                 .done(function (r) {
                     if (typeof r === 'object') {
                         if (r.success) {
-                            $('#wpd-comm-' + uniqueID + ' > .wpd-comment-wrap .wpd-comment-right .wpd-comment-text').replaceWith(r.data);
+                            $('#wpd-comm-' + uniqueID + ' > .wpd-comment-wrap .wpd-comment-right .wpd-comment-text').replaceWith(r.data.html);
                             if (wpdiscuzLoadRichEditor) {
-                                wpDiscuzEditor.createEditor('#wpd-editor-edit_' + uniqueID);
+                                let currentEditor = wpDiscuzEditor.createEditor('#wpd-editor-edit_' + uniqueID);
+                                currentEditor.clipboard.dangerouslyPasteHTML(0, r.data.content);
+                                currentEditor.update();
                                 $('.wpd-toolbar-hidden').prev('[id^=wpd-editor-]').css('border-bottom', "1px solid #dddddd");
+                            }else{
+                                $('#wc-textarea-edit_'+ uniqueID).val(r.data.content);
                             }
                             $('#wpd-comm-' + uniqueID + ' > .wpd-comment-wrap .wpd-comment-right .wpd_editable_comment').hide();
                             $('#wpd-comm-' + uniqueID + ' > .wpd-comment-wrap .wpd-comment-last-edited').hide();
@@ -1055,7 +1072,13 @@ jQuery(document).ready(function ($) {
             setCookieInForm(commentAuthorCookies);
         }
         if (wpdiscuzLoadRichEditor) {
-            wpDiscuzEditor.createEditor('#wpd-editor-' + uniqueId).focus();
+            setTimeout(function () {
+                wpDiscuzEditor.createEditor('#wpd-editor-' + uniqueId).focus();
+            }, enableDropAnimation);
+        } else {
+            setTimeout(function () {
+                $('#wc-textarea-' + uniqueId).trigger('focus');
+            }, enableDropAnimation);
         }
         secondaryFormWrapper.slideToggle(enableDropAnimation, function () {
             field.addClass('wpdiscuz-clonned');
@@ -1172,7 +1195,7 @@ jQuery(document).ready(function ($) {
     function wpdSanitizeCommentText(form) {
         var textarea = form.find('.wc_comment');
         var commentText = textarea.val().trim();
-        var replacedText = commentText;
+        var replacedText = commentText.replace(/<p><br><\/p>/g, "&nbsp;\n").replace(/<p>(.*?)<\/p>/g, "$1\n");
         replacedText = replacedText.replace(/<img src=["|']https\:\/\/s\.w\.org\/images\/core\/emoji\/([^"|']+)["|'](.*?)alt=["|']([^"|']+)["|'](.*?)[^>]*>/g, "$3");
         replacedText = replacedText.replace(/<img[^>]+alt=["|']([^"|']+)["|'][^>]+src=["|']https\:\/\/s\.w\.org\/images\/core\/emoji\/([^"|']+)["|'][^>]?>/g, "$1");
         replacedText = replacedText.replace(/<img\s+([^>]*)class=["|']wpdem\-sticker["|'](.*?)alt=["|']([^"|']+)["|'](.*?)[^>]*>/g, "$3");
