@@ -49,8 +49,8 @@ class Website extends Field {
                     <?php if ($hasIcon) { ?>
                         <div class="wpd-field-icon"><i class="<?php echo strpos(trim($args["icon"]), " ") ? esc_attr($args["icon"]) : "fas " . esc_attr($args["icon"]); ?>"></i></div>
                     <?php } ?>
-                    <input id="<?php echo esc_attr($name); ?>" value="" class="<?php echo $name; ?> wpd-field" type="text" name="<?php echo htmlentities($name, ENT_QUOTES); ?>" placeholder="<?php echo htmlentities($args["name"], ENT_QUOTES); ?>" />
-                    <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo htmlentities($args["name"], ENT_QUOTES); ?></label>
+                    <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" value="" class="<?php echo $name; ?> wpd-field" type="text" name="<?php echo htmlentities($name, ENT_QUOTES); ?>" placeholder="<?php echo htmlentities($args["name"], ENT_QUOTES); ?>" />
+                    <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo htmlentities($args["name"], ENT_QUOTES); ?></label>
                     <?php if ($args["desc"]) { ?>
                         <div class="wpd-field-desc"><i class="far fa-question-circle"></i><span><?php echo esc_html($args["desc"]); ?></span></div>
                             <?php } ?>

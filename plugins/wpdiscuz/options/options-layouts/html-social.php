@@ -51,6 +51,24 @@ if (!defined("ABSPATH")) {
 </div>
 <!-- Option end -->
 
+<!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="displayIconOnAvatar">
+    <div class="wpd-opt-name">
+        <label for="displayIconOnAvatar"><?php echo esc_html($setting["options"]["displayIconOnAvatar"]["label"]) ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["displayIconOnAvatar"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <div class="wpd-switcher">
+            <input type="checkbox" <?php checked($this->social["displayIconOnAvatar"] == 1) ?> value="1" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[displayIconOnAvatar]" id="displayIconOnAvatar">
+            <label for="displayIconOnAvatar"></label>
+        </div>
+    </div>
+    <div class="wpd-opt-doc">
+        <a href="<?php echo esc_url_raw($setting["options"]["displayIconOnAvatar"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+    </div>
+</div>
+<!-- Option end -->
+
 <div class="wpd-social-label wpd-facebook" style="padding: 25px 0px 10px 0px;">
     <img src="<?php echo esc_url_raw(plugins_url(WPDISCUZ_DIR_NAME . "/assets/img/social-icons/fb-m.png")); ?>" style="vertical-align:bottom; height: 24px; margin-bottom: -2px; position: relative; border-radius: 50%;">&nbsp; Facebook
 </div>

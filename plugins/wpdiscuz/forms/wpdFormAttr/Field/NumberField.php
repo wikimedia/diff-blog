@@ -98,8 +98,8 @@ class NumberField extends Field {
             $min = is_numeric($args["min"]) ? "min='" . $args["min"] . "'" : "";
             $max = is_numeric($args["max"]) ? "max='" . $args["max"] . "'" : "";
             ?>
-            <input id="<?php echo esc_attr($name); ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field wpd-field-number" type="number" name="<?php echo esc_attr($name); ?>" value="" placeholder="<?php echo esc_html__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?>" <?php echo $min . " " . $max; ?>>
-            <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo esc_html__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?></label>
+            <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field wpd-field-number" type="number" name="<?php echo esc_attr($name); ?>" value="" placeholder="<?php echo esc_html__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?>" <?php echo $min . " " . $max; ?>>
+            <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo esc_html__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?></label>
             <?php if ($args["desc"]) { ?>
                 <div class="wpd-field-desc"><i class="far fa-question-circle"></i><span><?php echo $args["desc"]; ?></span></div>
                     <?php } ?>

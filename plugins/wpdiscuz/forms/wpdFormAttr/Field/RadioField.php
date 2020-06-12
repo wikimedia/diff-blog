@@ -100,7 +100,8 @@ class RadioField extends Field {
                         <input id="<?php echo esc_attr($name) . "-" . esc_attr($index + 1) . "_" . esc_attr($uniqueId); ?>" type="radio" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($index + 1); ?>" class="<?php echo esc_attr($name); ?> wpd-field" >
                         <label class="wpd-field-label wpd-cursor-pointer" for="<?php echo esc_attr($name) . "-" . esc_attr($index + 1) . "_" . esc_attr($uniqueId); ?>"><?php echo esc_html($val); ?></label>
                     </div>
-                <?php }
+                    <?php
+                }
                 ?>
             </div>
         </div>

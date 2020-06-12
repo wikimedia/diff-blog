@@ -188,12 +188,11 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$state || ($provider != "facebook")) {
-            $this->redirect($postURL, esc_html__("Facebook authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Facebook authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Facebook authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Facebook authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $fbCallBack = $this->createCallBackURL("facebook");
         $fbAccessTokenURL = "https://graph.facebook.com/v3.0/oauth/access_token";
@@ -205,32 +204,32 @@ class SocialLogin {
         $fbAccesTokenResponse = wp_remote_get($fbAccessTokenURL);
 
         if (is_wp_error($fbAccesTokenResponse)) {
-            $this->redirect($postURL, $fbAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $fbAccesTokenResponse->get_error_message());
         }
         $fbAccesTokenData = json_decode(wp_remote_retrieve_body($fbAccesTokenResponse), true);
         if (isset($fbAccesTokenData["error"])) {
-            $this->redirect($postURL, $fbAccesTokenData["error"]["message"]);
+            $this->redirect($postID, $fbAccesTokenData["error"]["message"]);
         }
         $token = $fbAccesTokenData["access_token"];
         $appsecret_proof = hash_hmac("sha256", $token, trim($this->generalOptions->social["fbAppSecret"]));
         $fbGetUserDataURL = add_query_arg(["fields" => "id,first_name,last_name,picture,email", "access_token" => $token, "appsecret_proof" => $appsecret_proof], "https://graph.facebook.com/v3.0/me");
         $getFbUserResponse = wp_remote_get($fbGetUserDataURL);
         if (is_wp_error($getFbUserResponse)) {
-            $this->redirect($postURL, $getFbUserResponse->get_error_message());
+            $this->redirect($postID, $getFbUserResponse->get_error_message());
         }
         $fbUserData = json_decode(wp_remote_retrieve_body($getFbUserResponse), true);
         if (isset($fbUserData["error"])) {
-            $this->redirect($postURL, $fbUserData["error"]["message"]);
+            $this->redirect($postID, $fbUserData["error"]["message"]);
         }
         if (empty($fbUserData["email"]) && $fbUserData["id"]) {
             $fbUserData["email"] = $fbUserData["id"] . "@facebook.com";
         }
         $uID = Utils::addUser($fbUserData, "facebook");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     // https://developers.facebook.com/docs/instagram-basic-display-api/getting-started
@@ -263,13 +262,12 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
 
         if (!$state || ($provider != "instagram")) {
-            $this->redirect($postURL, esc_html__("Instagram authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Instagram authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Instagram authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Instagram authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $instagramCallBack = site_url('/wpdiscuz_auth/instagram/');
         $instagramAccessTokenURL = "https://api.instagram.com/oauth/access_token";
@@ -281,11 +279,11 @@ class SocialLogin {
         $instagramAccesTokenResponse = wp_remote_post($instagramAccessTokenURL, ['body' => $accessTokenArgs]);
 
         if (is_wp_error($instagramAccesTokenResponse)) {
-            $this->redirect($postURL, $instagramAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $instagramAccesTokenResponse->get_error_message());
         }
         $instagramAccesTokenData = json_decode(wp_remote_retrieve_body($instagramAccesTokenResponse), true);
         if (isset($instagramAccesTokenData["error"])) {
-            $this->redirect($postURL, $instagramAccesTokenData["error"]["message"]);
+            $this->redirect($postID, $instagramAccesTokenData["error"]["message"]);
         }
         $token = $instagramAccesTokenData["access_token"];
         $userID = $instagramAccesTokenData["user_id"];
@@ -294,21 +292,21 @@ class SocialLogin {
         $getInstagramUserResponse = wp_remote_get($instagramGetUserDataURL);
 
         if (is_wp_error($getInstagramUserResponse)) {
-            $this->redirect($postURL, $getInstagramUserResponse->get_error_message());
+            $this->redirect($postID, $getInstagramUserResponse->get_error_message());
         }
         $instagramUserData = json_decode(wp_remote_retrieve_body($getInstagramUserResponse), true);
         if (isset($instagramUserData["error"])) {
-            $this->redirect($postURL, $instagramUserData["error"]["message"]);
+            $this->redirect($postID, $instagramUserData["error"]["message"]);
         }
         if (empty($instagramUserData["email"]) && $userID) {
             $instagramUserData["email"] = $userID . "@instagram.com";
         }
         $uID = Utils::addUser($instagramUserData, "instagram");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     // https://console.developers.google.com/
@@ -342,12 +340,11 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$state || ($provider != "google")) {
-            $this->redirect($postURL, esc_html__("Google authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Google authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Google authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Google authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $googleCallBack = $this->createCallBackURL("google");
         $googleAccessTokenURL = "https://www.googleapis.com/oauth2/v4/token";
@@ -358,28 +355,28 @@ class SocialLogin {
             "grant_type" => 'authorization_code'];
         $googleAccesTokenResponse = wp_remote_post($googleAccessTokenURL, ['body' => $accessTokenArgs]);
         if (is_wp_error($googleAccesTokenResponse)) {
-            $this->redirect($postURL, $googleAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $googleAccesTokenResponse->get_error_message());
         }
         $googleAccesTokenData = json_decode(wp_remote_retrieve_body($googleAccesTokenResponse), true);
         if (isset($googleAccesTokenData["error"])) {
-            $this->redirect($postURL, $googleAccesTokenData["error_description"]);
+            $this->redirect($postID, $googleAccesTokenData["error_description"]);
         }
         $idToken = $googleAccesTokenData["id_token"];
         $getGoogleUserRataURL = add_query_arg(["id_token" => $idToken], 'https://oauth2.googleapis.com/tokeninfo');
         $googleUserDataResponse = wp_remote_get($getGoogleUserRataURL);
         if (is_wp_error($googleUserDataResponse)) {
-            $this->redirect($postURL, $googleUserDataResponse->get_error_message());
+            $this->redirect($postID, $googleUserDataResponse->get_error_message());
         }
         $googleUserData = json_decode(wp_remote_retrieve_body($googleUserDataResponse), true);
         if (isset($googleUserData["error"])) {
-            $this->redirect($postURL, $googleUserData["error_description"]);
+            $this->redirect($postID, $googleUserData["error_description"]);
         }
         $uID = Utils::addUser($googleUserData, "google");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     // https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context
@@ -412,13 +409,12 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
 
         if (!$state || ($provider != "linkedin")) {
-            $this->redirect($postURL, esc_html__("Linkedin authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Linkedin authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Linkedin authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Linkedin authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $linkedinCallBack = site_url('/wpdiscuz_auth/linkedin/');
         $linkedinAccessTokenURL = "https://www.linkedin.com/oauth/v2/accessToken";
@@ -430,11 +426,11 @@ class SocialLogin {
         $linkedinAccesTokenResponse = wp_remote_post($linkedinAccessTokenURL, ['body' => $accessTokenArgs]);
 
         if (is_wp_error($linkedinAccesTokenResponse)) {
-            $this->redirect($postURL, $linkedinAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $linkedinAccesTokenResponse->get_error_message());
         }
         $linkedinAccesTokenData = json_decode(wp_remote_retrieve_body($linkedinAccesTokenResponse), true);
         if (isset($linkedinAccesTokenData["error"])) {
-            $this->redirect($postURL, $linkedinAccesTokenData["error_description"]);
+            $this->redirect($postID, $linkedinAccesTokenData["error_description"]);
         }
         $token = $linkedinAccesTokenData["access_token"];
 
@@ -471,12 +467,12 @@ class SocialLogin {
 
         $getLinkedinUserResponse = wp_remote_get($linkedinGetUserDataURL, $getLinkedinRequestArgs);
         if (is_wp_error($getLinkedinUserResponse)) {
-            $this->redirect($postURL, $getLinkedinUserResponse->get_error_message());
+            $this->redirect($postID, $getLinkedinUserResponse->get_error_message());
         }
         $linkedinUserData = json_decode(wp_remote_retrieve_body($getLinkedinUserResponse), true);
 
         if (isset($linkedinUserData["error"])) {
-            $this->redirect($postURL, $linkedinUserData["error_description"]);
+            $this->redirect($postID, $linkedinUserData["error_description"]);
         }
         if ($email) {
             $linkedinUserData["email"] = $email;
@@ -488,10 +484,10 @@ class SocialLogin {
 
         $uID = Utils::addUser($linkedinUserData, "linkedin");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     public function disqusLogin($postID, $response) {
@@ -523,12 +519,11 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$state || ($provider != "disqus")) {
-            $this->redirect($postURL, esc_html__("Disqus authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Disqus authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Disqus authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Disqus authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $disqusCallBack = $this->createCallBackURL("disqus");
         $disqusAccessTokenURL = "https://disqus.com/api/oauth/2.0/access_token";
@@ -542,17 +537,17 @@ class SocialLogin {
         $disqusAccesTokenResponse = wp_remote_post($disqusAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($disqusAccesTokenResponse)) {
-            $this->redirect($postURL, $disqusAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $disqusAccesTokenResponse->get_error_message());
         }
         $disqusAccesTokenData = json_decode(wp_remote_retrieve_body($disqusAccesTokenResponse), true);
         if (isset($disqusAccesTokenData["error"])) {
-            $this->redirect($postURL, $disqusAccesTokenData["error_description"]);
+            $this->redirect($postID, $disqusAccesTokenData["error_description"]);
         }
         if (!isset($disqusAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("Disqus authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Disqus authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         if (!isset($disqusAccesTokenData["user_id"])) {
-            $this->redirect($postURL, esc_html__("Disqus authentication failed (user_id does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Disqus authentication failed (user_id does not exist).", "wpdiscuz"));
         }
         $userID = $disqusAccesTokenData["user_id"];
         $accesToken = $disqusAccesTokenData["access_token"];
@@ -564,20 +559,20 @@ class SocialLogin {
 
         $getDisqusUserResponse = wp_remote_get($disqusGetUserDataURL, ["body" => $disqusGetUserDataAttr]);
         if (is_wp_error($getDisqusUserResponse)) {
-            $this->redirect($postURL, $getDisqusUserResponse->get_error_message());
+            $this->redirect($postID, $getDisqusUserResponse->get_error_message());
         }
         $disqusUserData = json_decode(wp_remote_retrieve_body($getDisqusUserResponse), true);
         if (isset($disqusUserData["code"]) && $disqusUserData["code"] != 0) {
-            $this->redirect($postURL, $disqusUserData["response"]);
+            $this->redirect($postID, $disqusUserData["response"]);
         }
         $disqusUser = $disqusUserData["response"];
         $disqusUser["user_id"] = $userID;
         $uID = Utils::addUser($disqusUser, "disqus");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://developer.wordpress.com/docs/oauth2/  https://developer.wordpress.com/docs/wpcc/
@@ -610,12 +605,11 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$state || ($provider != "wordpress")) {
-            $this->redirect($postURL, esc_html__("Wordpress.com authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Wordpress.com authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Wordpress.com authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Wordpress.com authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $wordpressCallBack = $this->createCallBackURL("wordpress");
         $wordpressAccessTokenURL = "https://public-api.wordpress.com/oauth2/token";
@@ -629,14 +623,14 @@ class SocialLogin {
         $wordpressAccesTokenResponse = wp_remote_post($wordpressAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($wordpressAccesTokenResponse)) {
-            $this->redirect($postURL, $wordpressAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $wordpressAccesTokenResponse->get_error_message());
         }
         $wordpressAccesTokenData = json_decode(wp_remote_retrieve_body($wordpressAccesTokenResponse), true);
         if (isset($wordpressAccesTokenData["error"])) {
-            $this->redirect($postURL, $wordpressAccesTokenData["error_description"]);
+            $this->redirect($postID, $wordpressAccesTokenData["error_description"]);
         }
         if (!isset($wordpressAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("Wordpress.com authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Wordpress.com authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accesToken = $wordpressAccesTokenData["access_token"];
         $wordpressAccesTokenValidateURL = "https://public-api.wordpress.com/oauth2/token-info";
@@ -644,11 +638,11 @@ class SocialLogin {
         $wordpressAccesTokenValidateURL = add_query_arg($accesTokenValidateArgs, $wordpressAccesTokenValidateURL);
         $accesTokenValidateResponse = wp_remote_get($wordpressAccesTokenValidateURL, $accesTokenValidateArgs);
         if (is_wp_error($accesTokenValidateResponse)) {
-            $this->redirect($postURL, $accesTokenValidateResponse->get_error_message());
+            $this->redirect($postID, $accesTokenValidateResponse->get_error_message());
         }
         $accesTokenValidateData = json_decode(wp_remote_retrieve_body($accesTokenValidateResponse), true);
         if (!isset($accesTokenValidateData["user_id"]) || !$accesTokenValidateData["user_id"]) {
-            $this->redirect($postURL, esc_html__("Wordpress.com authentication failed (user_id does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Wordpress.com authentication failed (user_id does not exist).", "wpdiscuz"));
         }
 
         $wordpressGetUserDataURL = "https://public-api.wordpress.com/rest/v1/me/";
@@ -657,18 +651,18 @@ class SocialLogin {
         $getWordpressUserResponse = wp_remote_get($wordpressGetUserDataURL, ["headers" => $wordpressGetUserDataAttr]);
 
         if (is_wp_error($getWordpressUserResponse)) {
-            $this->redirect($postURL, $getWordpressUserResponse->get_error_message());
+            $this->redirect($postID, $getWordpressUserResponse->get_error_message());
         }
         $wordpressUserData = json_decode(wp_remote_retrieve_body($getWordpressUserResponse), true);
         if (isset($wordpressUserData["error"])) {
-            $this->redirect($postURL, $wordpressUserData["message"]);
+            $this->redirect($postID, $wordpressUserData["message"]);
         }
         $uID = Utils::addUser($wordpressUserData, "wordpress");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     // https://apps.twitter.com/
@@ -698,9 +692,8 @@ class SocialLogin {
         $oauthSecretData = Utils::getProviderByState($oauthToken);
         $oauthSecret = $oauthSecretData["provider"];
         $postID = $oauthSecretData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$oauthVerifier || !$oauthSecret) {
-            $this->redirect($postURL, esc_html__("Twitter authentication failed (OAuth secret does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Twitter authentication failed (OAuth secret does not exist).", "wpdiscuz"));
         }
         $twitter = new TwitterOAuth($this->generalOptions->social["twitterAppID"], $this->generalOptions->social["twitterAppSecret"], $oauthToken, $oauthSecret);
         try {
@@ -710,15 +703,15 @@ class SocialLogin {
             if (!empty($twitterUser->id)) {
                 $uID = Utils::addUser($twitterUser, "twitter");
                 if (is_wp_error($uID)) {
-                    $this->redirect($postURL, $uID->get_error_message());
+                    $this->redirect($postID, $uID->get_error_message());
                 }
                 $this->setCurrentUser($uID);
-                $this->redirect($postURL);
+                $this->redirect($postID);
             } else {
-                $this->redirect($postURL, esc_html__("Twitter connection failed.", "wpdiscuz"));
+                $this->redirect($postID, esc_html__("Twitter connection failed.", "wpdiscuz"));
             }
         } catch (TwitterOAuthException $e) {
-            $this->redirect($postURL, $e->getOAuthMessage());
+            $this->redirect($postID, $e->getOAuthMessage());
         }
     }
 
@@ -752,12 +745,11 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$state || ($provider != "vk")) {
-            $this->redirect($postURL, esc_html__("VK authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("VK authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("VK authentication failed (OAuth code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("VK authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $vkCallBack = $this->createCallBackURL("vk");
         $vkAccessTokenURL = "https://oauth.vk.com/access_token";
@@ -768,14 +760,14 @@ class SocialLogin {
         $vkAccesTokenResponse = wp_remote_post($vkAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($vkAccesTokenResponse)) {
-            $this->redirect($postURL, $vkAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $vkAccesTokenResponse->get_error_message());
         }
         $vkAccesTokenData = json_decode(wp_remote_retrieve_body($vkAccesTokenResponse), true);
         if (isset($vkAccesTokenData["error"])) {
-            $this->redirect($postURL, $vkAccesTokenData["error_description"]);
+            $this->redirect($postID, $vkAccesTokenData["error_description"]);
         }
         if (!isset($vkAccesTokenData["user_id"])) {
-            $this->redirect($postURL, esc_html__("VK authentication failed (user_id does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("VK authentication failed (user_id does not exist).", "wpdiscuz"));
         }
         $userID = $vkAccesTokenData["user_id"];
         $email = isset($vkAccesTokenData["email"]) ? $vkAccesTokenData["email"] : $userID . "@vk.com";
@@ -786,20 +778,20 @@ class SocialLogin {
             "v" => "5.78"];
         $getVkUserResponse = wp_remote_post($vkGetUserDataURL, ["body" => $vkGetUserDataAttr]);
         if (is_wp_error($getVkUserResponse)) {
-            $this->redirect($postURL, $getVkUserResponse->get_error_message());
+            $this->redirect($postID, $getVkUserResponse->get_error_message());
         }
         $vkUserData = json_decode(wp_remote_retrieve_body($getVkUserResponse), true);
         if (isset($vkUserData["error"])) {
-            $this->redirect($postURL, $vkUserData["error_msg"]);
+            $this->redirect($postID, $vkUserData["error_msg"]);
         }
         $vkUser = $vkUserData["response"][0];
         $vkUser["email"] = $email;
         $uID = Utils::addUser($vkUser, "vk");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://apiok.ru/dev/app/create
@@ -830,12 +822,11 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if (!$state || ($provider != "ok")) {
-            $this->redirect($postURL, esc_html__("OK authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("OK authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("OK authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("OK authentication failed (code does not exist).", "wpdiscuz"));
         }
         $okCallBack = $this->createCallBackURL("ok");
         $okAccessTokenURL = "https://api.ok.ru/oauth/token.do";
@@ -847,14 +838,14 @@ class SocialLogin {
         $okAccesTokenResponse = wp_remote_post($okAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($okAccesTokenResponse)) {
-            $this->redirect($postURL, $okAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $okAccesTokenResponse->get_error_message());
         }
         $okAccesTokenData = json_decode(wp_remote_retrieve_body($okAccesTokenResponse), true);
         if (isset($okAccesTokenData["error_code"])) {
-            $this->redirect($postURL, $okAccesTokenData["error_msg"]);
+            $this->redirect($postID, $okAccesTokenData["error_msg"]);
         }
         if (!isset($okAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("OK authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("OK authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accessToken = $okAccesTokenData["access_token"];
         $secretKey = md5($accessToken . $this->generalOptions->social["okAppSecret"]);
@@ -867,18 +858,18 @@ class SocialLogin {
             "access_token" => $accessToken];
         $getOkUserResponse = wp_remote_post($okGetUserDataURL, ["body" => $okGetUserDataAttr]);
         if (is_wp_error($getOkUserResponse)) {
-            $this->redirect($postURL, $getOkUserResponse->get_error_message());
+            $this->redirect($postID, $getOkUserResponse->get_error_message());
         }
         $okUserData = json_decode(wp_remote_retrieve_body($getOkUserResponse), true);
         if (isset($okUserData["error_code"])) {
-            $this->redirect($postURL, $okUserData["error_msg"]);
+            $this->redirect($postID, $okUserData["error_msg"]);
         }
         $uID = Utils::addUser($okUserData, "ok");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://yandex.ru/dev/oauth/doc/dg/reference/auto-code-client-docpage/#auto-code-client
@@ -910,15 +901,14 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if ($error) {
-            $this->redirect($postURL, esc_html($errorDesc));
+            $this->redirect($postID, esc_html($errorDesc));
         }
         if (!$state || ($provider != "yandex")) {
-            $this->redirect($postURL, esc_html__("Yandex authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Yandex authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Yandex authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Yandex authentication failed (code does not exist).", "wpdiscuz"));
         }
         $yandexCallBack = $this->createCallBackURL("yandex");
         $yandexAccessTokenURL = "https://oauth.yandex.ru/token";
@@ -930,15 +920,15 @@ class SocialLogin {
         $yandexAccesTokenResponse = wp_remote_post($yandexAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($yandexAccesTokenResponse)) {
-            $this->redirect($postURL, $yandexAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $yandexAccesTokenResponse->get_error_message());
         }
         $yandexAccesTokenData = json_decode(wp_remote_retrieve_body($yandexAccesTokenResponse), true);
 
         if (isset($yandexAccesTokenData["error"])) {
-            $this->redirect($postURL, $yandexAccesTokenData["error_description"]);
+            $this->redirect($postID, $yandexAccesTokenData["error_description"]);
         }
         if (!isset($yandexAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("Yandex authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Yandex authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accessToken = $yandexAccesTokenData["access_token"];
         $yandexGetUserDataURL = "https://login.yandex.ru/info?format=json";
@@ -953,19 +943,19 @@ class SocialLogin {
         $getYandexUserResponse = wp_remote_post($yandexGetUserDataURL, $yandexGetUserDataAttr);
 
         if (is_wp_error($getYandexUserResponse)) {
-            $this->redirect($postURL, $getYandexUserResponse->get_error_message());
+            $this->redirect($postID, $getYandexUserResponse->get_error_message());
         }
         $yandexUserData = json_decode(wp_remote_retrieve_body($getYandexUserResponse), true);
         if (isset($yandexUserData["error"])) {
-            $this->redirect($postURL, $yandexUserData["error_description"]);
+            $this->redirect($postID, $yandexUserData["error_description"]);
         }
 
         $uID = Utils::addUser($yandexUserData, "yandex");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://o2.mail.ru/docs/
@@ -1000,16 +990,15 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
 
         if ($error) {
-            $this->redirect($postURL, esc_html($errorDesc));
+            $this->redirect($postID, esc_html($errorDesc));
         }
         if (!$state || ($provider != "mailru")) {
-            $this->redirect($postURL, esc_html__("Mail.ru authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Mail.ru authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Mail.ru authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Mail.ru authentication failed (code does not exist).", "wpdiscuz"));
         }
         $mailruCallBack = $this->createCallBackURL("mailru");
         $mailruAccessTokenURL = "https://oauth.mail.ru/token";
@@ -1038,10 +1027,10 @@ class SocialLogin {
         $mailruAccesTokenData = json_decode($mailruAccesTokenResponse, true);
 
         if (isset($mailruAccesTokenData["error"])) {
-            $this->redirect($postURL, $mailruAccesTokenData["error_description"]);
+            $this->redirect($postID, $mailruAccesTokenData["error_description"]);
         }
         if (!isset($mailruAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("Mail.ru authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Mail.ru authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accessToken = $mailruAccesTokenData["access_token"];
 
@@ -1049,15 +1038,15 @@ class SocialLogin {
         $mailruUserData = json_decode(file_get_contents($mailruGetUserDataURL), true);
 
         if (isset($mailruUserData["error"])) {
-            $this->redirect($postURL, $mailruUserData["error_description"]);
+            $this->redirect($postID, $mailruUserData["error_description"]);
         }
 
         $uID = Utils::addUser($mailruUserData, "mailru");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://developers.weixin.qq.com/doc/oplatform/en/Website_App/WeChat_Login/Wechat_Login.html
@@ -1091,15 +1080,14 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if ($error) {
-            $this->redirect($postURL, esc_html($errorDesc));
+            $this->redirect($postID, esc_html($errorDesc));
         }
         if (!$state || ($provider != "wechat")) {
-            $this->redirect($postURL, esc_html__("WeChat authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("WeChat authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("WeChat authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("WeChat authentication failed (code does not exist).", "wpdiscuz"));
         }
         $wechatAccessTokenURL = "https://api.weixin.qq.com/sns/oauth2/access_token";
         $accessTokenArgs = ["appid" => $this->generalOptions->social["wechatAppID"],
@@ -1109,15 +1097,15 @@ class SocialLogin {
         $wechatAccesTokenResponse = wp_remote_post($wechatAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($wechatAccesTokenResponse)) {
-            $this->redirect($postURL, $wechatAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $wechatAccesTokenResponse->get_error_message());
         }
         $wechatAccesTokenData = json_decode(wp_remote_retrieve_body($wechatAccesTokenResponse), true);
 
         if (isset($wechatAccesTokenData["errcode"])) {
-            $this->redirect($postURL, $wechatAccesTokenData["errmsg"]);
+            $this->redirect($postID, $wechatAccesTokenData["errmsg"]);
         }
         if (!isset($wechatAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("WeChat authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("WeChat authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accessToken = $wechatAccesTokenData["access_token"];
         $uid = $wechatAccesTokenData["openid"];
@@ -1132,18 +1120,18 @@ class SocialLogin {
         $getWechatUserResponse = wp_remote_get($wechatGetUserDataURL);
 
         if (is_wp_error($getWechatUserResponse)) {
-            $this->redirect($postURL, $getWechatUserResponse->get_error_message());
+            $this->redirect($postID, $getWechatUserResponse->get_error_message());
         }
         $wechatUserData = json_decode(wp_remote_retrieve_body($getWechatUserResponse), true);
         if (isset($wechatUserData["errcode"])) {
-            $this->redirect($postURL, $wechatUserData["errmsg"]);
+            $this->redirect($postID, $wechatUserData["errmsg"]);
         }
         $uID = Utils::addUser($wechatUserData, "wechat");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://wiki.connect.qq.com/%E5%BC%80%E5%8F%91%E6%94%BB%E7%95%A5_server-side
@@ -1177,15 +1165,14 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if ($error) {
-            $this->redirect($postURL, esc_html($errorDesc));
+            $this->redirect($postID, esc_html($errorDesc));
         }
         if (!$state || ($provider != "qq")) {
-            $this->redirect($postURL, esc_html__("QQ authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("QQ authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("QQ authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("QQ authentication failed (code does not exist).", "wpdiscuz"));
         }
         $qqCallBack = $this->createCallBackURL("qq");
         $accessTokenArgs = ["client_id" => $this->generalOptions->social["qqAppID"],
@@ -1196,7 +1183,7 @@ class SocialLogin {
         $qqAccessTokenURL = add_query_arg($accessTokenArgs, "https://graph.qq.com/oauth2.0/token");
         $qqAccesTokenResponse = wp_remote_get($qqAccessTokenURL);
         if (is_wp_error($qqAccesTokenResponse)) {
-            $this->redirect($postURL, $qqAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $qqAccesTokenResponse->get_error_message());
         }
         $qqAccesTokenResponseBody = wp_remote_retrieve_body($qqAccesTokenResponse);
         if (strpos($qqAccesTokenResponseBody, "callback") !== false) {
@@ -1205,17 +1192,17 @@ class SocialLogin {
             $qqAccesTokenResponseBody = substr($qqAccesTokenResponseBody, $lpos + 1, $rpos - $lpos - 1);
             $qqAccesTokenResponseMsg = json_decode($qqAccesTokenResponseBody, true);
             if (isset($qqAccesTokenResponseMsg["error"])) {
-                $this->redirect($postURL, $qqAccesTokenResponseMsg["error_description"]);
+                $this->redirect($postID, $qqAccesTokenResponseMsg["error_description"]);
             }
             $qqAccesTokenData = array();
             parse_str($qqAccesTokenResponseBody, $qqAccesTokenData);
             if (!isset($qqAccesTokenData["access_token"])) {
-                $this->redirect($postURL, esc_html__("QQ authentication failed (access_token does not exist).", "wpdiscuz"));
+                $this->redirect($postID, esc_html__("QQ authentication failed (access_token does not exist).", "wpdiscuz"));
             }
             $accessToken = $qqAccesTokenData["access_token"];
             $qqOpenIdResponse = wp_remote_get("https://graph.qq.com/oauth2.0/me?access_token=" . $accessToken);
             if (is_wp_error($qqOpenIdResponse)) {
-                $this->redirect($postURL, $qqOpenIdResponse->get_error_message());
+                $this->redirect($postID, $qqOpenIdResponse->get_error_message());
             }
             $qqOpenIdResponseBody = wp_remote_retrieve_body($qqAccesTokenResponse);
             if (strpos($qqOpenIdResponseBody, "callback") !== false) {
@@ -1225,7 +1212,7 @@ class SocialLogin {
             }
             $qqOpenIdResponseMsg = json_decode($qqOpenIdResponseBody, true);
             if (isset($qqOpenIdResponseMsg["error"])) {
-                $this->redirect($postURL, $qqOpenIdResponseMsg["error_description"]);
+                $this->redirect($postID, $qqOpenIdResponseMsg["error_description"]);
             }
             $openid = $qqOpenIdResponseMsg["openid"];
             $qqGetUserDataAttributs = ["oauth_consumer_key" => $this->generalOptions->social["qqAppID"],
@@ -1235,21 +1222,21 @@ class SocialLogin {
             $qqGetUserDataURL = add_query_arg($qqGetUserDataAttributs, "https://graph.qq.com/user/get_user_info");
             $getQQUserResponse = wp_remote_get($qqGetUserDataURL);
             if (is_wp_error($getQQUserResponse)) {
-                $this->redirect($postURL, $getQQUserResponse->get_error_message());
+                $this->redirect($postID, $getQQUserResponse->get_error_message());
             }
             $qqUserData = json_decode(wp_remote_retrieve_body($getQQUserResponse), true);
             if (isset($qqUserData["error"])) {
-                $this->redirect($postURL, $qqUserData["error_description"]);
+                $this->redirect($postID, $qqUserData["error_description"]);
             }
             $qqUserData["openid"] = $openid;
             $uID = Utils::addUser($qqUserData, "qq");
             if (is_wp_error($uID)) {
-                $this->redirect($postURL, $uID->get_error_message());
+                $this->redirect($postID, $uID->get_error_message());
             }
             $this->setCurrentUser($uID);
-            $this->redirect($postURL);
+            $this->redirect($postID);
         } else {
-            $this->redirect($postURL, esc_html__("QQ authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("QQ authentication failed (access_token does not exist).", "wpdiscuz"));
         }
     }
 
@@ -1284,15 +1271,14 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if ($error) {
-            $this->redirect($postURL, esc_html($errorDesc));
+            $this->redirect($postID, esc_html($errorDesc));
         }
         if (!$state || ($provider != "weibo")) {
-            $this->redirect($postURL, esc_html__("Weibo authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Weibo authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Weibo authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Weibo authentication failed (code does not exist).", "wpdiscuz"));
         }
         $weiboCallBack = $this->createCallBackURL("weibo");
         $weiboAccessTokenURL = "https://api.weibo.com/oauth2/access_token";
@@ -1304,15 +1290,15 @@ class SocialLogin {
         $weiboAccesTokenResponse = wp_remote_post($weiboAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($weiboAccesTokenResponse)) {
-            $this->redirect($postURL, $weiboAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $weiboAccesTokenResponse->get_error_message());
         }
         $weiboAccesTokenData = json_decode(wp_remote_retrieve_body($weiboAccesTokenResponse), true);
 
         if (isset($weiboAccesTokenData["error"])) {
-            $this->redirect($postURL, $weiboAccesTokenData["error_description"]);
+            $this->redirect($postID, $weiboAccesTokenData["error_description"]);
         }
         if (!isset($weiboAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("Weibo authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Weibo authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accessToken = $weiboAccesTokenData["access_token"];
         $uid = $weiboAccesTokenData["uid"];
@@ -1326,18 +1312,18 @@ class SocialLogin {
 
         $getWeiboUserResponse = wp_remote_get($weiboGetUserDataURL, $weiboGetUserDataAttr);
         if (is_wp_error($getWeiboUserResponse)) {
-            $this->redirect($postURL, $getWeiboUserResponse->get_error_message());
+            $this->redirect($postID, $getWeiboUserResponse->get_error_message());
         }
         $weiboUserData = json_decode(wp_remote_retrieve_body($getWeiboUserResponse), true);
         if (isset($weiboUserData["error"])) {
-            $this->redirect($postURL, $weiboUserData["error_description"]);
+            $this->redirect($postID, $weiboUserData["error_description"]);
         }
         $uID = Utils::addUser($weiboUserData, "weibo");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
     //https://developer.baidu.com/wiki/index.php?title=docs/oauth/application
@@ -1374,15 +1360,14 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData["provider"];
         $postID = $providerData["postID"];
-        $postURL = $this->getPostLink($postID);
         if ($error) {
-            $this->redirect($postURL, esc_html($errorDesc));
+            $this->redirect($postID, esc_html($errorDesc));
         }
         if (!$state || ($provider != "baidu")) {
-            $this->redirect($postURL, esc_html__("Baidu authentication failed (OAuth state does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Baidu authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
-            $this->redirect($postURL, esc_html__("Baidu authentication failed (code does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Baidu authentication failed (code does not exist).", "wpdiscuz"));
         }
         $baiduCallBack = $this->createCallBackURL("baidu");
         $baiduAccessTokenURL = "https://openapi.baidu.com/oauth/2.0/token";
@@ -1394,39 +1379,40 @@ class SocialLogin {
         $baiduAccesTokenResponse = wp_remote_post($baiduAccessTokenURL, ["body" => $accessTokenArgs]);
 
         if (is_wp_error($baiduAccesTokenResponse)) {
-            $this->redirect($postURL, $baiduAccesTokenResponse->get_error_message());
+            $this->redirect($postID, $baiduAccesTokenResponse->get_error_message());
         }
         $baiduAccesTokenData = json_decode(wp_remote_retrieve_body($baiduAccesTokenResponse), true);
 
         if (isset($baiduAccesTokenData["error"])) {
-            $this->redirect($postURL, $baiduAccesTokenData["error_description"]);
+            $this->redirect($postID, $baiduAccesTokenData["error_description"]);
         }
         if (!isset($baiduAccesTokenData["access_token"])) {
-            $this->redirect($postURL, esc_html__("Baidu authentication failed (access_token does not exist).", "wpdiscuz"));
+            $this->redirect($postID, esc_html__("Baidu authentication failed (access_token does not exist).", "wpdiscuz"));
         }
         $accessToken = $baiduAccesTokenData["access_token"];
 
         $getBaiduUserResponse = wp_remote_get("https://openapi.baidu.com/rest/2.0/passport/users/getLoggedInUser?access_token=" . $accessToken);
         if (is_wp_error($getBaiduUserResponse)) {
-            $this->redirect($postURL, $getBaiduUserResponse->get_error_message());
+            $this->redirect($postID, $getBaiduUserResponse->get_error_message());
         }
         $baiduUserData = json_decode(wp_remote_retrieve_body($getBaiduUserResponse), true);
         if (isset($baiduUserData["error_code"])) {
-            $this->redirect($postURL, $baiduUserData["error_msg"]);
+            $this->redirect($postID, $baiduUserData["error_msg"]);
         }
         $uID = Utils::addUser($baiduUserData, "baidu");
         if (is_wp_error($uID)) {
-            $this->redirect($postURL, $uID->get_error_message());
+            $this->redirect($postID, $uID->get_error_message());
         }
         $this->setCurrentUser($uID);
-        $this->redirect($postURL);
+        $this->redirect($postID);
     }
 
-    private function redirect($postURL, $message = "") {
+    private function redirect($postID, $message = "") {
         if ($message) {
             setcookie('wpdiscuz_social_login_message', $message, time() + 3600, '/');
         }
-        wp_redirect($postURL, 302);
+        clean_post_cache($postID);
+        wp_redirect($this->getPostLink($postID), 302);
         exit();
     }
 

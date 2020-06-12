@@ -351,10 +351,10 @@
 
 #wpd-setbox .wpd-setcon .wpd-mublock,
 #wpd-setbox .wpd-setcon .wpd-mublock-inline{margin-bottom:5px;}
-#wpd-setbox .wpd-setcon .wpd-mublock-inline {float:left; display:inline-block; min-width:50%}
+#wpd-setbox .wpd-setcon .wpd-mublock-inline {float:left; display:inline-block; width:19.5%}
 #wpd-setbox .wpd-setcon .wpd-mublock{display:block;}
 #wpd-setbox .wpd-setcon .wpd-mublock-inline label,
-#wpd-setbox .wpd-setcon .wpd-mublock label{white-space:nowrap; font-size:13px; vertical-align:top; margin-left:2px;}
+#wpd-setbox .wpd-setcon .wpd-mublock label{white-space:nowrap; font-size:13px; vertical-align:top; margin-left:2px;overflow: hidden;text-overflow: ellipsis;display: inline-block;width: 70%;}
 #wpd-setbox .wpd-setcon .wpd-switch-field input { display: none;}
 #wpd-setbox .wpd-setcon .wpd-switch-field label {float: left; display: inline-block; line-height: 20px; min-width:60px; font-weight: normal; background-color: #e4e4e4;color:#333;font-size: 13px;text-align: center; text-shadow: none;padding: 2px 10px; border: 1px solid rgba(0, 0, 0, 0.2);-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);-webkit-transition: all 0.1s ease-in-out;-moz-transition:    all 0.1s ease-in-out; -ms-transition: all 0.1s ease-in-out; -o-transition: all 0.1s ease-in-out;transition: all 0.1s ease-in-out;}
 #wpd-setbox .wpd-setcon .wpd-switch-field label:hover {cursor: pointer;}

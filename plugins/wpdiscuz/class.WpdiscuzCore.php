@@ -2,12 +2,13 @@
 /*
  * Plugin Name: wpDiscuz
  * Description: #1 WordPress Comment Plugin. Innovative, modern and feature-rich comment system to supercharge your website comment section.
- * Version: 7.0.0
+ * Version: 7.0.2
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://wpdiscuz.com/
  * Text Domain: wpdiscuz
  * Domain Path: /languages/
+ * wpDiscuz Update: auto
  */
 if (!defined("ABSPATH")) {
     exit();
@@ -142,6 +143,9 @@ class WpdiscuzCore implements WpDiscuzConstants {
         add_action("wp_ajax_nopriv_wpdAddInlineComment", [&$this, "addInlineComment"]);
         add_action("wp_footer", [&$this, "footerContents"]);
         add_action("enqueue_block_editor_assets", [&$this, "gutenbergButton"]);
+
+        add_filter("extra_plugin_headers", [&$this, "extraPluginHeaders"]);
+        add_filter("auto_update_plugin", [&$this, "shouldUpdate"], 10, 2);
     }
 
     public static function getInstance() {
@@ -149,6 +153,29 @@ class WpdiscuzCore implements WpDiscuzConstants {
             self::$_instance = new self();
         }
         return self::$_instance;
+    }
+
+    public function extraPluginHeaders($headers) {
+        $headers[] = "wpDiscuz Update";
+        return $headers;
+    }
+
+    public function shouldUpdate($shouldUpdate, $plugin) {
+        if (!isset($plugin->plugin, $plugin->new_version)) {
+            return $shouldUpdate;
+        }
+
+        if ("wpdiscuz/class.WpdiscuzCore.php" !== $plugin->plugin) {
+            return $shouldUpdate;
+        }
+
+        $pluginData = get_plugin_data(__FILE__);
+
+        if (isset($pluginData["wpDiscuz Update"]) && $pluginData["wpDiscuz Update"] === "manual") {
+            return false;
+        }
+
+        return $shouldUpdate;
     }
 
     public function pluginActivation($networkwide) {
@@ -430,6 +457,9 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 do_action("wpdiscuz_after_comment_post", $newComment, $currentUser);
                 $response["callbackFunctions"] = [];
                 $response = apply_filters("wpdiscuz_comment_post", $response);
+                if (apply_filters("wpdiscuz_clean_cache_after_comment_post", true)) {
+                    clean_post_cache($postId);
+                }
                 wp_send_json_success($response);
             } else {
                 wp_send_json_error("wc_invalid_field");
@@ -445,7 +475,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
     public function saveEditedComment() {
         $commentId = isset($_POST["commentId"]) ? intval($_POST["commentId"]) : 0;
         $trimmedContent = isset($_POST["wc_comment"]) ? trim($_POST["wc_comment"]) : "";
-        if (!$trimmedContent) {
+        if (!$trimmedContent || !strip_tags($trimmedContent)) {
             wp_send_json_error("wc_msg_required_fields");
         }
         $trimmedContent = ($this->options->form["richEditor"] === "both" || (!wp_is_mobile() && $this->options->form["richEditor"] === "desktop")) && !$this->options->showEditorToolbar() ? html_entity_decode($trimmedContent) : $trimmedContent;
@@ -500,6 +530,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                             $username = $lastEditedBy ? $lastEditedBy->display_name : $comment->comment_author;
                             $response["lastEdited"] = "<div class='wpd-comment-last-edited'><i class='far fa-edit'></i>" . esc_html(sprintf($this->options->phrases["wc_last_edited"], $this->helper->dateDiff($lastEditedAt), $username)) . "</div>";
                         }
+                        clean_post_cache($comment->comment_post_ID);
                     }
 
                     $form->saveCommentMeta($comment->comment_ID);
@@ -1347,6 +1378,9 @@ class WpdiscuzCore implements WpDiscuzConstants {
         if (version_compare($this->version, "5.2.1", "<=")) {
             $oldOptions["isNativeAjaxEnabled"] = 1;
         }
+        if (version_compare($this->version, "7.0.0", ">=") && version_compare($this->version, "7.0.2", "<")) {
+            $oldOptions[self::TAB_RATING]["enablePostRatingSchema"] = 0;
+        }
         return $oldOptions;
     }
 
@@ -1942,6 +1976,9 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     $response["notification"] = esc_html($this->options->phrases["wc_feedback_comment_success"]);
                     $response["allCommentsCountNew"] = esc_html(get_comments_number($inline_form->post_id));
                     $response["allCommentsCountNewHtml"] = "<span class='wpdtc'>" . esc_html($response["allCommentsCountNew"]) . "</span> " . esc_html(1 == $response["allCommentsCountNew"] ? $form->getHeaderTextSingle() : $form->getHeaderTextPlural());
+                    if (apply_filters("wpdiscuz_clean_cache_after_comment_post", true)) {
+                        clean_post_cache($postId);
+                    }
                     wp_send_json_success($response);
                 } else {
                     wp_send_json_error("wc_invalid_field");

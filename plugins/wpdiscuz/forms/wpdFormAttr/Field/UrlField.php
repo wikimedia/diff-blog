@@ -87,8 +87,8 @@ class UrlField extends Field {
             }
             ?>
             <?php $required = $args["required"] ? "required='required'" : ""; ?>
-            <input id="<?php echo esc_attr($name); ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field" type="url" name="<?php echo esc_attr($name); ?>" value="" placeholder="<?php echo esc_attr__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?>">
-            <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
+            <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field" type="url" name="<?php echo esc_attr($name); ?>" value="" placeholder="<?php echo esc_attr__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?>">
+            <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
             <?php
             if ($args["desc"]) {
                 ?>

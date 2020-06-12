@@ -30,6 +30,9 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         if ($this->options->subscription["enableUserMentioning"]) {
             add_filter("comment_text", [&$this, "userMentioning"], 10, 3);
         }
+        if ($this->options->content["enableShortcodes"]) {
+            add_filter("comment_text", [&$this, "doShortcode"], 10, 3);
+        }
         add_filter("wp_update_comment_data", [&$this, "commentDataArr"], 10, 3);
         add_action("post_updated", [&$this, "checkFeedbackShortcodes"], 10, 3);
         add_filter("comment_row_actions", [&$this, "commentRowStickAction"], 10, 2);
@@ -785,6 +788,13 @@ class WpdiscuzHelper implements WpDiscuzConstants {
                 $replacement .= "$2";
                 $content = preg_replace("/(" . $user["replace"] . ")([\s\n\r\t\@\,\.\!\?\#\$\%\-\:\;\'\"\`\~\)\(\}\{\|\\\[\]]?)/", $replacement, $content);
             }
+        }
+        return $content;
+    }
+
+    public function doShortcode($content, $comment, $args = []) {
+        if (!empty($args["is_wpdiscuz_comment"])) {
+            return do_shortcode($content);
         }
         return $content;
     }

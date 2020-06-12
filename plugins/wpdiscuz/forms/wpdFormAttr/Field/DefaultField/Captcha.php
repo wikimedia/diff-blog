@@ -42,12 +42,12 @@ class Captcha extends Field {
                 return new ReCaptcha\RequestMethod\Post();
             }
         } else {
-            if (function_exists("fsockopen")) {
-                return new ReCaptcha\RequestMethod\SocketPost();
-            }
-
             if (extension_loaded("curl")) {
                 return new ReCaptcha\RequestMethod\CurlPost();
+            }
+            
+            if (function_exists("fsockopen")) {
+                return new ReCaptcha\RequestMethod\SocketPost();
             }
 
             if (ini_get("allow_url_fopen")) {

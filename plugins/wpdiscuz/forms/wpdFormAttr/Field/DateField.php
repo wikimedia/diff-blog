@@ -85,8 +85,8 @@ class DateField extends Field {
                 <div class="wpd-field-icon"><i style="opacity: 0.8;" class="<?php echo strpos(trim($args["icon"]), " ") ? esc_attr($args["icon"]) : "fas " . esc_attr($args["icon"]); ?>"></i></div>
             <?php } ?>
             <?php $required = $args["required"] ? "required='required'" : ""; ?>
-            <input id="<?php echo esc_attr($name); ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field wpd-field-date" type="date" name="<?php echo esc_attr($name); ?>" value="" placeholder="03/28/2016<?php echo!empty($args["required"]) ? "*" : "" ?>"  pattern="^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$" title="03/28/2016">
-            <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
+            <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field wpd-field-date" type="date" name="<?php echo esc_attr($name); ?>" value="" placeholder="03/28/2016<?php echo!empty($args["required"]) ? "*" : "" ?>"  pattern="^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$" title="03/28/2016">
+            <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
             <?php if ($args["desc"]) { ?>
                 <div class="wpd-field-desc"><i class="far fa-question-circle"></i><span><?php echo esc_html($args["desc"]); ?></span></div>
                     <?php } ?>
