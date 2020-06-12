@@ -19,7 +19,12 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 wpcom_vip_load_plugin( 'amp' );
-// wpcom_vip_load_plugin('publishpress');
+//wpcom_vip_load_plugin('publishpress');
 wpcom_vip_load_plugin('capability-manager-enhanced/capsman-enhanced.php');
 wpcom_vip_load_plugin('miniorange-login-with-eve-online-google-facebook/mo_oauth_settings.php');
 wpcom_vip_load_plugin('wpdiscuz/class.WpdiscuzCore.php');
+wpcom_vip_load_plugin('co-authors-plus/co-authors-plus.php');
+wpcom_vip_load_plugin('fieldmanager/fieldmanager.php');
+wpcom_vip_load_plugin('diff-customizations/diff-customizations.php');
+
+
