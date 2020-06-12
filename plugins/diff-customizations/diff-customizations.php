@@ -12,7 +12,6 @@ Author URI: https://meta.wikimedia.org/wiki/Community_Relations
 //Remove the Tools and Comments capabilities from the Contributor role
 //These menu items are useless given there are no tools to configure for Contributors
 
-add_action('admin_init', 'diff_remove_menu_pages');
 function diff_remove_menu_pages()
 {
 
@@ -23,6 +22,8 @@ function diff_remove_menu_pages()
         remove_menu_page('edit-comments.php'); // Comments
     }
 }
+
+add_action('admin_init', 'diff_remove_menu_pages');
 
 //Let's remove some unnecessary widgets from the WordPress dashboard
 
