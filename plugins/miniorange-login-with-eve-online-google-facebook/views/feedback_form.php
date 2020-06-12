@@ -16,7 +16,7 @@ function mo_oauth_client_display_feedback_form() {
     <body>
     <div id="oauth_client_feedback_modal" class="mo_modal">
         <div class="mo_modal-content">
-            <span class="mo_close">&times;</span>
+            <span class="mo_close" id="mo_oauth_client_close">&times;</span>
             <h3>Tell us what happened? </h3>
             <form name="f" method="post" action="" id="mo_oauth_client_feedback">
                 <?php wp_nonce_field('mo_oauth_feedback_form','mo_oauth_feedback_form_field'); ?>
@@ -39,12 +39,12 @@ function mo_oauth_client_display_feedback_form() {
                     <div class="mo_modal-footer">
                         <input type="submit" name="miniorange_feedback_submit"
                                class="button button-primary button-large" style="float: left;" value="Submit"/>
-                        <input id="mo_skip" type="submit" name="miniorange_feedback_skip"
+                        <input id="mo_skip_oauth_client" type="submit" name="miniorange_feedback_skip"
                                class="button button-primary button-large" style="float: right;" value="Skip"/>
                     </div>
                 </div>
             </form>
-            <form name="f" method="post" action="" id="mo_feedback_form_close">
+            <form name="f" method="post" action="" id="mo_oauth_client_feedback_form_close">
                 <?php wp_nonce_field('mo_oauth_skip_feedback_form','mo_oauth_skip_feedback_form_field'); ?>
                 <input type="hidden" name="option" value="mo_oauth_client_skip_feedback"/>
             </form>
@@ -53,10 +53,10 @@ function mo_oauth_client_display_feedback_form() {
     <script>
 
         jQuery('a[aria-label="Deactivate <?php echo MO_OAUTH_README_PLUGIN_NAME; ?>"]').click(function () {
-            var mo_modal = document.getElementById('oauth_client_feedback_modal');
-            var mo_skip = document.getElementById('mo_skip');
-            var span = document.getElementsByClassName("mo_close")[0];
-            mo_modal.style.display = "block";
+            var mo_oauth_client_modal = document.getElementById('oauth_client_feedback_modal');
+            var mo_skip_oauth_client = document.getElementById('mo_skip_oauth_client');
+            var mo_oauth_client_close = document.getElementById("mo_oauth_client_close");
+            mo_oauth_client_modal.style.display = "block";
             jQuery('input:radio[name="deactivate_reason_radio"]').click(function () {
                 var reason = jQuery(this).val();
                 var query_feedback = jQuery('#query_feedback');
@@ -87,18 +87,18 @@ function mo_oauth_client_display_feedback_form() {
             });
 
 
-            span.onclick = function () {
-                mo_modal.style.display = "none";
-                jQuery('#mo_feedback_form_close').submit();
+            mo_oauth_client_close.onclick = function () {
+                mo_oauth_client_modal.style.display = "none";
+                jQuery('#mo_oauth_client_feedback_form_close').submit();
             }
-            mo_skip.onclick = function() {
-                mo_modal.style.display = "none";
-                jQuery('#mo_feedback_form_close').submit();
+            mo_skip_oauth_client.onclick = function() {
+                mo_oauth_client_modal.style.display = "none";
+                jQuery('#mo_oauth_client_feedback_form_close').submit();
             }
 
             window.onclick = function (event) {
-                if (event.target == mo_modal) {
-                    mo_modal.style.display = "none";
+                if (event.target == mo_oauth_client_modal) {
+                    mo_oauth_client_modal.style.display = "none";
                 }
             }
             return false;

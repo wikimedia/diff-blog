@@ -1,13 +1,13 @@
 === OAuth Single Sign On - SSO (OAuth Client) ===
 Contributors: cyberlord92,oauth
-Tags: oauth, oauth 2.0, openid, sso, wordpress sso
+Tags: oauth, oauth 2.0, Single sign on, sso, wordpress sso, openid, login, wordpress login
 Requires at least: 3.0.1
 Tested up to: 5.4
-Stable tag: 6.15.2
+Stable tag: 6.16.0
 License: MIT/Expat
 License URI: https://docs.miniorange.com/mit-license
 
-Allows SSO with Cognito, Azure, Okta, Onelogin, Keycloak, WHMCS, Google Apps, Salesforce & many OAuth / OpenID Servers[24/7 SUPPORT]
+Allows SSO with Cognito, Azure, Okta, Onelogin, Keycloak, WHMCS, Google Apps, Salesforce & many OAuth / OpenID Servers[24/7 SUPPORT]. It also allows Single Sign On with WordPress as well as custom providers.
 
 == Description ==
 
@@ -20,19 +20,19 @@ It also covers User Authentication with OAuth & OIDC protocol and allow authoriz
 
 = Single Sign-On(SSO) =
 
-In simple term, Single Sign-On(SSO) means login into 1 site / application using the credentials of another app/site.
+In simple term, Single Sign On(SSO) means login into 1 site / application using the credentials of another app/site.
 Example. If you have all your Users/Customers/Members/Employees stored on 1 site(ex. gmail, wordpress, etc.), lets say site A and you want all of them to register/login into your WordPress site say site B. In this scenario, you can register/login all your users of site A into Site B using the login credentials/account of Site A. This is call Single Sign-On or SSO.
 
-= Third Party Application / OAuth-OIDC Provider =
+= Single Sign On supported Third Party Application / OAuth-OIDC Provider =
 * The other terms are: OAuth Provider, OAuth Server, OpenID Connect Server, OpenID Connect Provider, OIDC Provider, OIDC Server, OAuth Application, OpenID Connect Application, OIDC Application, OpenIDConnect Server, OpenIDCConnect Provider, OpenIDConnect Application
 * This Third Party Application can be anything where User Accounts are stored or site/application where you want to store/migrate all the users. It can be your social app/site, wordpress, custom app or any database.
 
-= USE-CASES =
+= Single Sign On USE-CASES =
 
 * Single Sign-On between WordPress - Wordpress(Login with WordPress) :
 	1. Single Sign-On to 1 WordPress site using User Credentials stored on Another WordPress site
 	2. Single Sign-On to 1 / multiple WordPress sites (or subsites) using User Credentials stored on Another WordPress site
-* Single Sign-On between WordPress and Any OAuth / OpenID Connect (OIDC) application(Login with Social Login Apps / Custom Providers) : 
+* Single Sign-On between WordPress and Any OAuth / OpenID Connect (OIDC) application(Login with Social Login Apps / Custom Providers) :
     1. Single Sign-On to 1 WordPress site using User Credentials stored on your third party application
 	2. Single Sign-On to 1 / multiple WordPress sites (or subsites) using User Credentials stored on Another WordPress site
 * Single Sign-On into WordPress Using existing User stores(Active Directory/Database)
@@ -40,68 +40,68 @@ Example. If you have all your Users/Customers/Members/Employees stored on 1 site
 = FREE VERSION FEATURES =
 
 *	WordPress OAuth Login supports single sign-on / SSO with any 3rd party OAuth / OpenIDConnect server or custom OAuth / OpenIDConnect server like AWS Cognito, Azure, Office 365, Google Apps, etc.
-*   SSO Grant Support - Standard OAuth 2.0 Grant :  Authorization Code
-*   Auto Create Users : After SSO, new user automatically gets created in WordPress
+*   	Single Sign On (SSO) Grant Support - Standard OAuth 2.0 Grant :  Authorization Code
+*   	Auto Create Users (User Provisioing) : After SSO, new user automatically gets created in WordPress
 *	Account Linking : After user SSO to WordPress, if user already exists in WordPress, then his profile gets updated or it will create a new WordPress User
 *	Attribute Mapping : OAuth Login supports username Attribute Mapping feature to map WordPress user profile username attribute.
 *	Login Widget : Use Widgets to easily integrate the login link with your WordPress site
-*	OpenID Connect / OAuth Provider Support : OAuth Login supports only one OpenID Connect / OAuth Provider. 
-*	Redirect URL after Login : OAuth Login Automatically Redirects user after successful login. 
-*	Logging :  If you run into issues OAuth Login can be helpful to enable debug logging
+*	OpenID Connect / OAuth Provider Support : OAuth Login (Single Sign On) supports only one OpenID Connect / OAuth Provider.
+*	Redirect URL after Login : OAuth Login (Single Sign On) Automatically Redirects user after successful login.
+*	Logging :  If you run into issues OAuth Login (Single Sign On) can be helpful to enable debug logging
 
 
 = STANDARD VERSION FEATURES =
 
 *	All the FREE Version Features included.
-*   SSO Grant Support - Standard OAuth 2.0 Grant :  Authorization Code
-*	Optionally Auto Register Users : OAuth Login does automatic user registration after login if the user is not already registered with your site
-*	Basic Role Mapping :  OAuth Login provides basic Attribute Mapping feature to map WordPress user profile attributes like username, firstname, lastname, email and profile picture. Manage username & email with data provided. 
+*   	Single Sign On (SSO) Grant Support - Standard OAuth 2.0 Grant :  Authorization Code
+*	Optionally Auto Register Users : OAuth Login (Single Sign On) does automatic user registration after login if the user is not already registered with your site
+*	Basic Role Mapping :  OAuth Login (Single Sign On) provides basic Attribute Mapping feature to map WordPress user profile attributes like username, firstname, lastname, email and profile picture. Manage username & email with data provided.
                           Also, Assign default role to user registering through OAuth Login based on rules you define.
 *	Support for Shortcode : Use shortcode to place OAuth login button anywhere in your Theme or Plugin
-*	Customize Login Buttons / Icons / Text : Wide range of OAuth Login Buttons/Icons and it allows you to customize Text shadow
-*	Custom Redirect URL after Login : WordPress OAuth SSO provides auto redirection and this is useful if you wanted to globally protect your whole site
-*	Custom Redirect URL after logout : WordPress OAuth SSO allows you to auto redirect Users to custom URL after he logs out from your WordPress site
+*	Customize Login Buttons / Icons / Text : Wide range of OAuth Login (Single Sign On) Buttons/Icons and it allows you to customize Text shadow
+*	Custom Redirect URL after Login : WordPress OAuth Single Sign On / SSO provides auto redirection and this is useful if you wanted to globally protect your whole site
+*	Custom Redirect URL after logout : WordPress OAuth Single Sign On / SSO allows you to auto redirect Users to custom URL after he logs out from your WordPress site
 
 
 = PREMIUM VERSION FEATURES =
 
 *	All the STANDARD Version Features
-*   SSO Grant Support - Standard OAuth2.0 Grants: Authorization Code, Implicit Grant, Password Grant, Refresh Token Grant (Customization Available)
-*	Advanced Role Mapping : Assign roles to users registering through OAuth Login based on rules you define.
-*	Force Authentication / Protect Complete Site : Allows user to restrict login / authorization for particular site
-*	Multiple Userinfo Endpoints Support : OAuth Login supports multiple Userinfo Endpoints.
-*	App domain specific Registration Restrictions : OAuth Login restricts registration on your site based on the person's email address domain
-*	Multi-site Support : OAuth Login have unique ability to support multiple sites under one account
+*       Single Sign On (SSO) Grant Support - Standard OAuth2.0 Grants: Authorization Code, Implicit Grant, Password Grant, Refresh Token Grant (Customization Available)
+*	Advanced Role Mapping : Assign roles to users registering through OAuth Login(Single Sign On) based on rules you define.
+*	Force Authentication / Protect Complete Site : Allows user to restrict login(Single Sign On) / authorization for particular site
+*	Multiple Userinfo Endpoints Support : OAuth Login(Single Sign On) supports multiple Userinfo Endpoints.
+*	App domain specific Registration Restrictions : OAuth Login (Single Sign On) restricts registration on your site based on the person's email address domain
+*	Multi-site Support : OAuth Login(Single Sign On) have unique ability to support multiple sites under one account
 
 = ENTERPRISE VERSION FEATURES =
 
 *	All the PREMIUM Version Features
 *	Multiple OAuth / OpenID Connect Provider Support
-*   SSO Grant Support - Standard OAuth2.0 Grants : Authorization Code, Implicit Grant, Password Grant, Refresh Token Grant, Client Credential Grant (Customization Available)
+*   	Single Sign On (SSO) Grant Support - Standard OAuth2.0 Grants : Authorization Code, Implicit Grant, Password Grant, Refresh Token Grant, Client Credential Grant (Customization Available)
 *	Single Login button for Multiple Apps : It provides single login button for multiple providers
 *	Extended OAuth API support : Extend OAuth API support to extend functionality to the existing OAuth client.
 *	BuddyPress Attribute Mapping : OAuth Login allows BuddyPress Attribute Mapping.
 *	Page Restriction according to roles : Limit Access to pages based on user status or roles. This WordPress OAuth Login plugin allows you to restrict access to the content of a page or post to which only certain group of users can access.
 *	WP Hooks for Different Events : Provides support for different hooks for user defined functions
-*	Login Reports : OAuth Login creates user login and registration reports based on application used. 
+*	Single Sign On Login Reports : OAuth Login (Single Sign On) creates user login and registration reports based on application used.
 
 
 = No SSL restriction =
 *	Login to WordPress (WordPress SSO) using Google credentials (Google Apps Login) or any other app without having an SSL or HTTPS enabled site.
 
-= List of popular OAuth Providers we support =
+= List of popular OAuth Providers we support for Single Sign On (SSO) =
 *	Azure AD
 *	AWS Cognito
-*   WHMCS
-*   Zoho
-*   Ping Federate (Ping / Ping Identity)
+*   	WHMCS
+*   	Zoho
+*   	Ping Federate (Ping / Ping Identity)
 *	Slack
 *	Discord
 *	HR Answerlink / Support center
 *	WSO2
 *	Wechat
 *	Weibo
-*   LinkedIn
+*   	LinkedIn
 *	Gitlab
 *	Shibboleth
 *	Blizzard (Formerly Battle.net)
@@ -109,21 +109,21 @@ Example. If you have all your Users/Customers/Members/Employees stored on 1 site
 *	Meetup
 *	Eve Online
 *	Gluu Server
-*   WSO2
+*   	WSO2
 *	NetIQ
 * 	Centrify
-*   Shibboleth
-*   Azure B2C
-*   Egnyte
-*   Twitter
-*   OpenAM
-*   Azure B2C
-*   Basecamp
-*   Steam
-*   Webflow
+*   	Shibboleth
+*   	Azure B2C
+*   	Egnyte
+*   	Twitter
+*   	OpenAM
+*   	Azure B2C
+*   	Basecamp
+*   	Steam
+*   	Webflow
 
 
-= List of popular OpenID Connect (OIDC) Providers we support =
+= List of popular OpenID Connect (OIDC) Providers we support for Single Sign On (SSO) =
 *	Amazon
 *	Salesforce
 *	PayPal
@@ -134,19 +134,19 @@ Example. If you have all your Users/Customers/Members/Employees stored on 1 site
 *	Yahoo
 *	ADFS
 *	Gigya
-*   Swiss-RX-Login (Swiss RX Login)
-*   Azure AD
-*   Azure B2C
+*   	Swiss-RX-Login (Swiss RX Login)
+*   	Azure AD
+*   	Azure B2C
 *	PhantAuth
 * 	XING
-*   OpenAM
-*   Centrify
-*   Egnyte
+*   	OpenAM
+*   	Centrify
+*   	Egnyte
 * 	DID
 *	OpenAthens
 *	Stripe
 
-= List of grant types we support =
+= List of grant types we support for Single Sign On (SSO) =
 *   Authorization code grant
 *   Implicit grant
 *   Resource owner credentials grant (Password Grant)
@@ -154,16 +154,21 @@ Example. If you have all your Users/Customers/Members/Employees stored on 1 site
 *   Refresh token grant
 
 
-= Other OAuth / OpenID Connect Providers we support =
+= Other OAuth / OpenID Connect Providers we support for Single Sign On (SSO) =
 *	Other oauth 2.0 servers oauth single sign-on plugin support includes Office 365, Egnyte, Autodesk, Zendesk, Foursquare, Harvest, Mailchimp, Bitrix24, Spotify, Vkontakte, Huddle, Reddit, Strava, Ustream, Yammer, RunKeeper, Instagram, SoundCloud, Pocket, PayPal, Pinterest, Vimeo, Nest, Heroku, DropBox, Buffer, Box, Hubic, Deezer, DeviantArt, Delicious, Dailymotion, Bitly, Mondo, Netatmo, Amazon, FitBit, Clever, Sqaure Connect, Windows, Dash 10, Github, Invision Community, Blizzard, authlete, Keycloak, Procore, Eve Online, Laravel Passport, Nextcloud, Renren, Soundcloud, OpenAM, IdentityServer, ORCID, Diaspora, Timezynk, Idaptive, Duo Security, Rippling, Crowd, Janrain, Numina Solutions, Ubuntu Single Sign On, Apple, Ipsilon, Zoho, Itthinx, Fellowshipone, Miro, Naver etc.
 
 
-== Supported Add-ons ==
+== Supported Add-ons with Single Sign On (SSO) ==
 
-1. Page Restriction
-2. BuddyPress integrator
-3. Login Form Add-on
-4. Membership Level based Login Redirection
+We have a variety of add-ons that can be integrated with the OAuth Single Sign On plugin to improve the OAuth SSO functionality of your WordPress site.
+
+*	Page Restriction – This add-on is basically used to protect the pages/posts of your site with OAuth / OpenID Connect compliant IDP(Server) login page and also, restrict the access to pages/posts of the site based on the user roles.
+*	BuddyPress Integration – This add-on maps the attributes fetched from the OAuth / OpenID Connect compliant IdP with BuddyPress attributes.
+*	Login Form Add-On - This add-on provides Login form for OAuth/OpenID login instead of a only a button. It relies on OAuth/OpenID plugin to have Password Grant configured. It can be customized using custom CSS and JS.
+*	Membership Level based Login Redirection - This add-on allows to redirect users to custom pages based on users' membership levels after Single Sign On. Checks for the user's membership level during every login, so any update on the membership level doesn't affect redirection.
+
+= Real Time User Provisioning using SCIM =
+Provides use-provisioning from your IDP to your WordPress using SCIM standard. You can refer our <a href="https://www.miniorange.com/wordpress-miniorange-scim-user-provisioner-with-onelogin/" target="_blank"> WordPress User Provisioning using SCIM </a> plugin.
 
 = REST API Authentication =
 Secures the unauthorized access to your WordPress sites/pages using our <a href="https://wordpress.org/plugins/wp-rest-api-authentication/" target="_blank">WordPress REST API Authentication</a> plugin.
@@ -183,7 +188,7 @@ Secures the unauthorized access to your WordPress sites/pages using our <a href=
 = Once Activated =
 1. Go to `Settings-> miniOrange OAuth -> Configure OAuth`, and follow the instructions
 2. Go to `Appearance->Widgets` ,in available widgets you will find `miniOrange OAuth` widget, drag it to chosen widget area where you want it to appear.
-3. Now visit your site and y-ou will see login with widget.
+3. Now visit your site and you will see login with widget.
 
 = For Viewing Corporation, Alliance, Character Name in user profile =
 To view Corporation, Alliance and Character Name in edit user profile, copy the following code in the end of your theme's `Theme Functions(functions.php)`. You can find `Theme Functions(functions.php)` in `Appearance->Editor`.
@@ -212,9 +217,9 @@ We will help you in integrating this plugin with your other installed plugins. P
 = I verified the OTP received over my email and entering the same password that I registered with, but I am still getting the error message - "Invalid password." =
 Please write to us at <a href="mailto:info@xecurify.com" target="_blank">info@xecurify.com</a> and we will get back to you very soon.
 
-=  I would like to change our license to support the Diffrent Domain. How do we do this? =
+=  I would like to change our license to support the Different Domain. How do we do this? =
 Yes, You can now activate the license on your new domain. Write us at <a href="mailto:info@xecurify.com" target="_blank">info@xecurify.com</a> we will help you set up.
-			
+
 = Is it possible to set a different redirect URL after login & logout =
 Yes, With standard license you can set different redirect URL to redirect to after login as well as after logout.
 
@@ -233,6 +238,14 @@ Please email us at <a href="mailto:info@xecurify.com" target="_blank">info@xecur
 7. WordPress Dashboard Login
 
 == Changelog ==
+
+= 6.16.0 =
+* Automated the plugin OAuth & OIDC configuration
+* Added Setup a Call button
+* Added UI changes and minor bugfixes
+
+= 6.15.3 =
+* Minor fixes
 
 = 6.15.2 =
 * Added default apps for WordPress, Zoho, miniOrange Providers

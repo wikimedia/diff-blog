@@ -1,12 +1,12 @@
 <?php
 /**
-* Plugin Name: OAuth Single Sign On - SSO (OAuth Client)
-* Plugin URI: miniorange-login-with-eve-online-google-facebook
-* Description: This plugin allows login (Single Sign On) into WordPress with your Azure AD, AWS Cognito, Centrify, Invision Community, Slack, Discord or other custom OAuth 2.0 / OpenID Connect providers. WordPress OAuth Client plugin works with any Identity provider that conforms to the OAuth 2.0 and OpenID Connect (OIDC) 1.0 standard.
-* Version: 6.15.2
-* Author: miniOrange
-* Author URI: https://www.miniorange.com
-* License: MIT/Expat
+ * Plugin Name: OAuth Single Sign On - SSO (OAuth Client)
+ * Plugin URI: miniorange-login-with-eve-online-google-facebook
+ * Description: This plugin allows login (Single Sign On) into WordPress with your Azure AD, AWS Cognito, Centrify, Invision Community, Slack, Discord, WordPress or other custom OAuth 2.0 / OpenID Connect providers. WordPress OAuth Client plugin works with any Identity provider that conforms to the OAuth 2.0 and OpenID Connect (OIDC) 1.0 standard.
+ * Version: 6.16.0
+ * Author: miniOrange
+ * Author URI: https://www.miniorange.com
+ * License: MIT/Expat
 * License URI: https://docs.miniorange.com/mit-license
 */
 
@@ -15,7 +15,7 @@ include_once dirname( __FILE__ ) . '/class-mo-oauth-widget.php';
 require('class-customer.php');
 require plugin_dir_path( __FILE__ ) . 'includes/class-mo-oauth-client.php';
 require('views/feedback_form.php');
-require_once 'views/VisualTour/class-mocvisualtour.php';
+//require_once 'views/VisualTour/class-mocvisualtour.php';
 require('constants.php');
 
 class mo_oauth {
@@ -25,17 +25,19 @@ class mo_oauth {
 		add_action( 'admin_init',  array( $this, 'miniorange_oauth_save_settings' ) );
 		add_action( 'plugins_loaded',  array( $this, 'mo_login_widget_text_domain' ) );
 		register_deactivation_hook(__FILE__, array( $this, 'mo_oauth_deactivate'));
-		add_action( 'admin_init', array( $this, 'tutorial' ) );
+		//add_action( 'admin_init', array( $this, 'tutorial' ) );
+		register_activation_hook(__FILE__, array($this,'mo_oauth_set_cron_job'));
 		add_shortcode('mo_oauth_login', array( $this,'mo_oauth_shortcode_login'));
 		add_action( 'admin_footer', array( $this, 'mo_oauth_client_feedback_request' ) );
+		add_action( 'check_if_wp_rest_apis_are_open', array( $this, 'mo_oauth_scheduled_task' ) );
 
 	}
 
-	function tutorial($page) {
+	/*function tutorial($page) {
 		if ( class_exists( 'MOCVisualTour' ) ) {
 			$tour = new MOCVisualTour();
 		}
-	}
+	}*/
 
 	function mo_oauth_success_message() {
 		$class = "error";
@@ -52,7 +54,36 @@ class mo_oauth {
 		$message = get_option('message');
 		echo "<div class='" . $class . "'><p>" . $message . "</p></div>";
 	}
+	/*
+		*   Custom Intervals
+		*	Name             dispname                Interval
+		*   three_minutes    Every Three minutes	 3  * MINUTE_IN_SECONDS (3 * 60)
+		*   five_minutes     Every Five minutes	     5  * MINUTE_IN_SECONDS (5 * 60)
+		*   ten_minutes      Every Ten minutes	     10 * MINUTE_IN_SECONDS (10 * 60)
+		*   three_days     	 Every Three days	     3  * 24 * 60 * MINUTE_IN_SECONDS
+		*   five_days      	 Every Five days	     5  * 24 * 60 * MINUTE_IN_SECONDS
+		*
+		*
+		*   Default Intervals
+		*   Name         dispname        Interval (in sec)
+		*   hourly       Once Hourly	 3600 (1 hour)
+		*   twicedaily   Twice Daily	 43200 (12 hours)
+		*   daily        Once Daily	     86400 (1 day) 
+		*   weekly       Once Weekly	 604800 (1 week) 
+	*/
 
+	public function mo_oauth_set_cron_job()
+	{
+		
+		//add_filter( 'cron_schedules', array($this,'add_cron_interval'));// uncomment this for custom intervals
+		
+		if (!wp_next_scheduled('check_if_wp_rest_apis_are_open')) {
+			
+			//$custom_interval=apply_filters('cron_schedules',array('three_minutes'));//uncomment this for custom interval		
+      		wp_schedule_event( time()+604800, 'weekly', 'check_if_wp_rest_apis_are_open' );// update timestamp and name according to interval
+ 		}
+
+	}
 	public function mo_oauth_deactivate() {
 		delete_option('host_name');
 		delete_option('new_registration');
@@ -65,7 +96,80 @@ class mo_oauth {
 		delete_option('message');
 		delete_option('mo_oauth_registration_status');
 		delete_option('mo_oauth_client_show_mo_server_message');
+		wp_clear_scheduled_hook( 'check_if_wp_rest_apis_are_open' );
 	}
+
+
+		function add_cron_interval( $schedules ) { 
+		
+		if(isset($schedules['three_minutes']))
+		{
+    		$schedules['three_minutes'] = array(
+        	'interval' => 3 * MINUTE_IN_SECONDS,
+        	'display'  => esc_html__( 'Every Three minutes' ), );
+		}else if(isset($schedules['five_minutes']))
+		{
+    		$schedules['five_minutes'] = array(
+        	'interval' => 5 * MINUTE_IN_SECONDS,
+        	'display'  => esc_html__( 'Every Five minutes' ), );
+		}else if(isset($schedules['ten_minutes']))
+		{
+    		$schedules['ten_minutes'] = array(
+        	'interval' => 10 * MINUTE_IN_SECONDS,
+        	'display'  => esc_html__( 'Every Ten minutes' ), );
+		}else if(isset($schedules['three_days']))
+		{
+    		$schedules['three_days'] = array(
+        	'interval' => 3 * 24 * 60 * MINUTE_IN_SECONDS,
+        	'display'  => esc_html__( 'Every Three days' ), );
+		}else if(isset($schedules['five_days']))
+		{
+    		$schedules['five_days'] = array(
+        	'interval' => 5 * 24 * 60 * MINUTE_IN_SECONDS,
+        	'display'  => esc_html__( 'Every Five days' ), );
+		}
+		
+    return $schedules;
+}
+
+	function mo_oauth_scheduled_task() {    
+    	//error_log("seems to get here on ".date('m/d/Y H:i:s', time()));
+    	$url=site_url()."/wp-json/wp/v2/posts";
+    	$response = wp_remote_get($url, array(
+			'method' => 'GET',
+			'timeout' => 45,
+			'redirection' => 5,
+			'httpversion' => 1.0,
+			'blocking' => true,
+			'headers' => array(),
+			'cookies' => array(),
+			'sslverify' => false,
+		));
+    	
+    	//error_log(print_r($response,TRUE));
+    	if(is_wp_error( $response ))
+    	{
+    		if(is_object($response))
+    			error_log(print_r($response->errors,TRUE));
+    		return;
+    	}
+    	$code=wp_remote_retrieve_response_code($response);
+    	//error_log($code);
+    	if(isset($code) && $code=='200')
+    	{
+    		//error_log($response['body']);
+    		
+    		if(isset($response))
+    		{
+    			update_option( 'mo_oauth_client_show_rest_api_message', true);	
+    			//error_log("option set mo_oauth_client_show_rest_api_message=".get_option("mo_oauth_client_show_rest_api_message"));			
+    		}
+    		
+    	}		
+    	
+    	
+  }
+
 
 	function mo_login_widget_text_domain(){
 		load_plugin_textdomain( 'flw', FALSE, basename( dirname( __FILE__ ) ) . '/languages' );
@@ -92,6 +196,12 @@ class mo_oauth {
 
 		if ( isset( $_POST['option'] ) and sanitize_text_field( wp_unslash( $_POST['option'] ) ) == "mo_oauth_client_mo_server_message" && isset( $_REQUEST['mo_oauth_mo_server_message_form_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['mo_oauth_mo_server_message_form_field'] ) ), 'mo_oauth_mo_server_message_form' )) {
 			update_option( 'mo_oauth_client_show_mo_server_message', 1 );
+			return;
+		}
+		if ( isset( $_POST['option'] ) and sanitize_text_field( wp_unslash( $_POST['option'] ) ) == "mo_oauth_client_rest_api_message" && isset( $_REQUEST['mo_oauth_client_rest_api_form_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['mo_oauth_client_rest_api_form_field'] ) ), 'mo_oauth_client_rest_api_form' )) {
+			
+			delete_option('mo_oauth_client_show_rest_api_message');
+			wp_clear_scheduled_hook( 'check_if_wp_rest_apis_are_open' );
 			return;
 		}
 
@@ -146,7 +256,7 @@ class mo_oauth {
 
 				if( strcmp( $password, $confirmPassword) == 0 ) {
 					update_option( 'password', $password );
-					$customer = new Customer();
+					$customer = new Mo_OAuth_Client_Customer();
 					$email=get_option('mo_oauth_admin_email');
 					$content = json_decode($customer->check_customer(), true);
 					if( strcasecmp( $content['status'], 'CUSTOMER_NOT_FOUND') == 0 ){
@@ -193,7 +303,7 @@ class mo_oauth {
 					$otp_token = stripslashes( $_POST['mo_oauth_otp_token'] );
 				}
 
-				$customer = new Customer();
+				$customer = new Mo_OAuth_Client_Customer();
 				$content = json_decode($customer->validate_otp_token($_SESSION['mo_oauth_transactionId'], $otp_token ),true);
 				if(strcasecmp($content['status'], 'SUCCESS') == 0) {
 					$this->create_customer();
@@ -224,7 +334,7 @@ class mo_oauth {
 
 				update_option( 'mo_oauth_admin_email', $email );
 				update_option( 'password', $password );
-				$customer = new Customer();
+				$customer = new Mo_OAuth_Client_Customer();
 				$content = $customer->get_customer_key();
 				$customerKey = json_decode( $content, true );
 				if( json_last_error() == JSON_ERROR_NONE ) {
@@ -253,45 +363,46 @@ class mo_oauth {
 					update_option( 'message', 'Please enter valid Client ID and Client Secret.');
 					$this->mo_oauth_show_error_message();
 					return;
-				} else{
-					$callback_url = stripslashes( $_POST['mo_oauth_callback_url'] );
-					$scope = stripslashes( $_POST['mo_oauth_scope'] );
-					$clientid = stripslashes( trim( $_POST['mo_oauth_client_id'] ) );
-					$clientsecret = stripslashes( trim( $_POST['mo_oauth_client_secret'] ) );
-					$appname = stripslashes( $_POST['mo_oauth_custom_app_name'] );
-					$ssoprotocol = stripslashes( $_POST['mo_oauth_app_type'] );
-					$selectedapp = stripslashes( $_POST['mo_oauth_app_name'] );
-					$send_headers = isset($_POST['mo_oauth_authorization_header']) ? sanitize_post($_POST['mo_oauth_authorization_header']) : "0";
-					$send_body = isset($_POST['mo_oauth_body']) ? sanitize_post($_POST['mo_oauth_body']) : "0";
-					$show_on_login_page = isset($_POST['mo_oauth_show_on_login_page']) ? (int)filter_var( $_POST['mo_oauth_show_on_login_page'], FILTER_SANITIZE_NUMBER_INT) : 0;
+				} else {
+                    // $callback_url = stripslashes($_POST['mo_oauth_callback_url']);
+                    $callback_url=site_url();
+                    $scope = isset($_POST['mo_oauth_scope']) ? stripslashes($_POST['mo_oauth_scope']) : "";
+                    $clientid = stripslashes(trim($_POST['mo_oauth_client_id']));
+                    $clientsecret = stripslashes(trim($_POST['mo_oauth_client_secret']));
+                    $appname = rtrim(stripslashes( $_POST['mo_oauth_custom_app_name'] ), " ");
+                    $ssoprotocol = stripslashes($_POST['mo_oauth_app_type']);
+                    $selectedapp = stripslashes($_POST['mo_oauth_app_name']);
+                    $send_headers = isset($_POST['mo_oauth_authorization_header']) ? sanitize_post($_POST['mo_oauth_authorization_header']) : "0";
+                    $send_body = isset($_POST['mo_oauth_body']) ? sanitize_post($_POST['mo_oauth_body']) : "0";
+                    $show_on_login_page = isset($_POST['mo_oauth_show_on_login_page']) ? (int)filter_var($_POST['mo_oauth_show_on_login_page'], FILTER_SANITIZE_NUMBER_INT) : 0;
 
-					if( $selectedapp == 'wso2' ) {
-						update_option( 'mo_oauth_client_custom_token_endpoint_no_csecret', true );
-					}
+                    if ($selectedapp == 'wso2') {
+                        update_option('mo_oauth_client_custom_token_endpoint_no_csecret', true);
+                    }
 
-					if(get_option('mo_oauth_apps_list'))
-						$appslist = get_option('mo_oauth_apps_list');
-					else
-						$appslist = array();
+                    if (get_option('mo_oauth_apps_list'))
+                        $appslist = get_option('mo_oauth_apps_list');
+                    else
+                        $appslist = array();
 
 					$email_attr = "";
 					$name_attr = "";
-					$newapp = array();
+                    $newapp = array();
 
-					$isupdate = false;
-					foreach($appslist as $key => $currentapp){
-						if($appname == $key){
-							$newapp = $currentapp;
-							$isupdate = true;
-							break;
-						}
-					}
+                    $isupdate = false;
+                    foreach ($appslist as $key => $currentapp) {
+                        if ($appname == $key) {
+                            $newapp = $currentapp;
+                            $isupdate = true;
+                            break;
+                        }
+                    }
 
-					if(!$isupdate && sizeof($appslist)>0){
-						update_option( 'message', 'You can only add 1 application with free version. Upgrade to enterprise version if you want to add more applications.');
-						$this->mo_oauth_show_error_message();
-						return;
-					}
+                    if (!$isupdate && sizeof($appslist) > 0) {
+                        update_option('message', 'You can only add 1 application with free version. Upgrade to enterprise version if you want to add more applications.');
+                        $this->mo_oauth_show_error_message();
+                        return;
+                    }
 
 
 					$newapp['clientid'] = $clientid;
@@ -299,40 +410,80 @@ class mo_oauth {
 					$newapp['scope'] = $scope;
 					$newapp['redirecturi'] = $callback_url;
 					$newapp['ssoprotocol'] = $ssoprotocol;
-					$newapp['send_headers'] = $send_headers;
-					$newapp['send_body'] = $send_body;
-					$newapp['show_on_login_page'] = $show_on_login_page;
+                    $newapp['send_headers'] = $send_headers;
+                    $newapp['send_body'] = $send_body;
+                    $newapp['show_on_login_page'] = $show_on_login_page;
+                    if (isset($_POST['mo_oauth_app_type'])) {
+                        $newapp['apptype'] = stripslashes($_POST['mo_oauth_app_type']);
+                    } else {
+                        $newapp['apptype'] = stripslashes('oauth');
+                    }
 
-					$authorizeurl = stripslashes($_POST['mo_oauth_authorizeurl']);
-					$accesstokenurl = stripslashes($_POST['mo_oauth_accesstokenurl']);
-					$appname = stripslashes( $_POST['mo_oauth_custom_app_name'] );
-					//$email_attr = stripslashes( $_POST['mo_oauth_email_attr'] );
-					//$name_attr = stripslashes( $_POST['mo_oauth_name_attr'] );
+                    if(isset($_POST['mo_oauth_app_name'])) {
+                        $newapp['appId'] = stripslashes( $_POST['mo_oauth_app_name'] );
+                    }
 
-					$newapp['authorizeurl'] = $authorizeurl;
-					$newapp['accesstokenurl'] = $accesstokenurl;
-					if(isset($_POST['mo_oauth_app_type'])) {
-						$newapp['apptype'] = stripslashes( $_POST['mo_oauth_app_type'] );
-					} else {
-						$newapp['apptype'] = stripslashes( 'oauth' );
-					}
+                    if (isset($_POST['mo_oauth_discovery']) && $_POST['mo_oauth_discovery'] != "") {
+                        add_option('mo_existing_app_flow', true);
+                        $discovery_endpoint = $_POST['mo_oauth_discovery'];
+                        if(isset($_POST['mo_oauth_provider_domain'])) {
+                            $domain = stripslashes(rtrim($_POST['mo_oauth_provider_domain'],"/"));
+                            $discovery_endpoint = str_replace("domain", $domain, $discovery_endpoint);
+                            $newapp['domain'] = $domain;
+                        } elseif(isset($_POST['mo_oauth_provider_tenant'])) {
+                            $tenant = stripslashes(trim($_POST['mo_oauth_provider_tenant']));
+                            $discovery_endpoint = str_replace("tenant", $tenant, $discovery_endpoint);
+                            $newapp['tenant'] = $tenant;
+                        }
 
-					if($newapp['apptype'] == 'oauth' || isset($_POST['mo_oauth_resourceownerdetailsurl'])) {
-						$resourceownerdetailsurl = stripslashes($_POST['mo_oauth_resourceownerdetailsurl']);
-						$newapp['resourceownerdetailsurl'] = $resourceownerdetailsurl;
-					}
-					if(isset($_POST['mo_oauth_app_name'])) {
-						$newapp['appId'] = stripslashes( $_POST['mo_oauth_app_name'] );
-					}
+                        if(isset($_POST['mo_oauth_provider_policy'])) {
+                            $policy = stripslashes(trim($_POST['mo_oauth_provider_policy']));
+                            $discovery_endpoint = str_replace("policy", $policy, $discovery_endpoint);
+                            $newapp['policy'] = $policy;
+                        } elseif(isset($_POST['mo_oauth_provider_realm'])) {
+                            $realm = stripslashes(trim($_POST['mo_oauth_provider_realm']));
+                            $discovery_endpoint = str_replace("realm", $realm, $discovery_endpoint);
+                            $newapp['realm'] = $realm;
+                        }
+
+                        if(is_url($discovery_endpoint) ){
+                            update_option('mo_oc_valid_discovery_ep', true);
+                            $provider_se = json_decode(file_get_contents($discovery_endpoint));
+                            $scope1 = isset($provider_se->scopes_supported[0])?$provider_se->scopes_supported[0] : "";
+                            $scope2 = isset($provider_se->scopes_supported[1])?$provider_se->scopes_supported[1] : "";
+                            $pscope = stripslashes($scope1)." ".stripslashes($scope2);
+                            $newapp['scope'] = (isset($scope) && $scope != "" ) ? $scope : $pscope;
+                            $newapp['authorizeurl'] = isset($provider_se->authorization_endpoint) ? stripslashes($provider_se->authorization_endpoint) : "";
+                            $newapp['accesstokenurl'] = isset($provider_se->token_endpoint) ? stripslashes($provider_se->token_endpoint ) : "";
+                            $newapp['resourceownerdetailsurl'] = isset($provider_se->userinfo_endpoint) ? stripslashes($provider_se->userinfo_endpoint) : "";
+                            $newapp['discovery'] = $discovery_endpoint;
+                        }
+                    } else {
+                        update_option('mo_oc_valid_discovery_ep', true);
+                        $newapp['authorizeurl'] = isset($_POST['mo_oauth_authorizeurl']) ? stripslashes($_POST['mo_oauth_authorizeurl']) : "";
+                        $newapp['accesstokenurl'] = isset($_POST['mo_oauth_accesstokenurl']) ? stripslashes($_POST['mo_oauth_accesstokenurl']) : "";
+                        $newapp['resourceownerdetailsurl'] = isset($_POST['mo_oauth_resourceownerdetailsurl']) ? stripslashes($_POST['mo_oauth_resourceownerdetailsurl']) : "";
+                    }
+
 					$appslist[$appname] = $newapp;
 					update_option('mo_oauth_apps_list', $appslist);
-					update_option( 'message', 'Your settings are saved successfully.' );
-					$this->mo_oauth_show_success_message();
-					if( ! isset( $newapp['username_attr'] ) || empty( $newapp['username_attr'] ) ) {
-						$notices = get_option( 'mo_oauth_client_notice_messages' );
-						$notices['attr_mapp_notice'] = 'Please map the attributes by going to the <a href="' . admin_url( 'admin.php?page=mo_oauth_settings&tab=attributemapping' ) .'">Attribute/Role Mapping</a> Tab.';
-						update_option( 'mo_oauth_client_notice_messages', $notices );
-					}
+
+					if( isset($_POST['mo_oauth_discovery']) && !is_url($discovery_endpoint) )
+                    {
+                        update_option( 'message', '<strong>Error: </strong> Incorrect Domain/Tenant/Policy/Realm. Please configure with correct values and try again.' );
+                        update_option( 'mo_discovery_validation', 'invalid');
+                        $this->mo_oauth_show_error_message();
+                    } else {
+                        update_option('message', 'Your settings are saved successfully.');
+                        update_option('mo_discovery_validation', 'valid');
+                        $this->mo_oauth_show_success_message();
+//                    }
+                        if (!isset($newapp['username_attr']) || empty($newapp['username_attr']) && get_option('mo_oauth_apps_list') ) {
+                            $notices = get_option('mo_oauth_client_notice_messages');
+                            $notices['attr_mapp_notice'] = 'Please map the attributes by going to the <a href="' . admin_url('admin.php?page=mo_oauth_settings&tab=attributemapping') . '">Attribute/Role Mapping</a> Tab.';
+                            update_option('mo_oauth_client_notice_messages', $notices);
+                        }
+                    }
 				}
 			}
 		}
@@ -350,9 +501,9 @@ class mo_oauth {
 		else if( isset( $_POST['option'] ) and sanitize_text_field( wp_unslash( $_POST['option'] ) ) == "mo_oauth_attribute_mapping"  && isset( $_REQUEST['mo_oauth_attr_role_mapping_form_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['mo_oauth_attr_role_mapping_form_field'] ) ), 'mo_oauth_attr_role_mapping_form' )) {
 
 			if( current_user_can( 'administrator' ) ) {
-				$appname = stripslashes( $_POST['mo_oauth_app_name'] );
-				$username_attr = stripslashes( $_POST['mo_oauth_username_attr'] );
-				$attr_option = stripslashes( $_POST['mo_attr_option'] );
+				$appname = isset($_POST['mo_oauth_app_name']) ? stripslashes( $_POST['mo_oauth_app_name'] ) : '';
+				$username_attr = isset($_POST['mo_oauth_username_attr']) ? stripslashes( $_POST['mo_oauth_username_attr'] ) : '';
+				$attr_option = isset($_POST['mo_attr_option']) ? stripslashes( $_POST['mo_attr_option'] ) : '';
 				if ( empty( $appname ) ) {
 					update_option( 'message', 'You MUST configure an application before you map attributes.' );
 					$this->mo_oauth_show_error_message();
@@ -390,7 +541,7 @@ class mo_oauth {
 				$phone = stripslashes( $_POST['mo_oauth_contact_us_phone'] );
 				$query = stripslashes( $_POST['mo_oauth_contact_us_query'] );
 				$send_config = isset( $_POST['mo_oauth_send_plugin_config'] );
-				$customer = new Customer();
+				$customer = new Mo_OAuth_Client_Customer();
 				if ( $this->mo_oauth_check_empty_or_null( $email ) || $this->mo_oauth_check_empty_or_null( $query ) ) {
 					update_option('message', 'Please fill up Email and Query fields to submit your query.');
 					$this->mo_oauth_show_error_message();
@@ -406,6 +557,66 @@ class mo_oauth {
 						update_option('message', 'Thanks for getting in touch! We shall get back to you shortly.');
 						$this->mo_oauth_show_success_message();
 					}
+				}
+			}	
+		} 
+		elseif( isset( $_POST['option'] ) and sanitize_text_field( wp_unslash( $_POST['option'] ) ) == "mo_oauth_setup_call_option" && isset( $_REQUEST['mo_oauth_setup_call_form_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['mo_oauth_setup_call_form_field'] ) ), 'mo_oauth_setup_call_form' )) {
+
+			if( current_user_can( 'administrator' ) ) {
+				if( mo_oauth_is_curl_installed() == 0 ) {
+					return $this->mo_oauth_show_curl_error();
+				}
+				$email = sanitize_email( $_POST['mo_oauth_setup_call_email'] );
+				$issue = stripslashes( $_POST['mo_oauth_setup_call_issue'] );
+				$desc = stripslashes( $_POST['mo_oauth_setup_call_desc'] );
+				$call_date = $_POST['mo_oauth_setup_call_date'];
+				$time_diff = $_POST['mo_oauth_time_diff'];
+				$call_time = $_POST['mo_oauth_setup_call_time'];
+				$customer = new Mo_OAuth_Client_Customer();
+				if ( $this->mo_oauth_check_empty_or_null( $email ) || $this->mo_oauth_check_empty_or_null( $issue ) || $this->mo_oauth_check_empty_or_null( $call_date ) || $this->mo_oauth_check_empty_or_null( $time_diff ) || $this->mo_oauth_check_empty_or_null( $call_time ) ) {
+					update_option('message', 'Please fill up all the required fields.');
+					$this->mo_oauth_show_error_message();
+				} else {
+					// Please modify the $time_diff to test for the different timezones.
+					// Note - $time_diff for IST is -330
+					// $time_diff = 240;
+					$hrs = floor(abs($time_diff)/60);
+					$mins = fmod(abs($time_diff),60);
+					if($mins == 0) {
+						$mins = '00';
+					}
+					$sign = '+';
+					if($time_diff > 0) {
+						$sign = '-';
+					}
+					$call_time_zone = 'UTC '.$sign.' '.$hrs.':'.$mins;
+					$call_date = date("jS F",strtotime($call_date));
+					
+					//code to convert local time to IST
+					$local_hrs = explode(':', $call_time)[0];
+					$local_mins = explode(':', $call_time)[1];
+					$call_time_mins = ($local_hrs * 60) + $local_mins;
+					$ist_time = $call_time_mins + $time_diff + 330;
+					$ist_date = $call_date;
+					if($ist_time > 1440) {
+						$ist_time = fmod($ist_time,1440);
+						$ist_date = date("jS F", strtotime("1 day", strtotime($call_date)));
+					}
+					else if($ist_time < 0) {
+						$ist_time = 1440 + $ist_time;
+						$ist_date = date("jS F", strtotime("-1 day", strtotime($call_date)));
+					}
+					$ist_hrs = floor($ist_time/60);
+					$ist_hrs = sprintf("%02d", $ist_hrs);
+
+					$ist_mins = fmod($ist_time,60);
+					$ist_mins = sprintf("%02d", $ist_mins);
+					
+					$ist_time = $ist_hrs.':'.$ist_mins;
+
+					$customer->submit_setup_call( $email, $issue, $desc, $call_date, $call_time_zone, $call_time, $ist_date, $ist_time);
+					update_option('message', 'Thanks for getting in touch! We shall get back to you shortly.');
+					$this->mo_oauth_show_success_message();
 				}
 			}	
 		} 
@@ -459,7 +670,7 @@ class mo_oauth {
 						$output = json_decode($output);
 	
 						if(is_null($output)){
-							$customer = new Customer();
+							$customer = new Mo_OAuth_Client_Customer();
 							$customer->mo_oauth_send_demo_alert( $email, $demo_plan, $query, "WP OAuth Client On Demo Request - ".$email );
 							update_option('message', "Thanks Thanks for getting in touch! We shall get back to you shortly.");
 							$this->mo_oauth_show_success_message();
@@ -473,7 +684,7 @@ class mo_oauth {
 							}
 						}
 					} else {
-						$customer = new Customer();
+						$customer = new Mo_OAuth_Client_Customer();
 						$customer->mo_oauth_send_demo_alert( $email, $demo_plan, $query, "WP OAuth Client On Demo Request - ".$email );
 						update_option('message', "Thanks Thanks for getting in touch! We shall get back to you shortly.");
 						$this->mo_oauth_show_success_message();
@@ -487,7 +698,7 @@ class mo_oauth {
 				return $this->mo_oauth_show_curl_error();
 			}
 
-			$customer = new Customer();
+			$customer = new Mo_OAuth_Client_Customer();
 			$email=get_option('mo_oauth_admin_email');
 			$content = json_decode($customer->send_otp_token($email, ''), true);
 			if(strcasecmp($content['status'], 'SUCCESS') == 0) {
@@ -506,7 +717,7 @@ class mo_oauth {
 					return $this->mo_oauth_show_curl_error();
 				}
 				$phone = get_option('mo_oauth_admin_phone');
-				$customer = new Customer();
+				$customer = new Mo_OAuth_Client_Customer();
 				$content = json_decode($customer->send_otp_token('', $phone, FALSE, TRUE), true);
 				if (strcasecmp($content ['status'], 'SUCCESS') == 0) {
 					update_option('message', ' A one time passcode is sent to ' . $phone . ' again. Please check if you got the otp and enter it here.');
@@ -529,7 +740,7 @@ class mo_oauth {
 
 					$email = get_option('mo_oauth_admin_email');
 
-					$customer = new Customer();
+					$customer = new Mo_OAuth_Client_Customer();
 					$content = json_decode($customer->mo_oauth_forgot_password($email), true);
 
 					if (strcasecmp($content ['status'], 'SUCCESS') == 0) {
@@ -552,7 +763,7 @@ class mo_oauth {
 				$phone = str_replace(' ', '', $phone);
 				$phone = str_replace('-', '', $phone);
 				update_option('mo_oauth_admin_phone', $phone);
-				$customer = new Customer();
+				$customer = new Mo_OAuth_Client_Customer();
 				$content=json_decode( $customer->send_otp_token('', $phone, FALSE, TRUE),true);
 				if($content) {
 					update_option( 'message', ' A one time passcode is sent to ' . get_site_option('mo_oauth_admin_phone') . '. Please enter the otp here to verify your email.');
@@ -590,7 +801,7 @@ class mo_oauth {
 					}
 					$phone = get_option( 'mo_oauth_admin_phone' );
 					//only reason
-					$feedback_reasons = new Customer();
+					$feedback_reasons = new Mo_OAuth_Client_Customer();
 					$submited = json_decode( $feedback_reasons->mo_oauth_send_email_alert( $email, $phone, $message, "Feedback: WordPress ".MO_OAUTH_PLUGIN_NAME ), true );
 					deactivate_plugins( __FILE__ );
 					update_option( 'message', 'Thank you for the feedback.' );
@@ -606,7 +817,7 @@ class mo_oauth {
 	}
 
 	function mo_oauth_get_current_customer(){
-		$customer = new Customer();
+		$customer = new Mo_OAuth_Client_Customer();
 		$content = $customer->get_customer_key();
 		$customerKey = json_decode( $content, true );
 		if( json_last_error() == JSON_ERROR_NONE ) {
@@ -627,7 +838,7 @@ class mo_oauth {
 	}
 
 	function create_customer(){
-		$customer = new Customer();
+		$customer = new Mo_OAuth_Client_Customer();
 		$customerKey = json_decode( $customer->create_customer(), true );
 		if( strcasecmp( $customerKey['status'], 'CUSTOMER_USERNAME_ALREADY_EXISTS') == 0 ) {
 			$this->mo_oauth_get_current_customer();
@@ -698,6 +909,17 @@ class mo_oauth {
 			return 0;
 		}
 	}
+
+function is_url($url){
+    $response = array();
+    //Check if URL is empty
+    if(!empty($url)) {
+        $response = @get_headers($url) ? @get_headers($url) : array();
+    }
+    $array_op =  preg_grep('/(.*)200 OK/', $response );
+    return (bool)(sizeof($array_op ) > 0);
+
+}
 
 new mo_oauth;
 function run_mo_oauth_client() { $plugin = new Mo_OAuth_Client();$plugin->run();}

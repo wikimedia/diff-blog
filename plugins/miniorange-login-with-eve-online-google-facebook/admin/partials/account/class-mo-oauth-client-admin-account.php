@@ -9,18 +9,18 @@ class Mo_OAuth_Client_Admin_Account {
 	
 	public static function register() {
 		if(!mo_oauth_is_customer_registered()){
-			register_ui();
+			mo_oauth_client_register_ui();
 		} else {
-			show_customer_info();
+			mo_oauth_client_show_customer_info();
 		}
 	}
 	
 	public static function verify_password() {
-		verify_password_ui();
+		mo_oauth_client_verify_password_ui();
 	}
 	
 	public static function otp_verification() {
-		otp_verification_ui();
+		mo_oauth_client_otp_verification_ui();
 	}
 
 }

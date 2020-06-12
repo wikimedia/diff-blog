@@ -21,3 +21,60 @@ function mo_oauth_client_default_apps_input_filter() {
         }
     }
 }
+
+function updateFormAction() {
+	var appName = jQuery("#mo_oauth_custom_app_name").val();
+	var action = jQuery("#form-common").attr("action");
+	action = moUpdateUrlParam(action, "app", appName);
+	jQuery("#form-common").attr("action", action);
+}
+
+function moUpdateUrlParam(url, param, updatedValue) {
+	var parts = url.split("?");
+	var base = parts[0];
+	var params = moGetParams(parts[1]);
+	params["action"] = "update";
+	params[param] = updatedValue;
+	var params = moParseQS(params);
+	console.log(params);
+	return base + "?" + params;
+}
+
+function moParseQS(params) {
+	var qs = "";
+	count = Object.keys(params).length;
+	Object.keys(params).forEach(function(key) {
+		count--;
+		qs += key + "=" + params[key];
+		if(count > 0) {
+			qs += "&";
+		}
+	});
+	return qs;
+}
+
+function moGetParams(queryString) {
+	var pairs = queryString.split("&");
+	var newPairs = {};
+	for(var i = 0; i < pairs.length; i++) {
+		var items = pairs[i].split("=");
+		newPairs[items[0]] = items[1];
+	}
+	return newPairs;
+}
+
+function outFunc() {
+	var tooltip = document.getElementById("moTooltip");
+	tooltip.innerHTML = "Copy to clipboard";
+}
+
+function copyUrl() {
+    var copyText = document.getElementById("callbackurl");
+	outFunc();
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); 
+	document.execCommand("copy");
+	var tooltip = document.getElementById("moTooltip");
+	tooltip.innerHTML = "Copied";
+    // document.getElementById("redirect_url_change_warning").style.display = "none";
+} 

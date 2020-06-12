@@ -27,7 +27,7 @@ class Mo_OAuth_Client_Admin_Attribute_Mapping {
                             <th class="mo-side-table-th">Attribute Name</th>
                             <th class="mo-side-table-th">Attribute Value</th>
                         </tr>
-                        <?php testattrmappingconfig( '', self::$attributes, 'mo-side-table-' ); ?>
+                        <?php mo_oauth_client_testattrmappingconfig( '', self::$attributes, 'mo-side-table-' ); ?>
                     </table>
                 </div>
             </div>

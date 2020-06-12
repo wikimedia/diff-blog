@@ -11,27 +11,27 @@ require('partials/attr-role-mapping.php');
 class Mo_OAuth_Client_Admin_Apps {
 	
 	public static function sign_in_settings() {
-		sign_in_settings_ui();
+		mo_oauth_client_sign_in_settings_ui();
 	}
 	
 	public static function customization() {
-		customization_ui();
+		mo_oauth_client_customization_ui();
 	}
 	
 	public static function applist() {
-		applist_page();
+		mo_oauth_client_applist_page();
 	}
 	
 	public static function add_app() {
-		add_app_page();
+		mo_oauth_client_add_app_page();
 	}
 	
 	public static function update_app($appname) {
-		update_app_page($appname);
+		mo_oauth_client_update_app_page($appname);
 	}
 
 	public static function attribute_role_mapping() {
-		attribite_role_mapping_ui();
+		mo_oauth_client_attribite_role_mapping_ui();
 	}
 }
 

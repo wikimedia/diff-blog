@@ -49,7 +49,7 @@ class Mo_Oauth_Widget extends WP_Widget {
 	}
 
 	function mo_oauth_start_session() {
-		if( ! session_id() && ! is_ajax_request() && ! is_rest_api_call() ) {
+		if( ! session_id() && ! mo_oauth_client_is_ajax_request() && ! mo_oauth_client_is_rest_api_call() ) {
 			session_start();
 		}
 
@@ -313,20 +313,20 @@ function mo_oauth_update_email_to_username_attr($currentappname){
 						echo '<div style="font-family:Calibri;padding:0 3%;">';
 						echo '<style>table{border-collapse:collapse;}th {background-color: #eee; text-align: center; padding: 8px; border-width:1px; border-style:solid; border-color:#212121;}tr:nth-child(odd) {background-color: #f2f2f2;} td{padding:8px;border-width:1px; border-style:solid; border-color:#212121;}</style>';
 						echo "<h2>Test Configuration</h2><table><tr><th>Attribute Name</th><th>Attribute Value</th></tr>";
-						testattrmappingconfig("",$resourceOwner);
+						mo_oauth_client_testattrmappingconfig("",$resourceOwner);
 						echo "</table>";
 						echo '<div style="padding: 10px;"></div><input style="padding:1%;width:100px;background: #0091CD none repeat scroll 0% 0%;cursor: pointer;font-size:15px;border-width: 1px;border-style: solid;border-radius: 3px;white-space: nowrap;box-sizing: border-box;border-color: #0073AA;box-shadow: 0px 1px 0px rgba(120, 200, 230, 0.6) inset;color: #FFF;"type="button" value="Done" onClick="self.close();">&emsp;<a href="#" onclick="window.opener.proceedToAttributeMapping();self.close();">Proceed To Attribute/Role Mapping</a></div>';
 						exit();
 					}
 
 					if(!empty($username_attr))
-						$username = getnestedattribute($resourceOwner, $username_attr); //$resourceOwner[$email_attr];
+						$username = mo_oauth_client_getnestedattribute($resourceOwner, $username_attr); //$resourceOwner[$email_attr];
 
 					if(empty($username) || "" === $username)
 						exit('Username not received. Check your <b>Attribute Mapping</b> configuration.');
 					
 					if ( ! is_string( $username ) ) {
-						wp_die( 'Username is not a string. It is ' . get_proper_prefix( gettype( $username ) ) );
+						wp_die( 'Username is not a string. It is ' . mo_oauth_client_get_proper_prefix( gettype( $username ) ) );
 					}
 
 					$user = get_user_by("login",$username);
@@ -463,14 +463,14 @@ function mo_oauth_update_email_to_username_attr($currentappname){
 		return mo_oauth_jkhuiysuayhbw($temp_var);
 	}
 
-	function testattrmappingconfig($nestedprefix, $resourceOwnerDetails, $tr_class_prefix = ''){
+	function mo_oauth_client_testattrmappingconfig($nestedprefix, $resourceOwnerDetails, $tr_class_prefix = ''){
 		$tr = '<tr class="' . $tr_class_prefix . 'tr">';
 		$td = '<td class="' . $tr_class_prefix . 'td">';
 		foreach($resourceOwnerDetails as $key => $resource){
 			if(is_array($resource) || is_object($resource)){
 				if(!empty($nestedprefix))
 					$nestedprefix .= ".";
-				testattrmappingconfig($nestedprefix.$key,$resource, $tr_class_prefix);
+				mo_oauth_client_testattrmappingconfig($nestedprefix.$key,$resource, $tr_class_prefix);
 				$nestedprefix = rtrim($nestedprefix,".");
 			} else {
 				echo $tr . $td;
@@ -481,7 +481,7 @@ function mo_oauth_update_email_to_username_attr($currentappname){
 		}
 	}
 
-	function getnestedattribute($resource, $key){
+	function mo_oauth_client_getnestedattribute($resource, $key){
 		//echo $key." : ";print_r($resource); echo "<br>";
 		if($key==="")
 			return "";
@@ -490,7 +490,7 @@ function mo_oauth_update_email_to_username_attr($currentappname){
 		if(sizeof($keys)>1){
 			$current_key = $keys[0];
 			if(isset($resource[$current_key]))
-				return getnestedattribute($resource[$current_key], str_replace($current_key.".","",$key));
+				return mo_oauth_client_getnestedattribute($resource[$current_key], str_replace($current_key.".","",$key));
 		} else {
 			$current_key = $keys[0];
 			if(isset($resource[$current_key])) {
@@ -517,7 +517,7 @@ function mo_oauth_update_email_to_username_attr($currentappname){
 		return $user;
 	}
 
-	function get_proper_prefix( $type ) {
+	function mo_oauth_client_get_proper_prefix( $type ) {
 		$letter = substr( $type, 0, 1 );
 		$vowels = [ 'a', 'e', 'i', 'o', 'u' ];
 		return ( in_array( $letter, $vowels ) ) ? ' an ' . $type : ' a ' . $type;
@@ -527,11 +527,11 @@ function mo_oauth_update_email_to_username_attr($currentappname){
 		register_widget('mo_oauth_widget');
 	}
 
-	function is_ajax_request() {
+	function mo_oauth_client_is_ajax_request() {
 		return defined('DOING_AJAX') && DOING_AJAX;
 	}
 
-	function is_rest_api_call() {
+	function mo_oauth_client_is_rest_api_call() {
 		return strpos( $_SERVER['REQUEST_URI'], '/wp-json' ) == false;
 	}
 

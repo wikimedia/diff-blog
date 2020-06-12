@@ -1,5 +1,5 @@
 <?php
-	function verify_password_ui() { ?>
+	function mo_oauth_client_verify_password_ui() { ?>
 		<form name="f" method="post" action="">
 			<?php wp_nonce_field('mo_oauth_verify_password_form','mo_oauth_verify_password_form_field'); ?>
 			<input type="hidden" name="option" value="mo_oauth_verify_customer" />

@@ -15,5 +15,6 @@ delete_option('message');
 delete_option('new_registration');
 delete_option('mo_oauth_registration_status');
 delete_option('mo_oauth_client_show_mo_server_message');
+delete_option('mo_existing_app_flow');
 
 ?>
