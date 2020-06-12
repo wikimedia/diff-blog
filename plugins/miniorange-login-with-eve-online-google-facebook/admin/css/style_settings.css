@@ -43,6 +43,9 @@
 .mo_table_td_checkbox {
 	padding-left: 10px;
 }
+.mo_callsetup_table_textbox {
+	width:90%;
+}
 .mo_table_textbox {
 	width:80%;
 }

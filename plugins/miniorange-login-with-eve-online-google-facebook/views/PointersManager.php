@@ -1,6 +1,6 @@
 <?php
 
-class PointersManager {
+class Mo_OAuth_Client_PointersManager {
 
     private $pfile;
     private $version;

@@ -1,6 +1,6 @@
 <?php
 
-function register_ui() {
+function mo_oauth_client_register_ui() {
 	update_option ( 'new_registration', 'true' );
 	$current_user = wp_get_current_user();
 	?>
@@ -94,7 +94,7 @@ function register_ui() {
 		<?php
 }
 
-function show_customer_info() {
+function mo_oauth_client_show_customer_info() {
 	?>
 	<div class="mo_table_layout" >
 		<h2>Thank you for registering with miniOrange.</h2>

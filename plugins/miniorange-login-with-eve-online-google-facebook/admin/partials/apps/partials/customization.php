@@ -1,6 +1,6 @@
 <?php
 
- function customization_ui(){	
+ function mo_oauth_client_customization_ui(){	
 	?>
 	
 	<div id="mo_oauth_customiztion" class="mo_table_layout">
