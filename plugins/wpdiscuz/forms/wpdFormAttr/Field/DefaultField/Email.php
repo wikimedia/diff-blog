@@ -52,8 +52,8 @@ class Email extends Field {
                 }
                 $required = $args["required"] ? "required='required'" : "";
                 ?>
-                <input id="<?php echo esc_attr($name); ?>" value="" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field" type="email" name="<?php echo esc_attr($name); ?>" placeholder="<?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?>" />
-                <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
+                <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" value="" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field" type="email" name="<?php echo esc_attr($name); ?>" placeholder="<?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?>" />
+                <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
                 <?php if ($args["desc"]) { ?>
                     <div class="wpd-field-desc"><i class="far fa-question-circle"></i><span><?php echo esc_html($args["desc"]); ?></span></div>
                         <?php } ?>

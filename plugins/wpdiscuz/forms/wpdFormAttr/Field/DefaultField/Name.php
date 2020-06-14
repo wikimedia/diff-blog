@@ -52,8 +52,8 @@ class Name extends Field {
                 }
                 $required = $args["required"] ? "required='required'" : "";
                 ?>
-                <input id="<?php echo esc_attr($name); ?>" value="" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field" type="text" name="<?php echo esc_attr($name); ?>" placeholder="<?php echo esc_attr__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?>" maxlength="<?php echo esc_attr($options->form["commenterNameMaxLength"]); ?>" <?php echo $nameLengthRange; ?> title="">
-                <label for="<?php echo esc_attr($name); ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
+                <input id="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" value="" <?php echo $required; ?> class="<?php echo esc_attr($name); ?> wpd-field" type="text" name="<?php echo esc_attr($name); ?>" placeholder="<?php echo esc_attr__($args["name"], "wpdiscuz") . (!empty($args["required"]) ? "*" : ""); ?>" maxlength="<?php echo esc_attr($options->form["commenterNameMaxLength"]); ?>" <?php echo $nameLengthRange; ?> title="">
+                <label for="<?php echo esc_attr($name) . "-" . $uniqueId; ?>" class="wpdlb"><?php echo esc_attr($args["name"]) . (!empty($args["required"]) ? "*" : ""); ?></label>
                 <?php if ($args["desc"]) { ?>
                     <div class="wpd-field-desc"><i class="far fa-question-circle"></i><span><?php echo esc_html($args["desc"]); ?></span></div>
                         <?php } ?>

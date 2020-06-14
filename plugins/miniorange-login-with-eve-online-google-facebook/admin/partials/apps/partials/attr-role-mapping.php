@@ -1,13 +1,13 @@
 <?php
 
 
-function attribite_role_mapping_ui(){
+function mo_oauth_client_attribite_role_mapping_ui(){
 	$appslist = get_option('mo_oauth_apps_list');
 	$attr_name_list = get_option('mo_oauth_attr_name_list');
 	
 	if ( false !== $attr_name_list ) {
 		$temp = [];
-		$attr_name_list = dropdownattrmapping('', $attr_name_list, $temp );
+		$attr_name_list = mo_oauth_client_dropdownattrmapping('', $attr_name_list, $temp );
 	}
 	$currentapp = null;
 	$currentappname = null;
@@ -149,7 +149,8 @@ function attribite_role_mapping_ui(){
 			</tr>
 			<tr><td colspan="3"><hr></td></tr>
 			<tr><td colspan="2">
-			<h3>Map Custom Attributes <a href="admin.php?page=mo_oauth_settings&tab=licensing" target="_blank" rel="noopener noreferrer" style="font-size: x-small">[PREMIUM]</a></small></h3>
+			<h3>Map Custom Attributes <a href="admin.php?page=mo_oauth_settings&tab=licensing" target="_blank" rel="noopener noreferrer" style="font-size: x-small">[PREMIUM]</a></h3>
+			<span style="font-size:small;">[ <a href="https://developers.miniorange.com/docs/oauth/wordpress/client/custom-attribute-mapping" target="_blank">How to map Custom Attributes?</a> ]</span>
             <p>Map extra OAuth Provider attributes which you wish to be included in the user profile below</p>
 			</td><td><input disabled type="button" value="+" class="button button-primary"  /></td>
 			<td><input disabled type="button" value="-" class="button button-primary"   /></td></tr>
@@ -166,6 +167,7 @@ function attribite_role_mapping_ui(){
 
 		<div class="mo_table_layout" id="role-mapping">
 		<h3>Role Mapping <a href="admin.php?page=mo_oauth_settings&tab=licensing" target="_blank" rel="noopener noreferrer" style="font-size: x-small;">[PREMIUM]</a></small></h3>
+		<span style="font-size:small;">[ <a href="https://faq.miniorange.com/knowledgebase/map-roles-usergroup/" target="_blank">How to map Roles?</a> ]</span><br><br>
 		<b>NOTE: </b>Role will be assigned only to non-admin users (user that do NOT have Administrator privileges). You will have to manually change the role of Administrator users.<br>
 		<form id="role_mapping_form" name="f" method="post" action="">
 		<input disabled class="mo_table_textbox" required="" type="hidden"  name="mo_oauth_app_name" value="<?php echo $currentappname;?>">
@@ -219,13 +221,13 @@ function attribite_role_mapping_ui(){
 <?php
 }
 
-function dropdownattrmapping( $nestedprefix, $resource_owner_details, $temp ) {
+function mo_oauth_client_dropdownattrmapping( $nestedprefix, $resource_owner_details, $temp ) {
 	foreach ( $resource_owner_details as $key => $resource ) {
 		if ( is_array( $resource ) ) {
 			if ( ! empty( $nestedprefix ) ) {
 				$nestedprefix .= '.';
 			}
-			$temp = dropdownattrmapping( $nestedprefix . $key, $resource, $temp );
+			$temp = mo_oauth_client_dropdownattrmapping( $nestedprefix . $key, $resource, $temp );
 			$nestedprefix = rtrim($nestedprefix,".");
 		} else {
 			if ( ! empty( $nestedprefix ) ) {

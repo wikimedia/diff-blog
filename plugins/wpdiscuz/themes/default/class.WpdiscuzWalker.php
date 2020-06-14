@@ -110,7 +110,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
                         }
                     }
                 }
-                if ($socialProvider = get_user_meta($user["user"]->ID, self::WPDISCUZ_SOCIAL_PROVIDER_KEY, true)) {
+                if ($this->options->social["displayIconOnAvatar"] && ($socialProvider = get_user_meta($user["user"]->ID, self::WPDISCUZ_SOCIAL_PROVIDER_KEY, true))) {
                     $user["commentWrapClass"][] = "wpd-soc-user-" . $socialProvider;
                     if ($socialProvider == "facebook") {
                         $user["socIcon"] = "<i class='fab fa-facebook-f'></i>";

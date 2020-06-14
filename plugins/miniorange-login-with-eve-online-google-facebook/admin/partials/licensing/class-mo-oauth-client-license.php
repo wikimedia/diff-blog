@@ -209,7 +209,8 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-licensing-plan-name">Unlimited user creation<br>+<br>Advanced Attribute Mapping</div><div><br></div>
-                                <div class="moc-licensing-plan-price"><sup>$</sup>299<sup>*</sup></div>
+                                <div class="moc-licensing-plan-price"><small>[Standard]</small></div>
+                                <div class="moc-licensing-plan-price"><sup>$</sup>349<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-info text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_standard_plan')">Buy Now</button>
                             <div class="moc-licensing-plan-feature-list">
@@ -239,7 +240,8 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-licensing-plan-name">Protect site with SSO login<br>+<br>Email Domains restriction</div><div><br></div>
-                                <div class="moc-licensing-plan-price"><sup>$</sup>449<sup>*</sup></div>
+                                <div class="moc-licensing-plan-price"><small>[PREMIUM]</small></div>
+                                <div class="moc-licensing-plan-price"><sup>$</sup>499<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-info text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_premium_plan')">Buy Now</button>
                             <div class="moc-licensing-plan-feature-list">
@@ -269,7 +271,8 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body moc-lp-highlight">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-licensing-plan-name">Multiple providers support<br>+<br>Dynamic Callback URL<br>+<br>Developer Hooks</div>
-                                <div class="moc-licensing-plan-price"><sup>$</sup>499<sup>*</sup></div>
+                                <div class="moc-licensing-plan-price"><small>[ENTERPRISE]</small></div>
+                                <div class="moc-licensing-plan-price"><sup>$</sup>549<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-info text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_enterprise_plan')">Buy Now</button>
                             <div class="moc-licensing-plan-feature-list">
@@ -299,7 +302,7 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body moc-lp-highlight">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-all-inclusive-licensing-plan-name">All-Inclusive Plan<br></div>
-                                <div class="moc-licensing-plan-price"><sup>$</sup>599<sup>*</sup></div>
+                                <div class="moc-licensing-plan-price"><sup>$</sup>699<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-purple text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_all_inclusive_plan')">Buy Now</button>
                             <div class="moc-licensing-plan-feature-list">
@@ -320,7 +323,7 @@ class Mo_OAuth_Client_Admin_Licensing {
                                 </div>
                             <a class="btn btn-block btn-info text-uppercase moc-lp-buy-btn" href="mailto:info@xecurify.com" target="_blank">Contact Us</a>
                             <br>
-                            <div class="moc-licensing-plan-price"><sup>$</sup>299 +<sup>$</sup>0.0019<sup>**</sup></div>
+                            <div class="moc-licensing-plan-price"><sup>$</sup>349 +<sup>$</sup>0.0019<sup>**</sup></div>
                             <div class="moc-licensing-plan-usp">(miniOrange Cloud IDP(B2C))</div>
                             <div class="moc-licensing-plan-feature-list">
                                 <ul>
@@ -342,6 +345,7 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-licensing-plan-name">Protect site with SSO login<br>+<br>Email Domains restriction</div><div><br></div>
+                                <div class="moc-licensing-plan-price"><small>[PREMIUM]</small></div>
                                 <div class="moc-licensing-plan-price"><sup>$</sup>499<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-info text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_multisite_premium_plan')">Buy Now</button>
@@ -372,6 +376,7 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body moc-lp-highlight">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-licensing-plan-name">Multiple providers support<br>+<br>Dynamic Callback URL<br>+<br>Developer Hooks</div>
+                                <div class="moc-licensing-plan-price"><small>[ENTERPRISE]</small></div>
                                 <div class="moc-licensing-plan-price"><sup>$</sup>549<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-info text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_multisite_enterprise_plan')">Buy Now</button>
@@ -402,7 +407,8 @@ class Mo_OAuth_Client_Admin_Licensing {
                         <div class="moc-licensing-plan card-body moc-lp-highlight">
                             <div class="moc-licensing-plan-header">
                                 <div class="moc-all-inclusive-licensing-plan-name">All-Inclusive Plan<br></div>
-                                <div class="moc-licensing-plan-price"><sup>$</sup>599<sup>*</sup></div>
+                                <div class="moc-licensing-plan-price"><small><br></small></div>
+                                <div class="moc-licensing-plan-price"><sup>$</sup>699<sup>*</sup></div>
                             </div>
                             <button class="btn btn-block btn-purple text-uppercase moc-lp-buy-btn" onclick="upgradeform('wp_oauth_client_multisite_all_inclusive_plan')">Buy Now</button>
                             <div class="moc-licensing-plan-feature-list">

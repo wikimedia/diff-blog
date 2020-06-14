@@ -1,6 +1,6 @@
 <?php
 require_once('defaultapps.php');
-function applist_page() {
+function mo_oauth_client_applist_page() {
 	// tutorial();
 	?>
 	<style>
@@ -23,7 +23,7 @@ function applist_page() {
 
 		if(isset($_GET['action']) && $_GET['action']=='delete'){
 			if(isset($_GET['app'])) {
-				delete_app($_GET['app']);
+				mo_oauth_client_delete_app($_GET['app']);
 				if ($_GET['app'] === "CognitoApp") {
 					?>
 					<script>
@@ -84,7 +84,7 @@ function applist_page() {
 
 
 
-	function delete_app($appname){
+	function mo_oauth_client_delete_app($appname){
 		$appslist = get_option('mo_oauth_apps_list');
 		if(! is_array($appslist) || empty($appslist)) {
 			return;

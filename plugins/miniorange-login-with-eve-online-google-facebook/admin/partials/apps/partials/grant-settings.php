@@ -1,6 +1,6 @@
 <?php
 
-function grant_type_settings() {
+function mo_oauth_client_grant_type_settings() {
 	?>
 	</div>
 	<div class="mo_table_layout" id="mo_grant_settings" style="position: relative;">

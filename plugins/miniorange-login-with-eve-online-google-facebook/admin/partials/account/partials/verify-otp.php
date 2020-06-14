@@ -1,6 +1,6 @@
 <?php
 	
-	function otp_verification_ui(){ ?>
+	function mo_oauth_client_otp_verification_ui(){ ?>
 		<form name="f" method="post" id="otp_form" action="">
 			<?php wp_nonce_field('mo_oauth_verify_otp_form','mo_oauth_verify_otp_form_field'); ?>
 			<input type="hidden" name="option" value="mo_oauth_validate_otp" />

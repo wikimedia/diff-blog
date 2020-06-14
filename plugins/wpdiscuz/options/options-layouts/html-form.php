@@ -16,6 +16,26 @@ if (!defined("ABSPATH")) {
 <!-- Option end -->
 
 <!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="commentFormView">
+    <div class="wpd-opt-name">
+        <label for="commentFormView"><?php echo esc_html($setting["options"]["commentFormView"]["label"]) ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["commentFormView"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <div class="wpd-switch-field">
+            <input type="radio" value="collapsed" <?php checked("collapsed" === $this->form["commentFormView"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[commentFormView]" id="collapsedForm" />
+            <label for="collapsedForm" style="min-width:60px;"><?php esc_html_e("collapsed", "wpdiscuz"); ?></label>
+            <input type="radio" value="expanded" <?php checked("expanded" === $this->form["commentFormView"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[commentFormView]" id="expandedForm" />
+            <label for="expandedForm" style="min-width:60px;"><?php esc_html_e("expanded", "wpdiscuz"); ?></label>
+        </div>
+    </div>
+    <div class="wpd-opt-doc">
+        <a href="<?php echo esc_url_raw($setting["options"]["commentFormView"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+    </div>
+</div>
+<!-- Option end -->
+
+<!-- Option start -->
 <div class="wpd-opt-row" data-wpd-opt="enableDropAnimation">
     <div class="wpd-opt-name">
         <label for="enableDropAnimation"><?php echo esc_html($setting["options"]["enableDropAnimation"]["label"]) ?></label>
@@ -90,7 +110,7 @@ if (!defined("ABSPATH")) {
             <input type="hidden" id="wpdeb_sr-button" value="<?php echo esc_attr($this->form["sourcecodeButton"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[sourcecodeButton]" />
             <div id="wpdeb_sp" title="<?php esc_attr_e("Spoiler", "wpdiscuz"); ?>" class="<?php echo $this->form["spoilerButton"] ? "wpd-enabled" : "wpd-disabled"; ?> wpd-editor-button" style="background-position: -330px 0; width: 33px;"></div>
             <input type="hidden" id="wpdeb_sp-button" value="<?php echo esc_attr($this->form["spoilerButton"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[spoilerButton]" />
-            
+
             <div id="wpdeb_disable" class="wpd-editor-disable" style="color: #eb5454;display:<?php echo $this->showEditorToolbar() ? "block" : "none"; ?>;"><?php esc_html_e("Disable formatting toolbar", "wpdiscuz"); ?></div>
             <div id="wpdeb_enable" class="wpd-editor-disable" style="color: #41ABAB;display:<?php echo $this->showEditorToolbar() ? "none" : "block"; ?>;"><?php esc_html_e("Enable formatting toolbar", "wpdiscuz"); ?></div>
 

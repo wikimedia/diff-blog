@@ -18,7 +18,7 @@
 
 **/
 
-class Customer {
+class Mo_OAuth_Client_Customer {
 	
 	public $email;
 	public $phone;
@@ -214,6 +214,66 @@ class Customer {
 		}
 		
 		return true;
+	}
+
+	function submit_setup_call( $email, $issue, $desc, $call_date, $call_time_zone, $call_time, $ist_date, $ist_time ) {
+		if(!$this->check_internet_connection())
+			return;
+		$url = get_option( 'host_name' ) . '/moas/api/notify/send';
+		
+		$plugin_version     = get_plugin_data( __DIR__ . DIRECTORY_SEPARATOR . 'mo_oauth_settings.php' )['Version'];
+
+		$customerKey = $this->defaultCustomerKey;
+		$apiKey =  $this->defaultApiKey;
+
+		$currentTimeInMillis = self::get_timestamp();
+		$stringToHash 		= $customerKey .  $currentTimeInMillis . $apiKey;
+		$hashValue 			= hash("sha512", $stringToHash);
+		$fromEmail 			= $email;
+		$subject            = 'Call Request: WordPress '.MO_OAUTH_PLUGIN_NAME.' '.$plugin_version;
+		$site_url=site_url();
+
+		global $user;
+		$user         = wp_get_current_user();
+
+		$content='<div>Hello,<br><br>First Name : '.$user->user_firstname.'<br><br>Last Name : '.$user->user_lastname.'<br><br>Company : <a href="'.$_SERVER['SERVER_NAME'].'" target="_blank" >'.$_SERVER['SERVER_NAME'].'</a><br><br>Email : <a href="mailto:'.$fromEmail.'" target="_blank">'.$fromEmail.'</a><br><br>Issue : '.$issue.'<br><br>Description : '.$desc.'<br><br>Preferred time ('.$call_time_zone.') : '.$call_time.', '.$call_date.'<br><br>IST time : '.$ist_time.', '.$ist_date.'</div>';
+
+		$fields = array(
+			'customerKey'	=> $customerKey,
+			'sendEmail' 	=> true,
+			'email' 		=> array(
+				'customerKey' 	=> $customerKey,
+				'fromEmail' 	=> $fromEmail,
+				'bccEmail' 		=> 'oauthsupport@xecurify.com',
+				'fromName' 		=> 'miniOrange',
+				'toEmail' 		=> 'oauthsupport@xecurify.com',
+				'toName' 		=> 'oauthsupport@xecurify.com',
+				'subject' 		=> $subject,
+				'content' 		=> $content
+			),
+		);
+		$field_string = json_encode($fields);
+		$headers = array( 'Content-Type' => 'application/json');
+		$headers['Customer-Key'] = $customerKey;
+		$headers['Timestamp'] = $currentTimeInMillis;
+		$headers['Authorization'] = $hashValue;
+		$args = array(
+			'method' =>'POST',
+			'body' => $field_string,
+			'timeout' => '5',
+			'redirection' => '5',
+			'httpversion' => '1.0',
+			'blocking' => true,
+			'headers' => $headers,
+
+		);
+		
+		$response = wp_remote_post( $url, $args );
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo "Something went wrong: $error_message";
+			exit();
+		}
 	}
 	
 	function send_otp_token($email, $phone, $sendToEmail = TRUE, $sendToPhone = FALSE){

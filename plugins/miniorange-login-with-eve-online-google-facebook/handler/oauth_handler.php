@@ -16,7 +16,7 @@ class Mo_OAuth_Hanlder {
 	}
 
 	function getToken($tokenendpoint, $grant_type, $clientid, $clientsecret, $code, $redirect_url, $send_headers, $send_body){
-
+		
 		$clientsecret = html_entity_decode( $clientsecret );
 		$body = array(
 				'grant_type'    => $grant_type,

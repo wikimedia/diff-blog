@@ -42,6 +42,8 @@ function mo_oauth_client_main_menu() {
 	Mo_OAuth_Client_Admin_Menu::show_menu($currenttab);
 	echo '<div id="mo_oauth_settings">';
 		Mo_OAuth_Client_Admin_Menu::show_idp_link($currenttab);
+		if(get_option('mo_oauth_client_show_rest_api_message'))
+			Mo_OAuth_Client_Admin_Menu::show_rest_api_secure_message();
 		echo '
 		<div class="miniorange_container">';
 
@@ -82,7 +84,7 @@ class Mo_OAuth_Client_Admin_Menu {
 				<div id="moc-lp-imp-btns" style="float:right;">
 					<a class="btn btn-outline-danger" target="_blank" href="https://plugins.miniorange.com/wordpress-oauth-client">Full Feature List</a>&emsp;<a class="btn btn-outline-primary" onclick="getlicensekeys()" href="#">Get License Keys</a>
 				</div>
-			<?php } else { ?>
+			<?php } /*else { ?>
 				<div class="buts" style="float:right;">
 					<div id="restart_tour_button" class="mo-otp-help-button static" style="margin-right:10px;z-index:10">
 							<a class="button button-primary button-large">
@@ -91,7 +93,7 @@ class Mo_OAuth_Client_Admin_Menu {
 							</a>
 					</div>
 			</div>
-			<?php } ?>
+			<?php }*/ ?>
         </div>
         <style>
             .add-new-hover:hover{
@@ -115,7 +117,28 @@ class Mo_OAuth_Client_Admin_Menu {
 		<?php
 
 	}
-
+public static function show_rest_api_secure_message()
+	{
+		if ( get_option( 'mo_oauth_client_show_rest_api_message' )) {
+            ?>
+            <form name="f" method="post" action="" id="mo_oauth_client_rest_api_form">
+            	<?php wp_nonce_field('mo_oauth_client_rest_api_form','mo_oauth_client_rest_api_form_field'); ?>
+                <input type="hidden" name="option" value="mo_oauth_client_rest_api_message"/>
+                <div class="notice notice-info"style="padding-right: 38px;position: relative;border-left-color:red;"><h4><i class="fa fa-exclamation-triangle" style="font-size:20px;color:red;"></i>&nbsp;&nbsp;
+                   <b>Security Alert: </b> Looks like your WP REST APIs are not protected from public access. WP REST APIs should be protected and allowed only for authorized access. You can <a href="https://wordpress.org/plugins/wp-rest-api-authentication/" target="_blank">click here</a> to know how it can be handled.</h4>
+                    <button type="button" class="notice-dismiss" id="mo_oauth_client_rest_api_button"><span class="screen-reader-text">Dismiss this notice.</span>
+                    </button>
+                </div>
+            </form>
+            <script>
+                jQuery("#mo_oauth_client_rest_api_button").click(function () {
+                    jQuery("#mo_oauth_client_rest_api_form").submit();
+                });
+            </script>
+			<?php
+		}
+//		self::mo_oauth_client_check_action_messages();
+	}
 
 	public static function show_idp_link($currenttab) {
 	if ((! get_option( 'mo_oauth_client_show_mo_server_message' )) ) {
@@ -142,6 +165,7 @@ class Mo_OAuth_Client_Admin_Menu {
 
 	public static function mo_oauth_client_check_action_messages() {
 		$notices = get_option( 'mo_oauth_client_notice_messages' );
+
 		if( empty( $notices ) ) {
 			return;
 		}
