@@ -1,0 +1,104 @@
+// basics for buttons
+button,
+.btn,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.home .nav-links a,
+.archive .nav-links a {
+	border: 0.08rem solid transparent;
+	border-radius: 0.125rem;
+	font-size: 1rem;
+	line-height: 1;
+	padding: 0.3em 0.8em 0.4em;
+	transition: $transition;
+
+	&:hover {
+		border-color: $color__border-button-hover;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	&:active,
+	&:focus {
+		border-color: $color__border-button-focus;
+		text-decoration: none;
+	}
+}
+
+// basic button color dark
+button,
+.btn-dark,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.home .nav-links a,
+.archive .nav-links a {
+	background: $base10;
+	color: $base100;
+
+	&:visited {
+		color: $base100;
+	}
+
+	&:hover {
+		background: $base20;
+		color: $base100;
+	}
+
+	&:active,
+	&:focus {
+		color: $base100;
+	}
+}
+
+// basic button color light
+.btn-light,
+.site-footer button,
+.site-footer input[type="submit"],
+.main-navigation button,
+.main-navigation input[type="button"] {
+	background: $base80;
+	color: $base10;
+	border-color: $base10;
+
+	&:visited {
+		color: $base10;
+	}
+
+	&:hover {
+		background: $base70;
+		color: $base0;
+		border-color: $base0;
+	}
+
+	&:active,
+	&:focus {
+		color: $base20;
+		border-color: $base0;
+	}
+}
+
+// accent button
+.btn-accent {
+	background: $accent50;
+	color: $base100;
+
+	&:visited {
+		color: $base100;
+	}
+
+	&:hover {
+		background: $accent30;
+		color: $base100;
+	}
+
+	&:active,
+	&:focus {
+		color: $base100;
+	}
+}
+
+.btn-big {
+	font-size: $font__size-h3;
+}
