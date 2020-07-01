@@ -1,0 +1,7 @@
+.flag-inner input[type=text], .flag-inner input[type=email]{height: 30px;width: 95%;padding:3px 5px;}
+.flag-inner input[type=number]{height: 30px;padding:3px 5px;width:80px;}
+.flag-inner textarea{padding:10px;width: 95%;margin-left:10px;} 
+.report_remove{width: 30px;height: 30px; background:url("../images/minus-sign.png") center no-repeat; background-color: white; border: 0 !important;}
+.report_remove:hover{opacity: 0.8;cursor: pointer;}
+.flag-inner p.wpd-info{font-size:13px; line-height:15px; color:#999999; width:95%; padding:0px; margin:0px; font-style:italic; margin-top:5px;}
+.flag-inner label{ vertical-align:top; font-size:14px;}

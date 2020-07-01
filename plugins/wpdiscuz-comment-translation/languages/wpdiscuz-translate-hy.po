@@ -1,0 +1,414 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-04-12 00:35+0400\n"
+"PO-Revision-Date: 2016-04-12 00:49+0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: includes/gvt-api-manager.php:99
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+
+#: includes/gvt-api-manager.php:103
+msgid "An unknown error occurred"
+msgstr ""
+
+#: includes/gvt-api-manager.php:148
+msgid "Activate plugin"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:6
+msgid "Translation"
+msgstr "Թարգմանություն"
+
+#: options/html-options.php:2
+msgid "Comment Translation"
+msgstr "Քոմենթի Թարգմանում"
+
+#: options/html-options.php:7
+msgid "Free &amp; Paid"
+msgstr ""
+
+#: options/html-options.php:12
+msgid "Only Paid - Not avaiable yet"
+msgstr ""
+
+#: options/html-options.php:20
+msgid "API key: "
+msgstr "API բանալի"
+
+#: options/html-options.php:24
+msgid "Test"
+msgstr "Փորձարկում"
+
+#: options/html-options.php:30
+msgid ""
+"Instruction to get <span style=\"color:#FF0000;\">Y</span>andex.Translate "
+"API key"
+msgstr ""
+
+#: options/html-options.php:32
+msgid "Step 1"
+msgstr "Քայլ 1"
+
+#: options/html-options.php:37
+msgid "Step 2"
+msgstr "Քայլ 2"
+
+#: options/html-options.php:42
+msgid "Step 3"
+msgstr "Քայլ 2"
+
+#: options/html-options.php:54
+msgid "Background and Colors"
+msgstr "Հետնապլան և գույներ"
+
+#: options/html-options.php:59
+msgid "Translation Form Background Color"
+msgstr "Թարգմանություն ֆորմի Ֆոնային գույնը"
+
+#: options/html-options.php:62 options/html-options.php:70
+#: options/html-options.php:78
+msgid "Example: #00FF00"
+msgstr "Օրինակ․  #00FF00"
+
+#: options/html-options.php:67
+msgid "Translation Form Border Color"
+msgstr "Թարգմանություն ֆորմի  եզրագծի  գույնը"
+
+#: options/html-options.php:75
+msgid "Translation Languages' Bottom Line Color"
+msgstr "Թարգմանվող լեզուների կոճակի եզրագծի գույնը"
+
+#: options/html-options.php:84
+msgid "Front-end Phrases"
+msgstr ""
+
+#: options/html-options.php:89 options/html-options.php:92
+#: options/phrases.php:5
+msgid "Translate"
+msgstr "Թարգմանել"
+
+#: options/html-options.php:97 options/html-options.php:100
+#: options/phrases.php:6
+msgid "Show all"
+msgstr "Ցուցադրել բորորը"
+
+#: options/html-options.php:105 options/html-options.php:108
+#: options/phrases.php:7
+msgid "Show all languages"
+msgstr "Ցուցադրել բորոր լեզուները"
+
+#: options/html-options.php:113 options/html-options.php:116
+#: options/phrases.php:8
+msgid "Original"
+msgstr "Իրականը"
+
+#: options/html-options.php:121 options/html-options.php:124
+#: options/phrases.php:9
+msgid "Translate into"
+msgstr "Թարգմանել"
+
+#: options/html-options.php:129 options/html-options.php:132
+#: options/phrases.php:10
+msgid "Can't translate"
+msgstr "Չի Թարգմանվում"
+
+#: options/html-options.php:137 options/html-options.php:140
+#: options/phrases.php:11
+msgid "Can't translate this comment"
+msgstr "Քոմենթը չի Թարգմանվում"
+
+#: options/html-options.php:145 options/html-options.php:148
+#: options/phrases.php:12
+msgid "The original comment in"
+msgstr "Քոմենթի բնորինակը արդեն"
+
+#: options/html-options.php:153
+msgid "Reset Translate Options"
+msgstr "Վերահաստատել կարգավորումները"
+
+#: options/lang-list.php:5
+msgid "Albanian"
+msgstr "Ալբաներեն"
+
+#: options/lang-list.php:6
+msgid "English"
+msgstr "Անգլերեն"
+
+#: options/lang-list.php:7
+msgid "Arabic"
+msgstr "Արաբերեն"
+
+#: options/lang-list.php:8
+msgid "Armenian"
+msgstr "Հայերեն"
+
+#: options/lang-list.php:9
+msgid "Azerbaijan"
+msgstr "Ադրբեջաներեն"
+
+#: options/lang-list.php:10
+msgid "Afrikaans"
+msgstr "Աֆրիկերեն"
+
+#: options/lang-list.php:11
+msgid "Basque"
+msgstr "Բասկովերեն"
+
+#: options/lang-list.php:12
+msgid "Belarusian"
+msgstr "Բելառուսերեն"
+
+#: options/lang-list.php:13
+msgid "Bulgarian"
+msgstr "Բուլղարերեն"
+
+#: options/lang-list.php:14
+msgid "Bosnian"
+msgstr "Բոսնիերեն"
+
+#: options/lang-list.php:15
+msgid "Welsh"
+msgstr "Ուելսերեն"
+
+#: options/lang-list.php:16
+msgid "Vietnamese"
+msgstr "Վիետնամերեն"
+
+#: options/lang-list.php:17
+msgid "Hungarian"
+msgstr "Հունգարերեն"
+
+#: options/lang-list.php:18
+msgid "Haitian(Creole)"
+msgstr "Հայիթերեն"
+
+#: options/lang-list.php:19
+msgid "Galician"
+msgstr "Գալիցերեն"
+
+#: options/lang-list.php:20
+msgid "Dutch"
+msgstr "Դանիերեն"
+
+#: options/lang-list.php:21
+msgid "Greek"
+msgstr "Հունարեն"
+
+#: options/lang-list.php:22
+msgid "Georgian"
+msgstr "Վրացերեն"
+
+#: options/lang-list.php:23
+msgid "Danish"
+msgstr "Դանիերեն"
+
+#: options/lang-list.php:24
+msgid "Yiddish"
+msgstr "Իդիշերեն"
+
+#: options/lang-list.php:25
+msgid "Indonesian"
+msgstr "Ինդոնեզերեն"
+
+#: options/lang-list.php:26
+msgid "Irish"
+msgstr "Իռլանդերեն"
+
+#: options/lang-list.php:27
+msgid "Italian"
+msgstr "Իտալերեն"
+
+#: options/lang-list.php:28
+msgid "Icelandic"
+msgstr "Իսլանդերեն"
+
+#: options/lang-list.php:29
+msgid "Spanish"
+msgstr "Իսպաներեն"
+
+#: options/lang-list.php:30
+msgid "Kazakh"
+msgstr "Ղազախերեն"
+
+#: options/lang-list.php:31
+msgid "Catalan"
+msgstr "Կատալոներեն"
+
+#: options/lang-list.php:32
+msgid "Kyrgyz"
+msgstr "Ղրղզերեն"
+
+#: options/lang-list.php:33
+msgid "Chinese"
+msgstr "Չինարեն"
+
+#: options/lang-list.php:34
+msgid "Korean"
+msgstr "Կորեերեն"
+
+#: options/lang-list.php:35
+msgid "Latin"
+msgstr "Լատիներեն"
+
+#: options/lang-list.php:36
+msgid "Latvian"
+msgstr "Լատվիերեն"
+
+#: options/lang-list.php:37
+msgid "Lithuanian"
+msgstr "Լիտվերեն"
+
+#: options/lang-list.php:38
+msgid "Malagasy"
+msgstr "Մադագասկաերեն"
+
+#: options/lang-list.php:39
+msgid "Malay"
+msgstr "Մալայերեն"
+
+#: options/lang-list.php:40
+msgid "Maltese"
+msgstr "Մալթերեն"
+
+#: options/lang-list.php:41
+msgid "Macedonian"
+msgstr "Մակեդոներեն"
+
+#: options/lang-list.php:42
+msgid "Mongolian"
+msgstr "Մոնղոլերեն"
+
+#: options/lang-list.php:43
+msgid "German"
+msgstr "Գերմաներեն"
+
+#: options/lang-list.php:44
+msgid "Norwegian"
+msgstr "Նորվեգերեն"
+
+#: options/lang-list.php:45
+msgid "Persian"
+msgstr "Պարսկերեն"
+
+#: options/lang-list.php:46
+msgid "Polish"
+msgstr "Լեհերեն"
+
+#: options/lang-list.php:47
+msgid "Portuguese"
+msgstr "Պորտուգալերեն"
+
+#: options/lang-list.php:48
+msgid "Romanian"
+msgstr "Ռումիներեն"
+
+#: options/lang-list.php:49
+msgid "Russian"
+msgstr "Ռուսերեն"
+
+#: options/lang-list.php:50
+msgid "Serbian"
+msgstr "Սերբերեն"
+
+#: options/lang-list.php:51
+msgid "Slovakian"
+msgstr "Սլովակերեն"
+
+#: options/lang-list.php:52
+msgid "Slovenian"
+msgstr "Սլովեներեն"
+
+#: options/lang-list.php:53
+msgid "Swahili"
+msgstr "Սուահիլի"
+
+#: options/lang-list.php:54
+msgid "Tajik"
+msgstr "Տաջիկերեն"
+
+#: options/lang-list.php:55
+msgid "Thai"
+msgstr "Թայերեն"
+
+#: options/lang-list.php:56
+msgid "Tagalog"
+msgstr "Տագալերեն"
+
+#: options/lang-list.php:57
+msgid "Tatar"
+msgstr "Թաթարերեն"
+
+#: options/lang-list.php:58
+msgid "Turkish"
+msgstr "Թուրքերեն"
+
+#: options/lang-list.php:59
+msgid "Uzbek"
+msgstr "Ուզբեկերեն"
+
+#: options/lang-list.php:60
+msgid "Ukrainian"
+msgstr "Ուկրաիներեն"
+
+#: options/lang-list.php:61
+msgid "Finish"
+msgstr "Ֆիներեն"
+
+#: options/lang-list.php:62
+msgid "French"
+msgstr "Ֆրանսերեն"
+
+#: options/lang-list.php:63
+msgid "Croatian"
+msgstr "Խորվաթերեն"
+
+#: options/lang-list.php:64
+msgid "Czech"
+msgstr "Չեխերեն"
+
+#: options/lang-list.php:65
+msgid "Swedish"
+msgstr "Շվեդերեն"
+
+#: options/lang-list.php:66
+msgid "Estonian"
+msgstr "Էստոներեն"
+
+#: options/lang-list.php:67
+msgid "Japanese"
+msgstr "Ճապոներեն"
+
+#. Plugin Name of the plugin/theme
+msgid "wpDiscuz Comment Translation"
+msgstr "Քոմենթը չի Թարգմանվում"
+
+#. Plugin URI of the plugin/theme
+msgid "http://gvectors.com/product/wpdiscuz-comment-translation/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Smart, intuitive, fast and powerful tool to surprise your website visitors "
+"and comment readers. This is an unique function on your comment area which "
+"will translate comment content to 60 different languages."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "gVectors Team (Tigran Muradyan and Contributors)"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://gvectors.com/"
+msgstr ""
