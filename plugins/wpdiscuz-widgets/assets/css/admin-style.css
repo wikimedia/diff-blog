@@ -1,0 +1,103 @@
+.op{
+    opacity: .2;
+}
+#wpdiscuz-widget-admin-panel .last_int_fields_box input{
+    margin: 10px 5px;
+}
+.wpdiscuz-widget-votes-style-label img{
+    padding: 3px;
+    box-sizing: border-box;
+    width: 200px;
+    box-shadow: 2px 2px 6px #bbb;
+}
+#wpdiscuz-widget-admin-panel .wpd_datepicker_wrapper{
+    display: flex;
+    flex-flow: row wrap;
+}
+#wpdiscuz-widget-admin-panel .wpd_datepicker_wrapper > label{
+    flex: 1 1 100px;
+}
+#wpdiscuz-widget-admin-panel .wpd_datepicker_wrapper input{
+    width: 95%;
+}
+.wpdiscuz-widget-votes-style-label input:checked+img{
+    border: 2px solid #888;
+    box-shadow: none;
+}
+.wpdiscuz-widget-votes-style-label input[type=radio]{
+    display: none;
+}
+.votes-color-value{
+    display: inline-block;
+    vertical-align: top !important;
+    line-height: 14px;
+    border: 1px solid #aaa !important;
+    padding: 7px 8px;
+    border-radius: 0 6px 6px 0;
+    margin-left: 0px !important; 
+    height: 30px;
+    text-align: center;
+}
+.widget-option-description{
+    font-size:13px; 
+    color:#999999 !important; 
+    width:80%; 
+    font-weight: 400;
+    padding-left:0px; 
+    margin-left:0px;
+}
+.wpdiscuz-widget-options-votes-bgcolor-inputes-container{
+    height: 26px;
+}
+.wpdiscuz-widget-options-votes-bgcolor-inputes-container .votes-color-value{
+    width: 90px;
+}
+.tabs-check-group{
+    max-width: 275px;
+    display: flex;
+    justify-content: space-between;
+}
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel{
+    max-height: 450px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    padding: 10px 0px 5px 0;
+}
+i.descript{
+    color: #bbb;
+    font-size: 11px;
+}
+
+.wpdiscuz-addons-options td, .wpdiscuz-addons-options th{ font-weight:normal; }
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel p{ padding:0px; margin:0px; }
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel .last_int_fields_box{ padding:0px; margin:5px 0px; }
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel .last_int_fields_box select{ font-size:13px; padding:2px; }
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel input[type="number"]{ padding:2px 2px 2px 5px; margin-top:8px; font-size:12px; }
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel h4{ padding:0px 0px 0px 0px; margin:0px; font-size:1.1em;}    
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel h4 span{ font-weight:normal!important; }  
+#wpdiscuz-widget-admin-panel.wpdiscuz-widget-admin-panel label{ display:inline-block; padding:2px 0px 5px 0px;} 
+
+#wpdiscuz-widget-admin-panel .enable-tab-displaying{
+    margin-left: 5px!important;
+}
+#wpdiscuz-widget-admin-panel .wpd_datepicker_wrapper label{
+    position: relative;
+}
+#wpdiscuz-widget-admin-panel .wpd_datepicker_wrapper .fa-info-circle{
+    position: absolute;
+    bottom: 40%;
+    right: 5%;
+}
+#wpdiscuz-widget-admin-panel .tab_section_header{
+    padding-top: 25px;
+    padding-bottom: 5px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+#wpdiscuz-widget-admin-panel .tab_section_header label{
+    text-transform: uppercase;
+    font-size: 11px;
+}
+

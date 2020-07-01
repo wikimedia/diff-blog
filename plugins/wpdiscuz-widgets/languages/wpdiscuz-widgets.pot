@@ -1,0 +1,236 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: wpDiscuz - Widgets\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-31 11:11+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: wpdiscuz-widgets-class.php:12
+msgid "wpDiscuz Widgets"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:12
+msgid "A Widget displays tabs about comments statistic"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:341
+msgid "Most voted comments"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:348
+msgid "Most active comment threads"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:355
+msgid "Most commented posts"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:362
+msgid "Most active commenters"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:369
+msgid "Recent comments"
+msgstr ""
+
+#: wpDiscuzWidgets.php:57
+msgid "wpDiscuz Widgets requires wpDiscuz to be installed!"
+msgstr ""
+
+#: wpDiscuzWidgets.php:193
+msgid "Widgets"
+msgstr ""
+
+#: wpDiscuzWidgets.php:201
+msgid "Enable post title shortening"
+msgstr ""
+
+#: wpDiscuzWidgets.php:203
+msgid "If this option is enabled all titles will be cut with below defined number of words"
+msgstr ""
+
+#: wpDiscuzWidgets.php:208
+msgid "number of words in shortened titles"
+msgstr ""
+
+#: wpDiscuzWidgets.php:215
+msgid "Enable content shortening"
+msgstr ""
+
+#: wpDiscuzWidgets.php:217
+msgid "This option enables post and comment excerpts shortening with below defined number of words"
+msgstr ""
+
+#: wpDiscuzWidgets.php:222
+msgid "number of words in shortened excerpts"
+msgstr ""
+
+#: wpDiscuzWidgets.php:229
+msgid "Most Voted Comments Style"
+msgstr ""
+
+#: wpDiscuzWidgets.php:236
+msgid "Widget Background Color"
+msgstr ""
+
+#: wpDiscuzWidgets.php:243
+msgid "Items Icon Background Color"
+msgstr ""
+
+#: wpDiscuzWidgets.php:250
+msgid "Items Icon/Avatar Circle"
+msgstr ""
+
+#: wpDiscuzWidgets.php:257
+msgid "Tab Icons Color"
+msgstr ""
+
+#: wpDiscuzWidgets.php:264
+msgid "Widget max width"
+msgstr ""
+
+#: wpDiscuzWidgets.php:271
+msgid "Widget left margin"
+msgstr ""
+
+#: wpDiscuzWidgets.php:278
+msgid "Widget right margin"
+msgstr ""
+
+#: wpDiscuzWidgets.php:285
+msgid "Widget left padding"
+msgstr ""
+
+#: wpDiscuzWidgets.php:292
+msgid "Widget right padding"
+msgstr ""
+
+#: wpDiscuzWidgets.php:299
+msgid "Exclude user roles"
+msgstr ""
+
+#: wpDiscuzWidgets.php:306
+msgid "Show guest commenters"
+msgstr ""
+
+#: wpDiscuzWidgets.php:313
+msgid "Enable user link for all users"
+msgstr ""
+
+#: wpDiscuzWidgets.php:320
+msgid "Enable slider in single tab"
+msgstr ""
+
+#: wpDiscuzWidgets.php:322
+msgid "You can display comments in slider when in each widget enabled only one tab"
+msgstr ""
+
+#: wpDiscuzWidgets.php:327
+msgid "Use theme's widget title structure"
+msgstr ""
+
+#: wpDiscuzWidgets.php:329
+msgid "This option can help you solve problems with theme widget title structure. If your theme widget title structure does not match with our plugin's title structure you should uncheck this option"
+msgstr ""
+
+#: wpDiscuzWidgets.php:334
+msgid "Widget custom CSS"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:3
+msgid "Most Voted Comments"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:5 options/widget-admin-panel-html.php:54 options/widget-admin-panel-html.php:108 options/widget-admin-panel-html.php:156 options/widget-admin-panel-html.php:204
+msgid "Enable"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:13 options/widget-admin-panel-html.php:62 options/widget-admin-panel-html.php:116 options/widget-admin-panel-html.php:164 options/widget-admin-panel-html.php:212
+msgid "Header text: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:20 options/widget-admin-panel-html.php:69 options/widget-admin-panel-html.php:123 options/widget-admin-panel-html.php:219
+msgid "Number of comments: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:26 options/widget-admin-panel-html.php:75 options/widget-admin-panel-html.php:129 options/widget-admin-panel-html.php:177 options/widget-admin-panel-html.php:225
+msgid "Tab order number: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:31 options/widget-admin-panel-html.php:85 options/widget-admin-panel-html.php:134 options/widget-admin-panel-html.php:182
+msgid "Time frame: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:42 options/widget-admin-panel-html.php:96 options/widget-admin-panel-html.php:145 options/widget-admin-panel-html.php:193
+msgid "From: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:45 options/widget-admin-panel-html.php:99 options/widget-admin-panel-html.php:148 options/widget-admin-panel-html.php:196
+msgid "To: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:52
+msgid "Active Comment Threads"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:82
+msgid "Your comments count is big so using \"All Time\" can give you some problems with this tab. "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:106
+msgid "Most Commented Posts"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:154
+msgid "Active Commenters"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:171
+msgid "Number of commenters: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:202
+msgid "Recent Comments"
+msgstr ""
+
+#: tabs/most-voted.php:125 tabs/recent-comments.php:46
+#, php-format
+msgid " by %s"
+msgstr ""
+
+#: tabs/popular-comment-authors.php:103
+msgid " comment"
+msgstr ""
+
+#: tabs/popular-comment-authors.php:105
+msgid " comments"
+msgstr ""
+
+#. Name of the plugin
+msgid "wpDiscuz - Widgets"
+msgstr ""
+
+#. Description of the plugin
+msgid "Plugin for displaying the most popular and the newest comments"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://gvectors.com/wpdiscuz-widgets/"
+msgstr ""
+
+#. Author of the plugin
+msgid "gVectors Team (Mkrtich Aleksanyan and Contributors)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://gvectors.com/"
+msgstr ""
