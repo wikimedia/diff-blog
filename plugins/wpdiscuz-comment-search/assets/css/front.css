@@ -1,0 +1,62 @@
+#wpdiscuz-search-form{margin:2px auto 0 auto;position:relative;text-align:right; padding: 15px 1px 12px 1px;}
+#wpdiscuz-search-form input[type="text"].wpdiscuz-comm-search{width:100%;height:inherit;padding:6px 40px;text-align:left;border:none !important;outline:none !important;background:transparent !important;font-size:14px !important;box-shadow:none !important;vertical-align:top;margin-bottom:0}
+#wpdcom #wpdiscuz-search-form .wpdiscuz-search-box{max-width:100%;width:100%;padding:0px 5px;display:inline-block;border-radius:0px;position:relative}
+#wpdiscuz-search-form .wpdiscuz-search-setting{width:120px;padding:7px 10px;display:none;position:absolute;right:9px;top:44px;border:1px solid #ccc;text-align:center}
+#wpdcom .wpdiscuz-search-setting p{margin:0;padding:0;cursor:pointer;border:none !important;font-size:15px;line-height:15px;text-transform:none;text-align:center}
+#wpdcom .wpdiscuz-search-setting input{background:transparent!important;border:none !important;font-family:inherit;font-style:inherit;font-weight:normal;margin:0;outline:0 none;padding:5px 10px; vertical-align:baseline;font-size:13px;line-height:16px;text-transform:none;cursor:pointer}
+#wpdiscuz-search-pagination{margin:10px auto}
+#wpdiscuz-search-pagination .wpdiscuz-search-pagination-item{padding:5px 10px 5px 10px;margin:5px;border-radius:2px;cursor:pointer}
+#wpdiscuz-search-pagination .pagination-current-page{border:1px solid #aaa}
+#wpdcom #wpdiscuz-search-form .wpdiscuz-search-box #wpdiscuz-search-img{left:10px;position:absolute;top:0}
+#wpdcom #wpdiscuz-search-form .wpdiscuz-search-box #wpdiscuz-search-setting-img{right:10px;position:absolute;top:0}
+#wpdcom #wpdiscuz-search-form .wpdiscuz-search-setting .shearch-arrow{border:9px solid transparent;position:absolute;op:-18px;left:82%;padding:0px;border-bottom:9px solid #ccc;box-sizing:border-box}
+#wpdcom #wpdiscuz-search-form .wpdiscuz-search-setting .shearch-arrow-no-border{border:9px solid transparent;position:absolute;top:-8.5px;left:82%;padding:0px;border-top:none}
+#wpdcom #wpdiscuz-search-form #wpdiscuz-search-setting-wrap.wpdiscuz-search-setting{top:calc(100% + 5px);z-index:99999}
+.search_chackbox{margin:0 5px 0 10px}
+.search-comment-checkbox-name{font-size:14px;color:#555}
+.wpdiscuz-search-box i.fas{line-height:21px !important;font-size:18px !important;vertical-align:top !important;padding:6px}
+.wpdiscuz-search-box i.fa-bars{font-size:20px!important;cursor:pointer}
+.shearch-arrow{border:9px solid transparent;position:absolute;top:-18px;left:82%;padding:0px;border-bottom:9px solid #ccc;box-sizing:border-box}
+.shearch-arrow-no-border{border:9px solid transparent;position:absolute;top:-8.5px;left:82%;padding:0px;border-top:none}
+.search-show{display:block}
+.wc-thread-wrapper-search p.wpd-search-result-title{text-transform:uppercase;font-size:14px;font-weight:normal;margin:-5px 0 15px;padding:1px 1px 5px 1px;text-align:left}
+html[dir=rtl] .search_chackbox{margin:0 10px 0 5px}
+html[dir=rtl] .wpdiscuz-search-box .wpdiscuz-search-setting-img{margin-right:auto}
+
+.wpdiscuz-search-widget .wpdiscuz-comm-search-all{height:auto}
+.wpdiscuz-comm-search-all-item{margin:20px 0;height:auto}
+.wpdiscuz-comm-search-all-item img{border:1px solid rgba(0, 0, 0, 0.1);margin:0;padding:2px; border-radius: 50%;}
+.wpdiscuz-search-widget .wpdiscuz-widget-search-form{position:relative;text-align:right}
+.wpdiscuz-search-widget .clear{clear:both}
+.wpdiscuz-comm-search-all-avatar{float:left;margin:0;margin-right:10px;line-height:0 !important}
+.wpdiscuz-comm-search-all-item a{display:block;margin-left:5px}
+.wpdiscuz-all-comm-search{width:calc(100% - 55px);height:inherit;padding:6px;border:none !important;outline:none !important;background:transparent !important;font-size:14px !important;box-shadow:none !important;vertical-align:top;}
+.wpdiscuz-comm-search-all-item a .widget-post-title{font-size:15px;margin:0}
+.wpdiscuz-comm-search-all-item .widget-post-author-date{font-size:11px; line-height:18px;margin:0}
+.wpdiscuz-comm-search-all-item .widget-post-content{line-height: 18px; font-size: 13px; margin-top: 5px;}
+.wpdiscuz-comm-search-all-item h5:hover{color:#ff0}
+.wpdiscuz-search-widget .wpdiscuz-widget-search-form .wpdiscuz-search-setting{min-width:120px;padding:7px 10px;display:none;position:absolute;right:10px;top:39px;border:1px solid #ccc;text-align:center}
+.wpdiscuz-widget-search-form .wpdiscuz-search-box{max-width:100%;padding:0px 5px;border-radius:0px;display: flex; justify-content: space-between;flex-direction: row;align-items:center;}
+.wpdiscuz-search-widget-loadmore{padding:10px 20px;cursor:pointer;text-align:center;font-weight:normal;border-radius:5px;border:1px solid black;margin:0 auto;display:block}
+.wpdiscuz-search-widget-loadmore:hover{background-color:#ddd !important}
+.wpdiscuz-comm-search-all-item{animation:appiar .8s linear}
+.wc-thread-wrapper-search p.wpd-search-result-title{margin-top:20px}
+.wpdiscuz-comm-search-all-item .wpdscuz-comm-search-all-post-title{line-height: 18px;}
+.wpdiscuz-comm-search-all-item .wpdscuz-comm-search-all-post-title b:hover{color:#ccc !important}
+.wpdiscuz-widget-search-form .wpdiscuz-search-setting.wpdiscuz-all-search-setting-wrap p{margin: 0; padding: 0;}
+.wpdiscuz-widget-search-form .wpdiscuz-search-setting.wpdiscuz-all-search-setting-wrap input[type="button"]{ background: none; padding: 3px 5px; line-height: initial; font-size: 12px; width: 100%; margin: 0;}
+.wpd-comment-footer .view-comment a{cursor:pointer; outline: none; font-size: 14px; color: #999999; align-self: center; text-decoration: none;}
+.wpd-comment-footer .view-comment a svg{fill: #999;vertical-align: bottom;}
+.wpd-comment-footer .view-comment a:hover,
+.wpd-comment-footer .view-comment a svg:hover{fill: #777; color: #777;}
+
+@keyframes appiar{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@media screen and (max-width:600px){
+    #wpdcom #wpdiscuz-search-form input[type="text"].wpdiscuz-comm-search{width:100%;}
+    #wpdcom #wpdiscuz-search-form .wpdiscuz-search-box{max-width:100%;width:100%}
+    #wpdcom .wc-thread-wrapper-search p.wpd-search-result-title{font-size:13px;text-align:right}
+}

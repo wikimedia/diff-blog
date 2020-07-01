@@ -1,0 +1,143 @@
+.column-email{
+    width: 20%;
+}
+.column-actions{
+    width: 15%;
+}
+
+.column-subscribtion_type,.column-subscription_date{
+    width: 15%;
+}
+
+.wpds-confirmed{
+    margin-right: 5px;
+    color: #0d0 !important;
+}
+.wpds-awaiting-confirmation{
+    margin-right: 5px;
+    color: #F90 !important;
+}
+
+.wpds-delete{
+    margin-right: 5px;
+    color: #E91013 !important;
+}
+
+.wpds-subscriber-email,.subscription_date,.subscribe-post-link{
+    font-size: 14px;
+    font-weight: 600;
+    color: #0073aa !important;
+}
+
+.reset-button{
+    background: #f7f7f7 !important;
+    border-color: #ccc !important;
+    box-shadow: 0 1px 0 #ccc !important;
+    color: #555 !important;
+    vertical-align: top;
+    border-radius: 3px;
+    border-style: solid !important;
+    border-width: 1px !important;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    height: 28px;
+    line-height: 26px;
+    margin: 0;
+    padding: 0 10px 1px !important;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+#TB_ajaxContent{
+    background: #F0F0F0;
+}
+.wpds-email-form{
+    padding: 20px;
+    text-align: center;
+}
+
+#wpds-mail-subject,#wpds-mail-text,#wpds-mail-submit{
+    display: inline-block;
+    border-radius: 6px;
+    height: 53px;
+    line-height: 1.318;
+    margin-bottom: 10px;
+    padding: 10px 16px;
+    width: 90%;
+}
+
+#wpds-mail-text{
+    height: 150px;
+}
+
+#wpds-mail-submit{
+    cursor: pointer;
+    outline: none;
+    background: #00B38F;
+    color: #FFF;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#wpds-mail-submit:hover{
+    background: #0EEABE;
+}
+
+.wpds-load{
+    bottom: 0; 
+    left: 0;
+    right: 0;
+    top:0;
+    position: absolute; 
+    margin: auto;
+}
+
+
+.wpds-respons-0,.wpds-respons-1{
+    border-radius: 6px;
+    height: 53px;
+    line-height: 1.318;
+    padding: 10px 16px;
+    margin-top: 15%;
+    width: 90%;
+}
+
+.wpds-respons-0{
+    border: 1px solid #FA4585;
+    background: #F6B4CB;
+}
+
+.wpds-respons-1{
+    border: 1px solid #0ACAA4;
+    background: #84F4DE;
+}
+
+.wpd_stats_cont{
+    margin-top: 30px;
+}
+.wpd_stats_cont .wpds-stat-rowname{
+    float: left;
+}
+.wpd_stats_cont .wpds-stat-count{
+    float: right;
+}
+.wpds-stat-all,.wpds-stat-confirmed,.wpds-stat-awaiting,.wpds-stat-subscribers{
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px;
+    border-bottom: 1px solid #C0C0C0;
+}
+
+.wpds-stat-all{
+    color:#006197;
+}
+.wpds-stat-confirmed{
+    color:#066A43;
+}
+.wpds-stat-awaiting{
+    color:#7C2006;
+}
+

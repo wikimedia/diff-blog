@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=3; plural=( n == 1 ) ? 0 : ( n >= 2 && n <= 4 ) ? 1 : "
+"2\n"
+"Project-Id-Version: wpDiscuz Subscribe Manager\n"
+"POT-Creation-Date: 2017-01-26 23:21+0400\n"
+"PO-Revision-Date: 2017-05-11 23:14+0000\n"
+"Last-Translator: gully <p.polivka@gmail.com>\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wpdSubscribeManager.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: cs-CZ"
+
+#. Description of the plugin/theme
+msgid ""
+"Displays all users and guests subscriptions. Allows to monitor and manage "
+"comment subscribers."
+msgstr ""
+"Zobrazí všechny odběry uživatelů a hostů. Umožňuje sledovat a spravovat "
+"komentáře odběratelů."
+
+#. Author of the plugin/theme
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr "gVectors tým (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+
+#. Author URI of the plugin/theme
+msgid "http://gvectors.com/"
+msgstr "http://gvectors.com/"
+
+#: wpdSubscribeManager.php:177
+msgid "Statistics"
+msgstr "Statistiky"
+
+#: wpdSubscribeManager.php:187 wpdSubscribeManager.php:194
+#: wpdSubscribeManager.php:224
+msgid "Subscriptions"
+msgstr "Odběry"
+
+#: wpdSubscribeManager.php:188
+msgid "Your Subscriptions"
+msgstr "Vaše odběry"
+
+#: wpdSubscribeManager.php:195
+msgid "View Statistics"
+msgstr "Zobrazit statistiky"
+
+#: wpdSubscribeManager.php:201 wpdSubscribeManager.php:203
+#: wpdSubscribeManager.php:230 wpdSubscribeManager.php:232
+msgid "Search"
+msgstr "Vyhledávání"
+
+#: wpdSubscribeManager.php:202
+msgid "Post Title or Email"
+msgstr "Zadejte název nebo e-mail"
+
+#. Plugin Name of the plugin/theme
+msgid "wpDiscuz Subscribe Manager"
+msgstr "wpDiscuz Odběrový manager"
+
+#. Plugin URI of the plugin/theme
+msgid "http://gvectors.com/product/wpdiscuz-subscribe-manager/"
+msgstr "http://gvectors.com/product/wpdiscuz-subscribe-manager/"
+
+#: wpdSubscribeManager.php:95
+msgid "Subscription not found"
+msgstr "Odběr nenalezen"
+
+#: wpdSubscribeManager.php:107
+msgid "Subject *"
+msgstr "Subjekt *"
+
+#: wpdSubscribeManager.php:108
+msgid "Message *"
+msgstr "Zpráva *"
+
+#: wpdSubscribeManager.php:108
+msgid "Hi "
+msgstr "Ahoj "
+
+#: wpdSubscribeManager.php:120
+msgid "Error! Can't send email."
+msgstr "Chyba! Nelze odeslat e-mail."
+
+#: wpdSubscribeManager.php:144
+msgid "Email sent successfully!"
+msgstr "E-mail byl úspěšně odeslán!"
+
+#: wpdSubscribeManager.php:158
+msgid "All Subscriptions"
+msgstr "Všechny odběry"
+
+#: wpdSubscribeManager.php:161
+msgid "Subscribers"
+msgstr "Odběratelé"
+
+#: includes/wpdSubscriptionsList.php:74 includes/wpdSubscriptionsList.php:106
+#: includes/wpdUserSubscriptionsList.php:67
+#: includes/wpdUserSubscriptionsList.php:99
+msgid "Comment"
+msgstr "Komentář"
+
+#: includes/wpdSubscriptionsList.php:76 includes/wpdSubscriptionsList.php:105
+#: includes/wpdUserSubscriptionsList.php:69
+#: includes/wpdUserSubscriptionsList.php:98
+msgid "All Comments"
+msgstr "Všechny komentáře"
+
+#: includes/wpdSubscriptionsList.php:98
+#: includes/wpdUserSubscriptionsList.php:91
+msgid "All Status"
+msgstr "Všechny stavy"
+
+#: includes/wpdSubscriptionsList.php:103
+#: includes/wpdUserSubscriptionsList.php:96
+msgid "All Type"
+msgstr "Všechny typy"
+
+#: includes/wpdSubscriptionsList.php:109
+#: includes/wpdUserSubscriptionsList.php:102
+msgid "All Dates"
+msgstr "Vsechny datumy"
+
+#: includes/wpdSubscriptionsList.php:118
+#: includes/wpdUserSubscriptionsList.php:111
+msgid "Filter"
+msgstr "Filtr"
+
+#: includes/wpdSubscriptionsList.php:119
+#: includes/wpdUserSubscriptionsList.php:112
+msgid "Reset Filters"
+msgstr "Obnovit filtry"
+
+#: includes/wpdUserSubscriptionsList.php:129
+msgid "Unsubscribe "
+msgstr "Odhlásit odběr"
+
+#: includes/wpdSubscriptionsList.php:46 includes/wpdSubscriptionsList.php:99
+#: includes/wpdUserSubscriptionsList.php:44
+#: includes/wpdUserSubscriptionsList.php:92 wpdSubscribeManager.php:159
+msgid "Confirmed"
+msgstr "Potvrzeno"
+
+#: includes/wpdSubscriptionsList.php:48 includes/wpdSubscriptionsList.php:100
+#: includes/wpdUserSubscriptionsList.php:46
+#: includes/wpdUserSubscriptionsList.php:93 wpdSubscribeManager.php:160
+msgid "Awaiting confirmation"
+msgstr "Čeká na potvrzení"
+
+#: includes/wpdSubscriptionsList.php:59 includes/wpdSubscriptionsList.php:136
+#: includes/wpdUserSubscriptionsList.php:56
+#: includes/wpdUserSubscriptionsList.php:128
+msgid "Cancel confirmation"
+msgstr "Zrušit potvrzení"
+
+#: includes/wpdSubscriptionsList.php:61 includes/wpdSubscriptionsList.php:135
+#: includes/wpdUserSubscriptionsList.php:58
+#: includes/wpdUserSubscriptionsList.php:127
+msgid "Set as confirmed"
+msgstr "Nastavit jako potvrzené"
+
+#: includes/wpdSubscriptionsList.php:63 wpdSubscribeManager.php:109
+#: wpdSubscribeManager.php:176
+msgid "Send Email"
+msgstr "Poslat e-mailem"
+
+#: includes/wpdSubscriptionsList.php:65
+msgid "View this user profile"
+msgstr "Zobrazit tento uživatelský profil"
+
+#: includes/wpdSubscriptionsList.php:67 includes/wpdSubscriptionsList.php:137
+#: includes/wpdUserSubscriptionsList.php:60
+msgid "Unsubscribe"
+msgstr "Odhlásit odběr"
+
+#: includes/wpdSubscriptionsList.php:72 includes/wpdSubscriptionsList.php:104
+#: includes/wpdUserSubscriptionsList.php:65
+#: includes/wpdUserSubscriptionsList.php:97
+msgid "Post"
+msgstr "Příspěvek"
+
+#: includes/gvt-api-manager.php:112
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+"Během požadavku rozhraní API došlo k neočekávané chybě HTTP. </p> <p> <a "
+"href = \"?\" Onclick = \"document.location.reload(); return false;\">"
+"Opakovat</a>"
+
+#: includes/gvt-api-manager.php:116
+msgid "An unknown error occurred"
+msgstr "Nastala neznámá chyba"
+
+#: includes/gvt-api-manager.php:162
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: includes/wpdSubscriptionsList.php:24
+msgid "Email"
+msgstr "Email"
+
+#: includes/wpdSubscriptionsList.php:25
+#: includes/wpdUserSubscriptionsList.php:25
+msgid "Actions"
+msgstr "Akce"
+
+#: includes/wpdSubscriptionsList.php:26
+#: includes/wpdUserSubscriptionsList.php:24 wpdSubscribeManager.php:231
+msgid "Post Title"
+msgstr "Název příspěvku"
+
+#: includes/wpdSubscriptionsList.php:27
+#: includes/wpdUserSubscriptionsList.php:26
+msgid "Type"
+msgstr "Typ"
+
+#: includes/wpdSubscriptionsList.php:28
+#: includes/wpdUserSubscriptionsList.php:27
+msgid "Date"
+msgstr "Datum"
