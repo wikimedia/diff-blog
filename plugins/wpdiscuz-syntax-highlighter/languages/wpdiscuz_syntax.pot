@@ -1,0 +1,80 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: wpDiscuz - Syntax Highlighter\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-19 13:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.1; wp-5.3.2"
+
+#: wpDiscuzSyntaxHighlighter.php:45
+msgid "wpDiscuz Syntax Highlighter requires wpDiscuz to be installed!"
+msgstr ""
+
+#: options/options-html.php:304
+msgid "General"
+msgstr ""
+
+#: options/options-html.php:332 options/wpDiscuzSyntaxHighlighterOptions.php:98
+msgid "Common"
+msgstr ""
+
+#: options/options-html.php:334 options/wpDiscuzSyntaxHighlighterOptions.php:105
+msgid "Middle"
+msgstr ""
+
+#: options/options-html.php:336 options/wpDiscuzSyntaxHighlighterOptions.php:112
+msgid "Full"
+msgstr ""
+
+#: options/options-html.php:353
+msgid "Languages"
+msgstr ""
+
+#: options/wpDiscuzSyntaxHighlighterOptions.php:69
+msgid "Syntax Highlighter"
+msgstr ""
+
+#: options/wpDiscuzSyntaxHighlighterOptions.php:77
+msgid "Style"
+msgstr ""
+
+#: options/wpDiscuzSyntaxHighlighterOptions.php:79
+msgid "Plugin wpDiscuz Syntax Highlighter uses <a href='https://highlightjs.org/' target='_blank'>highlight.js</a> javascript library. Styles demo you can view <a href='https://highlightjs.org/static/demo/' target='_blank'>here</a>."
+msgstr ""
+
+#: options/wpDiscuzSyntaxHighlighterOptions.php:84
+msgid "Language Packs"
+msgstr ""
+
+#: options/wpDiscuzSyntaxHighlighterOptions.php:91
+msgid "Custom Selector"
+msgstr ""
+
+#. Name of the plugin
+msgid "wpDiscuz - Syntax Highlighter"
+msgstr ""
+
+#. Description of the plugin
+msgid "Syntax highlighting for comments, automatic language detection and multi-language code highlighting."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://gvectors.com/product/wpdiscuz-syntax-highlighter/"
+msgstr ""
+
+#. Author of the plugin
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://gvectors.com/"
+msgstr ""

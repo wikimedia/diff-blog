@@ -1,0 +1,224 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: wpDiscuz Comment Search\n"
+"POT-Creation-Date: 2020-05-19 12:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: gVectors Team <info@gvectors.com>\n"
+"Language-Team: gVectors Team <info@gvectors.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wpDiscuzCommentSearch.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Language: "
+
+#: wpDiscuzCommentSearch.php:75
+msgid "wpDiscuz Comment Search requires wpDiscuz to be installed!"
+msgstr ""
+
+#: wpDiscuzCommentSearch.php:119 wpDiscuzCommentSearch.php:160 options/wpDiscuzCommentSearchOption.php:64 options/wpDiscuzCommentSearchOption.php:100 options/wpDiscuzCommentSearchOption.php:321
+msgid "Search result"
+msgstr ""
+
+#: wpDiscuzCommentSearch.php:135 wpDiscuzCommentSearch.php:139 wpDiscuzCommentSearch.php:169 wpDiscuzCommentSearch.php:173 options/wpDiscuzCommentSearchOption.php:65 options/wpDiscuzCommentSearchOption.php:101 options/wpDiscuzCommentSearchOption.php:328
+msgid "No comment found"
+msgstr ""
+
+#: wpDiscuzCommentSearch.php:166
+msgid "Load More"
+msgstr ""
+
+#: wpDiscuzCommentSearch.php:228
+msgid "View Tree"
+msgstr ""
+
+#: wpDiscuzCommentSearchWidget.php:11
+msgid "wpDiscuz Commet Search Widget"
+msgstr ""
+
+#: wpDiscuzCommentSearchWidget.php:11
+msgid "This widget for wpDiscuz comments"
+msgstr ""
+
+#: wpDiscuzCommentSearchWidget.php:29 wpDiscuzCommentSearchWidget.php:50 options/wpDiscuzCommentSearchOption.php:30 options/wpDiscuzCommentSearchOption.php:152
+msgid "Comment Search"
+msgstr ""
+
+#: wpDiscuzCommentSearchWidget.php:38
+msgid "Number of comments to show:"
+msgstr ""
+
+#: wpDiscuzCommentSearchWidget.php:42
+msgid "Display comment author avatar?"
+msgstr ""
+
+#: options/option-html.php:87
+msgid "Search form style"
+msgstr ""
+
+#: options/option-html.php:145
+msgid "Dialog style"
+msgstr ""
+
+#: options/option-html.php:181
+msgid "Pagination style"
+msgstr ""
+
+#: options/option-html.php:206
+msgid "Widget and Shortcode Styles"
+msgstr ""
+
+#: options/option-html.php:297
+msgid "Search Phrases"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:58
+msgid "wpDiscuz All Comment Search"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:66 options/wpDiscuzCommentSearchOption.php:102
+msgid "Comment search..."
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:67 options/wpDiscuzCommentSearchOption.php:103 options/wpDiscuzCommentSearchOption.php:342
+msgid "All"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:68 options/wpDiscuzCommentSearchOption.php:104 options/wpDiscuzCommentSearchOption.php:349
+msgid "Content"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:69 options/wpDiscuzCommentSearchOption.php:105 options/wpDiscuzCommentSearchOption.php:356
+msgid "Author"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:70 options/wpDiscuzCommentSearchOption.php:106 options/wpDiscuzCommentSearchOption.php:363
+msgid "E-mail"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:71 options/wpDiscuzCommentSearchOption.php:107 options/wpDiscuzCommentSearchOption.php:370
+msgid "Custom Fields"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:160
+msgid "Display search form for guests"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:167
+msgid "Display search setting button"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:174
+msgid "Search options"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:181
+msgid "Default search field"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:188
+msgid "Search text min length"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:195
+msgid "Searched data background"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:202
+msgid "Search icons color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:209
+msgid "Search form text color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:216
+msgid "Search box background color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:223
+msgid "Search box border color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:230
+msgid "Dialog text color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:237
+msgid "Dialog background color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:244
+msgid "Dialog item hover color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:251
+msgid "Pagination text color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:258
+msgid "Pagination item background color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:265
+msgid "Shortcode"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:272
+msgid "Comment letters count"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:279
+msgid "Comment content color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:286
+msgid "Post title color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:293
+msgid "Post author and date color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:300
+msgid "Load more button background color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:307
+msgid "Load more button text color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:314
+msgid "Load more button border color"
+msgstr ""
+
+#: options/wpDiscuzCommentSearchOption.php:335
+msgid "Search form placeholder"
+msgstr ""
+
+#. Name of the plugin
+msgid "wpDiscuz - Comment Search"
+msgstr ""
+
+#. Description of the plugin
+msgid "AJAX powered comment search form and widget. Starts searching while you're typing a word."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://gvectors.com/wpdiscuz-comment-search/"
+msgstr ""
+
+#. Author of the plugin
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://gvectors.com/"
+msgstr ""
