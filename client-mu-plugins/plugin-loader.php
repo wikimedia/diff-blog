@@ -33,5 +33,4 @@ wpcom_vip_load_plugin('wpdiscuz-user-comment-mentioning/WpdiscuzUCM.php');
 wpcom_vip_load_plugin('wpdiscuz-widgets/wpDiscuzWidgets.php');
 wpcom_vip_load_plugin('co-authors-plus/co-authors-plus.php');
 wpcom_vip_load_plugin('fieldmanager/fieldmanager.php');
-//wpcom_vip_load_plugin('multilingualpress/multilingualpress.php');
 wpcom_vip_load_plugin('diff-customizations/diff-customizations.php');
