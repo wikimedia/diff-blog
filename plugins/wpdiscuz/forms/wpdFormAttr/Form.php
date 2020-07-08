@@ -22,6 +22,7 @@ class Form {
     private $ratingsExists = false;
     private $ratingsFieldsKey = [];
     public $isUserCanComment = true;
+    public $hasIcon = false;
 
     public function __construct($options, $formID = 0) {
         $this->defaultsFieldsNames = [
@@ -53,6 +54,9 @@ class Form {
             if (is_array($this->formFields)) {
                 foreach ($this->formFields as $key => $field) {
                     if (is_callable($field["type"] . "::getInstance") && !in_array($key, $this->defaultsFieldsNames)) {
+                        if (!empty($field["icon"])) {
+                            $this->hasIcon = true;
+                        }
                         $this->formCustomFields[$key] = $field;
                         if ($field["type"] === "wpdFormAttr\Field\RatingField") {
                             $this->ratingsFieldsKey[] = $key;
@@ -401,8 +405,8 @@ class Form {
             $count = (int) get_post_meta($post->ID, wpdFormConst::POSTMETA_POST_RATING_COUNT, true);
             $prefix = (int) $rating;
             $suffix = $rating - $prefix;
-            $fullStarSVG = apply_filters("wpdiscuz_full_star_svg", "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path class='wpd-star' d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/><path d='M0 0h24v24H0z' fill='none'/></svg>", "post", "fas fa-star");
-            $halfStarSVG = apply_filters("wpdiscuz_half_star_svg", "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 24 24'><defs><path id='a' d='M0 0h24v24H0V0z'/></defs><clipPath id='b'><use xlink:href='#a' overflow='visible'/></clipPath><path class='wpd-star wpd-active' clip-path='url(#b)' d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/></svg>", "post", "fas fa-star");
+            $fullStarSVG = apply_filters("wpdiscuz_full_star_svg", "<svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path class='wpd-star' d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/><path d='M0 0h24v24H0z' fill='none'/></svg>", "post", "fas fa-star");
+            $halfStarSVG = apply_filters("wpdiscuz_half_star_svg", "<svg xmlns='https://www.w3.org/2000/svg' xmlns:xlink='https://www.w3.org/1999/xlink' viewBox='0 0 24 24'><defs><path id='a' d='M0 0h24v24H0V0z'/></defs><clipPath id='b'><use xlink:href='#a' overflow='visible'/></clipPath><path class='wpd-star wpd-active' clip-path='url(#b)' d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/></svg>", "post", "fas fa-star");
             $html .= "<div id='wpd-post-rating'{$class}>
             <div class='wpd-rating-wrap'>
             <div class='wpd-rating-left'></div>
@@ -436,7 +440,7 @@ class Form {
             $html .= "</div>
             <div class='wpd-rating-right'></div></div></div>";
             if ($this->wpdOptions->rating["enablePostRatingSchema"] && $count) {
-                $html .= apply_filters("wpdiscuz_rating_schema", "<div style='display: none;' itemscope itemtype='http://schema.org/Product'><meta itemprop='name' content='" . esc_html($this->getPostRatingTitle()) . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_html($rating) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>", "post", $post->ID);
+                $html .= apply_filters("wpdiscuz_rating_schema", "<div style='display: none;' itemscope itemtype='https://schema.org/Product'><meta itemprop='name' content='" . esc_html($this->getPostRatingTitle()) . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_html($rating) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>", "post", $post->ID);
             }
         }
         return $html;
@@ -534,8 +538,8 @@ class Form {
             $title = !empty($this->formCustomFields[$metakey]["nameForTotal"]) ? $this->formCustomFields[$metakey]["nameForTotal"] : $this->formCustomFields[$metakey]["name"];
             $icon = $this->formCustomFields[$metakey]['icon'];
             $icon = strpos(trim($icon), ' ') ? $icon : 'fas ' . $icon;
-            $fullStarSVG = apply_filters("wpdiscuz_full_star_svg", "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path class='wpd-star' d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/><path d='M0 0h24v24H0z' fill='none'/></svg>", "custom_field", $icon);
-            $halfStarSVG = apply_filters("wpdiscuz_half_star_svg", "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 24 24'><defs><path id='a' d='M0 0h24v24H0V0z'/></defs><clipPath id='b'><use xlink:href='#a' overflow='visible'/></clipPath><path class='wpd-star wpd-active' clip-path='url(#b)' d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/></svg>", "custom_field", $icon);
+            $fullStarSVG = apply_filters("wpdiscuz_full_star_svg", "<svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path class='wpd-star' d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/><path d='M0 0h24v24H0z' fill='none'/></svg>", "custom_field", $icon);
+            $halfStarSVG = apply_filters("wpdiscuz_half_star_svg", "<svg xmlns='https://www.w3.org/2000/svg' xmlns:xlink='https://www.w3.org/1999/xlink' viewBox='0 0 24 24'><defs><path id='a' d='M0 0h24v24H0V0z'/></defs><clipPath id='b'><use xlink:href='#a' overflow='visible'/></clipPath><path class='wpd-star wpd-active' clip-path='url(#b)' d='M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z'/></svg>", "custom_field", $icon);
             $html = "<div class='wpd-rating' title='" . esc_attr($title) . "'>
             <div class='wpd-rating-wrap'>
             <div class='wpd-rating-left'></div>
@@ -592,7 +596,7 @@ class Form {
         }
         $schema = "";
         if ($average) {
-            $schema = apply_filters("wpdiscuz_rating_schema", "<div style='display: none;' itemscope itemtype='http://schema.org/Product'><meta itemprop='name' content='" . esc_attr__("Average Rating", "wpdiscuz") . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_attr($average) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>", $key, $postId);
+            $schema = apply_filters("wpdiscuz_rating_schema", "<div style='display: none;' itemscope itemtype='https://schema.org/Product'><meta itemprop='name' content='" . esc_attr__("Average Rating", "wpdiscuz") . "'><div style='display: none;' itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'><meta itemprop='bestRating' content='5'><meta itemprop='worstRating' content='1'><meta itemprop='ratingValue' content='" . esc_attr($average) . "'><meta itemprop='ratingCount' content='" . esc_attr($count) . "'></div></div>", $key, $postId);
         }
         return $schema;
     }
@@ -702,7 +706,7 @@ class Form {
         foreach ($this->formCustomFields as $fieldName => $fieldArgs) {
             $fieldType = $fieldArgs["type"];
             if (!in_array($fieldType, $allowedFieldsType, true)) {
-                throw new \Exception('Not whitelisted value detected');
+                continue;
             }
             $field = call_user_func($fieldType . "::getInstance");
             if (isset($fieldArgs["no_insert_meta"])) {

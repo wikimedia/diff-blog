@@ -31,7 +31,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
         add_action("wpdiscuz_button_actions", [&$this, "uploadPreview"], 1, 2);
 
         add_filter("wpdiscuz_comment_list_args", [&$this, "commentListArgs"]);
-        add_filter("comment_text", [&$this, "getAttachments"], 10, 3);
+        add_filter("comment_text", [&$this, "getAttachments"], 100, 3);
 
         add_action("comment_post", [&$this, "addAttachments"]);
         add_filter("wpdiscuz_comment_post", [&$this, "postComment"], 10);
@@ -183,9 +183,9 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
                         $images .= "<img style='$style' alt='" . get_post_meta($attachment->ID, "_wp_attachment_image_alt", true) . "' title='" . esc_attr($attachment->post_excerpt) . "' id='wmu-attachemnt-$attachment->ID' class='attachment-$size size-$size wmu-attached-image' src='$srcValue' wmu-data-src='$dataSrcValue' $secondarySizeKey='$secondarySize' />";
                         $images .= "</a>";
                     } else {
-                        $images .= apply_filters("wpdiscuz_mu_attached_image_before", "");
+                        $images .= apply_filters("wpdiscuz_mu_attached_image_before", "<a href='" . wp_get_attachment_image_url($attachment->ID) . "' class='wmu-attached-image-link' target='_blank' rel='noreferrer ugc'>", $attachment->ID);
                         $images .= "<img style='$style' alt='" . get_post_meta($attachment->ID, "_wp_attachment_image_alt", true) . "' title='" . esc_attr($attachment->post_excerpt) . "' id='wmu-attachemnt-$attachment->ID' class='attachment-$size size-$size wmu-attached-image' src='$srcValue' wmu-data-src='$dataSrcValue' $secondarySizeKey='$secondarySize' />";
-                        $images .= apply_filters("wpdiscuz_mu_attached_image_after", "");
+                        $images .= apply_filters("wpdiscuz_mu_attached_image_after", "</a>", $attachment->ID);
                     }
                     $images .= $deleteHtml;
                     $images .= "</div>";
@@ -331,7 +331,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
                 $file["type"] = $mimeType;
             } else {
                 $error = true;
-                $response["errors"][] = $file["name"] . "  - " . $this->options->phrases["wmuPhraseNotAllowedFile"];
+                $response["errors"][] = $file["name"] . " " . (current_user_can("manage_options") ? "(mimetype - " . $mimeType . ") " : "") . "- " . $this->options->phrases["wmuPhraseNotAllowedFile"];
             }
 
             do_action("wpdiscuz_mu_preupload", $file);
@@ -463,7 +463,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
 
     public function isUploadingAllowed($postObj = null) {
         global $post;
-        $gPost = $post ? $post : $postObj;
+        $gPost = $postObj ? $postObj : $post;
         $isAllowed = false;
         if ($this->isAllowedPostType($gPost) && !empty($this->options->content["wmuMimeTypes"])) {
             $currentUser = WpdiscuzHelper::getCurrentUser();

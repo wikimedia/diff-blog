@@ -2,13 +2,13 @@
 /*
  * Plugin Name: wpDiscuz
  * Description: #1 WordPress Comment Plugin. Innovative, modern and feature-rich comment system to supercharge your website comment section.
- * Version: 7.0.2
+ * Version: 7.0.3
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://wpdiscuz.com/
  * Text Domain: wpdiscuz
  * Domain Path: /languages/
- * wpDiscuz Update: auto
+ * wpDiscuz Update: manual
  */
 if (!defined("ABSPATH")) {
     exit();
@@ -264,7 +264,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
         $loadLastCommentId = isset($_POST["loadLastCommentId"]) ? intval($_POST["loadLastCommentId"]) : 0;
         if ($postId && $loadLastCommentId) {
             $this->isWpdiscuzLoaded = true;
-            $visibleCommentIds = isset($_POST["visibleCommentIds"]) ? $_POST["visibleCommentIds"] : "";
+            $visibleCommentIds = isset($_POST["visibleCommentIds"]) ? rtrim($_POST["visibleCommentIds"], ",") : "";
             $cArgs = $this->getDefaultCommentsArgs($postId);
             $lastCommentId = $this->dbManager->getLastCommentId($cArgs);
             if ($lastCommentId > $loadLastCommentId) {
@@ -279,7 +279,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 $response["message"] = [];
                 foreach ($newCommentIds as $k => $newCommentId) {
                     $comment = get_comment($newCommentId);
-                    if (($comment->comment_parent && (in_array($comment->comment_parent, $visibleCommentIds) || in_array($comment->comment_parent, $newCommentIds))) || !$comment->comment_parent) {
+                    if (($comment->comment_parent && (in_array($comment->comment_parent, explode(",", $visibleCommentIds)) || in_array($comment->comment_parent, $newCommentIds))) || !$comment->comment_parent) {
                         $commentHtml = wp_list_comments($commentListArgs, [$comment]);
                         $commentObject = ["comment_parent" => $comment->comment_parent, "comment_html" => $commentHtml];
                         if ($comment->comment_parent) {
@@ -457,9 +457,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 do_action("wpdiscuz_after_comment_post", $newComment, $currentUser);
                 $response["callbackFunctions"] = [];
                 $response = apply_filters("wpdiscuz_comment_post", $response);
-                if (apply_filters("wpdiscuz_clean_cache_after_comment_post", true)) {
-                    clean_post_cache($postId);
-                }
+                do_action("wpdiscuz_clean_post_cache", $postId, "comment_posted");
                 wp_send_json_success($response);
             } else {
                 wp_send_json_error("wc_invalid_field");
@@ -530,7 +528,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                             $username = $lastEditedBy ? $lastEditedBy->display_name : $comment->comment_author;
                             $response["lastEdited"] = "<div class='wpd-comment-last-edited'><i class='far fa-edit'></i>" . esc_html(sprintf($this->options->phrases["wc_last_edited"], $this->helper->dateDiff($lastEditedAt), $username)) . "</div>";
                         }
-                        clean_post_cache($comment->comment_post_ID);
+                        do_action("wpdiscuz_clean_post_cache", $comment->comment_post_ID, "comment_edited");
                     }
 
                     $form->saveCommentMeta($comment->comment_ID);
@@ -551,7 +549,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                         $commentReadMoreLimit = 0;
                         $commentContent = $this->helper->spoiler($commentContent);
                     }
-                    if ($commentReadMoreLimit && str_word_count(wp_strip_all_tags($commentContent)) > $commentReadMoreLimit) {
+                    if ($commentReadMoreLimit && WpdiscuzHelper::strWordCount(wp_strip_all_tags($commentContent)) > $commentReadMoreLimit) {
                         $commentContent = WpdiscuzHelper::getCommentExcerpt($commentContent, $uniqueId, $this->options);
                     }
 
@@ -614,7 +612,8 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     $args = [
                         "format" => "flat",
                         "status" => $this->commentsArgs["status"],
-                        "orderby" => $this->commentsArgs["orderby"]
+                        "orderby" => $this->commentsArgs["orderby"],
+                        "post_id" => $this->commentsArgs["post_id"],
                     ];
                     if (!empty($this->commentsArgs["include_unapproved"])) {
                         $args["include_unapproved"] = $this->commentsArgs["include_unapproved"];
@@ -717,7 +716,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
      */
     public function getWPComments($args = []) {
         global $post;
-        $postId = !empty($post->ID) ? $post->ID : $args["post_id"];
+        $postId = isset($args["post_id"]) ? $args["post_id"] : $post->ID;
         $defaults = $this->getDefaultCommentsArgs($postId);
         $this->commentsArgs = wp_parse_args($args, $defaults);
         $commentListArgs = $this->getCommentListArgs($postId);
@@ -808,7 +807,8 @@ class WpdiscuzCore implements WpDiscuzConstants {
         $args = [
             "format" => "flat",
             "status" => $this->commentsArgs["status"],
-            "orderby" => $this->commentsArgs["orderby"]
+            "orderby" => $this->commentsArgs["orderby"],
+            "post_id" => $this->commentsArgs["post_id"],
         ];
         if (!empty($this->commentsArgs["include_unapproved"])) {
             $args["include_unapproved"] = $this->commentsArgs["include_unapproved"];
@@ -1040,9 +1040,6 @@ class WpdiscuzCore implements WpDiscuzConstants {
         wp_register_style("wpdiscuz-ratings", plugins_url(WPDISCUZ_DIR_NAME . "/assets/css/wpdiscuz-ratings$suf.css"), null, $this->version);
         wp_register_style("wpdiscuz-ratings-rtl", plugins_url(WPDISCUZ_DIR_NAME . "/assets/css/wpdiscuz-ratings-rtl$suf.css"), null, $this->version);
         if (!$this->isWpdiscuzLoaded && $this->options->rating["ratingCssOnNoneSingular"]) {
-            if ($this->options->thread_styles["enableFontAwesome"]) {
-                wp_enqueue_style("wpdiscuz-font-awesome");
-            }
             wp_enqueue_style("wpdiscuz-ratings");
             if (is_rtl()) {
                 wp_enqueue_style("wpdiscuz-ratings-rtl");
@@ -1097,15 +1094,20 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 "msgConfirmCancelSubscription" => esc_html($this->options->phrases["wc_confirm_cancel_subscription"]),
                 "msgConfirmCancelFollow" => esc_html($this->options->phrases["wc_confirm_cancel_follow"]),
             ];
+            if ($this->options->thread_styles["enableFontAwesome"]) {
+                if ($this->form->hasIcon) {
+                    wp_enqueue_style("wpdiscuz-font-awesome");
+                } else {
+                    wp_register_style("wpdiscuz-fa", plugins_url(WPDISCUZ_DIR_NAME . "/assets/third-party/font-awesome-5.13.0/css/fa.min.css"), null, $this->version);
+                    wp_enqueue_style("wpdiscuz-fa");
+                }
+            }
             if ($this->options->general["loadComboVersion"]) {
                 $combo_js = "";
                 $combo_css = "";
                 if (!$loadQuill) {
                     $combo_js .= "-no_quill";
                     $combo_css .= "-no_quill";
-                }
-                if (!$this->options->thread_styles["enableFontAwesome"]) {
-                    $combo_css .= "-no_fa";
                 }
                 wp_register_style("wpdiscuz-combo-css", plugins_url(WPDISCUZ_DIR_NAME . "/assets/css/wpdiscuz-combo$combo_css.min.css"));
                 wp_enqueue_style("wpdiscuz-combo-css");
@@ -1117,9 +1119,6 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     wp_add_inline_script("wpdiscuz-combo$combo_js-js", $this->options->editorOptions(), "before");
                 }
             } else {
-                if ($this->options->thread_styles["enableFontAwesome"]) {
-                    wp_enqueue_style("wpdiscuz-font-awesome");
-                }
                 wp_register_script("wpdiscuz-cookie-js", plugins_url(WPDISCUZ_DIR_NAME . "/assets/third-party/wpdccjs/wpdcc.js"), ["jquery"], $this->version, true);
                 wp_enqueue_script("wpdiscuz-cookie-js");
                 //
@@ -1222,6 +1221,10 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     update_option("ic-wordpress-settings", $invisibleRecaptcha);
                 }
             }
+            if (version_compare($this->version, "7.0.3", "<") && version_compare($this->version, "1.0.0", "!=")) {
+                $this->dbManager->alterSubscriptionTable();
+            }
+            do_action("wpdiscuz_clean_all_caches", $pluginData["Version"], $this->version);
         }
         do_action("wpdiscuz_check_version");
     }
@@ -1426,20 +1429,20 @@ class WpdiscuzCore implements WpDiscuzConstants {
         $postsAuthors = $post->comment_count && $this->options->login["enableProfileURLs"] ? $this->dbManager->getPostsAuthors() : [];
         $voteSvgs = [
             "fa-plus|fa-minus" => [
-                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='plus' class='svg-inline--fa fa-plus fa-w-14' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z'></path></svg>",
-                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='minus' class='svg-inline--fa fa-minus fa-w-14' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z'></path></svg>",
+                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='plus' class='svg-inline--fa fa-plus fa-w-14' role='img' xmlns='https://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z'></path></svg>",
+                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='minus' class='svg-inline--fa fa-minus fa-w-14' role='img' xmlns='https://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z'></path></svg>",
             ],
             "fa-chevron-up|fa-chevron-down" => [
-                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='chevron-up' class='svg-inline--fa fa-chevron-up fa-w-14' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z'></path></svg>",
-                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='chevron-down' class='svg-inline--fa fa-chevron-down fa-w-14' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'></path></svg>",
+                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='chevron-up' class='svg-inline--fa fa-chevron-up fa-w-14' role='img' xmlns='https://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z'></path></svg>",
+                "<svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='chevron-down' class='svg-inline--fa fa-chevron-down fa-w-14' role='img' xmlns='https://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'></path></svg>",
             ],
             "fa-thumbs-up|fa-thumbs-down" => [
-                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0V0z'/><path d='M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z'/></svg>",
-                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0z'/><path d='M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z'/></svg>",
+                "<svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0V0z'/><path d='M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z'/></svg>",
+                "<svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0z'/><path d='M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z'/></svg>",
             ],
             "fa-smile|fa-frown" => [
-                "<svg aria-hidden='true' focusable='false' data-prefix='far' data-icon='smile' class='svg-inline--fa fa-smile fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'><path d='M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm-80-216c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm4 72.6c-20.8 25-51.5 39.4-84 39.4s-63.2-14.3-84-39.4c-8.5-10.2-23.7-11.5-33.8-3.1-10.2 8.5-11.5 23.6-3.1 33.8 30 36 74.1 56.6 120.9 56.6s90.9-20.6 120.9-56.6c8.5-10.2 7.1-25.3-3.1-33.8-10.1-8.4-25.3-7.1-33.8 3.1z'></path></svg>",
-                "<svg aria-hidden='true' focusable='false' data-prefix='far' data-icon='frown' class='svg-inline--fa fa-frown fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'><path d='M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm-80-216c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160-64c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm-80 128c-40.2 0-78 17.7-103.8 48.6-8.5 10.2-7.1 25.3 3.1 33.8 10.2 8.4 25.3 7.1 33.8-3.1 16.6-19.9 41-31.4 66.9-31.4s50.3 11.4 66.9 31.4c8.1 9.7 23.1 11.9 33.8 3.1 10.2-8.5 11.5-23.6 3.1-33.8C326 321.7 288.2 304 248 304z'></path></svg>",
+                "<svg aria-hidden='true' focusable='false' data-prefix='far' data-icon='smile' class='svg-inline--fa fa-smile fa-w-16' role='img' xmlns='https://www.w3.org/2000/svg' viewBox='0 0 496 512'><path d='M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm-80-216c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm4 72.6c-20.8 25-51.5 39.4-84 39.4s-63.2-14.3-84-39.4c-8.5-10.2-23.7-11.5-33.8-3.1-10.2 8.5-11.5 23.6-3.1 33.8 30 36 74.1 56.6 120.9 56.6s90.9-20.6 120.9-56.6c8.5-10.2 7.1-25.3-3.1-33.8-10.1-8.4-25.3-7.1-33.8 3.1z'></path></svg>",
+                "<svg aria-hidden='true' focusable='false' data-prefix='far' data-icon='frown' class='svg-inline--fa fa-frown fa-w-16' role='img' xmlns='https://www.w3.org/2000/svg' viewBox='0 0 496 512'><path d='M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm-80-216c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160-64c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm-80 128c-40.2 0-78 17.7-103.8 48.6-8.5 10.2-7.1 25.3 3.1 33.8 10.2 8.4 25.3 7.1 33.8-3.1 16.6-19.9 41-31.4 66.9-31.4s50.3 11.4 66.9 31.4c8.1 9.7 23.1 11.9 33.8 3.1 10.2-8.5 11.5-23.6 3.1-33.8C326 321.7 288.2 304 248 304z'></path></svg>",
             ],
         ];
         $currentUser = WpdiscuzHelper::getCurrentUser();
@@ -1463,6 +1466,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
             "echo" => false,
             "isSingle" => false,
             "reverse_top_level" => false,
+            "post_id" => $postId,
             "reverse_children" => !$this->options->thread_display["reverseChildren"],
             "post_author" => $post->post_author,
             "posts_authors" => $postsAuthors,
@@ -1495,7 +1499,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
             $args["share_buttons"] .= "<span class='wc_fb'><i class='fab fa-facebook-f wpf-cta' aria-hidden='true' title='" . esc_attr($this->options->phrases["wc_share_facebook"]) . "'></i></span>";
         }
         if ($this->options->social["enableVkShare"]) {
-            $args["share_buttons"] .= "<a class='wc_vk' rel='noreferrer' target='_blank' href='http://vk.com/share.php?url=" . esc_url_raw($post_permalink) . "' title='" . esc_attr($this->options->phrases["wc_share_vk"]) . "'><i class='fab fa-vk wpf-cta' aria-hidden='true'></i></a>";
+            $args["share_buttons"] .= "<a class='wc_vk' rel='noreferrer' target='_blank' href='https://vk.com/share.php?url=" . esc_url_raw($post_permalink) . "' title='" . esc_attr($this->options->phrases["wc_share_vk"]) . "'><i class='fab fa-vk wpf-cta' aria-hidden='true'></i></a>";
         }
         if ($this->options->social["enableOkShare"]) {
             $args["share_buttons"] .= "<a class='wc_ok' rel='noreferrer' target='_blank' href='https://connect.ok.ru/offer?url=" . esc_url_raw($post_permalink) . "' title='" . esc_attr($this->options->phrases["wc_share_ok"]) . "'><i class='fab fa-odnoklassniki wpf-cta' aria-hidden='true'></i></a>";
@@ -1509,28 +1513,41 @@ class WpdiscuzCore implements WpDiscuzConstants {
     public function addNewRoles() {
         global $wp_roles;
         $roles = apply_filters("editable_roles", $wp_roles->roles);
+        $newBlogRoles = [];
+        $newBlogRoleLabels = [];
+        $newRolePhrases = [];
         foreach ($roles as $roleName => $roleInfo) {
-            $this->options->labels["blogRoles"][$roleName] = isset($this->options->labels["blogRoles"][$roleName]) ? $this->options->labels["blogRoles"][$roleName] : "#00B38F";
+            $newBlogRoles[$roleName] = isset($this->options->labels["blogRoles"][$roleName]) ? $this->options->labels["blogRoles"][$roleName] : "#00B38F";
             if ($roleName === "administrator") {
-                $this->options->labels["blogRoleLabels"][$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 1;
-                $this->options->phrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Admin", "wpdiscuz");
+                $newBlogRoleLabels[$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 1;
+                $newRolePhrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Admin", "wpdiscuz");
             } elseif ($roleName === "post_author") {
-                $this->options->labels["blogRoleLabels"][$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 1;
-                $this->options->phrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Author", "wpdiscuz");
+                $newBlogRoleLabels[$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 1;
+                $newRolePhrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Author", "wpdiscuz");
             } elseif ($roleName === "editor") {
-                $this->options->labels["blogRoleLabels"][$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 1;
-                $this->options->phrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Editor", "wpdiscuz");
+                $newBlogRoleLabels[$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 1;
+                $newRolePhrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Editor", "wpdiscuz");
             } else {
-                $this->options->labels["blogRoleLabels"][$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 0;
-                $this->options->phrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Member", "wpdiscuz");
+                $newBlogRoleLabels[$roleName] = isset($this->options->labels["blogRoleLabels"][$roleName]) ? $this->options->labels["blogRoleLabels"][$roleName] : 0;
+                $newRolePhrases["wc_blog_role_" . $roleName] = isset($this->options->phrases["wc_blog_role_" . $roleName]) ? $this->options->phrases["wc_blog_role_" . $roleName] : esc_html__("Member", "wpdiscuz");
             }
         }
-        $this->options->labels["blogRoles"]["post_author"] = isset($this->options->labels["blogRoles"]["post_author"]) ? $this->options->labels["blogRoles"]["post_author"] : "#00B38F";
-        $this->options->labels["blogRoleLabels"]["post_author"] = isset($this->options->labels["blogRoleLabels"]["post_author"]) ? $this->options->labels["blogRoleLabels"]["post_author"] : 1;
-        $this->options->labels["blogRoles"]["guest"] = isset($this->options->labels["blogRoles"]["guest"]) ? $this->options->labels["blogRoles"]["guest"] : "#00B38F";
-        $this->options->labels["blogRoleLabels"]["guest"] = isset($this->options->labels["blogRoleLabels"]["guest"]) ? $this->options->labels["blogRoleLabels"]["guest"] : 0;
-        $this->options->phrases["wc_blog_role_post_author"] = isset($this->options->phrases["wc_blog_role_post_author"]) ? $this->options->phrases["wc_blog_role_post_author"] : esc_html__("Author", "wpdiscuz");
-        $this->options->phrases["wc_blog_role_guest"] = isset($this->options->phrases["wc_blog_role_guest"]) ? $this->options->phrases["wc_blog_role_guest"] : esc_html__("Guest", "wpdiscuz");
+        $newBlogRoles["post_author"] = isset($this->options->labels["blogRoles"]["post_author"]) ? $this->options->labels["blogRoles"]["post_author"] : "#00B38F";
+        $newBlogRoleLabels["post_author"] = isset($this->options->labels["blogRoleLabels"]["post_author"]) ? $this->options->labels["blogRoleLabels"]["post_author"] : 1;
+        $newBlogRoles["guest"] = isset($this->options->labels["blogRoles"]["guest"]) ? $this->options->labels["blogRoles"]["guest"] : "#00B38F";
+        $newBlogRoleLabels["guest"] = isset($this->options->labels["blogRoleLabels"]["guest"]) ? $this->options->labels["blogRoleLabels"]["guest"] : 0;
+        $newRolePhrases["wc_blog_role_post_author"] = isset($this->options->phrases["wc_blog_role_post_author"]) ? $this->options->phrases["wc_blog_role_post_author"] : esc_html__("Author", "wpdiscuz");
+        $newRolePhrases["wc_blog_role_guest"] = isset($this->options->phrases["wc_blog_role_guest"]) ? $this->options->phrases["wc_blog_role_guest"] : esc_html__("Guest", "wpdiscuz");
+        foreach ($this->options->phrases as $key => $value) {
+            if (strpos("wc_blog_role_", $key) === 0) {
+                unset($this->options->phrases[$key]);
+            }
+        }
+        foreach ($newRolePhrases as $key => $value) {
+            $this->options->phrases[$key] = $value;
+        }
+        $this->options->labels["blogRoles"] = $newBlogRoles;
+        $this->options->labels["blogRoleLabels"] = $newBlogRoleLabels;    
     }
 
     public function showReplies() {
@@ -1547,6 +1564,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 "format" => "flat",
                 "status" => $cArgs["status"],
                 "orderby" => $cArgs["orderby"],
+                "post_id" => $cArgs["post_id"],
             ];
             if (!empty($cArgs["include_unapproved"])) {
                 $args["include_unapproved"] = $cArgs["include_unapproved"];
@@ -1586,7 +1604,8 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 $args = [
                     "format" => "flat",
                     "status" => $this->commentsArgs["status"],
-                    "orderby" => $this->commentsArgs["orderby"]
+                    "orderby" => $this->commentsArgs["orderby"],
+                    "post_id" => $this->commentsArgs["post_id"],
                 ];
                 $includeUnapproved = null;
                 if (!empty($this->commentsArgs["include_unapproved"])) {
@@ -1645,7 +1664,8 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 $args = [
                     "format" => "flat",
                     "status" => $this->commentsArgs["status"],
-                    "orderby" => $this->commentsArgs["orderby"]
+                    "orderby" => $this->commentsArgs["orderby"],
+                    "post_id" => $this->commentsArgs["post_id"],
                 ];
                 $includeUnapproved = null;
                 if (!empty($this->commentsArgs["include_unapproved"])) {
@@ -1718,14 +1738,14 @@ class WpdiscuzCore implements WpDiscuzConstants {
         $commentsNumber = get_comments_number($post->ID);
         echo "<span id='wpd-bubble-all-comments-count'" . ($commentsNumber ? "" : " style='display:none;'") . ">" . esc_html($commentsNumber) . "</span>";
         echo "<div id='wpd-bubble-count'>";
-        echo "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-count-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-count-second' d='M0 0h24v24H0z' /></svg>";
+        echo "<svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-count-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-count-second' d='M0 0h24v24H0z' /></svg>";
         echo "<span class='wpd-new-comments-count'>0</span>";
         echo "</div>";
         echo "<div id='wpd-bubble'>";
-        echo "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-plus-first' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/><path class='wpd-bubble-plus-second' d='M0 0h24v24H0z' /></svg>";
+        echo "<svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-plus-first' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/><path class='wpd-bubble-plus-second' d='M0 0h24v24H0z' /></svg>";
         echo "<div id='wpd-bubble-add-message'>" . esc_html($this->options->phrases["wc_bubble_invite_message"]) . "<span id='wpd-bubble-add-message-close'><a href='#'>x</a></span></div>";
         echo "</div>";
-        echo "<div id='wpd-bubble-notification'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-notification-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-notification-second' d='M0 0h24v24H0z' /></svg>";
+        echo "<div id='wpd-bubble-notification'><svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-notification-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-notification-second' d='M0 0h24v24H0z' /></svg>";
         if ($this->options->live["bubbleShowNewCommentMessage"]) {
             echo "<div id='wpd-bubble-notification-message'>";
             echo "<div id='wpd-bubble-author'>";
@@ -1854,7 +1874,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
             if ($atts["id"] && $atts["question"] && ($inline_form = $this->dbManager->getFeedbackFormByUid($post->ID, $atts["id"]))) {
                 $content = "<div class='wpd-inline-shortcode wpd-inline-" . ($inline_form->opened ? "opened" : "closed") . "' id='wpd-inline-" . $inline_form->id . "'>" . html_entity_decode($content);
                 $content .= "<div class='wpd-inline-icon-wrapper'>";
-                $content .= "<svg class='wpd-inline-icon" . ($this->options->inline["inlineFeedbackAttractionType"] === "blink" ? " wpd-ignored" : "") . "' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-icon-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-inline-icon-second' d='M0 0h24v24H0z' /></svg>";
+                $content .= "<svg class='wpd-inline-icon" . ($this->options->inline["inlineFeedbackAttractionType"] === "blink" ? " wpd-ignored" : "") . "' xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-icon-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-inline-icon-second' d='M0 0h24v24H0z' /></svg>";
                 $args = [
                     "count" => true,
                     "meta_query" => [
@@ -1976,9 +1996,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     $response["notification"] = esc_html($this->options->phrases["wc_feedback_comment_success"]);
                     $response["allCommentsCountNew"] = esc_html(get_comments_number($inline_form->post_id));
                     $response["allCommentsCountNewHtml"] = "<span class='wpdtc'>" . esc_html($response["allCommentsCountNew"]) . "</span> " . esc_html(1 == $response["allCommentsCountNew"] ? $form->getHeaderTextSingle() : $form->getHeaderTextPlural());
-                    if (apply_filters("wpdiscuz_clean_cache_after_comment_post", true)) {
-                        clean_post_cache($postId);
-                    }
+                    do_action("wpdiscuz_clean_post_cache", $inline_form->post_id, "inline_comment_posted");
                     wp_send_json_success($response);
                 } else {
                     wp_send_json_error("wc_invalid_field");

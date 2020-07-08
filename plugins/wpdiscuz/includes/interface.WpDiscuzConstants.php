@@ -87,6 +87,7 @@ interface WpDiscuzConstants {
     /* === Media Uploading === */       
     const METAKEY_ATTCHMENT_COMMENT_ID                = "_wmu_comment_id";
     const METAKEY_ATTCHMENT_OWNER_IP                  = "_wmu_owner_ip";
+    const METAKEY_IMPORTED_FROM                       = "_wmu_imported_from";
     const METAKEY_ATTACHMENTS                         = "wmu_attachments";
     const KEY_IMAGES                                  = "images";
     const INPUT_NAME                                  = "wmu_files";

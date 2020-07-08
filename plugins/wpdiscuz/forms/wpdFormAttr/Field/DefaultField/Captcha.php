@@ -45,7 +45,7 @@ class Captcha extends Field {
             if (extension_loaded("curl")) {
                 return new ReCaptcha\RequestMethod\CurlPost();
             }
-            
+
             if (function_exists("fsockopen")) {
                 return new ReCaptcha\RequestMethod\SocketPost();
             }
@@ -57,23 +57,19 @@ class Captcha extends Field {
     }
 
     public function frontFormHtml($name, $args, $options, $currentUser, $uniqueId, $isMainForm) {
-        if ($options->isGoodbyeCaptchaActive) {
-            echo $options->goodbyeCaptchaTocken;
-        } else {
-            $version = apply_filters("wpdiscuz_recaptcha_version", $options->recaptcha["version"]);
-            $key = apply_filters("wpdiscuz_recaptcha_site_key", $options->recaptcha["siteKey"]);
-            $secret = apply_filters("wpdiscuz_recaptcha_secret", $options->recaptcha["secretKey"]);
-            if ($this->isShowCaptcha($currentUser->ID, $options) && $key && $secret && $version == "2.0") {
-                ?>
-                <div class="wpd-field-captcha wpdiscuz-item">
-                    <div class="wpdiscuz-recaptcha" id='wpdiscuz-recaptcha-<?php echo esc_attr($uniqueId); ?>'></div>
-                    <input id='wpdiscuz-recaptcha-field-<?php echo esc_attr($uniqueId); ?>' type='hidden' name='wc_captcha' value="" required="required" class="wpdiscuz_reset"/>
-                    <div class="clearfix"></div>
-                </div>
-                <?php
-            }
-            do_action("wpdiscuz_captcha_field", $args, $currentUser, $uniqueId, $isMainForm);
+        $version = apply_filters("wpdiscuz_recaptcha_version", $options->recaptcha["version"]);
+        $key = apply_filters("wpdiscuz_recaptcha_site_key", $options->recaptcha["siteKey"]);
+        $secret = apply_filters("wpdiscuz_recaptcha_secret", $options->recaptcha["secretKey"]);
+        if ($this->isShowCaptcha($currentUser->ID, $options) && $key && $secret && $version == "2.0") {
+            ?>
+            <div class="wpd-field-captcha wpdiscuz-item">
+                <div class="wpdiscuz-recaptcha" id='wpdiscuz-recaptcha-<?php echo esc_attr($uniqueId); ?>'></div>
+                <input id='wpdiscuz-recaptcha-field-<?php echo esc_attr($uniqueId); ?>' type='hidden' name='wc_captcha' value="" required="required" class="wpdiscuz_reset"/>
+                <div class="clearfix"></div>
+            </div>
+            <?php
         }
+        do_action("wpdiscuz_captcha_field", $args, $currentUser, $uniqueId, $isMainForm);
     }
 
     public function sanitizeFieldData($data) {
@@ -89,7 +85,7 @@ class Captcha extends Field {
     }
 
     public function validateFieldData($fieldName, $args, $options, $currentUser) {
-        if ($currentUser && $this->isShowCaptcha($currentUser->ID, $options) && !$options->isGoodbyeCaptchaActive) {
+        if ($currentUser && $this->isShowCaptcha($currentUser->ID, $options)) {
             $this->initRecaptcha($options);
             $recaptchaResponse = filter_input(INPUT_POST, "g-recaptcha-response", FILTER_SANITIZE_STRING);
             $resp = $this->reCaptchaVerify($recaptchaResponse, $options, "wpdiscuz/addComment");
