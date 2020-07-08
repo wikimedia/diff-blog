@@ -33,8 +33,5 @@ wpcom_vip_load_plugin('wpdiscuz-user-comment-mentioning/WpdiscuzUCM.php');
 wpcom_vip_load_plugin('wpdiscuz-widgets/wpDiscuzWidgets.php');
 wpcom_vip_load_plugin('co-authors-plus/co-authors-plus.php');
 wpcom_vip_load_plugin('fieldmanager/fieldmanager.php');
-<<<<<<< HEAD
-=======
 wpcom_vip_load_plugin('multilingualpress/multilingualpress.php');
->>>>>>> 7086bea6c395109cdd8e0fd6f8acd63262a4c036
 wpcom_vip_load_plugin('diff-customizations/diff-customizations.php');
