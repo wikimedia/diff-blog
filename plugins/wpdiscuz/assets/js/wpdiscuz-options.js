@@ -159,6 +159,53 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    $(document).delegate('.import-cir', 'click', function (e) {
+        e.preventDefault();
+        var btn = $(this);
+        btn.attr('disabled', 'disabled');
+        $('.fas', btn).addClass('fa-pulse fa-spinner').removeClass('wc-hidden');
+        importCIR(btn);
+    });
+    function importCIR(btn) {
+        doingAjax = true;
+        var data = btn.parents('.wc-form').serialize();
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {cirData: data, 'action': 'wpdImportCIR'}
+        }).done(function (response) {
+            try {
+                var resp = JSON.parse(response);
+                $('.cir-step').val(resp.step);
+                if (resp.progress < 100) {
+                    importCIR(btn);
+                } else {
+                    btn.removeAttr('disabled');
+                    $('.fas', btn).removeClass('fa-pulse fa-spinner').addClass('wc-hidden');
+                }
+
+
+                if (resp.progress <= 3) {
+                    $('.import-progress').text(3 + '%');
+                } else {
+                    if (resp.progress < 100) {
+                        $('.import-progress').text(resp.progress + '%');
+                    } else {
+                        $('.import-progress').css({'color': '#10b493'});
+                        $('.import-progress').text(resp.progress + '% Done');
+                        $('.cir-step').val(0);
+                        doingAjax = false;
+                    }
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+        });
+    }
+
     $('.vote-regenerate-step').val(0);
     $(document).delegate('.regenerate-vote-metas', 'click', function (e) {
         e.preventDefault();
@@ -749,6 +796,68 @@ jQuery(document).ready(function ($) {
         $('.wpd-editor-toolbar #wpdeb_disable').show();
     });
     //========================= /TOOLBAR OPTIONS =====================//
+
+
+    /* TOOLS PAGE ACCORDION */
+    if (location.href.indexOf('wpdiscuz_tools_page') >= 0) {
+        var supportsHash = false;
+        if ("onhashchange" in window) {
+            supportsHash = true;
+        }
+
+        if (supportsHash) {
+            window.addEventListener("hashchange", wpdtoolOnhashchange, false);
+        }
+        // TODO check if browser supports hashchange
+
+        var accordionMatches = location.href.match(/#wpdtool\-(.+)/);
+        if (accordionMatches != null) {
+            var item = $('.wpdtool-accordion-title[data-wpdtool-selector="wpdtool-' + accordionMatches[1] + '"');
+            toolsAccordion(item);
+        }
+
+        $('.wpdtool-accordion-title').click(function () {
+            var item = $(this);
+
+            if (!supportsHash) {
+                toolsAccordion(item);
+            }
+
+            var selector = item.attr("data-wpdtool-selector");
+            accordionMatches = location.href.match(/#wpdtool\-(.+)/);
+            var accordionNewMatches = selector.match(/wpdtool\-(.+)/);
+            if (accordionNewMatches != null && accordionMatches != null) {
+                if (accordionMatches[1] == accordionNewMatches[1]) {
+                    location.href = location.href.replace(accordionNewMatches[0], "");
+                    if (supportsHash) {
+                        toolsAccordion(item);
+                    }
+                } else {
+                    location.href = location.href.replace(accordionMatches[1], accordionNewMatches[1]);
+                }
+            } else {
+                location.href = location.href.indexOf("#") >= 0 ? location.href + selector : location.href + "#" + selector;
+            }
+        });
+
+        function toolsAccordion(item) {
+            if (item != null) {
+                $(item).parent().siblings('.wpdtool-accordion-item').removeClass('wpdtool-accordion-current');
+                $(item).parent().siblings('.wpdtool-accordion-item').find('.wpdtool-accordion-content').slideUp(0);
+                $(item).siblings('.wpdtool-accordion-content').slideToggle(0);
+                $(item).parent().toggleClass('wpdtool-accordion-current');
+            }
+        }
+
+        function wpdtoolOnhashchange() {
+            var accordionMatches = location.href.match(/#wpdtool\-(.+)/);
+            if (accordionMatches != null) {
+                item = $('.wpdtool-accordion-title[data-wpdtool-selector="wpdtool-' + accordionMatches[1] + '"');
+                toolsAccordion(item);
+            }
+        }
+    }
+    /* TOOLS PAGE ACCORDION */
 
 });
 //========================= DASHBOARD =====================//

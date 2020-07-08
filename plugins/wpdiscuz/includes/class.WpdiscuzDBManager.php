@@ -41,26 +41,27 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
     public function dbCreateTables() {
         $this->initDB();
         require_once(ABSPATH . "wp-admin/includes/upgrade.php");
+        $charset_collate = $this->db->get_charset_collate();
         $engine = version_compare($this->db->db_version(), "5.6.4", ">=") ? "InnoDB" : "MyISAM";
-        $sql = "CREATE TABLE `{$this->usersVoted}`(`id` INT(11) NOT NULL AUTO_INCREMENT,`user_id` VARCHAR(32) NOT NULL, `comment_id` INT(11) NOT NULL, `vote_type` INT(11) DEFAULT NULL, `is_guest` TINYINT(1) DEFAULT 0, `post_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), KEY `comment_id` (`comment_id`),  KEY `vote_type` (`vote_type`), KEY `is_guest` (`is_guest`), KEY `post_id` (`post_id`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->usersVoted}`(`id` INT(11) NOT NULL AUTO_INCREMENT,`user_id` VARCHAR(32) NOT NULL, `comment_id` INT(11) NOT NULL, `vote_type` INT(11) DEFAULT NULL, `is_guest` TINYINT(1) DEFAULT 0, `post_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), KEY `comment_id` (`comment_id`),  KEY `vote_type` (`vote_type`), KEY `is_guest` (`is_guest`), KEY `post_id` (`post_id`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->usersVoted, $sql);
 
-        $sql = "CREATE TABLE `{$this->phrases}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `phrase_key` VARCHAR(100) NOT NULL, `phrase_value` TEXT NOT NULL, PRIMARY KEY (`id`), KEY `phrase_key` (`phrase_key`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->phrases}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `phrase_key` VARCHAR(100) NOT NULL, `phrase_value` TEXT NOT NULL, PRIMARY KEY (`id`), KEY `phrase_key` (`phrase_key`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->phrases, $sql);
 
-        $sql = "CREATE TABLE `{$this->emailNotification}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `email` VARCHAR(100) NOT NULL, `subscribtion_id` INT(11) NOT NULL, `post_id` INT(11) NOT NULL, `subscribtion_type` VARCHAR(20) NOT NULL, `activation_key` VARCHAR(32) NOT NULL, `confirm` TINYINT DEFAULT 0, `subscription_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`), KEY `subscribtion_id` (`subscribtion_id`), KEY `post_id` (`post_id`), KEY `confirm`(`confirm`), UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`,`post_id`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->emailNotification}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `email` VARCHAR(100) NOT NULL, `subscribtion_id` INT(11) NOT NULL, `post_id` INT(11) NOT NULL, `subscribtion_type` VARCHAR(20) NOT NULL, `activation_key` VARCHAR(32) NOT NULL, `confirm` TINYINT DEFAULT 0, `subscription_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `imported_from` VARCHAR(25) NOT NULL DEFAULT '', PRIMARY KEY (`id`), KEY `subscribtion_id` (`subscribtion_id`), KEY `post_id` (`post_id`), KEY `confirm`(`confirm`), UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`,`post_id`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->emailNotification, $sql);
 
-        $sql = "CREATE TABLE `{$this->avatarsCache}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL DEFAULT 0, `user_email` VARCHAR(100) NOT NULL, `url` VARCHAR(255) NOT NULL, `hash` VARCHAR(32) NOT NULL, `maketime` INT(11) NOT NULL DEFAULT 0, `cached` TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), UNIQUE KEY `user_email` (`user_email`), KEY `maketime` (`maketime`), KEY `cached` (`cached`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->avatarsCache}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL DEFAULT 0, `user_email` VARCHAR(100) NOT NULL, `url` VARCHAR(255) NOT NULL, `hash` VARCHAR(32) NOT NULL, `maketime` INT(11) NOT NULL DEFAULT 0, `cached` TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), UNIQUE KEY `user_email` (`user_email`), KEY `maketime` (`maketime`), KEY `cached` (`cached`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->avatarsCache, $sql);
 
-        $sql = "CREATE TABLE `{$this->followUsers}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT '0', `user_id` int(11) NOT NULL DEFAULT '0', `user_email` varchar(100) NOT NULL, `user_name` varchar(255) NOT NULL, `follower_id` int(11) NOT NULL DEFAULT '0', `follower_email` varchar(100) NOT NULL, `follower_name` varchar(255) NOT NULL, `activation_key` varchar(32) NOT NULL, `confirm` tinyint(1) NOT NULL DEFAULT '0', `follow_timestamp` int(11) NOT NULL, `follow_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`), KEY `user_email` (`user_email`), KEY `follower_id` (`follower_id`), KEY `follower_email` (`follower_email`), KEY `confirm` (`confirm`), KEY `follow_timestamp` (`follow_timestamp`), UNIQUE KEY `follow_unique_key` (`user_email`, `follower_email`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->followUsers}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT '0', `user_id` int(11) NOT NULL DEFAULT '0', `user_email` varchar(100) NOT NULL, `user_name` varchar(255) NOT NULL, `follower_id` int(11) NOT NULL DEFAULT '0', `follower_email` varchar(100) NOT NULL, `follower_name` varchar(255) NOT NULL, `activation_key` varchar(32) NOT NULL, `confirm` tinyint(1) NOT NULL DEFAULT '0', `follow_timestamp` int(11) NOT NULL, `follow_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`), KEY `user_email` (`user_email`), KEY `follower_id` (`follower_id`), KEY `follower_email` (`follower_email`), KEY `confirm` (`confirm`), KEY `follow_timestamp` (`follow_timestamp`), UNIQUE KEY `follow_unique_key` (`user_email`, `follower_email`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->followUsers, $sql);
 
-        $sql = "CREATE TABLE `{$this->feedbackForms}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `unique_id` VARCHAR(15) NOT NULL, `question` varchar(255) NOT NULL, `opened` TINYINT(4) UNSIGNED NOT NULL DEFAULT 0, `content` LONGTEXT NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `unique_id` (`unique_id`), KEY `post_id` (`post_id`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->feedbackForms}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `unique_id` VARCHAR(15) NOT NULL, `question` varchar(255) NOT NULL, `opened` TINYINT(4) UNSIGNED NOT NULL DEFAULT 0, `content` LONGTEXT NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `unique_id` (`unique_id`), KEY `post_id` (`post_id`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->feedbackForms, $sql);
 
-        $sql = "CREATE TABLE `{$this->usersRated}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `user_id` int(11) NOT NULL DEFAULT 0, `user_ip` VARCHAR(32) NOT NULL DEFAULT '', `rating` int(11) NOT NULL, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`)) ENGINE=$engine DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->usersRated}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `user_id` int(11) NOT NULL DEFAULT 0, `user_ip` VARCHAR(32) NOT NULL DEFAULT '', `rating` int(11) NOT NULL, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`)) ENGINE=$engine {$charset_collate};";
         maybe_create_table($this->usersRated, $sql);
     }
 
@@ -316,6 +317,11 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         $sql_alter = "ALTER TABLE `{$this->emailNotification}` DROP INDEX subscribe_unique_index, ADD UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`, `post_id`);";
         $this->db->query($sql_alter);
     }
+    
+    public function alterSubscriptionTable() {
+        $sql_alter = "ALTER TABLE `{$this->emailNotification}` ADD COLUMN `imported_from` VARCHAR(25) NOT NULL DEFAULT '';";
+        $this->db->query($sql_alter);
+    }
 
     /**
      * return users id who have published posts
@@ -474,12 +480,12 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
                 if ($userSubscription["type"] == self::SUBSCRIPTION_POST) {
                     continue;
                 } else {
-                    $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s WHERE `id` = %d;";
+                    $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s, `imported_from` = 'Subscribe to Comments Reloaded' WHERE `id` = %d;";
                     $sql = $this->db->prepare($sql, $subscriptionId, $postId, $subscriptionType, $userSubscription["id"]);
                     $this->db->query($sql);
                 }
             } else {
-                $sql = "INSERT INTO `{$this->emailNotification}` (`email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`) VALUES (%s, %d, %d, %s, %s, %d, %s);";
+                $sql = "INSERT INTO `{$this->emailNotification}` (`email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`, `imported_from`) VALUES (%s, %d, %d, %s, %s, %d, %s, 'Subscribe to Comments Reloaded');";
                 $sql = $this->db->prepare($sql, $email, $postId, $postId, $subscriptionType, $activationKey, $confirm, $subscriptionDate);
                 $this->db->query($sql);
             }
@@ -1076,29 +1082,33 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         $this->db->query($sql_alter);
         $sql_alter = "ALTER TABLE `{$this->usersRated}` MODIFY `user_ip` VARCHAR(32) NOT NULL;";
         $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->feedbackForms}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->avatarsCache}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->emailNotification}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->followUsers}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->phrases}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->usersVoted}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->usersRated}` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-        $this->db->query($sql_alter);
-        if (is_plugin_active("wpdiscuz-report-flagging/wpDiscuzFlagComment.php")) {
-            $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_flagged` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        if (!empty($this->db->charset)) {
+            $sql_alter = "ALTER TABLE `{$this->feedbackForms}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
             $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->avatarsCache}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->emailNotification}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->followUsers}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->phrases}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->usersVoted}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->usersRated}` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+            $this->db->query($sql_alter);
+            if (is_plugin_active("wpdiscuz-report-flagging/wpDiscuzFlagComment.php")) {
+                $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_flagged` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+                $this->db->query($sql_alter);
+            }
         }
         if (is_plugin_active("wpdiscuz-online-users/wpdiscuz-ou.php")) {
             $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` DROP INDEX `unique_online_user`, DROP INDEX `user_ip`, MODIFY `user_email` VARCHAR (100) NOT NULL, MODIFY `user_ip` VARCHAR (32) NOT NULL, ADD UNIQUE KEY `unique_online_user` (`blog_id`,`user_id`,`user_email`), ADD KEY `user_ip` (`user_ip`);";
             $this->db->query($sql_alter);
-            $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` CONVERT TO CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
-            $this->db->query($sql_alter);
+            if (!empty($this->db->charset)) {
+                $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";
+                $this->db->query($sql_alter);
+            }
         }
     }
 

@@ -186,8 +186,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$state || ($provider != "facebook")) {
             $this->redirect($postID, esc_html__("Facebook authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
@@ -260,8 +260,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
 
         if (!$state || ($provider != "instagram")) {
             $this->redirect($postID, esc_html__("Instagram authentication failed (OAuth state does not exist).", "wpdiscuz"));
@@ -338,8 +338,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$state || ($provider != "google")) {
             $this->redirect($postID, esc_html__("Google authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
@@ -407,8 +407,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
 
         if (!$state || ($provider != "linkedin")) {
             $this->redirect($postID, esc_html__("Linkedin authentication failed (OAuth state does not exist).", "wpdiscuz"));
@@ -517,8 +517,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$state || ($provider != "disqus")) {
             $this->redirect($postID, esc_html__("Disqus authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
@@ -603,8 +603,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$state || ($provider != "wordpress")) {
             $this->redirect($postID, esc_html__("Wordpress.com authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
@@ -690,8 +690,8 @@ class SocialLogin {
         $oauthToken = filter_input(INPUT_GET, "oauth_token", FILTER_SANITIZE_STRING);
         $oauthVerifier = filter_input(INPUT_GET, "oauth_verifier", FILTER_SANITIZE_STRING);
         $oauthSecretData = Utils::getProviderByState($oauthToken);
-        $oauthSecret = $oauthSecretData["provider"];
-        $postID = $oauthSecretData["postID"];
+        $oauthSecret = $oauthSecretData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $oauthSecretData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$oauthVerifier || !$oauthSecret) {
             $this->redirect($postID, esc_html__("Twitter authentication failed (OAuth secret does not exist).", "wpdiscuz"));
         }
@@ -743,8 +743,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$state || ($provider != "vk")) {
             $this->redirect($postID, esc_html__("VK authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
@@ -820,8 +820,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if (!$state || ($provider != "ok")) {
             $this->redirect($postID, esc_html__("OK authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
@@ -899,8 +899,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
@@ -988,8 +988,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
 
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
@@ -1078,8 +1078,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
@@ -1163,8 +1163,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
@@ -1269,8 +1269,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
@@ -1358,8 +1358,8 @@ class SocialLogin {
         $code = filter_input(INPUT_GET, "code", FILTER_SANITIZE_STRING);
         $state = filter_input(INPUT_GET, "state", FILTER_SANITIZE_STRING);
         $providerData = Utils::getProviderByState($state);
-        $provider = $providerData["provider"];
-        $postID = $providerData["postID"];
+        $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
+        $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
@@ -1411,7 +1411,7 @@ class SocialLogin {
         if ($message) {
             setcookie('wpdiscuz_social_login_message', $message, time() + 3600, '/');
         }
-        clean_post_cache($postID);
+        do_action("wpdiscuz_clean_post_cache", $postID, "social_login");
         wp_redirect($this->getPostLink($postID), 302);
         exit();
     }

@@ -42,7 +42,7 @@ class wpdEditorCounter {
             } else {
                 this.container.classList.remove("error");
             }
-        } else {
+        } else if (this.container) {
             this.container.remove();
         }
 //        if (_length < this.minCount) {
@@ -62,7 +62,7 @@ class wpdEditorLink extends Link {
         value = this.sanitize(value);
         node.setAttribute('href', value);
         let siteUrl = location.protocol + '//' + location.hostname;
-        if (value.startsWith(siteUrl)  || value.charAt(0) === '#' || (value.charAt(0) === '/' && value.charAt(1) !== '/')) {
+        if (value.startsWith(siteUrl) || value.charAt(0) === '#' || (value.charAt(0) === '/' && value.charAt(1) !== '/')) {
             node.removeAttribute('target');
         }
         return node;
@@ -75,10 +75,9 @@ class wpdEditorLink extends Link {
         }
         return s_url;
     }
-    
-    
+
 }
-Quill.register(wpdEditorLink,true);
+Quill.register(wpdEditorLink, true);
 class WpdEditor {
     constructor() {
         this.editorWraperPrefix = 'wpd-editor-wraper';
@@ -191,8 +190,10 @@ class WpdEditor {
     _bindTextEditor(editor) {
         let textEditorID = `${this.textEditorPrefix}-${this.uniqueid}`,
                 textEditorHtml = document.getElementById(textEditorID);
-        textEditorHtml.style.cssText = "display: none;";
-        editor.addContainer(this.textEditorContainer).appendChild(textEditorHtml);
+        if (textEditorHtml) {
+            textEditorHtml.style.cssText = "display: none;";
+            editor.addContainer(this.textEditorContainer).appendChild(textEditorHtml);
+        }
 //        if (editor.container.id.indexOf('-edit_') > 0) {
 //            console.log(textEditorHtml.value);
 //            editor.clipboard.dangerouslyPasteHTML(0, textEditorHtml.value);

@@ -2,6 +2,17 @@
 if (!defined("ABSPATH")) {
     exit();
 }
+
+$tools = [
+    ["selector" => "options", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-options.php"],
+    ["selector" => "phrases", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-phrases.php"],
+    ["selector" => "images", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-images.php"],
+    ["selector" => "regenerate", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-regenerate.php"],
+    ["selector" => "subscriptions", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-subscriptions.php"],
+    ["selector" => "ratings", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-ratings.php"],
+    ["selector" => "database", "file" => WPDISCUZ_DIR_PATH . "/options/tools-layouts/tool-database.php"],
+];
+$tools = apply_filters("wpdiscuz_dashboard_tools", $tools);
 ?>
 <div class="wrap wpdiscuz_tools_page">
     <div style="float:left; width:50px; height:55px; margin:10px 10px 10px 0px;">
@@ -11,60 +22,13 @@ if (!defined("ABSPATH")) {
     <br style="clear:both" />
     <?php settings_errors("wpdiscuz"); ?>
     <div id="toolsTab">
-        <ul class="resp-tabs-list tools_tab_id">
-            <li><?php esc_html_e("Export options", "wpdiscuz"); ?></li>
-            <li><?php esc_html_e("Import options", "wpdiscuz"); ?></li>
-            <li><?php esc_html_e("Export phrases", "wpdiscuz"); ?></li>
-            <li><?php esc_html_e("Import phrases", "wpdiscuz"); ?></li>
-            <li><?php esc_html_e("Import subscriptions", "wpdiscuz"); ?></li>            
-            <li><?php esc_html_e("Regenerate Vote Metas", "wpdiscuz"); ?></li>
-            <li><?php esc_html_e("Regenerate Closed Comments", "wpdiscuz"); ?></li>  
-            <li><?php esc_html_e("Regenerate Vote Data", "wpdiscuz"); ?></li>  
-            <li><?php esc_html_e("Synchronize Commenter Data", "wpdiscuz"); ?></li>           
-            <li><?php esc_html_e("Rebuild Ratings", "wpdiscuz"); ?></li>           
-            <li><?php esc_html_e("Fix Tables", "wpdiscuz"); ?></li>           
-        </ul>
-        <div class="resp-tabs-container tools_tab_id">
-            <?php
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/options-export.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/options-import.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/phrases-export.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/phrases-import.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/subscriptions-import.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/regenerate-vote-metas.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/regenerate-closed-comments.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/regenerate-vote-data.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/sync-commenter-data.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/rebuild-ratings.php";
-            include_once WPDISCUZ_DIR_PATH . "/options/tools-layouts/fix-tables.php";
-            ?>
-        </div>
-    </div>
-    <script>
-        jQuery(document).ready(function ($) {
-            var width = 0;
-            var toolsTabsType = 'default';
-            $('#toolsTab ul.resp-tabs-list.tools_tab_id li').each(function () {
-                width += $(this).outerWidth(true);
-            });
-
-            if (width > $('#toolsTab').innerWidth()) {
-                toolsTabsType = 'vertical';
-            }
-
-            //Horizontal Tab
-            $('#toolsTab').wpdiscuzEasyResponsiveTabs({
-                type: toolsTabsType, //Types: default, vertical, accordion
-                width: 'auto', //auto or any width like 600px
-                fit: true, // 100% fit in a container
-                tabidentify: 'tools_tab_id' // The tab groups identifier
-            });
-            window.addEventListener("hashchange", function () {
-                var matches = location.href.match(/#toolsTab(\d+)/);
-                if (matches !== null) {
-                    $('.resp-tabs-list.tools_tab_id li').eq(matches[1] - 1).click();
+        <?php
+        if ($tools && is_array($tools))
+            foreach ($tools as $tool) {
+                if (!empty($tool["selector"]) && !empty($tool["file"]) && file_exists($tool["file"])) {
+                    include_once $tool["file"];
                 }
-            });
-        });
-    </script>
+            }
+        ?>
+    </div>
 </div>

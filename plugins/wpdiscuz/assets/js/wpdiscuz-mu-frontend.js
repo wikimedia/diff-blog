@@ -23,9 +23,9 @@ jQuery(document).ready(function ($) {
             size += file.size;
             data.append(wpdiscuzAjaxObj.wmuInput + '[' + i + ']', file);
         });
-        if (size > wpdiscuzAjaxObj.wmuMaxFileSize) {
+        if (size > parseInt(wpdiscuzAjaxObj.wmuMaxFileSize)) {
             wpdiscuzAjaxObj.setCommentMessage(wpdiscuzAjaxObj.wmuPhraseMaxFileSize, 'error', 3000);
-        } else if (size > wpdiscuzAjaxObj.wmuPostMaxSize) {
+        } else if (size > parseInt(wpdiscuzAjaxObj.wmuPostMaxSize)) {
             wpdiscuzAjaxObj.setCommentMessage(wpdiscuzAjaxObj.wmuPhrasePostMaxSize, 'error', 3000);
         } else {
             wpdiscuzAjaxObj.getAjaxObj(true, true, data)
@@ -39,6 +39,7 @@ jQuery(document).ready(function ($) {
                             wmuDisplayPreviews(form, r);
                             if (r.data.errors) {
                                 wpdiscuzAjaxObj.setCommentMessage(r.data.errors, 'error', 3000);
+                                console.log(r.data.errors);
                             }
                         } else {
                             if (r.data.errorCode) {
@@ -167,7 +168,7 @@ jQuery(document).ready(function ($) {
                 });
     });
 
-    if (wpdiscuzAjaxObj.wmuIsLightbox) {
+    if (parseInt(wpdiscuzAjaxObj.wmuIsLightbox)) {
         function wmuAddLightBox() {
             $(".wmu-lightbox").colorbox({
                 maxHeight: "95%",
