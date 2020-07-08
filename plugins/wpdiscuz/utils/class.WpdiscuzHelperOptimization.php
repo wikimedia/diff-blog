@@ -21,6 +21,8 @@ class WpdiscuzHelperOptimization implements WpDiscuzConstants {
         add_action("admin_post_resetPhrases", [&$this, "resetPhrases"]);
         add_action("transition_comment_status", [&$this, "statusEventHandler"], 10, 3);
         add_action("deleted_post", [&$this->dbManager, "removeRatings"], 10);
+        add_action("wpdiscuz_clean_post_cache", [&$this, "cleanPostCache"]);
+        add_action("wpdiscuz_clean_all_caches", [&$this, "cleanAllCaches"]);
     }
 
     /**
@@ -153,6 +155,67 @@ class WpdiscuzHelperOptimization implements WpDiscuzConstants {
             $this->dbManager->deleteFollowsByEmail($user->user_email);
         }
         $this->dbManager->deleteUserVotes($id);
+    }
+
+    public function cleanPostCache($postId) {
+        $clean = apply_filters("wpdiscuz_manage_post_cache_clearing", true);
+        if( $clean ){
+	        clean_post_cache($postId);
+	        if (class_exists("\LiteSpeed\Purge")) {
+		        \LiteSpeed\Purge::purge_url(get_the_permalink($postId));
+	        }
+	        if (function_exists("rocket_clean_post")) {
+		        rocket_clean_post($postId);
+	        }
+	        if (function_exists("wpfc_clear_post_cache_by_id")) {
+		        wpfc_clear_post_cache_by_id($postId);
+	        }
+	        if (function_exists("fvm_purge_all")) {
+		        fvm_purge_all();
+	        }
+	        if (function_exists("fvm_purge_others")) {
+		        fvm_purge_others();
+	        }
+	        if (function_exists("w3tc_flush_post")) {
+		        w3tc_flush_post($postId);
+	        }
+        }
+    }
+
+    public function cleanAllCaches() {
+	    $clean = apply_filters("wpdiscuz_manage_all_cache_clearing", true);
+	    if( $clean ){
+		    wp_cache_flush();
+		    if (class_exists("\LiteSpeed\Purge")) {
+			    \LiteSpeed\Purge::purge_all();
+		    }
+		    if (function_exists("rocket_clean_domain")) {
+			    rocket_clean_domain();
+		    }
+		    if (function_exists("wpfc_clear_all_cache")) {
+			    wpfc_clear_all_cache(true);
+		    }
+		    $fvm = get_option("fastvelocity_min_ignore");
+		    if (is_string($fvm) && strpos($fvm, "/wp-content/plugins/wpdiscuz/*") === false) {
+			    if ($fvm) {
+				    $fvm .= "\n";
+			    }
+			    $fvm .= "/wp-content/plugins/wpdiscuz/*";
+			    update_option("fastvelocity_min_ignore", $fvm);
+		    }
+		    if (function_exists("fvm_purge_all")) {
+			    fvm_purge_all();
+		    }
+		    if (function_exists("fvm_purge_others")) {
+			    fvm_purge_others();
+		    }
+		    if (function_exists("w3tc_flush_all")) {
+			    w3tc_flush_all();
+		    }
+		    if (class_exists("autoptimizeCache")) {
+			    autoptimizeCache::clearall();
+		    }
+	    }
     }
 
 }

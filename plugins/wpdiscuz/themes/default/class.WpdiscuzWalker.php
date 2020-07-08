@@ -419,7 +419,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
                 $search[] = "{REPLY_ICON}";
                 $search[] = "{REPLY_TEXT}";
                 $replace[] = "wpd-reply-button";
-                $replace[] = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/><path d='M0 0h24v24H0z' fill='none'/></svg>";
+                $replace[] = "<svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/><path d='M0 0h24v24H0z' fill='none'/></svg>";
                 $replace[] = esc_html($this->options->phrases["wc_reply_text"]);
                 $search[] = "{PANEL}";
                 if ($args["layout"] == 3 && !$comment->comment_parent) {
@@ -444,7 +444,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
                     $replace[] = "<span class='wpd-view-replies'>" . esc_html($this->options->phrases["wc_show_replies_text"]) . " ($countChildren)</span><i class='fas fa-chevron-down'></i>";
                     $showToggle = true;
                 }
-            } else if ($comment->get_children()) {
+            } else if ($comment->get_children(["post_id" => $args["post_id"]])) {
                 $search[] = "{TOGGLE_WRAPPER_CLASSES}";
                 $search[] = "{TOGGLE_TOOLTIP_TEXT}";
                 $search[] = "{TOGGLE_ICON}";
@@ -477,7 +477,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             $commentReadMoreLimit = 0;
             $comment->comment_content = $this->helper->spoiler($comment->comment_content);
         }
-        if ($commentReadMoreLimit && str_word_count(wp_strip_all_tags($comment->comment_content)) > $commentReadMoreLimit) {
+        if ($commentReadMoreLimit && WpdiscuzHelper::strWordCount(wp_strip_all_tags($comment->comment_content)) > $commentReadMoreLimit) {
             $comment->comment_content = WpdiscuzHelper::getCommentExcerpt($comment->comment_content, $uniqueId, $this->options);
         }
 

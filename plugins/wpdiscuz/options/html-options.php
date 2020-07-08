@@ -264,9 +264,9 @@ $settings = $this->settingsArray();
                                 </div>
                                 <div class="wpd-wizard-opt-option">
                                     <div class="wpd-switch-field">
-                                        <input type="radio" value="1" <?php checked(1 == $this->live["enableBubble"]); ?> name="enableBubble" id="enableBubble" />
+                                        <input type="radio" value="1" checked name="enableBubble" id="enableBubble" />
                                         <label for="enableBubble" style="min-width:60px;"><?php esc_html_e("Enable", "wpdiscuz"); ?></label>
-                                        <input type="radio" value="0" <?php checked(0 == $this->live["enableBubble"]); ?> name="enableBubble" id="disableBubble" />
+                                        <input type="radio" value="0" name="enableBubble" id="disableBubble" />
                                         <label for="disableBubble" style="min-width:60px;"><?php esc_html_e("Disable", "wpdiscuz"); ?></label>
                                     </div>
                                 </div>
@@ -277,9 +277,9 @@ $settings = $this->settingsArray();
                                 </div>
                                 <div class="wpd-wizard-opt-option">
                                     <div class="wpd-switch-field">
-                                        <input type="radio" value="1" <?php checked(1 == $this->live["bubbleLiveUpdate"]); ?> name="bubbleLiveUpdate" id="enableBubbleLiveUpdate" />
+                                        <input type="radio" value="1" name="bubbleLiveUpdate" id="enableBubbleLiveUpdate" />
                                         <label for="enableBubbleLiveUpdate" style="min-width:60px;"><?php esc_html_e("Enable", "wpdiscuz"); ?></label>
-                                        <input type="radio" value="0" <?php checked(0 == $this->live["bubbleLiveUpdate"]); ?> name="bubbleLiveUpdate" id="disableBubbleLiveUpdate" />
+                                        <input type="radio" value="0" checked name="bubbleLiveUpdate" id="disableBubbleLiveUpdate" />
                                         <label for="disableBubbleLiveUpdate" style="min-width:60px;"><?php esc_html_e("Disable", "wpdiscuz"); ?></label>
                                     </div>
                                 </div>
@@ -290,11 +290,11 @@ $settings = $this->settingsArray();
                                 </div>
                                 <div class="wpd-wizard-opt-option">
                                     <div class="wpd-switch-field">
-                                        <input type="radio" <?php checked($this->live["bubbleLocation"] == "content_left") ?> value="content_left" name="bubbleLocation" id="content_left" class="content_left" style="vertical-align: bottom;"/>
+                                        <input type="radio" checked value="content_left" name="bubbleLocation" id="content_left" class="content_left" style="vertical-align: bottom;"/>
                                         <label for="content_left" style="min-width:60px;"><?php esc_html_e("Content Left", "wpdiscuz"); ?></label>
-                                        <input type="radio" <?php checked($this->live["bubbleLocation"] == "left_corner") ?> value="left_corner" name="bubbleLocation" id="left_corner" class="left_corner" style="vertical-align: bottom;"/>
+                                        <input type="radio" value="left_corner" name="bubbleLocation" id="left_corner" class="left_corner" style="vertical-align: bottom;"/>
                                         <label for="left_corner" style="min-width:60px;"><?php esc_html_e("Left Corner", "wpdiscuz"); ?></label>
-                                        <input type="radio" <?php checked($this->live["bubbleLocation"] == "right_corner") ?> value="right_corner" name="bubbleLocation" id="right_corner" class="right_corner" style="vertical-align: bottom;"/>
+                                        <input type="radio" value="right_corner" name="bubbleLocation" id="right_corner" class="right_corner" style="vertical-align: bottom;"/>
                                         <label for="right_corner" style="min-width:60px;"><?php esc_html_e("Right Corner", "wpdiscuz"); ?></label>
                                     </div>
                                 </div>

@@ -365,6 +365,9 @@
 #wpd-setbox .wpd-setcon .wpd-color-wrap input{width: 80px!important; padding: 3px 5px!important; font-size: 13px!important; text-align: center!important;}
 #wpd-setbox .wpd-setcon .wpd-color-wrap label{font-weight: normal!important; display: inline-block!important; margin: 0px 5px!important;}
 #wpd-setbox .wpd-setcon  h2.wpd-subtitle{padding: 40px 0px 10px 0px; margin: 0px; font-size: 17px; font-weight: normal;color: #07B290; border-bottom: 1px dashed #07B290;}
+#wpd-setbox .wpd-setcon .wpd-scol-wrap{padding: 7px 5px; width: 300px; min-width: 50%; box-sizing: border-box;}
+#wpd-setbox .wpd-setcon .wpd-scol-wrap input{width: 80px!important; padding: 3px 5px!important; font-size: 13px!important; text-align: center!important;}
+#wpd-setbox .wpd-setcon .wpd-scol-wrap label{font-weight: normal!important; display: inline-block!important; margin: 0px 5px!important;}
 
 #wpd-setbox .wpd-setcon .wpd-social-label{font-size: 18px;}
 #wpd-setbox .wpd-setcon .wpd-social-label.wpd-facebook{color: #4267B2; border-bottom: 2px solid #9fbbff; }
@@ -455,3 +458,77 @@
 @media screen and (max-width:480px){
     #wpd-setbox .wpd-settings-home .wpd-box{width: 100%; margin: 0 0 25px 0;}
 }
+
+/* ============== TOOLS PAGE ============== */
+.wpdtool-accordion-item {
+    margin:7px 5px;
+}
+.wpdtool-accordion-title {
+    position: relative;
+    padding-right: 50px;
+    cursor: pointer;
+    display: block;
+    border: 1px solid #d3d3d3;
+    background-color: #f9f9f9;
+    color: #333;
+/*    background-color: #00aadd;
+    color: #f9f9f9;*/
+}
+
+.wpdtool-accordion-title p {
+    margin: 7px 0 10px 15px;
+    font-weight: normal;
+    font-size: 18px;    
+}
+.wpdtool-accordion-title:after {
+    content: "\f054";
+    font-family: Font Awesome\ 5 Free;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    transition: all .4s ease;
+    transform-origin: 50%;
+}
+.wpdtool-accordion-content {}
+
+.wpdtool-accordion-current .wpdtool-accordion-title:after {
+    transform: translateY(-50%) rotateZ(90deg);
+}
+.wpdtool-accordion-item:not(.wpdtool-accordion-current) .wpdtool-accordion-content {
+    display: none;
+}
+.wpdtool-accordion-current .wpdtool-accordion-title {
+    background-color: #00B38F;
+    color:#f0f0f0;
+/*    background-color: #f9f9f9;
+    color:#00aadd;*/
+/*    border-left: 3px solid #00aadd;
+    border-right: 1px solid #00aadd;
+    border-top: 1px solid #00aadd;
+    border-bottom: 1px solid #00aadd;*/
+}
+
+.wpdtool {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;    
+    margin: 7px 0;
+}
+
+.wpdtool-block {
+    margin: 15px 25px;
+    overflow: hidden;
+}
+
+.wpdtool-desc {
+    font-size:13px; 
+    color:#666; 
+    width:90%; 
+    padding-left:0px; 
+    margin:15px 25px;
+}
+
+.wpdtool-left {float: left;}
+.wpdtool-right {float: right;}
+/* ============== TOOLS PAGE ============== */

@@ -1,0 +1,121 @@
+{
+	"other": {
+		"label":"Custom OAuth 2.0 App", "type":"oauth", "image":"customapp.png", "scope": "", "authorize": "", "token": "", "userinfo": "", "guide":""
+	},
+	"openidconnect": {
+		"label":"Custom OpenID Connect App", "type":"openidconnect", "image":"customapp.png", "scope": "", "authorize": "", "token": "", "userinfo": "", "guide":""
+	},
+	"azure": {
+		"label":"Azure AD", "type":"openidconnect", "image":"azure.png", "scope": "openid", "authorize": "https://login.microsoftonline.com/{tenant-id}/oauth2/authorize", "token": "https://login.microsoftonline.com/{tenant-id}/oauth2/token", "userinfo": "https://login.windows.net/common/openid/userinfo", "guide":"https://plugins.miniorange.com/azure-ad-login-for-wordpress-oauth-openid-single-sign-on", "logo_class":"fa fa-windowslive"
+	},
+	"azureb2c": {
+		"label":"Azure B2C", "type":"openidconnect", "image":"azure.png", "scope": "openid", "authorize": "https://{tenant}.b2clogin.com/{tenant}.onmicrosoft.com/{policy}/oauth2/v2.0/authorize", "token": "https://{tenant}.b2clogin.com/{tenant}.onmicrosoft.com/{policy}/oauth2/v2.0/token", "userinfo": "", "guide":"https://plugins.miniorange.com/azure-b2c-login-for-wordpress-oauth-openid-single-sign-on", "logo_class":"fa fa-windowslive"
+	},
+	"cognito": {
+		"label":"AWS Cognito", "type":"oauth", "image":"cognito.png", "scope": "openid", "authorize": "https://<cognito-app-domain>/oauth2/authorize", "token": "https://<cognito-app-domain>/oauth2/token", "userinfo": "https://<cognito-app-domain>/oauth2/userInfo", "guide":"https://plugins.miniorange.com/sso-wordpress-using-aws-cognito-openid-connect-protocol/"
+	},
+	"adfs": {
+		"label":"ADFS", "type":"openidconnect", "image":"adfs.png", "scope": "openid", "authorize": "https://{yourADFSDomain}/adfs/oauth2/authorize/", "token": "https://{yourADFSDomain}/adfs/oauth2/token/", "userinfo": "", "guide":""
+	},
+	"whmcs": {
+		"label":"WHMCS", "type":"oauth", "image":"whmcs.png", "scope": "openid profile email", "authorize": "https://{yourWHMCSdomain}/oauth/authorize.php", "token": "https://{yourWHMCSdomain}/oauth/token.php", "userinfo": "https://{yourWHMCSdomain}/oauth/userinfo.php?access_token=", "guide":"https://plugins.miniorange.com/guide-to-configure-whmcs-oauth-openid-connect-server/"
+	},
+	"keycloak": {
+		"label":"keycloak", "type":"openidconnect", "image":"keycloak.png", "scope": "openid", "authorize": "{your-domain}/auth/realms/{realm}/protocol/openid-connect/auth", "token": "{your-domain}/auth/realms/{realm}/protocol/openid-connect/token", "userinfo": "{your-domain}/auth/realms/{realm}/protocol/openid-connect/userinfo", "guide":"https://plugins.miniorange.com/guide-to-configure-keycloak-as-oauth-server/"
+	},
+	"slack": {
+		"label":"Slack", "type":"oauth", "image":"slack.png", "scope": "users.profile:read", "authorize": "https://slack.com/oauth/authorize", "token": "https://slack.com/api/oauth.access", "userinfo": "https://slack.com/api/users.profile.get", "guide":"https://plugins.miniorange.com/guide-to-configure-slack-as-oauth-server/"
+	},
+	"discord": {
+		"label":"Discord", "type":"oauth", "image":"discord.png", "scope": "identify email", "authorize": "https://discordapp.com/api/oauth2/authorize", "token": "https://discordapp.com/api/oauth2/token", "userinfo": "https://discordapp.com/api/users/@me", "guide":"http://plugins.miniorange.com/guide-to-configure-discord-as-oauth-server"
+	},
+	"invisioncommunity": {
+		"label":"Invision Community", "type":"oauth", "image":"invis.png", "scope": "email", "authorize": "https://{invision-community-domain}/oauth/authorize/", "token": "https://{invision-community-domain}/oauth/token/", "userinfo": "https://{invision-community-domain}/oauth/me", "guide":"https://plugins.miniorange.com/guide-to-invision-community-client-with-wordpress/"
+	},
+    "bitrix24": {
+		"label":"Bitrix24", "type":"oauth", "image":"bitrix24.png", "scope": "user", "authorize": "https://{your-id}.bitrix24.com/oauth/authorize", "token": "https://{your-id}.bitrix24.com/oauth/token", "userinfo": "https://{your-id}.bitrix24.com/rest/user.current.json?auth=", "guide":"https://plugins.miniorange.com/step-by-step-guide-for-wordpress-oauth-client/"
+	},
+	"wso2": {
+		"label":"WSO2", "type":"oauth", "image":"wso2.png", "scope": "", "authorize": "https://<wso2-app-domain>/wso2/oauth2/authorize", "token": "https://<wso2-app-domain>/wso2/oauth2/token", "userinfo": "https://<wso2-app-domain>/wso2/oauth2/userinfo", "guide":"https://plugins.miniorange.com/guide-to-configure-wso2-sso-oauth-server/"
+	},
+	"okta": {
+		"label":"Okta", "type":"openidconnect", "image":"okta.png", "scope": "openid", "authorize": "https://{yourOktaDomain}.com/oauth2/default/v1/authorize", "token": "https://{yourOktaDomain}.com/oauth2/default/v1/token", "userinfo": "", "guide":"https://plugins.miniorange.com/guide-to-configure-okta-as-openid-connect-server/"
+	},
+	"onelogin": {
+		"label":"OneLogin", "type":"openidconnect", "image":"onelogin.png", "scope": "openid", "authorize": "https://<site-url>.onelogin.com/oidc/auth", "token": "https://<site-url>.onelogin.com/oidc/token", "userinfo": "", "guide":"https://plugins.miniorange.com/guide-to-configure-onelogin-as-openid-connect-server/"
+	},
+	"gapps": {
+		"label":"Google", "type":"oauth", "image":"google.png", "scope": "email", "authorize": "https://accounts.google.com/o/oauth2/auth", "token": "https://www.googleapis.com/oauth2/v4/token", "userinfo": "https://www.googleapis.com/oauth2/v1/userinfo", "guide":"http://plugins.miniorange.com/guide-to-configure-google-as-oauth-server/"
+	},
+	"fbapps": {
+		"label":"Facebook", "type":"oauth", "image":"facebook.png", "scope": "public_profile email", "authorize": "https://www.facebook.com/dialog/oauth", "token": "https://graph.facebook.com/v2.8/oauth/access_token", "userinfo": "https://graph.facebook.com/me/?fields=id,name,email,age_range,first_name,gender,last_name,link", "guide":"http://plugins.miniorange.com/guide-to-configure-facebook-as-oauth-server/"
+	},
+	"gluu": {
+		"label":"Gluu Server", "type":"oauth", "image":"gluu.png", "scope": "openid", "authorize": "http://<gluu-server-domain>/oxauth/restv1/authorize", "token": "http://<gluu-server-domain>/oxauth/restv1/token", "userinfo": "http:///<gluu-server-domain>/oxauth/restv1/userinfo", "guide":"https://plugins.miniorange.com/guide-configure-gluu-oauth-server/"
+	},
+	"linkedin": {
+		"label":"LinkedIn", "type":"oauth", "image":"linkedin.png", "scope": "r_basicprofile", "authorize": "https://www.linkedin.com/oauth/v2/authorization", "token": "https://www.linkedin.com/oauth/v2/accessToken", "userinfo": "https://api.linkedin.com/v2/me", "guide":"https://plugins.miniorange.com/guide-to-configure-linkedin-oauthopenid-connect-server/"
+	},
+	"strava": {
+		"label":"Strava", "type":"oauth", "image":"strava.png", "scope": "read", "authorize": "https://www.strava.com/oauth/authorize", "token": "https://www.strava.com/oauth/token", "userinfo": "https://www.strava.com/api/v3/athlete", "guide":"https://plugins.miniorange.com/guide-to-configure-strava-as-oauth-server/"
+	},
+	"fitbit": {
+		"label":"FitBit", "type":"oauth", "image":"fitbit.png", "scope": "profile", "authorize": "https://www.fitbit.com/oauth2/authorize", "token": "https://api.fitbit.com/oauth2/token", "userinfo": "https://www.fitbit.com/1/user", "guide":"https://plugins.miniorange.com/guide-to-configure-fitbit-as-oauth-server/"
+	},
+	"box": {
+		"label":"Box", "type":"oauth", "image":"box.png", "scope": "root_readwrite", "authorize": "https://account.box.com/api/oauth2/authorize", "token": "https://api.box.com/oauth2/token", "userinfo": "https://api.box.com/2.0/users/me", "guide":"https://plugins.miniorange.com/guide-to-configure-box-as-oauth-server/"
+	},
+	"github": {
+		"label":"GitHub", "type":"oauth", "image":"github.png", "scope": "user repo", "authorize": "https://github.com/login/oauth/authorize", "token": "https://github.com/login/oauth/access_token", "userinfo": "https://api.github.com/user", "guide":"http://plugins.miniorange.com/guide-to-configure-github-as-oauth-server"
+	},
+	"gitlab": {
+		"label":"GitLab", "type":"oauth", "image":"gitlab.png", "scope": "read_user", "authorize": "https://gitlab.com/oauth/authorize", "token": "http://gitlab.com/oauth/token", "userinfo": "https://gitlab.com/api/v4/user", "guide":"https://plugins.miniorange.com/guide-to-configure-gitlab-as-oauth-server/"
+	},
+	"clever": {
+		"label":"Clever", "type":"oauth", "image":"clever.png", "scope": "read:students read:teachers read:user_id", "authorize": "https://clever.com/oauth/authorize", "token": "https://clever.com/oauth/tokens", "userinfo": "https://api.clever.com/v1.1/me", "guide":"https://plugins.miniorange.com/guide-to-configure-clever-oauthopenid-connect-server/"
+	},
+	"salesforce": {
+		"label":"Salesforce", "type":"oauth", "image":"salesforce.png", "scope": "email", "authorize": "https://login.salesforce.com/services/oauth2/authorize", "token": "https://login.salesforce.com/services/oauth2/token", "userinfo": "https://login.salesforce.com/services/oauth2/userinfo", "guide":"https://plugins.miniorange.com/guide-to-configure-salesforce-as-oauth-server/"
+	},
+	"reddit": {
+		"label":"Reddit", "type":"oauth", "image":"reddit.png", "scope": "identity", "authorize": "https://www.reddit.com/api/v1/authorize", "token": "https://www.reddit.com/api/v1/access_token", "userinfo": "https://www.reddit.com/api/v1/me", "guide":"https://plugins.miniorange.com/guide-to-configure-reddit-as-oauth-server/"
+	},
+	"paypal": {
+		"label":"PayPal", "type":"openidconnect", "image":"paypal.png", "scope": "openid", "authorize": "https://www.paypal.com/signin/authorize", "token": "https://api.paypal.com/v1/oauth2/token", "userinfo": "", "guide":"https://plugins.miniorange.com/guide-to-configure-paypal-as-oauth-server/"
+	},
+	"swiss-rx-login": {
+		"label":"Swiss RX Login", "type":"openidconnect", "image":"swiss-rx-login.png", "scope": "anonymous", "authorize": "https://www.swiss-rx-login.ch/oauth/authorize", "token": "https://swiss-rx-login.ch/oauth/token", "userinfo": "", "guide":""
+	},
+	"yahoo": {
+		"label":"Yahoo", "type":"openidconnect", "image":"yahoo.png", "scope": "openid", "authorize": "https://api.login.yahoo.com/oauth2/request_auth", "token": "https://api.login.yahoo.com/oauth2/get_token", "userinfo": "", "guide":"https://plugins.miniorange.com/guide-to-configure-yahoo-as-oauth-server/"
+	},
+	"spotify": {
+		"label":"Spotify", "type":"oauth", "image":"spotify.png", "scope": "user-read-private user-read-email", "authorize": "https://accounts.spotify.com/authorize", "token": "https://accounts.spotify.com/api/token", "userinfo": "https://api.spotify.com/v1/me", "guide":"https://plugins.miniorange.com/guide-to-configure-spotify-as-oauth-server/"
+	},
+	"vkontakte": {
+		"label":"VKontakte", "type":"oauth", "image":"vk.png", "scope": "", "authorize": "https://oauth.vk.com/authorize", "token": "https://oauth.vk.com/access_token", "userinfo": "https://api.vk.com/method/users.get?fields=id,name,email,age_range,first_name,gender,last_name,link&access_token=", "guide":"https://plugins.miniorange.com/guide-to-configure-vkontakte-as-oauth-server/"
+	},
+	"pinterest": {
+		"label":"Pinterest", "type":"oauth", "image":"pinterest.png", "scope": "read_public", "authorize": "https://api.pinterest.com/oauth/", "token": "https://api.pinterest.com/v1/oauth/token", "userinfo": "https://api.pinterest.com/v1/me/", "guide":"https://plugins.miniorange.com/guide-to-configure-pinterest-as-oauth-server/"
+	},
+	"vimeo": {
+		"label":"Vimeo", "type":"oauth", "image":"vimeo.png", "scope": "public", "authorize": "https://api.vimeo.com/oauth/authorize", "token": "https://api.vimeo.com/oauth/access_token", "userinfo": "https://api.vimeo.com/me", "guide":"https://plugins.miniorange.com/guide-to-configure-vimeo-as-oauth-server/"
+	},
+	"deviantart": {
+		"label":"DeviantArt", "type":"oauth", "image":"devart.png", "scope": "browse", "authorize": "https://www.deviantart.com/oauth2/authorize", "token": "https://www.deviantart.com/oauth2/token", "userinfo": "https://www.deviantart.com/api/v1/oauth2/user/profile", "guide":"https://plugins.miniorange.com/guide-to-configure-deviantart-as-oauth-server/"
+	},
+	"dailymotion": {
+		"label":"Dailymotion", "type":"oauth", "image":"dailymotion.png", "scope": "email", "authorize": "https://www.dailymotion.com/oauth/authorize", "token": "https://api.dailymotion.com/oauth/token", "userinfo": "https://api.dailymotion.com/user/me?fields=id,username,email,first_name,last_name", "guide":"https://plugins.miniorange.com/guide-to-configure-dailymotion-as-oauth-server/"
+	},
+
+	"meetup": {
+		"label":"Meetup", "type":"oauth", "image":"meetup.png", "scope": "basic", "authorize": "https://secure.meetup.com/oauth2/authorize", "token": "https://secure.meetup.com/oauth2/access", "userinfo": "https://api.meetup.com/members/self", "guide":"https://plugins.miniorange.com/guide-to-configure-meetup-as-oauth-server/"
+	},
+
+	"autodesk": {
+		"label":"Autodesk", "type":"oauth", "image":"autodesk.png", "scope": "user:read user-profile:read", "authorize": "https://developer.api.autodesk.com/authentication/v1/authorize", "token": "https://developer.api.autodesk.com/authentication/v1/gettoken", "userinfo": "https://developer.api.autodesk.com/userprofile/v1/users/@me", "guide":"https:///plugins.miniorange.com/guide-to-configure-autodesk-as-oauth-server/"
+	},
+	"zendesk": {
+		"label":"Zendesk", "type":"oauth", "image":"zendesk.png", "scope": "read write", "authorize": "https://{subdomain}.zendesk.com/oauth/authorizations/new", "token": "https://{subdomain}.zendesk.com/oauth/tokens", "userinfo": "https://{subdomain}.zendesk.com/api/v2/users", "guide":"https://plugins.miniorange.com/guide-to-configure-zendesk-as-oauth-server/"
+	}
+}

@@ -26,9 +26,9 @@ interface wpdFormConst {
     const WPDISCUZ_SOCIAL_PROVIDER_KEY                = "wpdiscuz_social_provider";
     const WPDISCUZ_SOCIAL_AVATAR_KEY                  = "wpdiscuz_social_avatar";
     const WPDISCUZ_SOCIAL_USER_ID_KEY                 = "wpdiscuz_social_userid";
-    const WPDISCUZ_OAUTH_STATE_PROVIDER               = "_wpdiscuz_social_oauth_provider";
-    const WPDISCUZ_OAUTH_STATE_TOKEN                  = "_wpdiscuz_social_oauth_token";
-    const WPDISCUZ_OAUTH_CURRENT_POSTID               = "_wpdiscuz_social_oauth_postid";
+    const WPDISCUZ_OAUTH_STATE_PROVIDER               = "provider";
+    const WPDISCUZ_OAUTH_STATE_TOKEN                  = "_wpdiscuz_social_";
+    const WPDISCUZ_OAUTH_CURRENT_POSTID               = "postid";
     /* === POST RATING */
     const POSTMETA_POST_RATING                        = "wpdiscuz_post_rating";
     const POSTMETA_POST_RATING_COUNT                  = "wpdiscuz_post_rating_count";

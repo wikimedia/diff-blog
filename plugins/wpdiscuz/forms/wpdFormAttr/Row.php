@@ -61,7 +61,7 @@ class Row {
                     foreach ($fields as $name => $fieldData) {
                         $fieldType = $fieldData["type"];
                         if (!in_array($fieldType, $allowedFieldsType, true)) {
-                            throw new \Exception("Not whitelisted value detected");
+                            continue;
                         }
                         $field = call_user_func($fieldType . "::getInstance");
                         $field->dashboardFormHtml($id, $colName, $name, $fieldData);
@@ -106,6 +106,9 @@ class Row {
                     $field = call_user_func($fieldType . "::getInstance");
                     $field->frontFormHtml($fieldName, $fieldData, $options, $currentUser, $uniqueId, $isMainForm);
                 }
+            }
+            if ($options->isGoodbyeCaptchaActive) {
+                echo $options->goodbyeCaptchaTocken;
             }
             ?>
         </div>

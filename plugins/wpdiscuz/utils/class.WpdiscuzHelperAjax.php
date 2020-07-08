@@ -21,6 +21,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
         add_action("wp_ajax_wpdCloseThread", [&$this, "closeThread"]);
         add_action("wp_ajax_wpdDeactivate", [&$this, "deactivate"]);
         add_action("wp_ajax_wpdImportSTCR", [&$this, "importSTCR"]);
+        add_action("wp_ajax_wpdImportCIR", [&$this, "importCIR"]);
         add_action("wp_ajax_wpdFollowUser", [&$this, "followUser"]);
         add_action("wp_ajax_wpdRegenerateVoteMetas", [&$this, "regenerateVoteMetas"]);
         add_action("wp_ajax_wpdRegenerateClosedComments", [&$this, "regenerateClosedComments"]);
@@ -110,6 +111,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                 $children = $comment->get_children([
                     "format" => "flat",
                     "status" => "all",
+                    "post_id" => $postId,
                 ]);
                 $response = [];
                 $isClosed = intval(get_comment_meta($comment->comment_ID, self::META_KEY_CLOSED, true));
@@ -192,7 +194,97 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                         ++$step;
                         $response["step"] = $step;
                         $progress = $offset ? $offset * 100 / $stcrSubscriptionsCount : $limit * 100 / $stcrSubscriptionsCount;
-                        $response["progress"] = intval($progress);
+                        $response["progress"] = ($prg = intval($progress)) > 100 ? 100 : $prg;
+                    } else {
+                        $response["progress"] = 100;
+                    }
+                }
+            }
+        }
+        wp_die(json_encode($response));
+    }
+
+    /**
+     * Import images uploaded via "Comment Images Reloaded" plugin
+     */
+    public function importCIR() {
+        $response = ["progress" => 0];
+        $cirData = isset($_POST["cirData"]) ? $_POST["cirData"] : "";
+        if ($cirData) {
+            parse_str($cirData, $data);
+            $limit = 100;
+            $step = isset($data["cir-step"]) ? intval($data["cir-step"]) : 0;
+            $cirImagesCount = isset($data["cir-images-count"]) ? intval($data["cir-images-count"]) : 0;
+            $nonce = isset($data["wpd-cir-images"]) ? trim($data["wpd-cir-images"]) : "";
+            if (wp_verify_nonce($nonce, "wc_tools_form") && $cirImagesCount) {
+                $offset = $limit * $step;
+                if ($limit && $offset >= 0) {
+                    $cirMetakey = "comment_image_reloaded";
+                    $commentIds = get_comments(
+                            [
+                                "number" => $limit,
+                                "offset" => $offset,
+                                "fields" => "ids",
+                                "orderby" => "comment_date",
+                                "order" => "asc",
+                                "meta_query" => [
+                                    [
+                                        "key" => $cirMetakey,
+                                        "value" => "",
+                                        "compare" => "!="
+                                    ]
+                                ]
+                            ]
+                    );
+
+                    if ($commentIds) {
+                        if (apply_filters("wpdiscuz_mu_import_cir_images", false)) {
+                            foreach ($commentIds as $commentId) {
+                                $cirAttachmentIds = get_comment_meta($commentId, $cirMetakey, true);
+                                if ($cirAttachmentIds && is_array(maybe_unserialize($cirAttachmentIds))) {
+                                    $wpdiscuzMUMeta = get_comment_meta($commentId, self::METAKEY_ATTACHMENTS, true);
+                                    foreach ($cirAttachmentIds as $cirAttachId) {
+                                        $cirAttachPath = $cirAttachId ? get_attached_file($cirAttachId) : false;
+                                        if ($cirAttachPath && getimagesize($cirAttachPath)) {
+
+                                            if (!$wpdiscuzMUMeta) {
+                                                $wpdiscuzMUMeta = ["images" => []];
+                                            }
+
+                                            if (isset($wpdiscuzMUMeta["images"]) && is_array($wpdiscuzMUMeta["images"]) && !in_array($cirAttachId, $wpdiscuzMUMeta["images"])) {
+                                                $wpdiscuzMUMeta["images"][] = $cirAttachId;
+
+                                                update_post_meta($cirAttachId, "_wp_attachment_image_alt", get_the_title($cirAttachId));
+                                                update_post_meta($cirAttachId, self::METAKEY_ATTCHMENT_OWNER_IP, "127.0.0.1");
+                                                update_post_meta($cirAttachId, self::METAKEY_ATTCHMENT_COMMENT_ID, $commentId);
+                                                update_post_meta($cirAttachId, self::METAKEY_IMPORTED_FROM, $cirMetakey);
+                                            }
+                                        }
+                                    }
+                                    update_comment_meta($commentId, self::METAKEY_ATTACHMENTS, $wpdiscuzMUMeta);
+                                }
+                            }
+                            //$wpdiscuzMUMeta = get_comment_meta($commentId, self::METAKEY_ATTACHMENTS, true);
+                        } else {
+                            foreach ($commentIds as $commentId) {
+                                $cirAttachmentIds = get_comment_meta($commentId, $cirMetakey, true);
+                                if ($cirAttachmentIds && is_array(maybe_unserialize($cirAttachmentIds))) {
+                                    if (!get_comment_meta($commentId, self::METAKEY_ATTACHMENTS, true)) {
+                                        $cirAttachId = intval($cirAttachmentIds[0]);
+                                        $cirAttachPath = $cirAttachId ? get_attached_file($cirAttachId) : false;
+                                        if ($cirAttachPath && getimagesize($cirAttachPath)) {
+                                            $wpdiscuzMUMeta = ["images" => [$cirAttachId]];
+                                            update_comment_meta($commentId, self::METAKEY_ATTACHMENTS, $wpdiscuzMUMeta);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        ++$step;
+                        $response["step"] = $step;
+                        $progress = $offset ? $offset * 100 / $cirImagesCount : $limit * 100 / $cirImagesCount;
+                        $response["progress"] = (($p = intval($progress)) > 100) ? 100 : $p;
                     } else {
                         $response["progress"] = 100;
                     }
@@ -684,7 +776,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
             }
             $response["callbackFunctions"] = [];
             $response = apply_filters("wpdiscuz_comment_vote", $response);
-            clean_post_cache($comment->comment_post_ID);
+            do_action("wpdiscuz_clean_post_cache", $comment->comment_post_ID, "comment_voted");
             wp_send_json_success($response);
         } else {
             wp_send_json_error("wc_voting_error");
@@ -704,7 +796,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                 $response .= "<input name='wpd_inline_name' class='wpd-inline-name-input' placeholder='" . esc_html($this->options->phrases["wc_inline_form_name"]) . "' required='required' />";
                 $response .= "<input name='wpd_inline_email' class='wpd-inline-name-input' placeholder='" . esc_html($this->options->phrases["wc_inline_form_email"]) . "' />";
             }
-            $response .= "<button class='wpd-inline-submit wpd_not_clicked' type='submit' name='wpd_inline_submit'><span>" . esc_html($this->options->phrases["wc_inline_form_comment_button"]) . "</span><svg xmlns='http://www.w3.org/2000/svg' class='wpd-inline-submit-icon' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-submit-icon-first' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/><path class='wpd-inline-submit-icon-second' d='M0 0h24v24H0z'/></svg></button>";
+            $response .= "<button class='wpd-inline-submit wpd_not_clicked' type='submit' name='wpd_inline_submit'><span>" . esc_html($this->options->phrases["wc_inline_form_comment_button"]) . "</span><svg xmlns='https://www.w3.org/2000/svg' class='wpd-inline-submit-icon' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-submit-icon-first' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/><path class='wpd-inline-submit-icon-second' d='M0 0h24v24H0z'/></svg></button>";
             $response .= "</div>";
             $response .= wp_nonce_field("wpd_inline_nonce_" . $post_id, "_wpd_inline_nonce", false, false);
             $response .= "</form>";
@@ -799,7 +891,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                     $count = count($data);
                     update_post_meta($post_id, self::POSTMETA_POST_RATING, round($votes / $count, 1));
                     update_post_meta($post_id, self::POSTMETA_POST_RATING_COUNT, $count);
-                    clean_post_cache($post_id);
+                    do_action("wpdiscuz_clean_post_cache", $post_id, "user_rated");
                     wp_send_json_success();
                 } else {
                     wp_send_json_error("wc_cannot_rate_again");
@@ -816,7 +908,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                     $count = count($data);
                     update_post_meta($post_id, self::POSTMETA_POST_RATING, round($votes / $count, 1));
                     update_post_meta($post_id, self::POSTMETA_POST_RATING_COUNT, $count);
-                    clean_post_cache($post_id);
+                    do_action("wpdiscuz_clean_post_cache", $post_id, "user_rated");
                     wp_send_json_success();
                 } else {
                     wp_send_json_error("wc_cannot_rate_again");
@@ -984,6 +1076,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                 delete_post_meta($postId, self::POSTMETA_POST_RATING);
                 delete_post_meta($postId, self::POSTMETA_POST_RATING_COUNT);
                 $this->dbManager->removeRatings($postId);
+                do_action("wpdiscuz_clean_post_cache", $postId, "ratings_reset");
                 wp_send_json_success();
             }
         }

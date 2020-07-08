@@ -344,23 +344,7 @@ class Utils {
     }
 
     public static function addOAuthState($provider, $secret, $postID) {
-        global $wpdb;
-        $tempUserID = $wpdb->get_var("SELECT MAX(`user_id`) +1 FROM  {$wpdb->usermeta}");
-        update_user_meta($tempUserID, wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER, $provider);
-        update_user_meta($tempUserID, wpdFormConst::WPDISCUZ_OAUTH_STATE_TOKEN, $secret);
-        update_user_meta($tempUserID, wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID, $postID);
-        return $tempUserID;
-    }
-
-    private static function getTempUserID($token) {
-        global $wpdb;
-        return $wpdb->get_var($wpdb->prepare("SELECT `user_id`  FROM  {$wpdb->usermeta} WHERE `meta_key`= %s  AND `meta_value` = %s", wpdFormConst::WPDISCUZ_OAUTH_STATE_TOKEN, $token));
-    }
-
-    private static function deleteTempUserData($userID) {
-        delete_user_meta($userID, wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER);
-        delete_user_meta($userID, wpdFormConst::WPDISCUZ_OAUTH_STATE_TOKEN);
-        delete_user_meta($userID, wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID);
+        add_option(wpdFormConst::WPDISCUZ_OAUTH_STATE_TOKEN.md5($secret),[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER => $provider , wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID => $postID]);
     }
 
     public static function generateOAuthState($appID) {
@@ -368,11 +352,9 @@ class Utils {
     }
 
     public static function getProviderByState($state) {
-        $tempUserID = self::getTempUserID($state);
-        $providerData = [];
-        $providerData["provider"] = get_user_meta($tempUserID, wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER, true);
-        $providerData["postID"] = get_user_meta($tempUserID, wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID, true);
-        self::deleteTempUserData($tempUserID);
+        $option_key = wpdFormConst::WPDISCUZ_OAUTH_STATE_TOKEN.md5($state);
+        $providerData = get_option($option_key);
+        delete_option($option_key);
         return $providerData;
     }
 

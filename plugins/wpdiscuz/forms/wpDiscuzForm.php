@@ -93,7 +93,7 @@ class wpDiscuzForm implements wpdFormConst {
             }
             $allowedFieldsType = $this->form->getAllowedFieldsType();
             if (!in_array($field, $allowedFieldsType, true)) {
-                throw new Exception("Not whitelisted value detected");
+                esc_html_e("Not whitelisted value detected");
             }
             $fieldClass = call_user_func($field . '::getInstance');
             $fieldClass->dashboardFormDialogHtml($row, $col);
