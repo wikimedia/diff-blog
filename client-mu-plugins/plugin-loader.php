@@ -22,6 +22,7 @@ wpcom_vip_load_plugin( 'amp' );
 //wpcom_vip_load_plugin('publishpress');
 wpcom_vip_load_plugin('capability-manager-enhanced/capsman-enhanced.php');
 wpcom_vip_load_plugin('miniorange-oauth-oidc-single-sign-on/mo_oauth_settings.php');
+wpcom_vip_load_plugin('polylang/polylang.php');
 wpcom_vip_load_plugin('wpdiscuz/class.WpdiscuzCore.php');
 wpcom_vip_load_plugin('wpdiscuz-comment-search/wpDiscuzCommentSearch.php');
 wpcom_vip_load_plugin('wpdiscuz-comment-translation/wpdiscuz-translate.php');
