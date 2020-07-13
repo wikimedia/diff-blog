@@ -15,3 +15,25 @@
  *
  * - The WordPress.com VIP Team
  **/
+
+if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+    $http_host   = $_SERVER['HTTP_HOST'];
+    $request_uri = $_SERVER['REQUEST_URI'];
+
+    $redirect_to_domain = 'diff.wikimedia.org';
+    $redirect_domains   = [
+        'blog.wikimedia.org',
+    ];
+
+    // Safety checks for redirection:
+    // 1. Don't redirect for '/cache-healthcheck?' or monitoring will break
+    // 2. Don't redirect in WP CLI context
+    if (
+            '/cache-healthcheck?' !== $request_uri && // safety
+            ! ( defined( 'WP_CLI' ) && WP_CLI ) && // safety
+            $redirect_to_domain !== $http_host && in_array( $http_host, $redirect_domains, true )
+        ) {
+        header( 'Location: https://' . $redirect_to_domain . $request_uri, true, 301 );
+        exit;
+    }
+}
