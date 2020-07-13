@@ -1,0 +1,229 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: wpDiscuz Subscribe Manager\n"
+"POT-Creation-Date: 2018-09-25 14:38+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wpdSubscribeManager.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Language: "
+
+#: wpdSubscribeManager.php:54
+msgid "wpDiscuz Subscription Manager requires wpDiscuz to be installed!"
+msgstr ""
+
+#: wpdSubscribeManager.php:105
+msgid "Subscription not found"
+msgstr ""
+
+#: wpdSubscribeManager.php:117
+msgid "Subject *"
+msgstr ""
+
+#: wpdSubscribeManager.php:118
+msgid "Message *"
+msgstr ""
+
+#: wpdSubscribeManager.php:118
+msgid "Hi "
+msgstr ""
+
+#: wpdSubscribeManager.php:119 wpdSubscribeManager.php:186
+#: includes/wpdSubscriptionsList.php:63
+msgid "Send Email"
+msgstr ""
+
+#: wpdSubscribeManager.php:130
+msgid "Error! Can't send email."
+msgstr ""
+
+#: wpdSubscribeManager.php:154
+msgid "Email sent successfully!"
+msgstr ""
+
+#: wpdSubscribeManager.php:168
+msgid "All Subscriptions"
+msgstr ""
+
+#: wpdSubscribeManager.php:169 includes/wpdSubscriptionsList.php:46
+#: includes/wpdSubscriptionsList.php:100
+#: includes/wpdUserSubscriptionsList.php:44
+#: includes/wpdUserSubscriptionsList.php:92
+msgid "Confirmed"
+msgstr ""
+
+#: wpdSubscribeManager.php:170 includes/wpdSubscriptionsList.php:48
+#: includes/wpdSubscriptionsList.php:101
+#: includes/wpdUserSubscriptionsList.php:46
+#: includes/wpdUserSubscriptionsList.php:93
+msgid "Awaiting confirmation"
+msgstr ""
+
+#: wpdSubscribeManager.php:171
+msgid "Subscribers"
+msgstr ""
+
+#: wpdSubscribeManager.php:187
+msgid "Statistics"
+msgstr ""
+
+#: wpdSubscribeManager.php:203 wpdSubscribeManager.php:210
+#: wpdSubscribeManager.php:240
+msgid "Subscriptions"
+msgstr ""
+
+#: wpdSubscribeManager.php:204
+msgid "Your Subscriptions"
+msgstr ""
+
+#: wpdSubscribeManager.php:211
+msgid "View Statistics"
+msgstr ""
+
+#: wpdSubscribeManager.php:217 wpdSubscribeManager.php:219
+#: wpdSubscribeManager.php:246 wpdSubscribeManager.php:248
+msgid "Search"
+msgstr ""
+
+#: wpdSubscribeManager.php:218
+msgid "Post Title or Email"
+msgstr ""
+
+#: wpdSubscribeManager.php:247 includes/wpdSubscriptionsList.php:26
+#: includes/wpdUserSubscriptionsList.php:24
+msgid "Post Title"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:24
+msgid "Email"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:25
+#: includes/wpdUserSubscriptionsList.php:25
+msgid "Actions"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:27
+#: includes/wpdUserSubscriptionsList.php:26
+msgid "Type"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:28
+#: includes/wpdUserSubscriptionsList.php:27
+msgid "Date"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:59 includes/wpdSubscriptionsList.php:142
+#: includes/wpdUserSubscriptionsList.php:56
+#: includes/wpdUserSubscriptionsList.php:128
+msgid "Cancel confirmation"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:61 includes/wpdSubscriptionsList.php:141
+#: includes/wpdUserSubscriptionsList.php:58
+#: includes/wpdUserSubscriptionsList.php:127
+msgid "Set as confirmed"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:65
+msgid "View this user profile"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:67 includes/wpdSubscriptionsList.php:143
+#: includes/wpdUserSubscriptionsList.php:60
+msgid "Unsubscribe"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:72 includes/wpdSubscriptionsList.php:105
+#: includes/wpdUserSubscriptionsList.php:65
+#: includes/wpdUserSubscriptionsList.php:97
+msgid "Post"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:74 includes/wpdSubscriptionsList.php:107
+#: includes/wpdUserSubscriptionsList.php:67
+#: includes/wpdUserSubscriptionsList.php:99
+msgid "Comment"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:76 includes/wpdSubscriptionsList.php:106
+#: includes/wpdUserSubscriptionsList.php:69
+#: includes/wpdUserSubscriptionsList.php:98
+msgid "All Comments"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:99
+#: includes/wpdUserSubscriptionsList.php:91
+msgid "All Status"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:104
+#: includes/wpdUserSubscriptionsList.php:96
+msgid "All Type"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:110
+#: includes/wpdUserSubscriptionsList.php:102
+msgid "All Dates"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:120
+msgid "All Users"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:121
+msgid "Registered"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:122
+msgid "Guests"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:124
+#: includes/wpdUserSubscriptionsList.php:111
+msgid "Filter"
+msgstr ""
+
+#: includes/wpdSubscriptionsList.php:125
+#: includes/wpdUserSubscriptionsList.php:112
+msgid "Reset Filters"
+msgstr ""
+
+#: includes/wpdUserSubscriptionsList.php:129
+msgid "Unsubscribe "
+msgstr ""
+
+#. Name of the plugin
+msgid "wpDiscuz - Subscription Manager"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Displays all users and guests subscriptions. Allows to monitor and manage "
+"comment subscribers."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://gvectors.com/product/wpdiscuz-subscribe-manager/"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://gvectors.com/"
+msgstr ""

@@ -1,0 +1,222 @@
+#post-body #normal-sortables {
+    min-height: 20px;
+}
+
+#publishpress_notif_workflow_div .list-filterizer-tabs li {
+    color: #655997;
+}
+
+#publishpress_notif_workflow_div .list-filterizer-tabs li.active,
+#publishpress_notif_workflow_div .list-filterizer-tabs li:hover {
+    background: #655997;
+    border-color: #655997;
+    color: #fff;
+}
+
+#publishpress_notif_workflow_div,
+#publishpress_notif_workflow_div > .inside {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+#psppno-workflow-metabox > div {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    letter-spacing: normal;
+}
+
+.psppno-workflow-metabox-section {
+    box-sizing: border-box;
+}
+
+#psppno-workflow-metabox-section-event_content,
+#psppno-workflow-metabox-section-receiver {
+    padding-left: 20px;
+}
+
+#publishpress_notif_workflow_div > .inside > #psppno-workflow-metabox > div#psppno-workflow-metabox-section-content,
+#publishpress_notif_workflow_div > .inside > #psppno-workflow-metabox > div#psppno-workflow-metabox-section-channel {
+    margin-right: 0;
+}
+
+#publishpress_notif_workflow_div input[type="checkbox"] {
+    margin-bottom: -4px;
+}
+
+/* Event */
+
+#psppno-workflow-metabox-section-event {
+    min-height: 230px;
+}
+
+#psppno-workflow-metabox-section-event .publishpress_notif_event_post_save_filters {
+    margin-bottom: 0;
+}
+
+.publishpress_notif_event_content_main_filters li,
+.publishpress_notif_event_content_main_filters li label {
+    display: block;
+    margin: 0;
+}
+
+.publishpress_notif_event_content_main_filters li label {
+    margin-bottom: 10px;
+}
+
+#psppno-workflow-metabox-section-event .publishpress_notif_event_post_save_filters label[for="publishpress_notif_event_post_save_filters_post_status_from"]:nth-child(2),
+#psppno-workflow-metabox-section-event .publishpress_notif_event_post_save_filters label[for="publishpress_notif_event_post_save_filters_post_status_to"] {
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+#psppno-workflow-metabox-section-event_content select[multiple],
+#psppno-workflow-metabox-section-event select[multiple] {
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: 0 0 20px 0;
+    min-height: 120px;
+}
+
+#publishpress_notif_event_main_filters_category {
+    height: 164px !important;
+}
+
+#psppno-workflow-metabox-section-event select#publishpress_notif_event_post_save_filters_post_status_to {
+    margin-bottom: 0;
+}
+
+#psppno-workflow-metabox-section-receiver #pp_post_notify_users_box {
+    float: none;
+    margin-right: 0;
+}
+
+#psppno-workflow-metabox-section-receiver #pp_post_notify_users_box,
+#psppno-workflow-metabox-section-receiver #pp-post_following_usergroups_box {
+    width: 100%;
+}
+
+#psppno-workflow-metabox-section-receiver input[type="search"] {
+    width: 50%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: 0;
+}
+
+#psppno-workflow-metabox-section-receiver .publishpress_notif_user_list,
+#psppno-workflow-metabox-section-receiver .publishpress_notif_role_list {
+    margin-bottom: 9px;
+}
+
+#pp_post_notify_box .no-workflows {
+    font-style: italic;
+    color: #a3a3a3;
+    margin-top: 15px;
+}
+
+#pp_post_notify_box .pp_post_notify_workflows h3,
+#pp_post_notify_box .pp_post_notify_log h3,
+#pp_post_notify_box .pp_post_notify_queue h3 {
+    font-size: 14px;
+    background: transparent;
+    padding-left: 0;
+}
+
+#pp_post_notify_box .pp_post_notify_workflows li,
+#pp_post_notify_box .pp_post_notify_log li {
+    list-style-type: square;
+    margin-left: 20px;
+    font-style: italic;
+}
+
+/* Notification message */
+
+#psppno-workflow-metabox-section-content {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#psppno-workflow-metabox-section-content input[type="text"],
+#psppno-workflow-metabox-section-content textarea {
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+#psppno-workflow-metabox-section-content textarea {
+    min-height: 120px;
+}
+
+#psppno-workflow-metabox-section-content label {
+    margin: 10px 0;
+    display: block;
+    font-weight: bold;
+}
+
+.psppno_workflow_metabox_section_header {
+    font-size: 14px;
+    padding: 6px 2px;
+    background: #655997;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin: 12px 0;
+    border: 1px solid #5b7782;
+}
+
+/* Hide the Visibility option in the Workflow publishing metabox */
+body.wp-admin.post-type-psppnotif_workflow .misc-pub-visibility {
+    display: none;
+}
+
+/* Channel (e.g. email) */
+
+#psppno-workflow-metabox-section-channel {
+    width: 35%;
+    float: none;
+}
+
+#psppno-workflow-metabox-section-channel .psppno_workflow_metabox_section_header {
+    margin-bottom: 10px;
+}
+
+body.post-type-psppnotif_workflow #wpbody-content {
+    margin-bottom: 100px;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome and Opera */
+}
+
+.publishpress-filter-checkbox-list {
+    padding-left: 16px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    border-left: 8px solid #f3f3f3;
+}
+
+
+.psppno_workflow_metabox_section_header.invalid {
+    background-color: #ff8585 !important;
+}
+
+.wrap .logo-header {
+  display: inline-block;
+  margin-right: 5px;
+  height: 50px;
+}
