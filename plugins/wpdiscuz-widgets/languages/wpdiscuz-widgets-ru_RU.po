@@ -1,0 +1,247 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wpdiscuz-widgets\n"
+"POT-Creation-Date: 2018-01-25 00:59+0400\n"
+"PO-Revision-Date: 2018-01-25 01:16+0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/gvt-api-manager.php:118
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+
+#: includes/gvt-api-manager.php:122
+msgid "An unknown error occurred"
+msgstr ""
+
+#: includes/gvt-api-manager.php:168
+msgid "Activate"
+msgstr ""
+
+#: options/addons-settings-html.php:6
+msgid "Enable post title shortening"
+msgstr ""
+
+#: options/addons-settings-html.php:7
+msgid ""
+"If this option is enabled all titles will be cut with below defined number "
+"of words"
+msgstr ""
+
+#: options/addons-settings-html.php:13
+msgid "number of words in shortened titles"
+msgstr ""
+
+#: options/addons-settings-html.php:22
+msgid "Enable content shortening"
+msgstr ""
+
+#: options/addons-settings-html.php:23
+msgid ""
+"This option enables post and comment excerpts shortening with below defined "
+"number of words"
+msgstr ""
+
+#: options/addons-settings-html.php:29
+msgid "number of words in shortened excerpts"
+msgstr ""
+
+#: options/addons-settings-html.php:39
+msgid "Most Voted Comments Style"
+msgstr ""
+
+#: options/addons-settings-html.php:48
+msgid "Widget Background Color"
+msgstr "Цвет фона виджета"
+
+#: options/addons-settings-html.php:52
+msgid "Widget Icons Background Color"
+msgstr ""
+
+#: options/addons-settings-html.php:56
+msgid "Tab Icons Color"
+msgstr ""
+
+#: options/addons-settings-html.php:60
+msgid "Widget max width"
+msgstr ""
+
+#: options/addons-settings-html.php:65
+msgid "Widget left margin"
+msgstr ""
+
+#: options/addons-settings-html.php:69
+msgid "Widget right margin"
+msgstr ""
+
+#: options/addons-settings-html.php:73
+msgid "Widget left padding"
+msgstr ""
+
+#: options/addons-settings-html.php:77
+msgid "Widget right padding"
+msgstr ""
+
+#: options/addons-settings-html.php:82
+msgid "Exclude user roles"
+msgstr ""
+
+#: options/addons-settings-html.php:97
+msgid "Show guest commenters"
+msgstr ""
+
+#: options/addons-settings-html.php:101
+msgid "Enable user link for all users"
+msgstr ""
+
+#: options/addons-settings-html.php:106
+msgid "Enable slider in single tab"
+msgstr ""
+
+#: options/addons-settings-html.php:107
+msgid ""
+"You can display comments in slider when in each widget enabled only one tab"
+msgstr ""
+
+#: options/addons-settings-html.php:112
+msgid "Widget custom CSS"
+msgstr ""
+
+#: options/addons-settings-html.php:117
+msgid "Reset Widget Options"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:8
+msgid "Most Voted Comments"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:10
+#: options/widget-admin-panel-html.php:59
+#: options/widget-admin-panel-html.php:108
+#: options/widget-admin-panel-html.php:156
+#: options/widget-admin-panel-html.php:204
+msgid "Enable"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:18
+#: options/widget-admin-panel-html.php:67
+#: options/widget-admin-panel-html.php:116
+#: options/widget-admin-panel-html.php:164
+#: options/widget-admin-panel-html.php:212
+msgid "Header text: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:25
+#: options/widget-admin-panel-html.php:74
+#: options/widget-admin-panel-html.php:123
+#: options/widget-admin-panel-html.php:219
+msgid "Number of comments: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:31
+#: options/widget-admin-panel-html.php:80
+#: options/widget-admin-panel-html.php:129
+#: options/widget-admin-panel-html.php:177
+#: options/widget-admin-panel-html.php:225
+msgid "Tab order number: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:36
+#: options/widget-admin-panel-html.php:85
+#: options/widget-admin-panel-html.php:134
+#: options/widget-admin-panel-html.php:182
+#: options/widget-admin-panel-html.php:230
+msgid "Time frame: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:47
+#: options/widget-admin-panel-html.php:96
+#: options/widget-admin-panel-html.php:145
+#: options/widget-admin-panel-html.php:193
+#: options/widget-admin-panel-html.php:241
+msgid "From: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:50
+#: options/widget-admin-panel-html.php:99
+#: options/widget-admin-panel-html.php:148
+#: options/widget-admin-panel-html.php:196
+msgid "To: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:57
+msgid "Active Comment Threads"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:106
+msgid "Most Commented Posts"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:154
+msgid "Active Commenters"
+msgstr ""
+
+#: options/widget-admin-panel-html.php:171
+msgid "Number of commenters: "
+msgstr ""
+
+#: options/widget-admin-panel-html.php:202
+msgid "Recent Comments"
+msgstr "Последние Комментарии"
+
+#: tabs/most-voted.php:122
+#, php-format
+msgid " by %s"
+msgstr " от %s"
+
+#: tabs/popular-comment-authors.php:94
+msgid " comment"
+msgstr "комментарий"
+
+#: tabs/popular-comment-authors.php:96
+msgid " comments"
+msgstr "комментарии"
+
+#: tabs/recent-comments.php:47
+msgid " by "
+msgstr ""
+
+#: wpDiscuzWidgets.php:56
+msgid "wpDiscuz Widgets requires wpDiscuz to be installed!"
+msgstr ""
+
+#: wpDiscuzWidgets.php:106
+msgid "Widgets"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:340
+msgid "Most voted comments"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:347
+msgid "Most active comment threads"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:354
+msgid "Most commented posts"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:361
+msgid "Most active commenters"
+msgstr ""
+
+#: wpdiscuz-widgets-class.php:368
+msgid "Recent comments"
+msgstr "Последние комментарии"

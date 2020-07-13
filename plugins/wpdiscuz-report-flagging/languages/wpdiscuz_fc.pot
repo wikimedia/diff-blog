@@ -1,0 +1,361 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: wpDiscuz - Report and Flagging\n"
+"POT-Creation-Date: 2020-02-01 12:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wpDiscuzFlagComment.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Language: "
+
+#: wpDiscuzFCommentOption.php:53 wpDiscuzFCommentOption.php:148
+msgid "New comment report"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:54
+msgid ""
+"<h2>Report details:</h2> \n"
+"<p>Name: [userInfo]</p>\n"
+"<p>Reason: [reason]</p>\n"
+"<p>Message: [message]</p>\n"
+"<p>Post: [postTitle]</p>\n"
+"<p>Comment URL: [commentInfo]</p>"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:55
+msgid ""
+"You have a new [status] comment on the post [postTitle].\n"
+"<p>[postName]</p>\n"
+"<p><b>Comment details:</b></p>\n"
+"<p>Author: [userLogin]</p>\n"
+"<p>Email: [userEmail]</p>\n"
+"<p>Comment:<p>[commentContent]</p></p>"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:63
+msgid "Your Email"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:73 wpDiscuzFCommentOption.php:154
+msgid "Send"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:74 wpDiscuzFCommentOption.php:153
+msgid "Report this comment"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:75 wpDiscuzFCommentOption.php:155
+msgid "Already flagged"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:76 wpDiscuzFCommentOption.php:156
+msgid "Message sending problem"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:77 wpDiscuzFCommentOption.php:157
+msgid "Data are not inserted"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:78 wpDiscuzFCommentOption.php:158
+msgid "Message sent"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:79 wpDiscuzFCommentOption.php:161
+msgid "Other"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:80 wpDiscuzFCommentOption.php:162
+msgid "Enter message"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:81 wpDiscuzFCommentOption.php:165
+#, php-format
+msgid "New comment has reached to the maximum number of %s"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:82 wpDiscuzFCommentOption.php:163
+msgid "Click to flag and open &laquo;Comment Reporting&raquo; form. You can choose reporting category and send message to website administrator. Admins may or may not choose to remove the comment or block the author. And please don't worry, your report will be anonymous."
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:83 wpDiscuzFCommentOption.php:164
+msgid "You can flag a comment by clicking its flag icon. Website admin will know that you reported it. Admins may or may not choose to remove the comment or block the author. And please don't worry, your report will be anonymous."
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:84 wpDiscuzFCommentOption.php:159
+msgid "Select bad comment category"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:85 wpDiscuzFCommentOption.php:160
+msgid "Please Insert message"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:87 wpDiscuzFCommentOption.php:152
+msgid "This comment is spam"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:88 wpDiscuzFCommentOption.php:152
+msgid "This comment should be marked mature"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:89 wpDiscuzFCommentOption.php:152
+msgid "This comment is abusive"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:90 wpDiscuzFCommentOption.php:152
+msgid "This comment promotes self-harm"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:150
+msgid ""
+"You have a new [status] comment on the post [postTitle].<br>\n"
+"[postName]<br>\n"
+"<b>Comment details:</b><br>\n"
+" Author: [userLogin]<br>\n"
+" Email: [userEmail]<br>\n"
+" URL:<br>\n"
+" Comment:\n"
+" [commentContent]"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:151
+msgid ""
+"<h2>Report details:</h2>\n"
+"<p>Name: [userInfo]</p>\n"
+"<p>Reason: [reason],</p>\n"
+"<p>Message: [message],</p>\n"
+"<p>Post: [postTitle],</p>\n"
+"<p>Comment URL | Text: [commentInfo]</p>"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:210
+msgid "Report &amp; Flagging"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:218
+msgid "Show flag icon on comments"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:220
+msgid "If this option is disabled, comment auto-moderation will only be based on down votes / dislikes."
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:225
+msgid "Allow guests to flag and report comments"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:232
+msgid "Enable comment reporting pop-up form for registered users"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:234
+msgid "For security reasons comment reporting form is disabled for guests by default. Guests are still able to flag without sending message. However you can enable this for guests using the option below."
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:239
+msgid "Enable comment reporting pop-up form for guests"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:246
+msgid "Enable auto-moderation for flagged/disliked comments:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:248
+msgid "This will automatically Unapprove or Trash comments which reached the maximum number of flags or dislikes set below"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:253
+msgid "Do auto-moderation if comment is flagged more than"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:260
+msgid "Do auto-moderation if comment is down voted more than"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:267
+#, php-format
+msgid "Notify admin when comment is flagged more than %d times."
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:274
+msgid "Notify admin when comment is auto-moderated"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:281
+msgid "Admin Email"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:288
+msgid "Report message subject"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:295
+msgid "Report message body"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:302
+msgid "Auto-moderation message subject"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:304
+#, php-format
+msgid "Please do not remove %s variable at end of this phrase. This variable will be changed to auto-moderation mode \"flags\" or \"dislikes\"."
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:309
+msgid "Auto-moderation message body"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:316
+msgid "Comment reporting pop-up form title:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:323
+msgid "Report button:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:330
+msgid "Already flagged:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:337
+msgid "Email not send:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:344
+msgid "Data not inserted:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:351
+msgid "Message sent:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:358
+msgid "Select report category:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:365
+msgid "Insert message:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:372
+msgid "Report type other:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:379
+msgid "Report message placeholder:"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:386
+msgid "Flag title when \"Comment Reporting\" pop-up form is enabled"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:393
+msgid "Flag title when \"Comment Reporting\" pop-up form is disabled"
+msgstr ""
+
+#: wpDiscuzFCommentOption.php:400
+msgid "Bad comment categories:"
+msgstr ""
+
+#: wpDiscuzFlagComment.php:74
+msgid "wpDiscuz Report and Flagging requires wpDiscuz to be installed!"
+msgstr ""
+
+#: includes/wpDiscuzFlagHelper.php:94
+msgid "Reported"
+msgstr ""
+
+#: includes/wpDiscuzFlagHelper.php:123
+msgid "Guest"
+msgstr ""
+
+#: includes/wpDiscuzFlagHelperAjax.php:38 includes/wpDiscuzFlagHelperAjax.php:76
+msgid "Flagged"
+msgstr ""
+
+#: view/flag-view.php:71
+msgid "unapprove"
+msgstr ""
+
+#: view/flag-view.php:73
+msgid "trash"
+msgstr ""
+
+#: view/flag-view.php:85 view/flag-view.php:96
+msgid "times"
+msgstr ""
+
+#: view/flag-view.php:140
+msgid "Comment reporting message from reporter to admin"
+msgstr ""
+
+#: view/flag-view.php:141
+msgid "This message comes from comment reporting pop-up form. It includes reporter message and bad comment category (reason)."
+msgstr ""
+
+#: view/flag-view.php:160
+msgid "username"
+msgstr ""
+
+#: view/flag-view.php:161
+msgid "bad comment category"
+msgstr ""
+
+#: view/flag-view.php:162
+msgid "report message"
+msgstr ""
+
+#: view/flag-view.php:163
+msgid "post title"
+msgstr ""
+
+#: view/flag-view.php:164
+msgid "comment text or URL"
+msgstr ""
+
+#: view/flag-view.php:173
+msgid "Auto-moderation notification to admin"
+msgstr ""
+
+#: view/flag-view.php:174
+msgid "This message will be sent to admin once maximum number of flags or dislikes is reached for certain comment and this comment is auto-moderated (trashed or unapproved)"
+msgstr ""
+
+#: view/flag-view.php:207
+msgid "Front-end Phrases"
+msgstr ""
+
+#: view/flag-view.php:358
+msgid "Add new"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "wpDiscuz - Report and Flagging"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Adds comment reporting and flagging features. Auto-moderates comments based on number of reports and flags."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://gvectors.com/product/wpdiscuz-report-flagging/"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://gvectors.com/"
+msgstr ""

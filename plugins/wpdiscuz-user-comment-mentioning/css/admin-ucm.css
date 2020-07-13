@@ -1,0 +1,12 @@
+.ucm-inner  input[type=text] {
+    height: 30px;
+    width: 95%;
+    padding: 3px 5px;
+}
+
+#the-comment-list td.comment .avatar {
+    max-width: 20px;
+    height: 20px;
+}
+.ucm-inner input[type=number]{height: 30px;padding:3px 5px;width:80px;}
+.ucm-inner textarea{padding:10px;width: 95%;margin-left:10px;} 

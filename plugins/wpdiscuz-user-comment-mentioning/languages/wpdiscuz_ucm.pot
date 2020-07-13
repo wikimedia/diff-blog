@@ -1,0 +1,203 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-19 13:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: WpdiscuzUCM.php:72
+msgid "wpDiscuz User & Comment Mentioning requires wpDiscuz to be installed!"
+msgstr ""
+
+#: WpdiscuzUCM.php:178 WpdiscuzUCM.php:181 WpdiscuzUCM.php:184
+msgid "User not found"
+msgstr ""
+
+#: WpdiscuzUCM.php:196
+msgid "Comment not found"
+msgstr ""
+
+#: WpdiscuzUCM.php:231
+msgid "undefind comment"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:45 WpdiscuzUCMOption.php:89
+msgid "Posts"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:46 WpdiscuzUCMOption.php:90
+msgid "Comments"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:57 WpdiscuzUCMOption.php:100
+msgid "Your Comment has been mentioned"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:58 WpdiscuzUCMOption.php:101
+msgid "You have been mentioned in comment"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:59
+msgid ""
+"Hi [mentionedUserName]!\n"
+"Your comment on \"[postTitle]\" post has been mentioned by [authorUserName].<br/>\n"
+"<br/>\n"
+"Comment URL: [commentURL]"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:60
+msgid ""
+"Hi [mentionedUserName]!\n"
+"You have been mentioned in a comment posted on \"[postTitle]\" post by [authorUserName].<br/>\n"
+"<br/>\n"
+"Comment URL: [commentURL]"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:102
+msgid ""
+"Hi [mentionedUserName]!\n"
+"Your comment on \"[postTitle]\" post has been mentioned by [authorUserName].</br>\n"
+"</br>\n"
+"Comment URL: [commentURL]"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:103
+msgid ""
+"Hi [mentionedUserName]!\n"
+"You have been mentioned in a comment posted on \"[postTitle]\" post by [authorUserName].</br>\n"
+"</br>\n"
+"Comment URL: [commentURL]"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:144
+msgid "User &amp; Comment Mentioning"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:152
+msgid "Enable mentioning by comment ID:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:159
+msgid "Enable guest mentioning:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:166
+msgid "Display user nicename (names for mentioning) in user search result:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:173
+msgid "Display mentioned user avatar with username link:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:180
+msgid "Display avatar in user pop-up information:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:187
+msgid "Mention user by user ID in comment content"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:194
+msgid "Text length in user/comment pop-up information:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:201
+msgid "Maximum number of users in \"User Selector\" bar:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:208 WpdiscuzUCMOption.php:229
+msgid "Enable Email Notification"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:215 WpdiscuzUCMOption.php:236
+msgid "Email Subject"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:222 WpdiscuzUCMOption.php:243
+msgid "Email Body"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:250
+msgid "Posts:"
+msgstr ""
+
+#: WpdiscuzUCMOption.php:257
+msgid "Comments:"
+msgstr ""
+
+#: view/ucm_view.php:97
+msgid "characters"
+msgstr ""
+
+#: view/ucm_view.php:108
+msgid "items"
+msgstr ""
+
+#: view/ucm_view.php:114
+msgid "Comment mentioning through #comment-id"
+msgstr ""
+
+#: view/ucm_view.php:115
+msgid "Message to mentioned comment author"
+msgstr ""
+
+#: view/ucm_view.php:148
+msgid "Mentioned comment author name"
+msgstr ""
+
+#: view/ucm_view.php:149 view/ucm_view.php:196
+msgid "Post Title"
+msgstr ""
+
+#: view/ucm_view.php:150 view/ucm_view.php:197
+msgid "Comment author name"
+msgstr ""
+
+#: view/ucm_view.php:151 view/ucm_view.php:198
+msgid "Comment URL"
+msgstr ""
+
+#: view/ucm_view.php:161
+msgid "User mentioning through @username"
+msgstr ""
+
+#: view/ucm_view.php:162
+msgid "Message to mentioned user"
+msgstr ""
+
+#: view/ucm_view.php:195
+msgid "Mentioned user name"
+msgstr ""
+
+#: view/ucm_view.php:207
+msgid "Front-end Phrases"
+msgstr ""
+
+#. Name of the plugin
+msgid "wpDiscuz - User & Comment Mentioning"
+msgstr ""
+
+#. Description of the plugin
+msgid "Allows to mention certain comments and users in comment text using #comment-id and @username tags."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://gvectors.com/product/wpdiscuz-user-comment-mentioning/"
+msgstr ""
+
+#. Author of the plugin
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://gvectors.com/"
+msgstr ""

@@ -1,0 +1,208 @@
+/**
+ * @package PublishPress
+ * @author PublishPress
+ *
+ * Copyright (c) 2018 PublishPress
+ *
+ * ------------------------------------------------------------------------------
+ * Based on Edit Flow
+ * Author: Daniel Bachhuber, Scott Bressler, Mohammad Jangda, Automattic, and
+ * others
+ * Copyright (c) 2009-2016 Mohammad Jangda, Daniel Bachhuber, et al.
+ * ------------------------------------------------------------------------------
+ *
+ * This file is part of PublishPress
+ *
+ * PublishPress is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PublishPress is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PublishPress.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+@charset "UTF-8";
+
+/* publishpress */
+@font-face {
+    font-family: "publishpress";
+    src: url("../font/publishpress.eot");
+    src: url("../font/publishpress.eot?#iefix") format("embedded-opentype"),
+    url("../font/publishpress.woff") format("woff"),
+    url("../font/publishpress.ttf") format("truetype"),
+    url("../font/publishpress.svg#1489675140") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="pp-icon-"]:before,
+[class*=" pp-icon-"]:before {
+    font-family: "publishpress" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.pp-icon-print:before {
+    content: "\64";
+}
+
+/* Admin icon */
+#adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+#adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before {
+    background-image: url(../../modules/settings/lib/new-menu-icon.png);
+    background-repeat: no-repeat;
+    background-position: 0 8px;
+    background-size: 19px auto;
+    content: " ";
+    transition: none;
+    -moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: none;
+}
+
+/* Admin icon customized per admin theme, excluding the default and light */
+.admin-color-blue #adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+.admin-color-coffee #adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+.admin-color-ectoplasm #adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+.admin-color-midnight #adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+.admin-color-ocean #adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+.admin-color-sunrise #adminmenu > li[id^="toplevel_page_pp-"] .dashicons-before::before,
+.admin-color-blue #adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before,
+.admin-color-coffee #adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before,
+.admin-color-ectoplasm #adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before,
+.admin-color-midnight #adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before,
+.admin-color-ocean #adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before,
+.admin-color-sunrise #adminmenu > li[id^="toplevel_page_pp-"] .wp-has-current-submenu .dashicons-before::before,
+.admin-color-blue #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-coffee #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-ectoplasm #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-midnight #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-ocean #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-sunrise #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-blue #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before,
+.admin-color-coffee #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before,
+.admin-color-ectoplasm #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before,
+.admin-color-midnight #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before,
+.admin-color-ocean #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before,
+.admin-color-sunrise #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before {
+    background-position: 0 -60px;
+}
+
+#adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+#adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before {
+    background-position: 0 -26px;
+}
+
+/* Customize the icon for "Light" admin theme's hover and active states */
+.admin-color-light #adminmenu > li[id^="toplevel_page_pp-"]:active .wp-not-current-submenu .dashicons-before::before,
+.admin-color-light #adminmenu > li[id^="toplevel_page_pp-"]:hover .wp-not-current-submenu .dashicons-before::before {
+    background-position: 0 8px;
+}
+
+#adminmenu > li[id^="toplevel_page_pp-"] .wp-menu-open .dashicons-before::before {
+    background-position: 0 -60px;
+}
+
+#adminmenu > li[id^="toplevel_page_pp-"] > a.wp-menu-open {
+    background: #655997 !important;
+}
+
+.pp-page-icon {
+    font-size: 30px;
+    display: inline-block;
+}
+
+.pp-page-title {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.pp-module-settings {
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+.pp-module-settings:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.pp-module-settings td > button {
+    border: none !important;
+}
+
+.basic-settings h3:not(:first-of-type) {
+    margin-top: 35px;
+}
+
+.publishpress-admin .wp-picker-default {
+    padding: 0 10px;
+}
+
+.publishpress-admin .wp-picker-open {
+    margin-bottom: 5px;
+}
+
+.publishpress-admin h1 {
+    margin-top:8px;
+}
+
+div.pp-icon {
+    float:left;
+    margin: 5px 10px 0 0;
+}
+div.pp-icon img {
+    height:48px;
+}
+
+.pressshack-admin-wrapper .logo-header {
+    display: inline-block;
+    margin-right: 5px;
+    height: 50px;
+}
+
+/* @TODO load this code through custom-status.css
+Status color box */
+
+.pp-status-color {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.pp-status-color + strong {
+    margin-left: 5px;
+}
+
+.psppca_field_warning {
+    font-style: italic;
+}
+
+.psppno_no_filter_warning,
+.psppno_no_events_warning {
+    font-style: italic;
+    color: #9c9c9c;
+}
+
+
+.allex-highlight.publishpress a {
+    color: #7f73b4 !important;
+}

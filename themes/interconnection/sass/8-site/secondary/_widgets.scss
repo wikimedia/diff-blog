@@ -1,0 +1,15 @@
+.widget {
+	margin: 0 0 1rem 0;
+	@media (min-width: $medium-bp) {
+		margin: 0;
+	}
+
+	// Make sure select elements fit in widgets.
+	select {
+		max-width: 100%;
+	}
+}
+
+.site-footer .widget {
+	margin-bottom: 1rem;
+}

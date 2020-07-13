@@ -1,0 +1,588 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: wpDiscuz Comment Translation\n"
+"POT-Creation-Date: 2020-02-01 10:20+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wpdiscuz-translate.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Language: "
+
+#: wpdiscuz-translate.php:71
+msgid "wpDiscuz Comment Translation requires wpDiscuz to be installed!"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:74
+msgid "Translation"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:82
+msgid "Translation Form Background Color"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:89
+msgid "Translation Form Border Color"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:96
+msgid "Translation Languages' Bottom Line Color"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:103 options/phrases.php:7
+msgid "Translate"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:110 options/phrases.php:8
+msgid "Show all"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:117 options/phrases.php:9
+msgid "Show all languages"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:124 options/phrases.php:10
+msgid "Original"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:131 options/phrases.php:11
+msgid "Translate into"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:138 options/phrases.php:12
+msgid "Can't translate"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:145 options/phrases.php:13
+msgid "Can't translate this comment"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:152 options/phrases.php:14
+msgid "The original comment in"
+msgstr ""
+
+#: options/class.TrnsCommentOption.php:159 options/html-options.php:271
+msgid "Remove All Translated Comments"
+msgstr ""
+
+#: options/html-options.php:3
+msgid "Comment Translation"
+msgstr ""
+
+#: options/html-options.php:13
+msgid "Free &amp; Paid"
+msgstr ""
+
+#: options/html-options.php:21
+msgid "Only Paid"
+msgstr ""
+
+#: options/html-options.php:34 options/html-options.php:102
+msgid "API key: "
+msgstr ""
+
+#: options/html-options.php:39 options/html-options.php:107
+msgid "Set"
+msgstr ""
+
+#: options/html-options.php:45 options/html-options.php:114
+msgid "Instruction to get"
+msgstr ""
+
+#: options/html-options.php:45 options/html-options.php:114
+msgid "API key:"
+msgstr ""
+
+#: options/html-options.php:47 options/html-options.php:116
+msgid "Step 1"
+msgstr ""
+
+#: options/html-options.php:52 options/html-options.php:121
+msgid "Step 2"
+msgstr ""
+
+#: options/html-options.php:57 options/html-options.php:126
+msgid "Step 3"
+msgstr ""
+
+#: options/html-options.php:63
+msgid "Step 4"
+msgstr ""
+
+#: options/html-options.php:68
+msgid "Step 5"
+msgstr ""
+
+#: options/html-options.php:73
+msgid "Step 6"
+msgstr ""
+
+#: options/html-options.php:80
+msgid "Step 7"
+msgstr ""
+
+#: options/html-options.php:85
+msgid "Step 8"
+msgstr ""
+
+#: options/html-options.php:90
+msgid "Step 9"
+msgstr ""
+
+#: options/html-options.php:135
+msgid "Background and Colors"
+msgstr ""
+
+#: options/html-options.php:171
+msgid "Front-end Phrases"
+msgstr ""
+
+#: options/lang-list.php:7 options/lang-list.php:24
+msgid "Yiddish"
+msgstr ""
+
+#: options/lang-list.php:7
+msgid "Tatar"
+msgstr ""
+
+#: options/lang-list.php:7 options/lang-list.php:38
+msgid "Chinese"
+msgstr ""
+
+#: options/lang-list.php:11
+msgid "Amharic"
+msgstr ""
+
+#: options/lang-list.php:11
+msgid "Bengali"
+msgstr ""
+
+#: options/lang-list.php:11
+msgid "Cebuano"
+msgstr ""
+
+#: options/lang-list.php:12
+msgid "Chichewa"
+msgstr ""
+
+#: options/lang-list.php:12
+msgid "Chinese (Traditional)"
+msgstr ""
+
+#: options/lang-list.php:12
+msgid "Corsican"
+msgstr ""
+
+#: options/lang-list.php:13
+msgid "Esperanto"
+msgstr ""
+
+#: options/lang-list.php:13
+msgid "Frisian"
+msgstr ""
+
+#: options/lang-list.php:13
+msgid "Gujarati"
+msgstr ""
+
+#: options/lang-list.php:14
+msgid "Hausa"
+msgstr ""
+
+#: options/lang-list.php:14
+msgid "Hawaiian"
+msgstr ""
+
+#: options/lang-list.php:14
+msgid "Hebrew"
+msgstr ""
+
+#: options/lang-list.php:15
+msgid "Hindi"
+msgstr ""
+
+#: options/lang-list.php:15
+msgid "Hmong"
+msgstr ""
+
+#: options/lang-list.php:15
+msgid "Igbo"
+msgstr ""
+
+#: options/lang-list.php:16 options/lang-list.php:49
+msgid "Japanese"
+msgstr ""
+
+#: options/lang-list.php:16
+msgid "Javanese"
+msgstr ""
+
+#: options/lang-list.php:16
+msgid "Kannada"
+msgstr ""
+
+#: options/lang-list.php:17
+msgid "Khmer"
+msgstr ""
+
+#: options/lang-list.php:17
+msgid "Kurdish (Kurmanji)"
+msgstr ""
+
+#: options/lang-list.php:17
+msgid "Lao"
+msgstr ""
+
+#: options/lang-list.php:18
+msgid "Luxembourgish"
+msgstr ""
+
+#: options/lang-list.php:18
+msgid "Malayalam"
+msgstr ""
+
+#: options/lang-list.php:18
+msgid "Maori"
+msgstr ""
+
+#: options/lang-list.php:19
+msgid "Marathi"
+msgstr ""
+
+#: options/lang-list.php:19
+msgid "Myanmar (Burmese)"
+msgstr ""
+
+#: options/lang-list.php:19
+msgid "Nepali"
+msgstr ""
+
+#: options/lang-list.php:20
+msgid "Pashto"
+msgstr ""
+
+#: options/lang-list.php:20
+msgid "Punjabi"
+msgstr ""
+
+#: options/lang-list.php:20
+msgid "Samoan"
+msgstr ""
+
+#: options/lang-list.php:21
+msgid "Scots Gaelic"
+msgstr ""
+
+#: options/lang-list.php:21
+msgid "Sesotho"
+msgstr ""
+
+#: options/lang-list.php:21
+msgid "Shona"
+msgstr ""
+
+#: options/lang-list.php:22
+msgid "Sindhi"
+msgstr ""
+
+#: options/lang-list.php:22
+msgid "Sinhala"
+msgstr ""
+
+#: options/lang-list.php:22
+msgid "Somali"
+msgstr ""
+
+#: options/lang-list.php:23
+msgid "Sundanese"
+msgstr ""
+
+#: options/lang-list.php:23
+msgid "Tamil"
+msgstr ""
+
+#: options/lang-list.php:23
+msgid "Telugu"
+msgstr ""
+
+#: options/lang-list.php:24
+msgid "Urdu"
+msgstr ""
+
+#: options/lang-list.php:24
+msgid "Xhosa"
+msgstr ""
+
+#: options/lang-list.php:25
+msgid "Yoruba"
+msgstr ""
+
+#: options/lang-list.php:25
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#: options/lang-list.php:29
+msgid "Albanian"
+msgstr ""
+
+#: options/lang-list.php:29
+msgid "English"
+msgstr ""
+
+#: options/lang-list.php:29
+msgid "Arabic"
+msgstr ""
+
+#: options/lang-list.php:30
+msgid "Armenian"
+msgstr ""
+
+#: options/lang-list.php:30
+msgid "Azerbaijan"
+msgstr ""
+
+#: options/lang-list.php:30
+msgid "Afrikaans"
+msgstr ""
+
+#: options/lang-list.php:31
+msgid "Basque"
+msgstr ""
+
+#: options/lang-list.php:31
+msgid "Belarusian"
+msgstr ""
+
+#: options/lang-list.php:31
+msgid "Bulgarian"
+msgstr ""
+
+#: options/lang-list.php:32
+msgid "Bosnian"
+msgstr ""
+
+#: options/lang-list.php:32
+msgid "Welsh"
+msgstr ""
+
+#: options/lang-list.php:32
+msgid "Vietnamese"
+msgstr ""
+
+#: options/lang-list.php:33
+msgid "Hungarian"
+msgstr ""
+
+#: options/lang-list.php:33
+msgid "Haitian(Creole)"
+msgstr ""
+
+#: options/lang-list.php:33
+msgid "Galician"
+msgstr ""
+
+#: options/lang-list.php:34
+msgid "Dutch"
+msgstr ""
+
+#: options/lang-list.php:34
+msgid "Greek"
+msgstr ""
+
+#: options/lang-list.php:34
+msgid "Georgian"
+msgstr ""
+
+#: options/lang-list.php:35
+msgid "Danish"
+msgstr ""
+
+#: options/lang-list.php:35
+msgid "Indonesian"
+msgstr ""
+
+#: options/lang-list.php:35
+msgid "Irish"
+msgstr ""
+
+#: options/lang-list.php:36
+msgid "Italian"
+msgstr ""
+
+#: options/lang-list.php:36
+msgid "Icelandic"
+msgstr ""
+
+#: options/lang-list.php:36
+msgid "Spanish"
+msgstr ""
+
+#: options/lang-list.php:37
+msgid "Kazakh"
+msgstr ""
+
+#: options/lang-list.php:37
+msgid "Catalan"
+msgstr ""
+
+#: options/lang-list.php:37
+msgid "Kyrgyz"
+msgstr ""
+
+#: options/lang-list.php:38
+msgid "Korean"
+msgstr ""
+
+#: options/lang-list.php:38
+msgid "Latin"
+msgstr ""
+
+#: options/lang-list.php:39
+msgid "Latvian"
+msgstr ""
+
+#: options/lang-list.php:39
+msgid "Lithuanian"
+msgstr ""
+
+#: options/lang-list.php:39
+msgid "Malagasy"
+msgstr ""
+
+#: options/lang-list.php:40
+msgid "Malay"
+msgstr ""
+
+#: options/lang-list.php:40
+msgid "Maltese"
+msgstr ""
+
+#: options/lang-list.php:40
+msgid "Macedonian"
+msgstr ""
+
+#: options/lang-list.php:41
+msgid "Mongolian"
+msgstr ""
+
+#: options/lang-list.php:41
+msgid "German"
+msgstr ""
+
+#: options/lang-list.php:41
+msgid "Norwegian"
+msgstr ""
+
+#: options/lang-list.php:42
+msgid "Persian"
+msgstr ""
+
+#: options/lang-list.php:42
+msgid "Polish"
+msgstr ""
+
+#: options/lang-list.php:42
+msgid "Portuguese"
+msgstr ""
+
+#: options/lang-list.php:43
+msgid "Romanian"
+msgstr ""
+
+#: options/lang-list.php:43
+msgid "Russian"
+msgstr ""
+
+#: options/lang-list.php:43
+msgid "Serbian"
+msgstr ""
+
+#: options/lang-list.php:44
+msgid "Slovakian"
+msgstr ""
+
+#: options/lang-list.php:44
+msgid "Slovenian"
+msgstr ""
+
+#: options/lang-list.php:44
+msgid "Swahili"
+msgstr ""
+
+#: options/lang-list.php:45
+msgid "Tajik"
+msgstr ""
+
+#: options/lang-list.php:45
+msgid "Thai"
+msgstr ""
+
+#: options/lang-list.php:45
+msgid "Tagalog"
+msgstr ""
+
+#: options/lang-list.php:46
+msgid "Turkish"
+msgstr ""
+
+#: options/lang-list.php:46
+msgid "Uzbek"
+msgstr ""
+
+#: options/lang-list.php:46
+msgid "Ukrainian"
+msgstr ""
+
+#: options/lang-list.php:47
+msgid "Finish"
+msgstr ""
+
+#: options/lang-list.php:47
+msgid "French"
+msgstr ""
+
+#: options/lang-list.php:47
+msgid "Croatian"
+msgstr ""
+
+#: options/lang-list.php:48
+msgid "Czech"
+msgstr ""
+
+#: options/lang-list.php:48
+msgid "Swedish"
+msgstr ""
+
+#: options/lang-list.php:48
+msgid "Estonian"
+msgstr ""
+
+#. Name of the plugin
+msgid "wpDiscuz - Comment Translation"
+msgstr ""
+
+#. Description of the plugin
+msgid "Smart, intuitive, fast and powerful tool to surprise your website visitors and comment readers. This is an unique function on your comment area which will translate comment content to more than 100 different languages."
+msgstr ""
+
+#. URI of the plugin
+msgid "https://gvectors.com/product/wpdiscuz-comment-translation/"
+msgstr ""
+
+#. Author of the plugin
+msgid "gVectors Team (A. Chakhoyan, G. Zakaryan, H. Martirosyan)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://gvectors.com/"
+msgstr ""

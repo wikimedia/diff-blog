@@ -13,6 +13,14 @@
 /plugins/two-factor/
 /plugins/vaultpress/
 
+# Related to PHP Code Sniffer
+/vendor/*
+composer.json
+composer.lock
+
+# Node Modules
+*/*/node_modules/
+
 # Uploads directory
 /uploads/
 
