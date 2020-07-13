@@ -1,0 +1,62 @@
+/*!
+Theme Name: Interconnection
+Theme URI: http://underscores.me/
+Author: Hang Do Thi Duc, Chris Koerner
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: interconnection
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned.
+
+Interconnection is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# 1 Normalize
+# 2 Typography
+# 3 Elements
+# 4 Grid
+# 5 Forms
+# 6 Navigation
+	## Links
+	## Menus
+	## Footer
+# 7 Accessibility
+# 7 Alignments
+# 7 Infinite scroll
+# 8 Widgets
+# 8 Site content
+	## Posts and pages
+	## Comments
+	## Credits
+# 9 Media
+	## Captions
+	## Galleries
+--------------------------------------------------------------*/
+@import "functions";
+@import "0-variables-site/variables-site";
+@import "0-mixins/mixins-master";
+
+@import "normalize";
+@import "2-typography/typography";
+@import "3-elements/elements";
+@import "4-layout/grid";
+@import "5-forms/forms";
+@import "6-navigation/navigation";
+@import "7-modules/accessibility";
+@import "7-modules/alignments";
+@import "7-modules/infinite-scroll";
+@import "8-site/secondary/widgets";
+@import "8-site/site";
+@import "9-media/media";
