@@ -234,12 +234,20 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         return "<p>" . wp_trim_words($commentContent, $options->content["commentReadMoreLimit"], $readMoreLink) . "</p>";
     }
 
+    public static function strWordCount($content) {
+        $words = preg_split("/[\n\r\t ]+/", $content, -1, PREG_SPLIT_NO_EMPTY);
+        $words = array_filter($words, function ($w){
+           return $w !== "&nbsp;";
+        });
+        return count($words);
+    }
+
     public function isLoadWpdiscuz($post) {
         if (!$post || !is_object($post) || (is_front_page() && !$this->options->general["isEnableOnHome"])) {
             return false;
         }
         $form = $this->wpdiscuzForm->getForm($post->ID);
-        return apply_filters('is_load_wpdiscuz', $form->getFormID() && (comments_open($post) || $post->comment_count) && is_singular() && post_type_supports($post->post_type, "comments"), $post);
+        return apply_filters("is_load_wpdiscuz", $form->getFormID() && (comments_open($post) || $post->comment_count) && is_singular() && post_type_supports($post->post_type, "comments"), $post);
     }
 
     public function replaceCommentContentCode($content) {
@@ -358,7 +366,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         } else {
             $storedCookieEmail = isset($_COOKIE["comment_author_email_" . COOKIEHASH]) ? $_COOKIE["comment_author_email_" . COOKIEHASH] : "";
         }
-        return !(!$this->options->moderation["enableEditingWhenHaveReplies"] && $comment->get_children()) && (($storedCookieEmail == $comment->comment_author_email && $_SERVER["REMOTE_ADDR"] == $comment->comment_author_IP) || ($currentUser && $currentUser->ID && $currentUser->ID == $comment->user_id));
+        return !(!$this->options->moderation["enableEditingWhenHaveReplies"] && $comment->get_children(["post_id" => $comment->comment_post_ID])) && (($storedCookieEmail == $comment->comment_author_email && $_SERVER["REMOTE_ADDR"] == $comment->comment_author_IP) || ($currentUser && $currentUser->ID && $currentUser->ID == $comment->user_id));
     }
 
     public function addCommentTypes($args) {
@@ -741,7 +749,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
     private function isValidAvatar($email) {
         $url = "http://www.gravatar.com/avatar/" . md5($email) . "?d=404";
         $headers = wp_remote_head($url);
-        return 200 === $headers["response"]["code"];
+        return !is_wp_error($headers) && 200 === $headers["response"]["code"];
     }
 
     private function getUserNameAndEmail($idOrEmail) {
@@ -935,7 +943,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
     }
 
     public function getProfileUrl($profile_url, $user) {
-        if ($this->options->login["enableProfileURLs"]) {
+        if ($this->options->login["enableProfileURLs"] && $user) {
             if (class_exists("BuddyPress")) {
                 $profile_url = bp_core_get_user_domain($user->ID);
             } else if (class_exists("UM_API") || class_exists("UM")) {
@@ -1057,6 +1065,19 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         ob_start();
         $left = ( is_rtl() ) ? 'right' : 'left';
         $right = ( is_rtl() ) ? 'left' : 'right';
+        $dark = $this->options->thread_styles["theme"] === "wpd-dark";
+        $darkCommentAreaBG = $this->options->thread_styles["darkCommentAreaBG"] ? "background:" . $this->options->thread_styles["darkCommentAreaBG"] . ";" : "";
+        $darkCommentTextColor = $this->options->thread_styles["darkCommentTextColor"] ? "color:" . $this->options->thread_styles["darkCommentTextColor"] . ";" : "";
+        $darkCommentFieldsBG = $this->options->thread_styles["darkCommentFieldsBG"] ? "background:" . $this->options->thread_styles["darkCommentFieldsBG"] . ";" : "";
+        $darkCommentFieldsBorderColor = $this->options->thread_styles["darkCommentFieldsBorderColor"] ? "border: 1px solid " . $this->options->thread_styles["darkCommentFieldsBorderColor"] . ";" : "";
+        $darkCommentFieldsTextColor = $this->options->thread_styles["darkCommentFieldsTextColor"] ? "color:" . $this->options->thread_styles["darkCommentFieldsTextColor"] . ";" : "";
+        $darkCommentFieldsPlaceholderColor = $this->options->thread_styles["darkCommentFieldsPlaceholderColor"] ? "opacity:1;color:" . $this->options->thread_styles["darkCommentFieldsPlaceholderColor"] . ";" : "";
+        $defaultCommentAreaBG = $this->options->thread_styles["defaultCommentAreaBG"] ? "background:" . $this->options->thread_styles["defaultCommentAreaBG"] . ";" : "";
+        $defaultCommentTextColor = $this->options->thread_styles["defaultCommentTextColor"] ? "color:" . $this->options->thread_styles["defaultCommentTextColor"] . ";" : "";
+        $defaultCommentFieldsBG = $this->options->thread_styles["defaultCommentFieldsBG"] ? "background:" . $this->options->thread_styles["defaultCommentFieldsBorderColor"] . ";" : "";
+        $defaultCommentFieldsBorderColor = $this->options->thread_styles["defaultCommentFieldsBorderColor"] ? "border: 1px solid " . $this->options->thread_styles["defaultCommentFieldsBorderColor"] . ";" : "";
+        $defaultCommentFieldsTextColor = $this->options->thread_styles["defaultCommentFieldsTextColor"] ? "color:" . $this->options->thread_styles["defaultCommentFieldsTextColor"] . ";" : "";
+        $defaultCommentFieldsPlaceholderColor = $this->options->thread_styles["defaultCommentFieldsPlaceholderColor"] ? "opacity:1;color:" . $this->options->thread_styles["defaultCommentFieldsPlaceholderColor"] . ";" : "";
         if ($this->options->thread_styles["theme"] !== "wpd-minimal") {
             $blogRoles = $this->options->labels["blogRoles"];
             if (!$blogRoles) {
@@ -1080,6 +1101,29 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             }
             ?>
             <?php echo ( $this->options->thread_styles["commentTextSize"] != '14px') ? "#wpdcom .wpd-comment-text p{font-size:" . $this->options->thread_styles["commentTextSize"] . ";}\r\n" : ""; ?>
+            <?php if ($dark) { ?>
+                #comments, #respond, .comments-area, #wpdcom.wpd-dark{<?php echo $darkCommentAreaBG . $darkCommentTextColor ?>}
+                #wpdcom .ql-editor > *{<?php echo $darkCommentFieldsTextColor ?>}
+                #wpdcom .ql-editor::before{<?php echo $darkCommentFieldsPlaceholderColor ?>}
+                #wpdcom .ql-toolbar{<?php echo $darkCommentFieldsBorderColor ?>border-top:none;}
+                #wpdcom .ql-container{<?php echo $darkCommentFieldsBG . $darkCommentFieldsBorderColor ?>border-bottom:none;}
+                #wpdcom .wpd-form-row .wpdiscuz-item input[type="text"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="email"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="url"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="color"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="date"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime-local"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="month"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="number"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="time"], #wpdcom textarea, #wpdcom select{<?php echo $darkCommentFieldsBG . $darkCommentFieldsBorderColor . $darkCommentFieldsTextColor ?>}
+                #wpdcom.wpd-dark .wpdiscuz-item.wpd-field-select select.wpdiscuz_select, #wpdcom.wpd-dark select{<?php echo str_replace(';', '!important;', $darkCommentFieldsBG . $darkCommentFieldsBorderColor . $darkCommentFieldsTextColor) ?>}
+                #wpdcom .wpd-form-row .wpdiscuz-item textarea{<?php echo $darkCommentFieldsBorderColor ?>}
+                #wpdcom input::placeholder, #wpdcom textarea::placeholder, #wpdcom input::-moz-placeholder, #wpdcom textarea::-webkit-input-placeholder{<?php echo $darkCommentFieldsPlaceholderColor ?>}
+                #wpdcom .wpd-comment-text{<?php echo $darkCommentTextColor ?>}
+                .lity-wrap .wpd-item a{color: #666;} .lity-wrap .wpd-item a:hover{color: #222;} .wpd-inline-shortcode.wpd-active{background-color: #666;}
+            <?php } else { ?>
+                #comments, #respond, .comments-area, #wpdcom{<?php echo $defaultCommentAreaBG ?>}
+                #wpdcom .ql-editor > *{<?php echo $defaultCommentFieldsTextColor ?>}
+                #wpdcom .ql-editor::before{<?php echo $defaultCommentFieldsPlaceholderColor ?>}
+                #wpdcom .ql-toolbar{<?php echo $defaultCommentFieldsBorderColor ?>border-top:none;}
+                #wpdcom .ql-container{<?php echo $defaultCommentFieldsBG . $defaultCommentFieldsBorderColor ?>border-bottom:none;}
+                #wpdcom .wpd-form-row .wpdiscuz-item input[type="text"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="email"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="url"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="color"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="date"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime-local"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="month"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="number"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="time"], #wpdcom textarea, #wpdcom select{<?php echo $defaultCommentFieldsBG . $defaultCommentFieldsBorderColor . $defaultCommentTextColor ?>}
+                #wpdcom .wpd-form-row .wpdiscuz-item textarea{<?php echo $defaultCommentFieldsBorderColor ?>}
+                #wpdcom input::placeholder, #wpdcom textarea::placeholder, #wpdcom input::-moz-placeholder, #wpdcom textarea::-webkit-input-placeholder{<?php echo $defaultCommentFieldsPlaceholderColor ?>}
+                #wpdcom .wpd-comment-text{<?php echo $defaultCommentTextColor ?>}
+            <?php } ?>
             #wpdcom .wpd-thread-head .wpd-thread-info{ border-bottom:2px solid <?php echo $this->options->thread_styles["primaryColor"]; ?>;}
             #wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill: <?php echo $this->options->thread_styles["primaryColor"]; ?>;}
             #wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom: 2px solid <?php echo $this->options->thread_styles["primaryColor"]; ?>;}
@@ -1113,11 +1157,6 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             #wpdcom .wpd-follow:hover i, #wpdcom .wpd-unfollow:hover i, #wpdcom .wpd-comment .wpd-follow-active:hover i{color:<?php echo $this->options->thread_styles["primaryColor"]; ?>;}
             #wpdcom .wpdiscuz-readmore{cursor:pointer;color:<?php echo $this->options->thread_styles["primaryColor"]; ?>;}
             .wpd-custom-field .wcf-pasiv-star, #wpcomm .wpdiscuz-item .wpdiscuz-rating > label {color: <?php echo $this->options->rating["ratingInactiveColor"]; ?>;}
-            <?php if ($this->options->thread_styles["theme"] == "wpd-dark") { ?>
-                #comments{ background: #222; color:#aaa;} #respond{background: #222;} .comments-area{background: #222;}
-                .lity-wrap .wpd-item a{color: #666;}
-                .lity-wrap .wpd-item a:hover{color: #222;}
-            <?php } ?>
             .wpd-wrapper .wpd-list-item.wpd-active{border-top: 3px solid <?php echo $this->options->thread_styles["primaryColor"]; ?>;}
             #wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-<?php echo $left ?>: 3px solid <?php echo $this->options->thread_styles["newLoadedCommentBGColor"]; ?>;}
             #wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-<?php echo $left ?>: 1px solid <?php echo $this->options->thread_styles["newLoadedCommentBGColor"]; ?>;}
@@ -1126,8 +1165,8 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             #wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
             #wpd-bubble-wrapper > div{background-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
             #wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message{background-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
-            #wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message::before{border-<?php echo $right ?>-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
-            #wpd-bubble-wrapper.wpd-right-corner > #wpd-bubble #wpd-bubble-add-message::before{border-<?php echo $left ?>-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
+            #wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message::before{border-left-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>; border-right-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
+            #wpd-bubble-wrapper.wpd-right-corner > #wpd-bubble #wpd-bubble-add-message::before{border-left-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>; border-right-color:<?php echo $this->options->thread_styles["bubbleColors"]; ?>;}
             .wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:<?php echo $this->options->thread_styles["inlineFeedbackColors"]; ?>;}
             .wpd-inline-icon-count{background-color:<?php echo $this->options->thread_styles["inlineFeedbackColors"]; ?>;}
             .wpd-inline-icon-count::before{border-<?php echo $right ?>-color:<?php echo $this->options->thread_styles["inlineFeedbackColors"]; ?>;}
@@ -1148,7 +1187,16 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         if ($this->options->thread_styles["theme"] !== "wpd-minimal") {
             echo stripslashes($this->options->thread_styles["customCss"]);
         }
-        return ob_get_clean();
+        $css = ob_get_clean();
+        /* xMinfy Star ********************************************************* */
+        if (apply_filters("wpdiscuz_minify_inline_css", true)) {
+            $css = preg_replace('/\/\*((?!\*\/).)*\*\//', "", $css);
+            $css = preg_replace('/\s{2,}/', " ", $css);
+            $css = preg_replace('/\s*([:;{}])\s*/', "$1", $css);
+            $css = preg_replace('/;}/', "}", $css);
+        }
+        /* xMinify End ********************************************************* */
+        return $css;
     }
 
     /**

@@ -206,5 +206,20 @@ if (!defined("ABSPATH")) {
 </div>
 <!-- Option end -->
 
-
-
+<!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="scrollToComment">
+    <div class="wpd-opt-name">
+        <label for="scrollToComment"><?php echo $setting["options"]["scrollToComment"]["label"] ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["scrollToComment"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <div class="wpd-switcher">
+            <input type="checkbox" <?php checked($this->thread_display["scrollToComment"] == 1) ?> value="1" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_DISPLAY); ?>[scrollToComment]" id="scrollToComment">
+            <label for="scrollToComment"></label>
+        </div>
+    </div>
+    <div class="wpd-opt-doc">
+        <a href="<?php echo esc_url_raw($setting["options"]["scrollToComment"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+    </div>
+</div>
+<!-- Option end -->

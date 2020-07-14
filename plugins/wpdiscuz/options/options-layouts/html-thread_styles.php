@@ -7,7 +7,7 @@ if (!defined("ABSPATH")) {
 <div class="wpd-opt-row">
     <div class="wpd-opt-intro">
         <img class="wpd-opt-img" src="<?php echo esc_url_raw(plugins_url(WPDISCUZ_DIR_NAME . "/assets/img/dashboard/" . $setting["icon"])); ?>" style="height: 90px; padding-top: 5px;"/>
-        <?php esc_html_e("Here you can manage comment thread styles, custom colors and add custom CSS. By default wpDiscuz comes with &laquo;Light&raquo; style. If your theme style is dark, we recommend choose the &laquo;Dark&raquo; option for comments too. In case you want to totally customize comment style or create it from scratch, we recommend choose the &laquo;Minimal&raquo; option to stop loading wpDiscuz core CSS. In this case only basic CSS code will be loaded allowing you add your custom style easier.", "wpdiscuz"); ?>
+        <?php esc_html_e("Here you can manage comment thread styles, custom colors and add custom CSS. By default wpDiscuz comes with &laquo;Light&raquo; style. If your theme style is dark, we recommend choose the &laquo;Dark&raquo; option for comments too. In case you want to totally customize comment style or create it from scratch, we recommend choose the &laquo;Off&raquo; option to stop loading wpDiscuz core CSS. In this case only basic CSS code will be loaded allowing you add your custom style easier.", "wpdiscuz"); ?>
     </div>
     <div class="wpd-opt-doc" style="padding-top: 10px;">
         <a href="https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/styles-and-colors/" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
@@ -23,13 +23,80 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <div class="wpd-switch-field">
-            <input <?php checked($this->thread_styles["theme"] == "wpd-minimal"); ?> value="wpd-minimal" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeMinimal" type="radio"><label for="themeMinimal"><?php esc_html_e("Minimal", "wpdiscuz"); ?></label>
+            <input <?php checked($this->thread_styles["theme"] == "wpd-minimal"); ?> value="wpd-minimal" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeMinimal" type="radio"><label for="themeMinimal"><?php esc_html_e("Off", "wpdiscuz"); ?></label>
             <input <?php checked($this->thread_styles["theme"] == "wpd-default"); ?> value="wpd-default" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeDefault" type="radio"><label for="themeDefault"><?php esc_html_e("Default", "wpdiscuz"); ?></label>
             <input <?php checked($this->thread_styles["theme"] == "wpd-dark"); ?> value="wpd-dark" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeDark" type="radio"><label for="themeDark"><?php esc_html_e("Dark", "wpdiscuz"); ?></label>
         </div>
     </div>
     <div class="wpd-opt-doc">
         <a href="<?php echo esc_url_raw($setting["options"]["theme"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+    </div>
+</div>
+<!-- Option end -->
+
+<!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="styleSpecificColors">
+    <div class="wpd-opt-input" style="width: calc(100% - 40px);">
+        <h2 style="margin-bottom: 0px;font-size: 15px; color: #555;"><?php echo esc_html($setting["options"]["styleSpecificColors"]["label"]) ?></h2>
+        <p class="wpd-desc"><?php echo $setting["options"]["styleSpecificColors"]["description"] ?></p>
+        <div class="wpd-default-style-colors" style="float: left; width: 48%;">
+            <h4 style="font-size: 14px; color: #0c8d71;"><?php _e("Default Style","wpdiscuz"); ?></h4>
+            <div class="wpd-scol-wrap">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["defaultCommentAreaBG"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[defaultCommentAreaBG]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Area Background", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["defaultCommentTextColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[defaultCommentTextColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Text", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["defaultCommentFieldsBG"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[defaultCommentFieldsBG]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Background", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["defaultCommentFieldsBorderColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[defaultCommentFieldsBorderColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Border", "wpdiscuz"); ?></label>
+            </div>
+            <div  class="wpd-scol-wrap">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["defaultCommentFieldsTextColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[defaultCommentFieldsTextColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Text", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["defaultCommentFieldsPlaceholderColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[defaultCommentFieldsPlaceholderColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Placeholder", "wpdiscuz"); ?></label>
+            </div>
+        </div>
+        <div class="wpd-dark-style-colors" style="float: right; width: 48%;">
+            <h4 style="font-size: 14px; color: #222;"><?php _e("Dark Style", "wpdiscuz"); ?></h4>
+            <div class="wpd-scol-wrap" style="background: #F5F5F5;">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["darkCommentAreaBG"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[darkCommentAreaBG]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Area Background", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap" style="background: #F5F5F5;">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["darkCommentTextColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[darkCommentTextColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Text", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap" style="background: #F5F5F5;">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["darkCommentFieldsBG"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[darkCommentFieldsBG]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Background", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap" style="background: #F5F5F5;">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["darkCommentFieldsBorderColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[darkCommentFieldsBorderColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Border", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap" style="background: #F5F5F5;">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["darkCommentFieldsTextColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[darkCommentFieldsTextColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Text", "wpdiscuz"); ?></label>
+            </div>
+            <div class="wpd-scol-wrap" style="background: #F5F5F5;">
+                <input type="text" class="wpdiscuz-color-picker regular-text" value="<?php echo esc_attr($this->thread_styles["darkCommentFieldsPlaceholderColor"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[darkCommentFieldsPlaceholderColor]" placeholder="<?php esc_attr_e("default", "wpdiscuz"); ?>"/>
+                <label><?php esc_html_e("Comment Fields Placeholder", "wpdiscuz"); ?></label>
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+    <div class="wpd-opt-doc" style="padding-top: 36px;">
+        <a href="<?php echo esc_url_raw($setting["options"]["styleSpecificColors"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
     </div>
 </div>
 <!-- Option end -->
@@ -72,28 +139,9 @@ if (!defined("ABSPATH")) {
 </div>
 <!-- Option end -->
 
-<!-- Option start -->
-<div class="wpd-opt-row" data-wpd-opt="commentTextSize">
-    <div class="wpd-opt-name">
-        <label for="commentTextSize"><?php echo esc_html($setting["options"]["commentTextSize"]["label"]) ?></label>
-        <p class="wpd-desc"><?php echo $setting["options"]["commentTextSize"]["description"] ?></p>
-    </div>
-    <div class="wpd-opt-input">
-        <select id="commentTextSize" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[commentTextSize]" style="width: 80px;">
-            <option value="12px" <?php selected($this->thread_styles["commentTextSize"], "12px"); ?>>12px</option>
-            <option value="13px" <?php selected($this->thread_styles["commentTextSize"], "13px"); ?>>13px</option>
-            <option value="14px" <?php selected($this->thread_styles["commentTextSize"], "14px"); ?>>14px</option>
-            <option value="15px" <?php selected($this->thread_styles["commentTextSize"], "15px"); ?>>15px</option>
-            <option value="16px" <?php selected($this->thread_styles["commentTextSize"], "16px"); ?>>16px</option>
-            <option value="17px" <?php selected($this->thread_styles["commentTextSize"], "17px"); ?>>17px</option>
-            <option value="18px" <?php selected($this->thread_styles["commentTextSize"], "18px"); ?>>18px</option>
-            <option value="19px" <?php selected($this->thread_styles["commentTextSize"], "19px"); ?>>19px</option>
-            <option value="20px" <?php selected($this->thread_styles["commentTextSize"], "20px"); ?>>20px</option>
-        </select>
-    </div>
-    <div class="wpd-opt-doc"></div>
+<div style="padding: 20px 0 30px 0; font-size: 14px;">
+    <a href="<?php echo admin_url("admin.php?page=" . WpdiscuzCore::PAGE_SETTINGS . "&wpd_tab=rating") ?>"><?php _e("Comment Rating Colors","wpdiscuz"); ?></a> and <a href="<?php echo admin_url("admin.php?page=" . WpdiscuzCore::PAGE_SETTINGS . "&wpd_tab=labels") ?>"><?php _e("Comment Author Label Colors","wpdiscuz"); ?></a>
 </div>
-<!-- Option end -->
 
 <!-- Option start -->
 <div class="wpd-opt-row" data-wpd-opt="enableFontAwesome">

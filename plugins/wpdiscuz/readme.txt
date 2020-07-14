@@ -3,7 +3,7 @@ Contributors: gVectors Team
 Tags: comment, comments, ajax comments, comment form, comment fields
 Requires at least: 5.0
 Tested up to: 5.4
-Stable tag: 7.0.2
+Stable tag: 7.0.3
 Requires PHP: 5.4 and higher
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -81,6 +81,7 @@ wpDiscuz version 7 is a revolutionary perspective on the commenting world! This 
 * | [wpDiscuz - Bundle](https://gvectors.com/product/wpdiscuz-addons-bundle/)
 * | [wpDiscuz - Emoticons](https://gvectors.com/product/wpdiscuz-emoticons/)
 * | [wpDiscuz - Media Uploader](https://gvectors.com/product/wpdiscuz-media-uploader/)
+* | [wpDiscuz - Embeds](https://gvectors.com/product/wpdiscuz-embeds/)
 * | [wpDiscuz - Comment Author Info](https://gvectors.com/product/wpdiscuz-comment-author-info/)
 * | [wpDiscuz - Google ReCaptcha](https://gvectors.com/product/wpdiscuz-recaptcha/)
 * | [wpDiscuz - myCRED Integration](https://gvectors.com/product/wpdiscuz-mycred/)
@@ -96,7 +97,7 @@ wpDiscuz version 7 is a revolutionary perspective on the commenting world! This 
 * | [wpDiscuz - Comments Censure](https://gvectors.com/product/comments-censure-pro/)
 * | [wpDiscuz - Online Users](https://gvectors.com/product/wpdiscuz-online-users/)
 * | [wpDiscuz - Private Comments](https://gvectors.com/product/wpdiscuz-private-comments/)
-
+* | [wpDiscuz - Syntax Highlighter](https://gvectors.com/product/wpdiscuz-syntax-highlighter/)
 
 
 == Installation ==
@@ -178,6 +179,54 @@ Nothing will be lost!  **Comments - wpDiscuz** will show all old comments.
 
 == Changelog ==
 
+= Comments - wpDiscuz v7.0.3 =
+
+**IMPORTANT!**
+1. Please don't forget delete all caches and purge CDN after the update.
+2. If you have customized comment background color or other colors please navigate to wpDiscuz > Settings > Styles & Colors Tab and use new background and colors options to reset them.
+3. If yo're updating from 5.x.x versions please read this topic: [https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/](https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/)
+
+* Added: New options to manage colors and backgrounds
+* Added: Change "Minimal" style label to "Off" to avoid using it as a ready style
+* Added: Clean cache on comment actions
+* Added: Russian (ru_RU) translation, many thanks to [wpDiscuz.RU](https://wpdiscuz.ru/)
+* Added: Hide [View Comments] button if there are no comments
+* Added: Tools are redesigned and allowed to again regenerate voting data
+* Added: Tool to import images from Comment Images Reloaded plugin
+* Added: Tool to import subscriptions from Subscribe To Comments Reloaded plugin
+* Added: Remove commenter labels if user corresponding roles don't exist
+* Added: New option to manage page scrolling to just posted comment
+* Optimized: FontAwesome Icon Lib and Style CSS files
+* Optimized: Minified inline CSS code for dynamic colors
+* Fixed Bug: Enlarging comment form on iPhones, horizontal movement
+* Fixed Bug: Live update issues
+* Fixed Bug: Dark Style issues
+* Fixed Bug: Comment Bubble issue on Mobile, RTL, and Right Corner location
+* Fixed Bug: Conflict with WPML plugin
+* Fixed Bug: New comments don't appear, cache conflict
+* Fixed Bug: Rating is not updated
+* Fixed Bug: Login status is not changed after social login
+* Fixed Bug: Cache issue with LiteSpeed Cache plugin
+* Fixed Bug: Cache issue with WP Rocket Cache plugin
+* Fixed Bug: Cache issue with WP Fastest Cache plugin
+* Fixed Bug: Cache issue with W3 Total Cache plugin
+* Fixed Bug: Cache issue with Fast Velocity Minify plugin
+* Fixed Bug: JS errors, conflict with Divi builder plugin
+* Fixed Bug: Problem with displaying file attachments and images
+* Fixed Bug: Problem with disabling Login link
+* Fixed Bug: reCAPTCHA and WPBruiser conflict
+* Fixed Bug: HTTP to HTTPS for SVG xml domain
+* Fixed Bug: Image max width problem, keep images in comment wrapper
+* Fixed Bug: Conflicts with some WordPress themes
+* Fixed Bug: Problems with long comment [Read more] feature
+* Fixed Bug: Table creation database error, charset collation issue
+* Fixed Bug: PHP Fatal error: Uncaught Error: Class wpdFormAttr\Exception
+* New Addon: [wpDiscuz Embeds](https://gvectors.com/product/wpdiscuz-embeds/)
+* New Addon: [wpDiscuz Syntax Highlighter](https://gvectors.com/product/wpdiscuz-syntax-highlighter/)
+
+**Security vulnerability issue in 5.3.5 version, please update to 5.3.6 or current 7.x.x versions**
+[https://wpdiscuz.com/community/news/security-vulnerability-issue-in-5-3-5-please-udate/](https://wpdiscuz.com/community/news/security-vulnerability-issue-in-5-3-5-please-udate/)
+
 = Comments - wpDiscuz v7.0.0 / v7.0.1 / v7.0.2 =
 
 **IMPORTANT!**
@@ -238,9 +287,6 @@ As you can see we jump from 5.3.5 version to 7.0.x, so you should understand, th
 * Added: Improved working speed and security.
 * Added: Better performance and database optimized database queries.
 * Fixed Bug: About a hundred of big and small bugs are fixed.
-
-
-
 
 = Comments - wpDiscuz v5.3.5 =
 
