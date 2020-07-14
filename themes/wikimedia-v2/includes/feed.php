@@ -136,7 +136,7 @@ function wmb_email_digest() {
 				</tr>
 				<tr>
 					<td style="background:#eaecf0;">
-						<img src="https://wikimediablog.files.wordpress.com/2015/06/wikimedia.png" style="float:right; margin:10px 30px 0 0;" height="40" width="40">
+						<img src="/wp-content/uploads/2015/06/wikimedia.png" style="float:right; margin:10px 30px 0 0;" height="40" width="40">
 						<div style="font-family:arial, sans-serif; font-size:16px; margin:10px 0 10px 15px;">
 							<div><?php echo $type == 'weekly' ? 'Weekly' : 'Daily'; ?> update</div>
 							<div style="margin-top:5px;"><b><?php echo $type == 'weekly' ? 'This week' : 'Today'; ?> on the Wikimedia blog:</b></div>
