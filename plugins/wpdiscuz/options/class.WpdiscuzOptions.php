@@ -205,6 +205,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $this->thread_display["mostVotedByDefault"] = isset($options[self::TAB_THREAD_DISPLAY]["mostVotedByDefault"]) ? $options[self::TAB_THREAD_DISPLAY]["mostVotedByDefault"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["mostVotedByDefault"];
         $this->thread_display["reverseChildren"] = isset($options[self::TAB_THREAD_DISPLAY]["reverseChildren"]) ? $options[self::TAB_THREAD_DISPLAY]["reverseChildren"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["reverseChildren"];
         $this->thread_display["highlightUnreadComments"] = isset($options[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"]) ? $options[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"];
+        $this->thread_display["scrollToComment"] = isset($options[self::TAB_THREAD_DISPLAY]["scrollToComment"]) ? $options[self::TAB_THREAD_DISPLAY]["scrollToComment"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["scrollToComment"];
         /* thread_layouts */
         $this->thread_layouts["showCommentLink"] = isset($options[self::TAB_THREAD_LAYOUTS]["showCommentLink"]) ? $options[self::TAB_THREAD_LAYOUTS]["showCommentLink"] : $defaultOptions[self::TAB_THREAD_LAYOUTS]["showCommentLink"];
         $this->thread_layouts["showCommentDate"] = isset($options[self::TAB_THREAD_LAYOUTS]["showCommentDate"]) ? $options[self::TAB_THREAD_LAYOUTS]["showCommentDate"] : $defaultOptions[self::TAB_THREAD_LAYOUTS]["showCommentDate"];
@@ -226,6 +227,18 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $this->thread_styles["primaryButtonBG"] = isset($options[self::TAB_THREAD_STYLES]["primaryButtonBG"]) ? $options[self::TAB_THREAD_STYLES]["primaryButtonBG"] : $defaultOptions[self::TAB_THREAD_STYLES]["primaryButtonBG"];
         $this->thread_styles["bubbleColors"] = isset($options[self::TAB_THREAD_STYLES]["bubbleColors"]) ? $options[self::TAB_THREAD_STYLES]["bubbleColors"] : $defaultOptions[self::TAB_THREAD_STYLES]["bubbleColors"];
         $this->thread_styles["inlineFeedbackColors"] = isset($options[self::TAB_THREAD_STYLES]["inlineFeedbackColors"]) ? $options[self::TAB_THREAD_STYLES]["inlineFeedbackColors"] : $defaultOptions[self::TAB_THREAD_STYLES]["inlineFeedbackColors"];
+        $this->thread_styles["defaultCommentAreaBG"] = isset($options[self::TAB_THREAD_STYLES]["defaultCommentAreaBG"]) ? $options[self::TAB_THREAD_STYLES]["defaultCommentAreaBG"] : $defaultOptions[self::TAB_THREAD_STYLES]["defaultCommentAreaBG"];
+        $this->thread_styles["defaultCommentTextColor"] = isset($options[self::TAB_THREAD_STYLES]["defaultCommentTextColor"]) ? $options[self::TAB_THREAD_STYLES]["defaultCommentTextColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["defaultCommentTextColor"];
+        $this->thread_styles["defaultCommentFieldsBG"] = isset($options[self::TAB_THREAD_STYLES]["defaultCommentFieldsBG"]) ? $options[self::TAB_THREAD_STYLES]["defaultCommentFieldsBG"] : $defaultOptions[self::TAB_THREAD_STYLES]["defaultCommentFieldsBG"];
+        $this->thread_styles["defaultCommentFieldsBorderColor"] = isset($options[self::TAB_THREAD_STYLES]["defaultCommentFieldsBorderColor"]) ? $options[self::TAB_THREAD_STYLES]["defaultCommentFieldsBorderColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["defaultCommentFieldsBorderColor"];
+        $this->thread_styles["defaultCommentFieldsTextColor"] = isset($options[self::TAB_THREAD_STYLES]["defaultCommentFieldsTextColor"]) ? $options[self::TAB_THREAD_STYLES]["defaultCommentFieldsTextColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["defaultCommentFieldsTextColor"];
+        $this->thread_styles["defaultCommentFieldsPlaceholderColor"] = isset($options[self::TAB_THREAD_STYLES]["defaultCommentFieldsPlaceholderColor"]) ? $options[self::TAB_THREAD_STYLES]["defaultCommentFieldsPlaceholderColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["defaultCommentFieldsPlaceholderColor"];
+        $this->thread_styles["darkCommentAreaBG"] = isset($options[self::TAB_THREAD_STYLES]["darkCommentAreaBG"]) ? $options[self::TAB_THREAD_STYLES]["darkCommentAreaBG"] : $defaultOptions[self::TAB_THREAD_STYLES]["darkCommentAreaBG"];
+        $this->thread_styles["darkCommentTextColor"] = isset($options[self::TAB_THREAD_STYLES]["darkCommentTextColor"]) ? $options[self::TAB_THREAD_STYLES]["darkCommentTextColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["darkCommentTextColor"];
+        $this->thread_styles["darkCommentFieldsBG"] = isset($options[self::TAB_THREAD_STYLES]["darkCommentFieldsBG"]) ? $options[self::TAB_THREAD_STYLES]["darkCommentFieldsBG"] : $defaultOptions[self::TAB_THREAD_STYLES]["darkCommentFieldsBG"];
+        $this->thread_styles["darkCommentFieldsBorderColor"] = isset($options[self::TAB_THREAD_STYLES]["darkCommentFieldsBorderColor"]) ? $options[self::TAB_THREAD_STYLES]["darkCommentFieldsBorderColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["darkCommentFieldsBorderColor"];
+        $this->thread_styles["darkCommentFieldsTextColor"] = isset($options[self::TAB_THREAD_STYLES]["darkCommentFieldsTextColor"]) ? $options[self::TAB_THREAD_STYLES]["darkCommentFieldsTextColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["darkCommentFieldsTextColor"];
+        $this->thread_styles["darkCommentFieldsPlaceholderColor"] = isset($options[self::TAB_THREAD_STYLES]["darkCommentFieldsPlaceholderColor"]) ? $options[self::TAB_THREAD_STYLES]["darkCommentFieldsPlaceholderColor"] : $defaultOptions[self::TAB_THREAD_STYLES]["darkCommentFieldsPlaceholderColor"];
         $this->thread_styles["commentTextSize"] = isset($options[self::TAB_THREAD_STYLES]["commentTextSize"]) ? $options[self::TAB_THREAD_STYLES]["commentTextSize"] : $defaultOptions[self::TAB_THREAD_STYLES]["commentTextSize"];
         $this->thread_styles["enableFontAwesome"] = isset($options[self::TAB_THREAD_STYLES]["enableFontAwesome"]) ? $options[self::TAB_THREAD_STYLES]["enableFontAwesome"] : $defaultOptions[self::TAB_THREAD_STYLES]["enableFontAwesome"];
         $this->thread_styles["customCss"] = isset($options[self::TAB_THREAD_STYLES]["customCss"]) ? $options[self::TAB_THREAD_STYLES]["customCss"] : $defaultOptions[self::TAB_THREAD_STYLES]["customCss"];
@@ -636,6 +649,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "mostVotedByDefault" => $this->thread_display["mostVotedByDefault"],
                 "reverseChildren" => $this->thread_display["reverseChildren"],
                 "highlightUnreadComments" => $this->thread_display["highlightUnreadComments"],
+                "scrollToComment" => $this->thread_display["scrollToComment"],
             ],
             self::TAB_THREAD_LAYOUTS => [
                 "showCommentLink" => $this->thread_layouts["showCommentLink"],
@@ -659,6 +673,18 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "primaryButtonBG" => $this->thread_styles["primaryButtonBG"],
                 "bubbleColors" => $this->thread_styles["bubbleColors"],
                 "inlineFeedbackColors" => $this->thread_styles["inlineFeedbackColors"],
+                "defaultCommentAreaBG" => $this->thread_styles["defaultCommentAreaBG"],
+                "defaultCommentTextColor" => $this->thread_styles["defaultCommentTextColor"],
+                "defaultCommentFieldsBG" => $this->thread_styles["defaultCommentFieldsBG"],
+                "defaultCommentFieldsBorderColor" => $this->thread_styles["defaultCommentFieldsBorderColor"],
+                "defaultCommentFieldsTextColor" => $this->thread_styles["defaultCommentFieldsTextColor"],
+                "defaultCommentFieldsPlaceholderColor" => $this->thread_styles["defaultCommentFieldsPlaceholderColor"],
+                "darkCommentAreaBG" => $this->thread_styles["darkCommentAreaBG"],
+                "darkCommentTextColor" => $this->thread_styles["darkCommentTextColor"],
+                "darkCommentFieldsBG" => $this->thread_styles["darkCommentFieldsBG"],
+                "darkCommentFieldsBorderColor" => $this->thread_styles["darkCommentFieldsBorderColor"],
+                "darkCommentFieldsTextColor" => $this->thread_styles["darkCommentFieldsTextColor"],
+                "darkCommentFieldsPlaceholderColor" => $this->thread_styles["darkCommentFieldsPlaceholderColor"],
                 "commentTextSize" => $this->thread_styles["commentTextSize"],
                 "enableFontAwesome" => $this->thread_styles["enableFontAwesome"],
                 "customCss" => $this->thread_styles["customCss"],
@@ -864,6 +890,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "mostVotedByDefault" => 0,
                 "reverseChildren" => 0,
                 "highlightUnreadComments" => 0,
+                "scrollToComment" => 1,
             ],
             self::TAB_THREAD_LAYOUTS => [
                 "showCommentLink" => 1,
@@ -887,6 +914,18 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "primaryButtonBG" => "#07B290",
                 "bubbleColors" => "#1DB99A",
                 "inlineFeedbackColors" => "#1DB99A",
+                "defaultCommentAreaBG" => "",
+                "defaultCommentTextColor" => "#777777",
+                "defaultCommentFieldsBG" => "",
+                "defaultCommentFieldsBorderColor" => "#DDDDDD",
+                "defaultCommentFieldsTextColor" => "#777777",
+                "defaultCommentFieldsPlaceholderColor" => "",
+                "darkCommentAreaBG" => "#111111",
+                "darkCommentTextColor" => "#CCCCCC",
+                "darkCommentFieldsBG" => "#999999",
+                "darkCommentFieldsBorderColor" => "#D1D1D1",
+                "darkCommentFieldsTextColor" => "#000000",
+                "darkCommentFieldsPlaceholderColor" => "#DDDDDD",
                 "commentTextSize" => "14px",
                 "enableFontAwesome" => 1,
                 "customCss" => ".comments-area{width:auto;}",
@@ -923,7 +962,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "commentTextMaxLength" => "",
                 "enableImageConversion" => 1,
                 "enableShortcodes" => 0,
-                "commentReadMoreLimit" => 100,
+                "commentReadMoreLimit" => 0,
                 "wmuIsEnabled" => 1,
                 "wmuIsGuestAllowed" => 1,
                 "wmuIsLightbox" => 1,
@@ -935,7 +974,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "wmuImageSizes" => $this->getAllImageSizes(),
             ],
             self::TAB_LIVE => [
-                "enableBubble" => 1,
+                "enableBubble" => 0,
                 "bubbleLiveUpdate" => 0,
                 "bubbleLocation" => "content_left",
                 "bubbleShowNewCommentMessage" => 1,
@@ -1037,7 +1076,6 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         if (function_exists("zerospam_get_key")) {
             $jsArgs["wpdiscuz_zs"] = md5(zerospam_get_key());
         }
-        $jsArgs["isGoodbyeCaptchaActive"] = (boolean) $this->isGoodbyeCaptchaActive;
         $jsArgs["socialLoginAgreementCheckbox"] = $this->social["socialLoginAgreementCheckbox"];
         $jsArgs["enableFbLogin"] = $this->social["enableFbLogin"];
         $jsArgs["enableFbShare"] = $this->social["enableFbShare"];
@@ -1048,6 +1086,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $jsArgs["googleClientSecret"] = $this->social["googleClientSecret"];
         $jsArgs["cookiehash"] = COOKIEHASH;
         $jsArgs["isLoadOnlyParentComments"] = $this->thread_display["isLoadOnlyParentComments"];
+        $jsArgs["scrollToComment"] = $this->thread_display["scrollToComment"];
         $jsArgs["commentFormView"] = $this->form["commentFormView"];
         $jsArgs["enableDropAnimation"] = $this->form["enableDropAnimation"];
         $jsArgs["isNativeAjaxEnabled"] = $this->general["isNativeAjaxEnabled"];
@@ -1297,6 +1336,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->thread_display["mostVotedByDefault"] = isset($_POST[self::TAB_THREAD_DISPLAY]["mostVotedByDefault"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["mostVotedByDefault"]) : 0;
                 $this->thread_display["reverseChildren"] = isset($_POST[self::TAB_THREAD_DISPLAY]["reverseChildren"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["reverseChildren"]) : 0;
                 $this->thread_display["highlightUnreadComments"] = isset($_POST[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"]) : 0;
+                $this->thread_display["scrollToComment"] = isset($_POST[self::TAB_THREAD_DISPLAY]["scrollToComment"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["scrollToComment"]) : 0;
             } else if (self::TAB_THREAD_LAYOUTS === $_POST["wpd_tab"]) {
                 $this->thread_layouts["showCommentLink"] = isset($_POST[self::TAB_THREAD_LAYOUTS]["showCommentLink"]) ? absint($_POST[self::TAB_THREAD_LAYOUTS]["showCommentLink"]) : 0;
                 $this->thread_layouts["showCommentDate"] = isset($_POST[self::TAB_THREAD_LAYOUTS]["showCommentDate"]) ? absint($_POST[self::TAB_THREAD_LAYOUTS]["showCommentDate"]) : 0;
@@ -1318,6 +1358,18 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->thread_styles["primaryButtonBG"] = isset($_POST[self::TAB_THREAD_STYLES]["primaryButtonBG"]) ? $_POST[self::TAB_THREAD_STYLES]["primaryButtonBG"] : "#07B290";
                 $this->thread_styles["bubbleColors"] = isset($_POST[self::TAB_THREAD_STYLES]["bubbleColors"]) ? $_POST[self::TAB_THREAD_STYLES]["bubbleColors"] : "#1DB99A";
                 $this->thread_styles["inlineFeedbackColors"] = isset($_POST[self::TAB_THREAD_STYLES]["inlineFeedbackColors"]) ? $_POST[self::TAB_THREAD_STYLES]["inlineFeedbackColors"] : "#1DB99A";
+                $this->thread_styles["defaultCommentAreaBG"] = isset($_POST[self::TAB_THREAD_STYLES]["defaultCommentAreaBG"]) ? $_POST[self::TAB_THREAD_STYLES]["defaultCommentAreaBG"] : "";
+                $this->thread_styles["defaultCommentTextColor"] = isset($_POST[self::TAB_THREAD_STYLES]["defaultCommentTextColor"]) ? $_POST[self::TAB_THREAD_STYLES]["defaultCommentTextColor"] : "#777777";
+                $this->thread_styles["defaultCommentFieldsBG"] = isset($_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsBG"]) ? $_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsBG"] : "";
+                $this->thread_styles["defaultCommentFieldsBorderColor"] = isset($_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsBorderColor"]) ? $_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsBorderColor"] : "#DDDDDD";
+                $this->thread_styles["defaultCommentFieldsTextColor"] = isset($_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsTextColor"]) ? $_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsTextColor"] : "#777777";
+                $this->thread_styles["defaultCommentFieldsPlaceholderColor"] = isset($_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsPlaceholderColor"]) ? $_POST[self::TAB_THREAD_STYLES]["defaultCommentFieldsPlaceholderColor"] : "";
+                $this->thread_styles["darkCommentAreaBG"] = isset($_POST[self::TAB_THREAD_STYLES]["darkCommentAreaBG"]) ? $_POST[self::TAB_THREAD_STYLES]["darkCommentAreaBG"] : "#111111";
+                $this->thread_styles["darkCommentTextColor"] = isset($_POST[self::TAB_THREAD_STYLES]["darkCommentTextColor"]) ? $_POST[self::TAB_THREAD_STYLES]["darkCommentTextColor"] : "#CCCCCC";
+                $this->thread_styles["darkCommentFieldsBG"] = isset($_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsBG"]) ? $_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsBG"] : "#999999";
+                $this->thread_styles["darkCommentFieldsBorderColor"] = isset($_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsBorderColor"]) ? $_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsBorderColor"] : "#D1D1D1";
+                $this->thread_styles["darkCommentFieldsTextColor"] = isset($_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsTextColor"]) ? $_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsTextColor"] : "#000000";
+                $this->thread_styles["darkCommentFieldsPlaceholderColor"] = isset($_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsPlaceholderColor"]) ? $_POST[self::TAB_THREAD_STYLES]["darkCommentFieldsPlaceholderColor"] : "#DDDDDD";
                 $this->thread_styles["commentTextSize"] = isset($_POST[self::TAB_THREAD_STYLES]["commentTextSize"]) ? $_POST[self::TAB_THREAD_STYLES]["commentTextSize"] : "14px";
                 $this->thread_styles["enableFontAwesome"] = isset($_POST[self::TAB_THREAD_STYLES]["enableFontAwesome"]) ? absint($_POST[self::TAB_THREAD_STYLES]["enableFontAwesome"]) : 0;
                 $this->thread_styles["customCss"] = isset($_POST[self::TAB_THREAD_STYLES]["customCss"]) ? $_POST[self::TAB_THREAD_STYLES]["customCss"] : ".comments-area{width:auto;}";
@@ -1351,7 +1403,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->content["commentTextMaxLength"] = isset($_POST[self::TAB_CONTENT]["commentTextMaxLength"]) && absint($_POST[self::TAB_CONTENT]["commentTextMaxLength"]) > 0 ? absint($_POST[self::TAB_CONTENT]["commentTextMaxLength"]) : "";
                 $this->content["enableImageConversion"] = isset($_POST[self::TAB_CONTENT]["enableImageConversion"]) ? absint($_POST[self::TAB_CONTENT]["enableImageConversion"]) : 0;
                 $this->content["enableShortcodes"] = isset($_POST[self::TAB_CONTENT]["enableShortcodes"]) ? absint($_POST[self::TAB_CONTENT]["enableShortcodes"]) : 0;
-                $this->content["commentReadMoreLimit"] = isset($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) && absint($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) >= 0 ? absint($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) : 100;
+                $this->content["commentReadMoreLimit"] = isset($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) && absint($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) >= 0 ? absint($_POST[self::TAB_CONTENT]["commentReadMoreLimit"]) : 0;
                 $this->content["wmuIsEnabled"] = isset($_POST[self::TAB_CONTENT]["wmuIsEnabled"]) ? absint($_POST[self::TAB_CONTENT]["wmuIsEnabled"]) : 0;
                 $this->content["wmuIsGuestAllowed"] = isset($_POST[self::TAB_CONTENT]["wmuIsGuestAllowed"]) ? absint($_POST[self::TAB_CONTENT]["wmuIsGuestAllowed"]) : 0;
                 $this->content["wmuIsLightbox"] = isset($_POST[self::TAB_CONTENT]["wmuIsLightbox"]) ? absint($_POST[self::TAB_CONTENT]["wmuIsLightbox"]) : 0;
@@ -1751,23 +1803,25 @@ class WpdiscuzOptions implements WpDiscuzConstants {
 
     private function initAddons() {
         $this->addons = [
-            "bundle" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "Bundle", "title" => "Addons Bundle", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/bundle/header.png"), "desc" => esc_html__("All 16 addons in one bundle. Save 90% and get Unlimited Site License with one year premium support.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-addons-bundle/"],
-            "uploader" => ["version" => "1.1.0", "requires" => "5.1.0", "class" => "WpdiscuzMediaUploader", "title" => "Advanced Media Uploader", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/uploader/header.png"), "desc" => esc_html__("Extended comment attachment system. Allows to upload images, videos, audios and other file types.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-media-uploader/"],
-            "frontend-moderation" => ["version" => "1.0.4", "requires" => "5.1.0", "class" => "wpDiscuzFrontEndModeration", "title" => "Front-end Moderation", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/frontend-moderation/header.png"), "desc" => esc_html__("All in one powerful yet simple admin toolkit to moderate comments on front-end.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-frontend-moderation/"],
-            "emoticons" => ["version" => "1.1.1", "requires" => "5.1.0", "class" => "wpDiscuzSmile", "title" => "Emoticons", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/emoticons/header.png"), "desc" => esc_html__("Brings an ocean of emotions to your comments. It comes with an awesome smile package.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-emoticons/"],
-            "recaptcha" => ["version" => "1.0.5", "requires" => "5.1.0", "class" => "WpdiscuzRecaptcha", "title" => "Invisible reCAPTCHA v3", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/recaptcha/header.png"), "desc" => esc_html__("Adds Invisible reCAPTCHA on all comment forms. Stops spam and bot comments with reCAPTCHA version 3", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-recaptcha/"],
-            "author-info" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "WpdiscuzCommentAuthorInfo", "title" => "Comment Author Info", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/author-info/header.png"), "desc" => esc_html__("Extended information about comment author with Profile, Activity, Votes and Subscriptions Tabs on pop-up window.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-author-info/"],
-            "report-flagging" => ["version" => "1.1.5", "requires" => "5.1.0", "class" => "wpDiscuzFlagComment", "title" => "Report and Flagging", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/report/header.png"), "desc" => esc_html__("Comment reporting tools. Auto-moderates comments based on number of flags and dislikes.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-report-flagging/"],
-            "online-users" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "WpdiscuzOnlineUsers", "title" => "Online Users", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/online-users/header.png"), "desc" => esc_html__("Real-time online user checking, pop-up notification of new online users and online/offline badges.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-online-users/"],
-            "private" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "wpDiscuzPrivateComment", "title" => "Private Comments", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/private/header.png"), "desc" => esc_html__("Allows to create private comment threads. Rich management options in dashboard by user roles.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-private-comments/"],
-            "subscriptions" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "wpdSubscribeManager", "title" => "Subscription Manager", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/subscriptions/header.png"), "desc" => esc_html__("Total control over comment subscriptions. Full list, monitor, manage, filter, unsubscribe, confirm...", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-subscribe-manager/"],
-            "ads-manager" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "WpdiscuzAdsManager", "title" => "Ads Manager", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/ads-manager/header.png"), "desc" => esc_html__("A full-fledged tool-kit for advertising in comment section of your website. Separate banner and ad managment.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-ads-manager/"],
-            "user-mention" => ["version" => "1.0.0", "requires" => "5.1.0", "class" => "Wpdiscuz_UCM", "title" => "User &amp; Comment Mentioning", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/user-mention/header.png"), "desc" => esc_html__("Allows to mention comments and users in comment text using #comment-id and @username tags.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-user-comment-mentioning/"],
-            "likers" => ["version" => "1.0.0", "requires" => "5.3.0", "class" => "WpdiscuzVoters", "title" => "Advanced Likers", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/likers/header.png"), "desc" => esc_html__("See comment likers and voters of each comment. Adds user reputation and badges based on received likes.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-advanced-likers/"],
-            "translate" => ["version" => "1.0.3", "requires" => "5.1.0", "class" => "WpDiscuzTranslate", "title" => "Comment Translate", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/translate/header.png"), "desc" => esc_html__('Adds a smart and intuitive AJAX "Translate" button with 60 language options. Uses free translation API.', "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-translation/"],
-            "search" => ["version" => "1.1.0", "requires" => "5.1.0", "class" => "wpDiscuzCommentSearch", "title" => "Comment Search", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/search/header.png"), "desc" => esc_html__("AJAX powered front-end comment search. It starts searching while you type search words. ", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-search/"],
-            "widgets" => ["version" => "1.0.7", "requires" => "5.1.0", "class" => "wpDiscuzWidgets", "title" => "wpDiscuz Widgets", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/widgets/header.png"), "desc" => esc_html__("Most voted comments, Active comment threads, Most commented posts, Active comment authors", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-widgets/"],
-            "mycred" => ["version" => "1.0.5", "requires" => "5.1.0", "class" => "myCRED_Hook_wpDiscuz_Vote", "title" => "myCRED Integration", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/mycred/header.png"), "desc" => esc_html__("Integrates myCRED Badges and Ranks. Converts wpDiscuz comment votes/likes to myCRED points. ", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-mycred/"],
+            "bundle" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "Bundle", "title" => "Addons Bundle", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/bundle/header.png"), "desc" => esc_html__("All 16 addons in one bundle. Save 90% and get Unlimited Site License with one year premium support.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-addons-bundle/"],
+            "uploader" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzMediaUploader", "title" => "Media Uploader", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/uploader/header.png"), "desc" => esc_html__("Extended comment attachment system. Allows to upload images, videos, audios and other file types.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-media-uploader/"],
+            "embeds" => ["version" => "1.0.0", "requires" => "7.0.0", "class" => "WpdiscuzEmbeds", "title" => "Embeds", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/embeds/header.png"), "desc" => esc_html__("Allows to embed lots of video, social network, audio and photo content providers URLs in comment content.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-embeds/"],
+            "syntax" => ["version" => "1.0.0", "requires" => "7.0.0", "class" => "wpDiscuzSyntaxHighlighter", "title" => "wpDiscuzSyntaxHighlighter", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/syntax/header.png"), "desc" => esc_html__("Syntax highlighting for comments, automatic language detection and multi-language code highlighting.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-syntax-highlighter/"],
+            "frontend-moderation" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzFrontEndModeration", "title" => "Front-end Moderation", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/frontend-moderation/header.png"), "desc" => esc_html__("All in one powerful yet simple admin toolkit to moderate comments on front-end.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-frontend-moderation/"],
+            "emoticons" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzSmile", "title" => "Emoticons", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/emoticons/header.png"), "desc" => esc_html__("Brings an ocean of emotions to your comments. It comes with an awesome smile package.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-emoticons/"],
+            "recaptcha" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzRecaptcha", "title" => "Invisible reCAPTCHA v3", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/recaptcha/header.png"), "desc" => esc_html__("Adds Invisible reCAPTCHA on all comment forms. Stops spam and bot comments with reCAPTCHA version 3", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-recaptcha/"],
+            "author-info" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzCommentAuthorInfo", "title" => "Comment Author Info", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/author-info/header.png"), "desc" => esc_html__("Extended information about comment author with Profile, Activity, Votes and Subscriptions Tabs on pop-up window.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-author-info/"],
+            "report-flagging" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzFlagComment", "title" => "Report and Flagging", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/report/header.png"), "desc" => esc_html__("Comment reporting tools. Auto-moderates comments based on number of flags and dislikes.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-report-flagging/"],
+            "online-users" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzOnlineUsers", "title" => "Online Users", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/online-users/header.png"), "desc" => esc_html__("Real-time online user checking, pop-up notification of new online users and online/offline badges.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-online-users/"],
+            "private" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzPrivateComment", "title" => "Private Comments", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/private/header.png"), "desc" => esc_html__("Allows to create private comment threads. Rich management options in dashboard by user roles.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-private-comments/"],
+            "subscriptions" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpdSubscribeManager", "title" => "Subscription Manager", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/subscriptions/header.png"), "desc" => esc_html__("Total control over comment subscriptions. Full list, monitor, manage, filter, unsubscribe, confirm...", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-subscribe-manager/"],
+            "ads-manager" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzAdsManager", "title" => "Ads Manager", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/ads-manager/header.png"), "desc" => esc_html__("A full-fledged tool-kit for advertising in comment section of your website. Separate banner and ad managment.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-ads-manager/"],
+            "user-mention" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "Wpdiscuz_UCM", "title" => "User &amp; Comment Mentioning", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/user-mention/header.png"), "desc" => esc_html__("Allows to mention comments and users in comment text using #comment-id and @username tags.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-user-comment-mentioning/"],
+            "likers" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzVoters", "title" => "Advanced Likers", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/likers/header.png"), "desc" => esc_html__("See comment likers and voters of each comment. Adds user reputation and badges based on received likes.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-advanced-likers/"],
+            "translate" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpDiscuzTranslate", "title" => "Comment Translate", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/translate/header.png"), "desc" => esc_html__('Adds a smart and intuitive AJAX "Translate" button with 60 language options. Uses free translation API.', "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-translation/"],
+            "search" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzCommentSearch", "title" => "Comment Search", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/search/header.png"), "desc" => esc_html__("AJAX powered front-end comment search. It starts searching while you type search words. ", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-search/"],
+            "widgets" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzWidgets", "title" => "wpDiscuz Widgets", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/widgets/header.png"), "desc" => esc_html__("Most voted comments, Active comment threads, Most commented posts, Active comment authors", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-widgets/"],
+            "mycred" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "myCRED_Hook_wpDiscuz_Vote", "title" => "myCRED Integration", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/mycred/header.png"), "desc" => esc_html__("Integrates myCRED Badges and Ranks. Converts wpDiscuz comment votes/likes to myCRED points. ", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-mycred/"],
         ];
     }
 
@@ -1952,7 +2006,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             <div class='notice notice-warning'>
                 <p>
                     <?php esc_html_e("Comment votes meta data need to be regenerated", "wpdiscuz"); ?>&nbsp;
-                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab6")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Vote Metas", "wpdiscuz"); ?></a>
+                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#wpdtool-regenerate")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Vote Metas", "wpdiscuz"); ?></a>
                 </p>
             </div>
             <?php
@@ -1962,7 +2016,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             <div class='notice notice-warning'>
                 <p>
                     <?php esc_html_e("Closed Comments data need be regenerated", "wpdiscuz"); ?>&nbsp;
-                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab7")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Closed Comments", "wpdiscuz"); ?></a>
+                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#wpdtool-regenerate")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Closed Comments", "wpdiscuz"); ?></a>
                 </p>
             </div>
             <?php
@@ -1972,7 +2026,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             <div class='notice notice-warning'>
                 <p>
                     <?php esc_html_e("Comments votes data need to be regenerated", "wpdiscuz"); ?>&nbsp;
-                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab8")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Vote Data", "wpdiscuz"); ?></a>
+                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#wpdtool-regenerate")); ?>" class="button button-primary"><?php esc_html_e("Regenerate Vote Data", "wpdiscuz"); ?></a>
                 </p>
             </div>
             <?php
@@ -1982,7 +2036,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             <div class='notice notice-warning'>
                 <p>
                     <?php esc_html_e("Please synchronize comment data for the best performance and fastest experience", "wpdiscuz"); ?>&nbsp;
-                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#toolsTab9")); ?>" class="button button-primary"><?php esc_html_e("Synchronize Commenters Data", "wpdiscuz"); ?></a>
+                    <a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . self::PAGE_TOOLS . "#wpdtool-regenerate")); ?>" class="button button-primary"><?php esc_html_e("Synchronize Commenters Data", "wpdiscuz"); ?></a>
                 </p>
             </div>
             <?php
@@ -3157,6 +3211,13 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description_original" => "",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/comment-thread-displaying/#highlight-unread-comments"
                         ],
+                        "scrollToComment" => [
+                            "label" => __("Scroll to the comment after posting", "wpdiscuz"),
+                            "label_original" => "Scroll to the comment after posting",
+                            "description" => "",
+                            "description_original" => "",
+                            "docurl" => ""
+                        ],
                     ]
                 ],
                 WpdiscuzCore::TAB_THREAD_LAYOUTS => [
@@ -3264,13 +3325,20 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                         "theme" => [
                             "label" => esc_html__("Comment Form and Comment List Style", "wpdiscuz"),
                             "label_original" => "Comment Form and Comment List Style",
-                            "description" => esc_html__("Starting from wpDiscuz 7 you can choose the Minimal option of comment style. It'll remove most of wpDiscuz CSS code and allow you write your own CSS for custom comment styling.", "wpdiscuz"),
-                            "description_original" => "Starting from wpDiscuz 7 you can choose the Minimal option of comment style. It'll remove most of wpDiscuz CSS code and allow you write your own CSS for custom comment styling.",
+                            "description" => esc_html__("Starting from wpDiscuz 7 you can choose the [ Off ] option of comment style. It'll remove most of wpDiscuz CSS code and allow you write your own CSS for custom comment styling.", "wpdiscuz"),
+                            "description_original" => "Starting from wpDiscuz 7 you can choose the [ Off ] option of comment style. It'll remove most of wpDiscuz CSS code and allow you write your own CSS for custom comment styling.",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/styles-and-colors/#comment-form-and-comment-list-style"
                         ],
+                        "styleSpecificColors" => [
+                            "label" => esc_html__("Style Specific Colors", "wpdiscuz"),
+                            "label_original" => "Style Specific Colors",
+                            "description" => esc_html__("These options allows you manage comment section colors individaly for the Default and Dark Styles", "wpdiscuz"),
+                            "description_original" => "These options allows you manage comment section colors individaly for the Default and Dark Styles",
+                            "docurl" => ""
+                        ],
                         "colors" => [
-                            "label" => esc_html__("Colors", "wpdiscuz"),
-                            "label_original" => "Colors",
+                            "label" => esc_html__("General Colors", "wpdiscuz"),
+                            "label_original" => "General Colors",
                             "description" => "",
                             "description_original" => "",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/styles-and-colors/#colors"
@@ -3675,15 +3743,15 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/general-settings/#use-wordpress-native-ajax-functions"
                         ],
                         "loadComboVersion" => [
-                            "label" => esc_html__("Load Combo Version", "wpdiscuz"),
-                            "label_original" => "Load Combo Version",
+                            "label" => esc_html__("Combine JS and CSS Files to Optimize Page Loading Speed", "wpdiscuz"),
+                            "label_original" => "Combine JS and CSS Files to Optimize Page Loading Speed",
                             "description" => "",
                             "description_original" => "",
                             "docurl" => ""
                         ],
                         "loadMinVersion" => [
-                            "label" => esc_html__("Load Min Versions", "wpdiscuz"),
-                            "label_original" => "Load Min Versions",
+                            "label" => esc_html__("Minify JS and CSS Files to Optimize Page Loading Speed", "wpdiscuz"),
+                            "label_original" => "Minify JS and CSS Files to Optimize Page Loading Speed",
                             "description" => "",
                             "description_original" => "",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/general-settings/#load-min-versions"

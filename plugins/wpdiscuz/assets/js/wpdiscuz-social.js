@@ -34,7 +34,7 @@ function wpcShareCommentFB(url, quote) {
 jQuery(document).ready(function ($) {
     wpdDisplayErrorMessage();
     if (Cookies.get('wpdiscuz_scroll_to_comments')) {
-        Cookies.remove('wpdiscuz_scroll_to_comments');
+        Cookies.remove('wpdiscuz_scroll_to_comments', {path: '/'});
         $('html, body').animate({
             scrollTop: $('#comments').offset().top - 32
         }, 1000);
