@@ -3,29 +3,54 @@
 Plugin Name: Diff Customizations
 Plugin URI: https://diff.wikimedia.org
 Description: Adds customizations seperate from theme.
-Version: 0.1
+Version: 0.2
 Author: Chris Koerner
 Author URI: https://meta.wikimedia.org/wiki/Community_Relations
 */
 
+//limit access to Jetpack to admins
 
-//Remove the Tools and Comments capabilities from the Contributor role
-//These menu items are useless given there are no tools to configure for Contributors
+add_action( 'admin_menu', 'diff_no_jetpack_menu_non_admins', 999 );
 
-/*
-function diff_remove_menu_pages()
-{
+function diff_no_jetpack_menu_non_admins() {
+	if (
+		class_exists( 'Jetpack' )
+		&& ! current_user_can( 'manage_options' )
+	) {
+		remove_menu_page( 'jetpack' );
+	}
+}
 
-    global $user_ID;
 
-    if (current_user_can('contributor')) {
-        remove_menu_page('tools.php'); // Tools
-        remove_menu_page('edit-comments.php'); // Comments
+//limit access to Tools and Comments capabilities to admins
+//These menu items are useless given there are no tools to configure for other roles like Contributors
+
+add_action('admin_init', 'diff_remove_tools_comments_pages');
+
+function diff_remove_tools_comments_pages() {
+	if (!current_user_can ('administrator')
+	){	
+		remove_menu_page( 'edit-comments.php' );
+		remove_menu_page('tools.php');
     }
 }
 
-add_action('admin_init', 'diff_remove_menu_pages');
-*/
+
+//remove commments from adimin bar
+
+add_action( 'wp_before_admin_bar_render', 'diff_remove_admin_menus' );
+
+function diff_remove_admin_menus() {
+	if (!current_user_can ('administrator')
+	){	
+    global $wp_admin_bar;
+    $wp_admin_bar->remove_menu('comments');
+    }
+}
+
+
+
+
 
 //Let's remove some unnecessary widgets from the WordPress dashboard
 
