@@ -3,7 +3,7 @@
 Plugin Name: Diff Customizations
 Plugin URI: https://diff.wikimedia.org
 Description: Adds customizations seperate from theme.
-Version: 0.2
+Version: 0.3
 Author: Chris Koerner
 Author URI: https://meta.wikimedia.org/wiki/Community_Relations
 */
@@ -29,7 +29,7 @@ add_action('admin_init', 'diff_remove_tools_comments_pages');
 
 function diff_remove_tools_comments_pages() {
 	if (!current_user_can ('administrator')
-	){	
+	){
 		remove_menu_page( 'edit-comments.php' );
 		remove_menu_page('tools.php');
     }
@@ -42,7 +42,7 @@ add_action( 'wp_before_admin_bar_render', 'diff_remove_admin_menus' );
 
 function diff_remove_admin_menus() {
 	if (!current_user_can ('administrator')
-	){	
+	){
     global $wp_admin_bar;
     $wp_admin_bar->remove_menu('comments');
     }
@@ -108,5 +108,15 @@ function diff_filter_media_comment_status( $open, $post_id ) {
     return $open;
 }
 add_filter( 'comments_open', 'diff_filter_media_comment_status', 10 , 2 );
+
+//disble Jetpack module for WordPress.com login
+
+add_filter( 'jetpack_get_available_modules', 'diff_disable_jetpack_sso' );
+function diff_disable_jetpack_sso( $modules ) {
+    if( isset( $modules['sso'] ) ) {
+        unset( $modules['sso'] );
+    }
+    return $modules;
+}
 
 ?>

@@ -18,6 +18,16 @@
  * wpcom_vip_load_plugin only loads plugins from the `WP_PLUGIN_DIR` directory.
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
+
+/**
+ * Disable New Relic browser monitoring.
+ *
+ * See mu-plugins/vip-helpers/vip-newrelic.php for implementation of
+ * the hook handler.
+ */
+add_action( 'template_redirect', 'wpcom_vip_disable_new_relic_js' );
+
+
 wpcom_vip_load_plugin( 'amp' );
 //wpcom_vip_load_plugin('publishpress');
 wpcom_vip_load_plugin('capability-manager-enhanced/capsman-enhanced.php');
