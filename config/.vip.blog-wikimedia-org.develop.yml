@@ -1,0 +1,3 @@
+data_sync:
+  domain_map:
+    diff.wikimedia.org: https://blog-wikimedia-org-develop.go-vip.net
