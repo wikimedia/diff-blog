@@ -3,7 +3,7 @@
 Plugin Name: Diff Customizations
 Plugin URI: https://diff.wikimedia.org
 Description: Adds customizations seperate from theme.
-Version: 0.3
+Version: 0.4
 Author: Chris Koerner
 Author URI: https://meta.wikimedia.org/wiki/Community_Relations
 */
@@ -47,9 +47,6 @@ function diff_remove_admin_menus() {
     $wp_admin_bar->remove_menu('comments');
     }
 }
-
-
-
 
 
 //Let's remove some unnecessary widgets from the WordPress dashboard
@@ -118,5 +115,93 @@ function diff_disable_jetpack_sso( $modules ) {
     }
     return $modules;
 }
+
+//disable languages columns from list views by default
+// need to add for page, categories, and tags view
+
+add_filter( 'default_hidden_columns', 'diff_hide_list_columns', 10, 2 );
+
+function diff_hide_list_columns( $hidden, $screen ) {
+    if( isset( $screen->id ) && 'edit-post' === $screen->id ){        
+			$hidden = array(	'language_de',
+								'language_es',
+								'language_fr',
+								'language_it',
+								'language_ca',
+								'language_pt',
+								'language_tr',
+								'language_ru',
+								'language_mr',
+								'language_hi',
+								'language_bn',
+								'language_ta',
+								'language_kn',
+								'language_zh',
+								'language_ja',
+								'language_en',
+								'language_ar',
+								'language_ak',
+								'language_sq',
+								'language_arg',
+								'language_hy',
+								'language_as',
+								'language_ast',
+								'language_ba',
+								'language_bg',
+								'language_zh-hans',
+								'language_zh-hant',
+								'language_cs',
+								'language_da',
+								'language_nl',
+								'language_eo',
+								'language_et',
+								'language_fa',
+								'language_fi',
+								'language_el',
+								'language_he',
+								'language_hu',
+								'language_id',
+								'language_ko',
+								'language_lad',
+								'language_mk',
+								'language_mai',
+								'language_ms',
+								'language_yua',
+								'language_ne',
+								'language_nb',
+								'language_or',
+								'language_pl',
+								'language_pt-br',
+								'language_pa',
+								'language_ro',
+								'language_sr',
+								'language_sv',
+								'language_tt',
+								'language_uk',
+								'language_ur',
+								'language_vi',
+								'language_nn'
+							
+				
+			);
+    }   
+    return $hidden;
+}
+
+
+//disable full screen editing (it is confusing people)
+
+function diff_disable_editor_fullscreen_by_default() {
+	$script = "window.onload = function() { const isFullscreenMode = wp.data.select( 'core/edit-post' ).isFeatureActive( 'fullscreenMode' ); if ( isFullscreenMode ) { wp.data.dispatch( 'core/edit-post' ).toggleFeature( 'fullscreenMode' ); } }";
+	wp_add_inline_script( 'wp-blocks', $script );
+}
+add_action( 'enqueue_block_editor_assets', 'diff_disable_editor_fullscreen_by_default' );
+
+
+//Custom CSS for WordPress Dashboard
+function diff_admin_stylesheet() {
+  wp_enqueue_style('diff_admin-styles', get_stylesheet_directory_uri().'/admin.css');
+}
+add_action('admin_enqueue_scripts', 'diff_admin_stylesheet');
 
 ?>
