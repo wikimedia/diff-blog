@@ -28,7 +28,7 @@ function diff_no_jetpack_menu_non_admins() {
 add_action('admin_init', 'diff_remove_tools_comments_pages');
 
 function diff_remove_tools_comments_pages() {
-	if (!current_user_can ('administrator')
+	if (!current_user_can ('manage_options')
 	){
 		remove_menu_page( 'edit-comments.php' );
 		remove_menu_page('tools.php');
@@ -41,7 +41,7 @@ function diff_remove_tools_comments_pages() {
 add_action( 'wp_before_admin_bar_render', 'diff_remove_admin_menus' );
 
 function diff_remove_admin_menus() {
-	if (!current_user_can ('administrator')
+	if (!current_user_can ('manage_options')
 	){
     global $wp_admin_bar;
     $wp_admin_bar->remove_menu('comments');
@@ -122,7 +122,7 @@ function diff_disable_jetpack_sso( $modules ) {
 add_filter( 'default_hidden_columns', 'diff_hide_list_columns', 10, 2 );
 
 function diff_hide_list_columns( $hidden, $screen ) {
-    if( isset( $screen->id ) && 'edit-post' === $screen->id ){        
+    if( isset( $screen->id ) && 'edit-post' === $screen->id ){
 			$hidden = array(	'language_de',
 								'language_es',
 								'language_fr',
@@ -181,10 +181,10 @@ function diff_hide_list_columns( $hidden, $screen ) {
 								'language_ur',
 								'language_vi',
 								'language_nn'
-							
-				
+
+
 			);
-    }   
+    }
     return $hidden;
 }
 
@@ -204,4 +204,14 @@ function diff_admin_stylesheet() {
 }
 add_action('admin_enqueue_scripts', 'diff_admin_stylesheet');
 
+
+//allow contributor role to add string translations in Polylang
+
+add_action( 'admin_menu', 'diff_contributor_string_translation');
+
+function diff_contributor_string_translation() {
+    if ( ! current_user_can( 'manage_options' ) && function_exists( 'PLL' ) ) {
+        add_menu_page( __( 'Strings translations', 'polylang' ), __( 'Languages', 'polylang' ), 'edit_posts', 'mlang_strings', array( PLL(), 'languages_page' ), 'dashicons-translation' );
+    }
+}
 ?>
