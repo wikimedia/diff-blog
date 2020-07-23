@@ -28,7 +28,7 @@ function diff_no_jetpack_menu_non_admins() {
 add_action('admin_init', 'diff_remove_tools_comments_pages');
 
 function diff_remove_tools_comments_pages() {
-	if (!current_user_can ('administrator')
+	if (!current_user_can ('manage_options')
 	){
 		remove_menu_page( 'edit-comments.php' );
 		remove_menu_page('tools.php');
@@ -41,7 +41,7 @@ function diff_remove_tools_comments_pages() {
 add_action( 'wp_before_admin_bar_render', 'diff_remove_admin_menus' );
 
 function diff_remove_admin_menus() {
-	if (!current_user_can ('administrator')
+	if (!current_user_can ('manage_options')
 	){
     global $wp_admin_bar;
     $wp_admin_bar->remove_menu('comments');
