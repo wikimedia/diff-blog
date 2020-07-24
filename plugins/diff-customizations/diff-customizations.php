@@ -214,4 +214,36 @@ function diff_contributor_string_translation() {
         add_menu_page( __( 'Strings translations', 'polylang' ), __( 'Languages', 'polylang' ), 'edit_posts', 'mlang_strings', array( PLL(), 'languages_page' ), 'dashicons-translation' );
     }
 }
+
+
+//Add Open Graph support
+function diff_add_opengraph_doctype( $output ) {
+        return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+    }
+add_filter('language_attributes', 'diff_add_opengraph_doctype');
+ 
+//Lets add Open Graph Meta Info
+ 
+function diff_insert_og_in_head() {
+    global $post;
+    if ( !is_singular()) //if it is not a post or a page
+        return;
+        echo '<meta property="og:title" content="' . get_the_title() . '"/>';
+        echo '<meta property="og:type" content="article"/>';
+        echo '<meta property="og:url" content="' . get_permalink() . '"/>';
+        echo '<meta property="og:site_name" content="Diff – News from across the Wikimedia movement"/>';
+    //If the post does not have featured image, use a default image    
+    if(!has_post_thumbnail( $post->ID )) { 
+        $default_image="https://diff.wikimedia.org/wp-content/uploads/2020/07/1024px-Wikimedia-logo.svg_-1.png";
+        echo '<meta property="og:image" content="' . $default_image . '"/>';
+    }
+    else{
+        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+    }
+    echo "
+";
+}
+add_action( 'wp_head', 'diff_insert_og_in_head', 5 );
+
 ?>
