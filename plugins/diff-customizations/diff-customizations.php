@@ -217,35 +217,41 @@ function diff_contributor_string_translation() {
 
 
 //Add Open Graph support
-function diff_add_opengraph_doctype( $output ) {
-        return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
-    }
+
+//add doctype
+function diff_add_opengraph_doctype($output) {
+    return $output . '
+    xmlns:og="http://opengraphprotocol.org/schema/"
+    xmlns:fb="http://www.facebook.com/2008/fbml"';
+}
 add_filter('language_attributes', 'diff_add_opengraph_doctype');
  
-//Add Open Graph Meta Info
+//Add Open Graph meta support
  
 function diff_insert_og_in_head() {
-    global $post;
-    if ( !is_singular()) //if it is not a post or a page
-        return;
-        echo '<meta property="og:title" content="' . get_the_title() . '"/>';
-        echo '<meta property="og:type" content="article"/>';
-        echo '<meta property="og:url" content="' . get_permalink() . '"/>';
-        echo '<meta property="og:site_name" content="Diff – News from across the Wikimedia movement"/>';
-    //If the post does not have featured image, use a default image    
-    if(!has_post_thumbnail( $post->ID )) { 
-        $default_image="https://diff.wikimedia.org/wp-content/uploads/2020/07/1024px-Wikimedia-logo.svg_-1.png";
-        echo '<meta property="og:image" content="' . $default_image . '"/>';
-    }
-    else{
-        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
-    }
-    echo "
-";
-}
-add_action( 'wp_head', 'diff_insert_og_in_head', 6 );
+if(is_single() || is_page()) {
+	$og_url    = get_permalink();
+	$og_title  = get_the_title();
+	$og_desc   = get_the_excerpt();
+	$og_thumbs = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );
+    $og_thumb  = $og_thumbs[0];
+      if(!$og_thumb) {
+      $og_thumb = 'https://diff.wikimedia.org/wp-content/uploads/2020/07/1024px-Wikimedia-logo.svg_-1.png';
+    	}
+	}   
 
+?>
+<meta property="og:type" value="article" />
+<meta name="og:title" value="<?php echo $og_title; ?>" />
+<meta name="og:url" value="<?php echo $og_url; ?>" />
+<meta name="og:description" value="<?php echo $og_desc; ?>" />
+<meta name="og:image" value="<?php echo $og_thumb; ?>" />
+
+
+<?php } add_action( 'wp_head', 'diff_insert_og_in_head', 5 ); ?>
+
+<?php
+	
 //Add twitter card support
 
 function diff_insert_twittercard_in_head() {
@@ -266,10 +272,5 @@ if(is_single() || is_page()) {
 <meta name="twitter:title" value="<?php echo $twitter_title; ?>" />
 <meta name="twitter:description" value="<?php echo $twitter_desc; ?>" />
 <meta name="twitter:image" value="<?php echo $twitter_thumb; ?>" />
-
- 
   
 <?php } add_action( 'wp_head', 'diff_insert_twittercard_in_head', 5 ); ?>
-
-
-?>
