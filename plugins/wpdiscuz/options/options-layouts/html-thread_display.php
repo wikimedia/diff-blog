@@ -39,7 +39,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["firstLoadWithAjax"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["firstLoadWithAjax"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -75,7 +75,7 @@ if (!defined("ABSPATH")) {
         </fieldset>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commentListLoadType"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commentListLoadType"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -93,7 +93,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isLoadOnlyParentComments"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isLoadOnlyParentComments"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -111,7 +111,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showReactedFilterButton"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showReactedFilterButton"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -129,7 +129,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showHottestFilterButton"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showHottestFilterButton"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -147,7 +147,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showSortingButtons"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showSortingButtons"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -165,7 +165,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["mostVotedByDefault"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["mostVotedByDefault"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -183,7 +183,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["reverseChildren"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["reverseChildren"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -201,7 +201,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["highlightUnreadComments"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["highlightUnreadComments"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -219,7 +219,27 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["scrollToComment"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["scrollToComment"]["docurl"]) ?>
+    </div>
+</div>
+<!-- Option end -->
+
+<!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="orderCommentsBy">
+    <div class="wpd-opt-name">
+        <label for="orderCommentsBy"><?php echo esc_html($setting["options"]["orderCommentsBy"]["label"]) ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["orderCommentsBy"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <div class="wpd-switch-field">
+            <input type="radio" value="comment_ID" <?php checked("comment_ID" === $this->thread_display["orderCommentsBy"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_DISPLAY); ?>[orderCommentsBy]" id="orderCommentsById" />
+            <label for="orderCommentsById" style="min-width:60px;"><?php esc_html_e("ID", "wpdiscuz"); ?></label>
+            <input type="radio" value="comment_date_gmt" <?php checked("comment_date_gmt" === $this->thread_display["orderCommentsBy"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_DISPLAY); ?>[orderCommentsBy]" id="orderCommentsByDate" />
+            <label for="orderCommentsByDate" style="min-width:60px;"><?php esc_html_e("Date", "wpdiscuz"); ?></label>
+        </div>
+    </div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["orderCommentsBy"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

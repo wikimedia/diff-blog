@@ -155,6 +155,8 @@ class SocialLogin {
         $uID = Utils::addUser($fb_user, "facebook");
         if (is_wp_error($uID)) {
             $response["message"] = $uID->get_error_message();
+        }else{
+            $response = ["code" => 200];
         }
         $this->setCurrentUser($uID);
         return $response;
@@ -165,7 +167,7 @@ class SocialLogin {
             $response["message"] = esc_html__("Facebook Application ID and Application Secret  required.", "wpdiscuz");
             return $response;
         }
-        $fbAuthorizeURL = "https://www.facebook.com/v3.0/dialog/oauth";
+        $fbAuthorizeURL = "https://www.facebook.com/v7.0/dialog/oauth";
         $fbCallBack = $this->createCallBackURL("facebook");
         $state = Utils::generateOAuthState($this->generalOptions->social["fbAppID"]);
         Utils::addOAuthState("facebook", $state, $postID);
@@ -195,7 +197,7 @@ class SocialLogin {
             $this->redirect($postID, esc_html__("Facebook authentication failed (OAuth code does not exist).", "wpdiscuz"));
         }
         $fbCallBack = $this->createCallBackURL("facebook");
-        $fbAccessTokenURL = "https://graph.facebook.com/v3.0/oauth/access_token";
+        $fbAccessTokenURL = "https://graph.facebook.com/v7.0/oauth/access_token";
         $accessTokenArgs = ["client_id" => $this->generalOptions->social["fbAppID"],
             "client_secret" => $this->generalOptions->social["fbAppSecret"],
             "redirect_uri" => urlencode($fbCallBack),
@@ -212,7 +214,7 @@ class SocialLogin {
         }
         $token = $fbAccesTokenData["access_token"];
         $appsecret_proof = hash_hmac("sha256", $token, trim($this->generalOptions->social["fbAppSecret"]));
-        $fbGetUserDataURL = add_query_arg(["fields" => "id,first_name,last_name,picture,email", "access_token" => $token, "appsecret_proof" => $appsecret_proof], "https://graph.facebook.com/v3.0/me");
+        $fbGetUserDataURL = add_query_arg(["fields" => "id,first_name,last_name,picture,email", "access_token" => $token, "appsecret_proof" => $appsecret_proof], "https://graph.facebook.com/v7.0/me");
         $getFbUserResponse = wp_remote_get($fbGetUserDataURL);
         if (is_wp_error($getFbUserResponse)) {
             $this->redirect($postID, $getFbUserResponse->get_error_message());

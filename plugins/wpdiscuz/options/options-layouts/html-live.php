@@ -32,7 +32,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["bubble"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["bubble"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -54,7 +54,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["bubbleLocation"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["bubbleLocation"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -74,7 +74,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["bubbleLiveUpdate"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["bubbleLiveUpdate"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -95,7 +95,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["bubbleShowNewCommentMessage"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["bubbleShowNewCommentMessage"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -111,7 +111,7 @@ if (!defined("ABSPATH")) {
         <span><input type="number" value="<?php echo esc_attr($this->live["bubbleHintTimeout"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleHintTimeout]" id="bubbleHintTimeout" style="width:70px;"> <?php esc_html_e("seconds", "wpdiscuz") ?></span>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["bubbleHintTimeout"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["bubbleHintTimeout"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -126,7 +126,7 @@ if (!defined("ABSPATH")) {
         <span><input type="number" value="<?php echo esc_attr($this->live["bubbleHintHideTimeout"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleHintHideTimeout]" id="bubbleHintHideTimeout" style="width:70px;"> <?php esc_html_e("seconds", "wpdiscuz") ?></span>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["bubbleHintHideTimeout"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["bubbleHintHideTimeout"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -146,7 +146,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commentListUpdateType"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commentListUpdateType"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -164,7 +164,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["liveUpdateGuests"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["liveUpdateGuests"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -187,7 +187,7 @@ if (!defined("ABSPATH")) {
         </select>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commentListUpdateTimer"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commentListUpdateTimer"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

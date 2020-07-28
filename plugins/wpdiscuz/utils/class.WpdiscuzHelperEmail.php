@@ -144,7 +144,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
             $replace = [$siteUrl, get_permalink($comment->comment_post_ID), $blogTitle, $postTitle, $subscriber, get_comment_link($commentId), $commentAuthor, wpautop($comment->comment_content)];
             $message = str_replace($search, $replace, $message);
 
-            $subject = str_replace(["[BLOG_TITLE]", "[POST_TITLE]"], [$blogTitle, $postTitle], $subject);
+            $subject = str_replace(["[BLOG_TITLE]", "[POST_TITLE]", "[COMMENT_AUTHOR]"], [$blogTitle, $postTitle, $commentAuthor], $subject);
 
             if (strpos($message, "[UNSUBSCRIBE_URL]") === false) {
                 $message .= "<br/><br/><a href='$unsubscribeUrl'>" . $this->options->phrases["wc_unsubscribe"] . "</a>";
@@ -314,7 +314,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
                 $replace = [$siteUrl, get_permalink($comment->comment_post_ID), $blogTitle, $postTitle, get_comment_link($comment->comment_ID), $comment->comment_author, wpautop($comment->comment_content)];
                 $message = str_replace($search, $replace, $this->options->phrases["wc_comment_approved_email_message"]);
 
-                $subject = str_replace(["[BLOG_TITLE]", "[POST_TITLE]"], [$blogTitle, $postTitle], $this->options->phrases["wc_comment_approved_email_subject"]);
+                $subject = str_replace(["[BLOG_TITLE]", "[POST_TITLE]", "[COMMENT_AUTHOR]"], [$blogTitle, $postTitle, $comment->comment_author], $this->options->phrases["wc_comment_approved_email_subject"]);
                 $headers = [];
                 $fromName = html_entity_decode($blogTitle, ENT_QUOTES);
                 $parsedUrl = parse_url($siteUrl);
@@ -380,9 +380,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
         $postUrl = get_permalink($post);
         $commentUrl = get_comment_link($comment);
 
-        // TODO send emails
         $subject = str_replace(["[BLOG_TITLE]", "[POST_TITLE]"], [$blogTitle, $postTitle], $this->options->phrases["wc_follow_email_subject"]);
-        $subject = html_entity_decode($subject, ENT_QUOTES);
 
         $search = ["[SITE_URL]", "[POST_URL]", "[BLOG_TITLE]", "[POST_TITLE]", "[COMMENT_URL]", "[COMMENT_CONTENT]"];
         $replace = [$siteUrl, $postUrl, $blogTitle, $postTitle, $commentUrl, wpautop($comment->comment_content)];
@@ -402,9 +400,10 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
         ];
 
         foreach ($followersData as $k => $followerData) {
-            if (($followerData["follower_email"] == $postAuthor->user_email) && (($moderationNotify && $comment->comment_approved === "0") || ($commentsNotify && $comment->comment_approved === "1"))) {
+            if (($followerData["follower_email"] === $postAuthor->user_email) && (($moderationNotify && $comment->comment_approved === "0") || ($commentsNotify && $comment->comment_approved === "1"))) {
                 return;
             }
+            $subject = str_replace(["[COMMENT_AUTHOR]"], [$followerData["user_name"]], $this->options->phrases["wc_follow_email_subject"]);
             $message = str_replace(["[COMMENT_AUTHOR]", "[FOLLOWER_NAME]"], [$followerData["user_name"], $followerData["follower_name"]], $message);
             $this->emailToFollower($followerData, $comment, $subject, $message, $cancelLink, $data);
             do_action("wpdiscuz_notify_followers", $comment, $followerData);
@@ -445,9 +444,11 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
         $replace = ["", $post_title, $comment_link, $comment_data->comment_author];
         foreach ($users as $k => $user) {
             if ($user["email"] != $comment_data->comment_author_email) {
-                $replace[0] = $user["name"];
-                $body = str_replace($search, $replace, $message);
-                wp_mail($user["email"], $subject, $body, $headers);
+                if (apply_filters("wpducm_mail_to_mentioned_user", true, $user, $comment_data)) {
+                    $replace[0] = $user["name"];
+                    $body = str_replace($search, $replace, $message);
+                    wp_mail($user["email"], $subject, $body, $headers);
+                }
             }
         }
     }

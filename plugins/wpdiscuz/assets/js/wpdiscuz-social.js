@@ -17,7 +17,7 @@ if ((wpdiscuzAjaxObj.enableFbLogin || wpdiscuzAjaxObj.enableFbShare) && wpdiscuz
             appId: wpdiscuzAjaxObj.facebookAppID,
             cookie: true,
             xfbml: true,
-            version: 'v2.8'
+            version: 'v7.0'
         });
     };
 }

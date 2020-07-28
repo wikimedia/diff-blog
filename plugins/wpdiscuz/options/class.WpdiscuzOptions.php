@@ -91,6 +91,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $this->form["linkButton"] = isset($options[self::TAB_FORM]["linkButton"]) ? $options[self::TAB_FORM]["linkButton"] : $defaultOptions[self::TAB_FORM]["linkButton"];
         $this->form["sourcecodeButton"] = isset($options[self::TAB_FORM]["sourcecodeButton"]) ? $options[self::TAB_FORM]["sourcecodeButton"] : $defaultOptions[self::TAB_FORM]["sourcecodeButton"];
         $this->form["spoilerButton"] = isset($options[self::TAB_FORM]["spoilerButton"]) ? $options[self::TAB_FORM]["spoilerButton"] : $defaultOptions[self::TAB_FORM]["spoilerButton"];
+        $this->form["enableQuickTags"] = isset($options[self::TAB_FORM]["enableQuickTags"]) ? $options[self::TAB_FORM]["enableQuickTags"] : $defaultOptions[self::TAB_FORM]["enableQuickTags"];
         $this->form["commenterNameMinLength"] = isset($options[self::TAB_FORM]["commenterNameMinLength"]) ? $options[self::TAB_FORM]["commenterNameMinLength"] : $defaultOptions[self::TAB_FORM]["commenterNameMinLength"];
         $this->form["commenterNameMaxLength"] = isset($options[self::TAB_FORM]["commenterNameMaxLength"]) ? $options[self::TAB_FORM]["commenterNameMaxLength"] : $defaultOptions[self::TAB_FORM]["commenterNameMaxLength"];
         $this->form["storeCommenterData"] = isset($options[self::TAB_FORM]["storeCommenterData"]) ? $options[self::TAB_FORM]["storeCommenterData"] : $defaultOptions[self::TAB_FORM]["storeCommenterData"];
@@ -116,6 +117,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $this->login["enableProfileURLs"] = isset($options[self::TAB_LOGIN]["enableProfileURLs"]) ? $options[self::TAB_LOGIN]["enableProfileURLs"] : $defaultOptions[self::TAB_LOGIN]["enableProfileURLs"];
         $this->login["websiteAsProfileUrl"] = isset($options[self::TAB_LOGIN]["websiteAsProfileUrl"]) ? $options[self::TAB_LOGIN]["websiteAsProfileUrl"] : $defaultOptions[self::TAB_LOGIN]["websiteAsProfileUrl"];
         $this->login["isUserByEmail"] = isset($options[self::TAB_LOGIN]["isUserByEmail"]) ? $options[self::TAB_LOGIN]["isUserByEmail"] : $defaultOptions[self::TAB_LOGIN]["isUserByEmail"];
+        $this->login["loginUrl"] = isset($options[self::TAB_LOGIN]["loginUrl"]) ? $options[self::TAB_LOGIN]["loginUrl"] : $defaultOptions[self::TAB_LOGIN]["loginUrl"];
         /* social */
         $this->social["socialLoginAgreementCheckbox"] = isset($options[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"]) ? $options[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"] : $defaultOptions[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"];
         $this->social["socialLoginInSecondaryForm"] = isset($options[self::TAB_SOCIAL]["socialLoginInSecondaryForm"]) ? $options[self::TAB_SOCIAL]["socialLoginInSecondaryForm"] : $defaultOptions[self::TAB_SOCIAL]["socialLoginInSecondaryForm"];
@@ -206,6 +208,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $this->thread_display["reverseChildren"] = isset($options[self::TAB_THREAD_DISPLAY]["reverseChildren"]) ? $options[self::TAB_THREAD_DISPLAY]["reverseChildren"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["reverseChildren"];
         $this->thread_display["highlightUnreadComments"] = isset($options[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"]) ? $options[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"];
         $this->thread_display["scrollToComment"] = isset($options[self::TAB_THREAD_DISPLAY]["scrollToComment"]) ? $options[self::TAB_THREAD_DISPLAY]["scrollToComment"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["scrollToComment"];
+        $this->thread_display["orderCommentsBy"] = isset($options[self::TAB_THREAD_DISPLAY]["orderCommentsBy"]) ? $options[self::TAB_THREAD_DISPLAY]["orderCommentsBy"] : $defaultOptions[self::TAB_THREAD_DISPLAY]["orderCommentsBy"];
         /* thread_layouts */
         $this->thread_layouts["showCommentLink"] = isset($options[self::TAB_THREAD_LAYOUTS]["showCommentLink"]) ? $options[self::TAB_THREAD_LAYOUTS]["showCommentLink"] : $defaultOptions[self::TAB_THREAD_LAYOUTS]["showCommentLink"];
         $this->thread_layouts["showCommentDate"] = isset($options[self::TAB_THREAD_LAYOUTS]["showCommentDate"]) ? $options[self::TAB_THREAD_LAYOUTS]["showCommentDate"] : $defaultOptions[self::TAB_THREAD_LAYOUTS]["showCommentDate"];
@@ -534,6 +537,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "linkButton" => $this->form["linkButton"],
                 "sourcecodeButton" => $this->form["sourcecodeButton"],
                 "spoilerButton" => $this->form["spoilerButton"],
+                "enableQuickTags" => $this->form["enableQuickTags"],
                 "commenterNameMinLength" => $this->form["commenterNameMinLength"],
                 "commenterNameMaxLength" => $this->form["commenterNameMaxLength"],
                 "storeCommenterData" => $this->form["storeCommenterData"],
@@ -557,6 +561,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "enableProfileURLs" => $this->login["enableProfileURLs"],
                 "websiteAsProfileUrl" => $this->login["websiteAsProfileUrl"],
                 "isUserByEmail" => $this->login["isUserByEmail"],
+                "loginUrl" => $this->login["loginUrl"],
             ],
             self::TAB_SOCIAL => [
                 "socialLoginAgreementCheckbox" => $this->social["socialLoginAgreementCheckbox"],
@@ -650,6 +655,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "reverseChildren" => $this->thread_display["reverseChildren"],
                 "highlightUnreadComments" => $this->thread_display["highlightUnreadComments"],
                 "scrollToComment" => $this->thread_display["scrollToComment"],
+                "orderCommentsBy" => $this->thread_display["orderCommentsBy"],
             ],
             self::TAB_THREAD_LAYOUTS => [
                 "showCommentLink" => $this->thread_layouts["showCommentLink"],
@@ -791,6 +797,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "linkButton" => 1,
                 "sourcecodeButton" => 1,
                 "spoilerButton" => 1,
+                "enableQuickTags" => 0,
                 "commenterNameMinLength" => 3,
                 "commenterNameMaxLength" => 50,
                 "storeCommenterData" => -1,
@@ -814,6 +821,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "enableProfileURLs" => 1,
                 "websiteAsProfileUrl" => 1,
                 "isUserByEmail" => 0,
+                "loginUrl" => "",
             ],
             self::TAB_SOCIAL => [
                 "socialLoginAgreementCheckbox" => 1,
@@ -891,6 +899,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "reverseChildren" => 0,
                 "highlightUnreadComments" => 0,
                 "scrollToComment" => 1,
+                "orderCommentsBy" => "comment_ID",
             ],
             self::TAB_THREAD_LAYOUTS => [
                 "showCommentLink" => 1,
@@ -1103,7 +1112,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         $jsArgs["loadRichEditor"] = intval($this->form["richEditor"] === "both" || (!wp_is_mobile() && $this->form["richEditor"] === "desktop"));
         //**reCaptcha**//
         $jsArgs["wpDiscuzReCaptchaSK"] = apply_filters("wpdiscuz_recaptcha_site_key", $this->recaptcha["siteKey"]);
-        $jsArgs["wpDiscuztheme"] = $this->recaptcha["theme"];
+        $jsArgs["wpDiscuzReCaptchaTheme"] = $this->recaptcha["theme"];
         $jsArgs["wpDiscuzReCaptchaVersion"] = apply_filters("wpdiscuz_recaptcha_version", $this->recaptcha["version"]);
         $jsArgs["wc_captcha_show_for_guest"] = $this->recaptcha["showForGuests"];
         $jsArgs["wc_captcha_show_for_members"] = $this->recaptcha["showForUsers"];
@@ -1214,6 +1223,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->form["linkButton"] = isset($_POST[self::TAB_FORM]["linkButton"]) ? intval($_POST[self::TAB_FORM]["linkButton"]) : 0;
                 $this->form["sourcecodeButton"] = isset($_POST[self::TAB_FORM]["sourcecodeButton"]) ? intval($_POST[self::TAB_FORM]["sourcecodeButton"]) : 0;
                 $this->form["spoilerButton"] = isset($_POST[self::TAB_FORM]["spoilerButton"]) ? intval($_POST[self::TAB_FORM]["spoilerButton"]) : 0;
+                $this->form["enableQuickTags"] = isset($_POST[self::TAB_FORM]["enableQuickTags"]) ? intval($_POST[self::TAB_FORM]["enableQuickTags"]) : 0;
                 $this->form["commenterNameMinLength"] = isset($_POST[self::TAB_FORM]["commenterNameMinLength"]) && absint($_POST[self::TAB_FORM]["commenterNameMinLength"]) >= 1 ? absint($_POST[self::TAB_FORM]["commenterNameMinLength"]) : 1;
                 $this->form["commenterNameMaxLength"] = isset($_POST[self::TAB_FORM]["commenterNameMaxLength"]) && absint($_POST[self::TAB_FORM]["commenterNameMaxLength"]) >= 3 && absint($_POST[self::TAB_FORM]["commenterNameMaxLength"]) <= 50 ? absint($_POST[self::TAB_FORM]["commenterNameMaxLength"]) : 50;
                 $this->form["storeCommenterData"] = isset($_POST[self::TAB_FORM]["storeCommenterData"]) && (intval($_POST[self::TAB_FORM]["storeCommenterData"]) || $_POST[self::TAB_FORM]["storeCommenterData"] == 0) ? intval($_POST[self::TAB_FORM]["storeCommenterData"]) : -1;
@@ -1247,6 +1257,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->login["enableProfileURLs"] = isset($_POST[self::TAB_LOGIN]["enableProfileURLs"]) ? absint($_POST[self::TAB_LOGIN]["enableProfileURLs"]) : 0;
                 $this->login["websiteAsProfileUrl"] = isset($_POST[self::TAB_LOGIN]["websiteAsProfileUrl"]) ? absint($_POST[self::TAB_LOGIN]["websiteAsProfileUrl"]) : 0;
                 $this->login["isUserByEmail"] = isset($_POST[self::TAB_LOGIN]["isUserByEmail"]) ? absint($_POST[self::TAB_LOGIN]["isUserByEmail"]) : 0;
+                $this->login["loginUrl"] = isset($_POST[self::TAB_LOGIN]["loginUrl"]) && ($l = trim($_POST[self::TAB_LOGIN]["loginUrl"])) ? $l : "";
             } else if (self::TAB_SOCIAL === $_POST["wpd_tab"]) {
                 $this->social["socialLoginAgreementCheckbox"] = isset($_POST[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"]) ? absint($_POST[self::TAB_SOCIAL]["socialLoginAgreementCheckbox"]) : 0;
                 $this->social["socialLoginInSecondaryForm"] = isset($_POST[self::TAB_SOCIAL]["socialLoginInSecondaryForm"]) ? absint($_POST[self::TAB_SOCIAL]["socialLoginInSecondaryForm"]) : 0;
@@ -1337,6 +1348,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->thread_display["reverseChildren"] = isset($_POST[self::TAB_THREAD_DISPLAY]["reverseChildren"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["reverseChildren"]) : 0;
                 $this->thread_display["highlightUnreadComments"] = isset($_POST[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["highlightUnreadComments"]) : 0;
                 $this->thread_display["scrollToComment"] = isset($_POST[self::TAB_THREAD_DISPLAY]["scrollToComment"]) ? absint($_POST[self::TAB_THREAD_DISPLAY]["scrollToComment"]) : 0;
+                $this->thread_display["orderCommentsBy"] = isset($_POST[self::TAB_THREAD_DISPLAY]["orderCommentsBy"]) && ($o = trim($_POST[self::TAB_THREAD_DISPLAY]["orderCommentsBy"])) && in_array($o, ["comment_ID", "comment_date_gmt"]) ? $o : "comment_ID";
             } else if (self::TAB_THREAD_LAYOUTS === $_POST["wpd_tab"]) {
                 $this->thread_layouts["showCommentLink"] = isset($_POST[self::TAB_THREAD_LAYOUTS]["showCommentLink"]) ? absint($_POST[self::TAB_THREAD_LAYOUTS]["showCommentLink"]) : 0;
                 $this->thread_layouts["showCommentDate"] = isset($_POST[self::TAB_THREAD_LAYOUTS]["showCommentDate"]) ? absint($_POST[self::TAB_THREAD_LAYOUTS]["showCommentDate"]) : 0;
@@ -1816,7 +1828,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             "private" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzPrivateComment", "title" => "Private Comments", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/private/header.png"), "desc" => esc_html__("Allows to create private comment threads. Rich management options in dashboard by user roles.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-private-comments/"],
             "subscriptions" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpdSubscribeManager", "title" => "Subscription Manager", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/subscriptions/header.png"), "desc" => esc_html__("Total control over comment subscriptions. Full list, monitor, manage, filter, unsubscribe, confirm...", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-subscribe-manager/"],
             "ads-manager" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzAdsManager", "title" => "Ads Manager", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/ads-manager/header.png"), "desc" => esc_html__("A full-fledged tool-kit for advertising in comment section of your website. Separate banner and ad managment.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-ads-manager/"],
-            "user-mention" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "Wpdiscuz_UCM", "title" => "User &amp; Comment Mentioning", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/user-mention/header.png"), "desc" => esc_html__("Allows to mention comments and users in comment text using #comment-id and @username tags.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-user-comment-mentioning/"],
+            "user-mention" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzUCM", "title" => "User &amp; Comment Mentioning", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/user-mention/header.png"), "desc" => esc_html__("Allows to mention comments and users in comment text using #comment-id and @username tags.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-user-comment-mentioning/"],
             "likers" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpdiscuzVoters", "title" => "Advanced Likers", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/likers/header.png"), "desc" => esc_html__("See comment likers and voters of each comment. Adds user reputation and badges based on received likes.", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-advanced-likers/"],
             "translate" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "WpDiscuzTranslate", "title" => "Comment Translate", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/translate/header.png"), "desc" => esc_html__('Adds a smart and intuitive AJAX "Translate" button with 60 language options. Uses free translation API.', "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-translation/"],
             "search" => ["version" => "7.0.0", "requires" => "7.0.0", "class" => "wpDiscuzCommentSearch", "title" => "Comment Search", "thumb" => plugins_url(WPDISCUZ_DIR_NAME . "/assets/addons/search/header.png"), "desc" => esc_html__("AJAX powered front-end comment search. It starts searching while you type search words. ", "wpdiscuz"), "url" => "https://gvectors.com/product/wpdiscuz-comment-search/"],
@@ -2044,7 +2056,17 @@ class WpdiscuzOptions implements WpDiscuzConstants {
     }
 
     public function getDefaultFileTypes() {
-        $types = ["jpg|jpeg|jpe" => "image/jpeg", "gif" => "image/gif", "png" => "image/png", "bmp" => "image/bmp", "tiff|tif" => "image/tiff", "ico" => "image/x-icon"];
+        $types = [
+            "jpg" => "image/jpeg",
+            "jpeg" => "image/jpeg",
+            "jpe" => "image/jpeg",
+            "gif" => "image/gif",
+            "png" => "image/png",
+            "bmp" => "image/bmp",
+            "tiff" => "image/tiff",
+            "tif" => "image/tiff",
+            "ico" => "image/x-icon",
+        ];
         $types = apply_filters("wpdiscuz_mu_file_types", $types);
         return $types;
     }
@@ -2540,6 +2562,12 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         return $newOptions;
     }
 
+    public function printDocLink($docUrl) {
+        if ($docUrl && $docUrl !== "#") {
+            echo "<a href='" . esc_url_raw($docUrl) . "' title='" . esc_attr("Read the documentation", "wpdiscuz") . "' target='_blank'><i class='far fa-question-circle'></i></a>";
+        }
+    }
+
     public function settingsArray() {
         $settings = [
             "core" => [
@@ -2592,6 +2620,13 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description" => esc_html__("Please click on buttons to disable or enable. The enabled buttons are colored green, the disabled buttons are gray. If you want to disable the whole formatting toolbar, please click on the [Disable formatting buttons] button. Options to manage Image Attachment button are located in 'Comment Content and Media' setting page.", "wpdiscuz"),
                             "description_original" => "Please click on buttons to disable or enable. The enabled buttons are colored green, the disabled buttons are gray. If you want to disable the whole formatting toolbar, please click on the [Disable formatting buttons] button. Options to manage Image Attachment button are located in 'Comment Content and Media' setting page.",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/comment-form/#rich-editor-toolbar-buttons"
+                        ],
+                        "enableQuickTags" => [
+                            "label" => esc_html__("Enable Quicktags", "wpdiscuz"),
+                            "label_original" => "Enable Quicktags",
+                            "description" => esc_html__('Quicktag is a on-click button that inserts HTML in to comment textarea. For example the "b" Quicktag will insert the HTML bold tags < b > < /b >.', "wpdiscuz"),
+                            "description_original" => 'Quicktag is a on-click button that inserts HTML in to comment textarea. For example the "b" Quicktag will insert the HTML bold tags < b > < /b >.',
+                            "docurl" => ""
                         ],
                     ]
                 ],
@@ -2711,7 +2746,14 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description" => esc_html__("Sometimes registered users comment as guest using the same email address. wpDiscuz can detect the account role using guest email and display commenter label correctly.", "wpdiscuz"),
                             "description_original" => "Sometimes registered users comment as guest using the same email address. wpDiscuz can detect the account role using guest email and display commenter label correctly.",
                             "docurl" => "https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/user-authorization-and-profile-data/#use-guest-email-to-detect-registered-account"
-                        ]
+                        ],
+                        "loginUrl" => [
+                            "label" => esc_html__("Login URL", "wpdiscuz"),
+                            "label_original" => "Login URL",
+                            "description" => "",
+                            "description_original" => "",
+                            "docurl" => ""
+                        ],
                     ]
                 ],
                 WpdiscuzCore::TAB_SOCIAL => [
@@ -3218,6 +3260,13 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "description_original" => "",
                             "docurl" => ""
                         ],
+                        "orderCommentsBy" => [
+                            "label" => __("Newest and oldest comment ordering by", "wpdiscuz"),
+                            "label_original" => "Newest and oldest comment ordering by",
+                            "description" => "",
+                            "description_original" => "",
+                            "docurl" => ""
+                        ],
                     ]
                 ],
                 WpdiscuzCore::TAB_THREAD_LAYOUTS => [
@@ -3348,7 +3397,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "label_original" => "Comment Text Size",
                             "description" => "",
                             "description_original" => "",
-                            "docurl" => "#"
+                            "docurl" => ""
                         ],
                         "enableFontAwesome" => [
                             "label" => esc_html__("Load Font Awesome css lib", "wpdiscuz"),
@@ -3761,7 +3810,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "label_original" => "Secure comment content in HTTPS protocol.",
                             "description" => esc_html__("This option detects images and other contents with non-https source URLs and fix according to your selected logic.", "wpdiscuz"),
                             "description_original" => "This option detects images and other contents with non-https source URLs and fix according to your selected logic.",
-                            "docurl" => "#"
+                            "docurl" => ""
                         ],
                         "redirectPage" => [
                             "label" => esc_html__("Redirect First Comment to", "wpdiscuz"),
@@ -3796,7 +3845,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "label_original" => "Help wpDiscuz to grow allowing people to recognize which comment plugin you use",
                             "description" => esc_html__("Please check this option on to help wpDiscuz get more popularity as your thank to the hard work we do for you totally free. This option adds a very small (16x16px) icon under the comment section which will allow your site visitors recognize the name of comment solution you use.", "wpdiscuz"),
                             "description_original" => "Please check this option on to help wpDiscuz get more popularity as your thank to the hard work we do for you totally free. This option adds a very small (16x16px) icon under the comment section which will allow your site visitors recognize the name of comment solution you use.",
-                            "docurl" => "#"
+                            "docurl" => ""
                         ],
                         "isGravatarCacheEnabled" => [
                             "label" => esc_html__("Enable Gravatar caching", "wpdiscuz"),
@@ -3824,21 +3873,21 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                             "label_original" => "Remove Vote Data",
                             "description" => "",
                             "description_original" => "",
-                            "docurl" => "#"
+                            "docurl" => ""
                         ],
                         "purgeAvatarCache" => [
                             "label" => esc_html__("Purge Expired Avatar Caches", "wpdiscuz"),
                             "label_original" => "Purge Expired Avatar Caches",
                             "description" => "",
                             "description_original" => "",
-                            "docurl" => "#"
+                            "docurl" => ""
                         ],
                         "purgeAllCaches" => [
                             "label" => esc_html__("Purge All Avatar Caches", "wpdiscuz"),
                             "label_original" => "Purge All Avatar Caches",
                             "description" => "",
                             "description_original" => "",
-                            "docurl" => "#"
+                            "docurl" => ""
                         ]
                     ]
                 ],

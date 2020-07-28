@@ -28,7 +28,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableUserMentioning"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableUserMentioning"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -46,7 +46,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["sendMailToMentionedUsers"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["sendMailToMentionedUsers"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -64,7 +64,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isNotifyOnCommentApprove"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isNotifyOnCommentApprove"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -82,7 +82,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableMemberConfirm"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableMemberConfirm"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -100,7 +100,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableGuestsConfirm"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableGuestsConfirm"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -129,7 +129,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["subscriptionType"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["subscriptionType"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -147,7 +147,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showReplyCheckbox"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showReplyCheckbox"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -164,7 +164,9 @@ if (!defined("ABSPATH")) {
             <label for="isReplyDefaultChecked"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["isReplyDefaultChecked"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -182,7 +184,7 @@ if (!defined("ABSPATH")) {
             </div>
         </div>
         <div class="wpd-opt-doc">
-            <a href="<?php echo esc_url_raw($setting["options"]["usePostmaticForCommentNotification"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+            <?php $this->printDocLink($setting["options"]["usePostmaticForCommentNotification"]["docurl"]) ?>
         </div>
     </div>
     <!-- Option end -->
@@ -201,7 +203,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isFollowActive"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isFollowActive"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -219,7 +221,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["disableFollowConfirmForUsers"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["disableFollowConfirmForUsers"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

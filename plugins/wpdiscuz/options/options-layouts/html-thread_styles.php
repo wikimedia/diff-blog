@@ -29,7 +29,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["theme"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["theme"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -96,7 +96,7 @@ if (!defined("ABSPATH")) {
         <div style="clear: both"></div>
     </div>
     <div class="wpd-opt-doc" style="padding-top: 36px;">
-        <a href="<?php echo esc_url_raw($setting["options"]["styleSpecificColors"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["styleSpecificColors"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -134,7 +134,7 @@ if (!defined("ABSPATH")) {
         <div style="clear: both"></div>
     </div>
     <div class="wpd-opt-doc" style="padding-top: 36px;">
-        <a href="<?php echo esc_url_raw($setting["options"]["colors"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["colors"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -156,7 +156,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableFontAwesome"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableFontAwesome"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -171,7 +171,7 @@ if (!defined("ABSPATH")) {
         <textarea class="regular-text" id="customCss" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[customCss]" placeholder="" style="width: 90%; height: 100px; color: #333333; font-family: 'Courier New', Courier, monospace; background: #f5f5f5;direction:ltr;text-align:left;"><?php echo stripslashes($this->thread_styles["customCss"]); ?></textarea>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["customCss"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["customCss"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

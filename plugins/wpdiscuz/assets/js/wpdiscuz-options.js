@@ -139,13 +139,13 @@ jQuery(document).ready(function ($) {
 
 
                 if (resp.progress <= 3) {
-                    $('.import-progress').text(3 + '%');
+                    $('.stcr-import-progress').text(3 + '%');
                 } else {
                     if (resp.progress < 100) {
-                        $('.import-progress').text(resp.progress + '%');
+                        $('.stcr-import-progress').text(resp.progress + '%');
                     } else {
-                        $('.import-progress').css({'color': '#10b493'});
-                        $('.import-progress').text(resp.progress + '% Done');
+                        $('.stcr-import-progress').css({'color': '#10b493'});
+                        $('.stcr-import-progress').text(resp.progress + '% Done');
                         $('.stcr-step').val(0);
                         doingAjax = false;
                     }
@@ -159,26 +159,26 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    $(document).delegate('.import-cir', 'click', function (e) {
+    $(document).delegate('.import-lstc', 'click', function (e) {
         e.preventDefault();
         var btn = $(this);
         btn.attr('disabled', 'disabled');
         $('.fas', btn).addClass('fa-pulse fa-spinner').removeClass('wc-hidden');
-        importCIR(btn);
+        importLSTC(btn);
     });
-    function importCIR(btn) {
+    function importLSTC(btn) {
         doingAjax = true;
         var data = btn.parents('.wc-form').serialize();
         $.ajax({
             type: 'POST',
             url: ajaxurl,
-            data: {cirData: data, 'action': 'wpdImportCIR'}
+            data: {lstcData: data, 'action': 'wpdImportLSTC'}
         }).done(function (response) {
             try {
                 var resp = JSON.parse(response);
-                $('.cir-step').val(resp.step);
+                $('.lstc-step').val(resp.step);
                 if (resp.progress < 100) {
-                    importCIR(btn);
+                    importLSTC(btn);
                 } else {
                     btn.removeAttr('disabled');
                     $('.fas', btn).removeClass('fa-pulse fa-spinner').addClass('wc-hidden');
@@ -186,14 +186,14 @@ jQuery(document).ready(function ($) {
 
 
                 if (resp.progress <= 3) {
-                    $('.import-progress').text(3 + '%');
+                    $('.lstc-import-progress').text(3 + '%');
                 } else {
                     if (resp.progress < 100) {
-                        $('.import-progress').text(resp.progress + '%');
+                        $('.lstc-import-progress').text(resp.progress + '%');
                     } else {
-                        $('.import-progress').css({'color': '#10b493'});
-                        $('.import-progress').text(resp.progress + '% Done');
-                        $('.cir-step').val(0);
+                        $('.lstc-import-progress').css({'color': '#10b493'});
+                        $('.lstc-import-progress').text(resp.progress + '% Done');
+                        $('.lstc-step').val(0);
                         doingAjax = false;
                     }
                 }

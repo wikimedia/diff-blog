@@ -21,7 +21,8 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
         add_action("wp_ajax_wpdCloseThread", [&$this, "closeThread"]);
         add_action("wp_ajax_wpdDeactivate", [&$this, "deactivate"]);
         add_action("wp_ajax_wpdImportSTCR", [&$this, "importSTCR"]);
-        add_action("wp_ajax_wpdImportCIR", [&$this, "importCIR"]);
+        add_action("wp_ajax_wpdImportLSTC", [&$this, "importLSTC"]);
+        
         add_action("wp_ajax_wpdFollowUser", [&$this, "followUser"]);
         add_action("wp_ajax_wpdRegenerateVoteMetas", [&$this, "regenerateVoteMetas"]);
         add_action("wp_ajax_wpdRegenerateClosedComments", [&$this, "regenerateClosedComments"]);
@@ -176,6 +177,9 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
         wp_die(json_encode($response));
     }
 
+    /**
+     * Import subscriptions from "Subscribe To Comments Reloaded" plugin
+     */
     public function importSTCR() {
         $response = ["progress" => 0];
         $stcrData = isset($_POST["stcrData"]) ? $_POST["stcrData"] : "";
@@ -205,86 +209,27 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
     }
 
     /**
-     * Import images uploaded via "Comment Images Reloaded" plugin
+     * Import subscriptions from "Lightweight Subscribe To Comments" plugin
      */
-    public function importCIR() {
+    public function importLSTC() {
         $response = ["progress" => 0];
-        $cirData = isset($_POST["cirData"]) ? $_POST["cirData"] : "";
-        if ($cirData) {
-            parse_str($cirData, $data);
-            $limit = 100;
-            $step = isset($data["cir-step"]) ? intval($data["cir-step"]) : 0;
-            $cirImagesCount = isset($data["cir-images-count"]) ? intval($data["cir-images-count"]) : 0;
-            $nonce = isset($data["wpd-cir-images"]) ? trim($data["wpd-cir-images"]) : "";
-            if (wp_verify_nonce($nonce, "wc_tools_form") && $cirImagesCount) {
+        $lstcData = isset($_POST["lstcData"]) ? $_POST["lstcData"] : "";
+        if ($lstcData) {
+            parse_str($lstcData, $data);
+            $limit = 50;
+            $step = isset($data["lstc-step"]) ? intval($data["lstc-step"]) : 0;
+            $lstcSubscriptionsCount = isset($data["lstc-subscriptions-count"]) ? intval($data["lstc-subscriptions-count"]) : 0;
+            $nonce = isset($data["wpd-lstc-subscriptions"]) ? trim($data["wpd-lstc-subscriptions"]) : "";
+            if (wp_verify_nonce($nonce, "wc_tools_form") && $lstcSubscriptionsCount) {
                 $offset = $limit * $step;
                 if ($limit && $offset >= 0) {
-                    $cirMetakey = "comment_image_reloaded";
-                    $commentIds = get_comments(
-                            [
-                                "number" => $limit,
-                                "offset" => $offset,
-                                "fields" => "ids",
-                                "orderby" => "comment_date",
-                                "order" => "asc",
-                                "meta_query" => [
-                                    [
-                                        "key" => $cirMetakey,
-                                        "value" => "",
-                                        "compare" => "!="
-                                    ]
-                                ]
-                            ]
-                    );
-
-                    if ($commentIds) {
-                        if (apply_filters("wpdiscuz_mu_import_cir_images", false)) {
-                            foreach ($commentIds as $commentId) {
-                                $cirAttachmentIds = get_comment_meta($commentId, $cirMetakey, true);
-                                if ($cirAttachmentIds && is_array(maybe_unserialize($cirAttachmentIds))) {
-                                    $wpdiscuzMUMeta = get_comment_meta($commentId, self::METAKEY_ATTACHMENTS, true);
-                                    foreach ($cirAttachmentIds as $cirAttachId) {
-                                        $cirAttachPath = $cirAttachId ? get_attached_file($cirAttachId) : false;
-                                        if ($cirAttachPath && getimagesize($cirAttachPath)) {
-
-                                            if (!$wpdiscuzMUMeta) {
-                                                $wpdiscuzMUMeta = ["images" => []];
-                                            }
-
-                                            if (isset($wpdiscuzMUMeta["images"]) && is_array($wpdiscuzMUMeta["images"]) && !in_array($cirAttachId, $wpdiscuzMUMeta["images"])) {
-                                                $wpdiscuzMUMeta["images"][] = $cirAttachId;
-
-                                                update_post_meta($cirAttachId, "_wp_attachment_image_alt", get_the_title($cirAttachId));
-                                                update_post_meta($cirAttachId, self::METAKEY_ATTCHMENT_OWNER_IP, "127.0.0.1");
-                                                update_post_meta($cirAttachId, self::METAKEY_ATTCHMENT_COMMENT_ID, $commentId);
-                                                update_post_meta($cirAttachId, self::METAKEY_IMPORTED_FROM, $cirMetakey);
-                                            }
-                                        }
-                                    }
-                                    update_comment_meta($commentId, self::METAKEY_ATTACHMENTS, $wpdiscuzMUMeta);
-                                }
-                            }
-                            //$wpdiscuzMUMeta = get_comment_meta($commentId, self::METAKEY_ATTACHMENTS, true);
-                        } else {
-                            foreach ($commentIds as $commentId) {
-                                $cirAttachmentIds = get_comment_meta($commentId, $cirMetakey, true);
-                                if ($cirAttachmentIds && is_array(maybe_unserialize($cirAttachmentIds))) {
-                                    if (!get_comment_meta($commentId, self::METAKEY_ATTACHMENTS, true)) {
-                                        $cirAttachId = intval($cirAttachmentIds[0]);
-                                        $cirAttachPath = $cirAttachId ? get_attached_file($cirAttachId) : false;
-                                        if ($cirAttachPath && getimagesize($cirAttachPath)) {
-                                            $wpdiscuzMUMeta = ["images" => [$cirAttachId]];
-                                            update_comment_meta($commentId, self::METAKEY_ATTACHMENTS, $wpdiscuzMUMeta);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
+                    $subscriptions = $this->dbManager->getLstcSubscriptions($limit, $offset);
+                    if ($subscriptions) {
+                        $this->dbManager->addLstcSubscriptions($subscriptions);
                         ++$step;
                         $response["step"] = $step;
-                        $progress = $offset ? $offset * 100 / $cirImagesCount : $limit * 100 / $cirImagesCount;
-                        $response["progress"] = (($p = intval($progress)) > 100) ? 100 : $p;
+                        $progress = $offset ? $offset * 100 / $lstcSubscriptionsCount : $limit * 100 / $lstcSubscriptionsCount;
+                        $response["progress"] = ($prg = intval($progress)) > 100 ? 100 : $prg;
                     } else {
                         $response["progress"] = 100;
                     }
@@ -653,6 +598,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                 $commentContent = $this->helper->makeClickable($commentContent);
             }
             $commentContent = apply_filters("comment_text", $commentContent, $comment, ["is_wpdiscuz_comment" => true]);
+            $commentContent = apply_filters("wpdiscuz_after_read_more", $commentContent, $comment, ["is_wpdiscuz_comment" => true]);
             $inlineContent = "";
             if ($inlineFormID = intval(get_comment_meta($comment->comment_ID, self::META_KEY_FEEDBACK_FORM_ID, true))) {
                 $feedbackForm = $this->dbManager->getFeedbackForm($inlineFormID);
@@ -810,7 +756,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
         $inline_form_id = !empty($_POST["inline_form_id"]) ? intval($_POST["inline_form_id"]) : 0;
         if ($inline_form_id && ($inline_form = $this->dbManager->getFeedbackForm($inline_form_id))) {
             $args = [
-                "orderby" => "comment_ID",
+                "orderby" => $this->options->thread_display["orderCommentsBy"],
                 "order" => "DESC",
                 "number" => 3,
                 "meta_query" => [

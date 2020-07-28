@@ -28,7 +28,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showLoggedInUsername"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showLoggedInUsername"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -46,7 +46,22 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showLoginLinkForGuests"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showLoginLinkForGuests"]["docurl"]) ?>
+    </div>
+</div>
+<!-- Option end -->
+
+<!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="loginUrl">
+    <div class="wpd-opt-name">
+        <label for="loginUrl"><?php echo esc_html($setting["options"]["loginUrl"]["label"]) ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["loginUrl"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <input type="url" value="<?php echo esc_attr($this->login["loginUrl"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_LOGIN); ?>[loginUrl]" id="loginUrl" placeholder="<?php echo esc_url_raw(home_url("/my-login-page/")) ?>" />
+    </div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["loginUrl"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -96,7 +111,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["myContentSettings"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["myContentSettings"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -114,7 +129,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableProfileURLs"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableProfileURLs"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -132,7 +147,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["websiteAsProfileUrl"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["websiteAsProfileUrl"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -150,8 +165,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isUserByEmail"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isUserByEmail"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
-

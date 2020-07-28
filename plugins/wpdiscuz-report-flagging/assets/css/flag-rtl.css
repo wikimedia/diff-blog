@@ -15,20 +15,25 @@
 .fc_error_msg{color: red;}
 .fc_success_msg{color: forestgreen;}
 .fc-send {margin: 15px auto;border: #ddd 1px solid;font-size: 13px;line-height: 16px;padding: 8px 15px 6px;clear: both;display: block;float: none;}
-.trans-error-dialog{background-color: #fce8e8 !important;border: 1px solid #f2d3d2;border-radius: 3px;box-sizing: border-box;color: #ce4a66;font-size: 14px;margin: 5px 0;padding: 5px 10px;text-align: center;width: 100%;}
-#wpdcom div.wpd-field-desc span {width: 300px;}
-#wpdcom div:hover.wpd-field-desc span{right: -43px;}
+.trans-error-dialog{
+    background-color: #fce8e8 !important;
+    border: 1px solid #f2d3d2;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #ce4a66;
+    font-size: 14px;
+    margin: 5px 0;
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;}
 #wpdcom .wpf-cta.fc_flagged:hover{
     color: #fff!important;
 }
 
 @media only screen and (max-width: 600px){
-    #wpdcom div.wpd-field-desc span:after{
-        right: 95%;
-    }
-    #wpdcom div:hover.wpd-field-desc span {
-        margin-right: -230px;
-    }
+    #wpdcom div.wpd-field-desc span:after{right: 95%;}
+    #wpdcom div:hover.wpd-field-desc span {margin-right: -230px;}
+    #wpdcom #wpd-threads .wpd-comment-link .comment_flag[wpd-tooltip]::after{right: 0;}
 }
 
 @media only screen and (max-width: 480px){

@@ -30,7 +30,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commentFormView"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commentFormView"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -48,7 +48,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableDropAnimation"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableDropAnimation"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -77,7 +77,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["richEditor"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["richEditor"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -119,7 +119,25 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["editorToolbar"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["editorToolbar"]["docurl"]) ?>
+    </div>
+</div>
+<!-- Option end -->
+
+<!-- Option start -->
+<div class="wpd-opt-row" data-wpd-opt="enableQuickTags">
+    <div class="wpd-opt-name">
+        <label for="enableQuickTags"><?php echo esc_html($setting["options"]["enableQuickTags"]["label"]) ?></label>
+        <p class="wpd-desc"><?php echo $setting["options"]["enableQuickTags"]["description"] ?></p>
+    </div>
+    <div class="wpd-opt-input">
+        <div class="wpd-switcher">
+            <input type="checkbox" <?php checked($this->form["enableQuickTags"] == 1) ?> value="1" name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[enableQuickTags]" id="enableQuickTags">
+            <label for="enableQuickTags"></label>
+        </div>
+    </div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableQuickTags"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -135,7 +153,7 @@ if (!defined("ABSPATH")) {
         <span>&nbsp; <input type="number" value="<?php echo esc_attr($this->form["commenterNameMaxLength"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[commenterNameMaxLength]" id="commenterNameMaxLength" style="width:70px;"> <?php esc_html_e("Max", "wpdiscuz") ?></span>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commenterNameLength"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commenterNameLength"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -150,7 +168,7 @@ if (!defined("ABSPATH")) {
         <input type="number" value="<?php echo esc_attr($this->form["storeCommenterData"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_FORM); ?>[storeCommenterData]" id="storeCommenterData" style="width:100px;">
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["storeCommenterData"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["storeCommenterData"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

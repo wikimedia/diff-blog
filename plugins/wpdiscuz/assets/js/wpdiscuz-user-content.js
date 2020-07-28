@@ -2,6 +2,7 @@
 jQuery(document).ready(function ($) {
     var refreshAfterDeleting = 0;
     var isNativeAjaxEnabled = parseInt(wpdiscuzAjaxObj.isNativeAjaxEnabled);
+    var additionalTab = parseInt(wpdiscuzUCObj.additionalTab);
     $(document).delegate('.wpd-info,.wpd-page-link,.wpd-delete-content,.wpd-user-email-delete-links', 'click', function (e) {
         e.preventDefault();
     });
@@ -20,7 +21,7 @@ jQuery(document).ready(function ($) {
         var oldClass = icon.attr('class');
         icon.removeClass();
         icon.addClass('fas fa-pulse fa-spinner');
-        wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled, false, data)
+        wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled || additionalTab, false, data)
                 .done(function (response) {
                     btn.addClass('wpd-not-clicked');
                     icon.removeClass();
@@ -48,7 +49,7 @@ jQuery(document).ready(function ($) {
             data.append('page', 0);
             $('#wpdUserContentInfo #' + relValue).addClass('wpd-active');
             $('#wpdUserContentInfo #' + relValue).css('text-align', 'center');
-            wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled, true, data)
+            wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled || additionalTab, true, data)
                     .done(function (response) {
                         if (response) {
                             $('#wpdUserContentInfo #' + relValue).css('text-align', '');
@@ -72,7 +73,7 @@ jQuery(document).ready(function ($) {
         var data = new FormData();
         data.append('action', action);
         data.append('page', goToPage);
-        wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled, true, data)
+        wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled || additionalTab, true, data)
                 .done(function (response) {
                     btn.addClass('wpd-not-clicked');
                     if (response) {
@@ -110,7 +111,7 @@ jQuery(document).ready(function ($) {
             data.append('page', goToPage);
             data.append('action', action);
 
-            wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled, false, data)
+            wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled || additionalTab, false, data)
                     .done(function (response) {
                         btn.addClass('wpd-not-clicked');
                         icon.removeClass().addClass(oldClass);
@@ -135,7 +136,7 @@ jQuery(document).ready(function ($) {
         $('.wpd-loading', btn).addClass('wpd-show');
         var data = new FormData();
         data.append('action', 'wpdEmailDeleteLinks');
-        wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled, false, data)
+        wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled || additionalTab, false, data)
                 .done(function (response) {
                     btn.addClass('wpd-not-clicked');
                     $('[data-lity-close]', window.parent.document).trigger('click');
@@ -152,7 +153,7 @@ jQuery(document).ready(function ($) {
             var data = new FormData();
             data.append('action', 'wpdGuestAction');
             data.append('guestAction', guestAction);
-            wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled, false, data)
+            wpdiscuzAjaxObj.getAjaxObj(isNativeAjaxEnabled || additionalTab, false, data)
                     .done(function (response) {
                         btn.addClass('wpd-not-clicked');
                         btn.find('.wpd-loading').removeClass('wpd-show');

@@ -73,7 +73,7 @@ class SearchDBManager {
                 return $result;
             } else {
                 // search field is all
-                $sql = "SELECT `comment_ID` FROM `{$this->db->comments}` WHERE (`comment_author` LIKE '%$data%' OR `comment_author_email` LIKE '%$data%' OR `comment_content` LIKE '%$data%') AND $condition;";
+                $sql = "SELECT `comment_ID` FROM `{$this->db->comments}` WHERE (`comment_author` LIKE '%$data%' OR `comment_author_email` LIKE '%$data%' OR `comment_content` LIKE '%$data%') AND $condition ORDER BY `comment_ID` DESC;";
                 $result = $this->db->get_col($sql);
                 if (!$allComments) {
                     $wpdiscuz = wpDiscuz();
