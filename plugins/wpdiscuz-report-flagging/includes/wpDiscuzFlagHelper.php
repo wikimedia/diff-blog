@@ -50,7 +50,7 @@ class wpDiscuzFlagHelper {
                     $class .= " fc_flagged";
                 }
 
-                $output .= "<div style='$style' class='comment_flag $class wc_flag_tooltipster wpf-cta wpd-field-desc' id='fc_{$comment->comment_ID}' wpd-tooltip-position='" . ( is_rtl() ? 'right' : 'left' ) . "' wpd-tooltip-size='long' wpd-tooltip='" . esc_attr($title) . "'>";
+                $output .= "<div style='$style' class='comment_flag $class wc_flag_tooltipster wpf-cta wpd-field-desc' id='fc_{$comment->comment_ID}' wpd-tooltip-position='left' wpd-tooltip-size='long' wpd-tooltip='" . esc_attr($title) . "'>";
                 $output .= "<i class='fas fa-flag'></i>";
                 $output .= "</div>";
             } else if ($this->options->guestToFlag) {
@@ -69,7 +69,7 @@ class wpDiscuzFlagHelper {
                     $class .= " fc_flagged";
                 }
 
-                $output .= "<div style='$style' class='comment_flag $class wc_flag_tooltipster wpf-cta wpd-field-desc' id='fc_{$comment->comment_ID}' wpd-tooltip='$title'>";
+                $output .= "<div style='$style' class='comment_flag $class wc_flag_tooltipster wpf-cta wpd-field-desc'  wpd-tooltip-position='left' id='fc_{$comment->comment_ID}' wpd-tooltip='$title'>";
                 $output .= "<i class='fas fa-flag'></i>";
                 $output .= "</div>";
             }

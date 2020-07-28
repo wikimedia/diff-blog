@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz
  * Description: #1 WordPress Comment Plugin. Innovative, modern and feature-rich comment system to supercharge your website comment section.
- * Version: 7.0.3
+ * Version: 7.0.5
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://wpdiscuz.com/
@@ -68,9 +68,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
         $this->helperEmail = new WpdiscuzHelperEmail($this->options, $this->dbManager);
         $this->helperOptimization = new WpdiscuzHelperOptimization($this->options, $this->dbManager, $this->helperEmail);
         $this->helperAjax = new WpdiscuzHelperAjax($this->options, $this->dbManager, $this->helper, $this->helperEmail, $this->wpdiscuzForm);
-        if ($this->options->content["wmuIsEnabled"]) {
-            $this->helperUpload = new WpdiscuzHelperUpload($this->options, $this->dbManager, $this->wpdiscuzForm, $this->helper);
-        }
+        $this->helperUpload = new WpdiscuzHelperUpload($this->options, $this->dbManager, $this->wpdiscuzForm, $this->helper);
         $this->cache = new WpdiscuzCache($this->options, $this->helper, $this->dbManager);
         $this->requestUri = !empty($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : "";
 
@@ -552,6 +550,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     if ($commentReadMoreLimit && WpdiscuzHelper::strWordCount(wp_strip_all_tags($commentContent)) > $commentReadMoreLimit) {
                         $commentContent = WpdiscuzHelper::getCommentExcerpt($commentContent, $uniqueId, $this->options);
                     }
+                    $commentContent = apply_filters("wpdiscuz_after_read_more", $commentContent, $comment, ["is_wpdiscuz_comment" => true]);
 
                     $components = $this->helper->getComponents($form->getTheme(), $form->getLayout());
                     $inlineContent = "";
@@ -657,10 +656,10 @@ class WpdiscuzCore implements WpDiscuzConstants {
             }
             $sorting = isset($_POST["sorting"]) ? trim($_POST["sorting"]) : "";
             if ($sorting === "newest") {
-                $args["orderby"] = "comment_ID";
+                $args["orderby"] = $this->options->thread_display["orderCommentsBy"];
                 $args["order"] = "desc";
             } else if ($sorting === "oldest") {
-                $args["orderby"] = "comment_ID";
+                $args["orderby"] = $this->options->thread_display["orderCommentsBy"];
                 $args["order"] = "asc";
             } else if ($sorting === "by_vote") {
                 $args["orderby"] = "by_vote";
@@ -687,10 +686,10 @@ class WpdiscuzCore implements WpDiscuzConstants {
             $this->isWpdiscuzLoaded = true;
             $args = ["post_id" => $postId];
             if ($sorting === "newest") {
-                $args["orderby"] = "comment_ID";
+                $args["orderby"] = $this->options->thread_display["orderCommentsBy"];
                 $args["order"] = "desc";
             } else if ($sorting === "oldest") {
-                $args["orderby"] = "comment_ID";
+                $args["orderby"] = $this->options->thread_display["orderCommentsBy"];
                 $args["order"] = "asc";
             } else if ($sorting === "by_vote") {
                 $args["orderby"] = "by_vote";
@@ -887,7 +886,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
             } else if ($this->commentsArgs["last_parent_id"] && empty($this->commentsArgs["sticky"])) {
                 $args["where"] = $wpdb->comments . ".`comment_ID`" . ($this->commentsArgs["order"] === 'desc' ? " < " : " > ") . $this->commentsArgs["last_parent_id"] . ($args["where"] ? " AND " : "") . $args["where"];
             }
-            $args["orderby"] = $orderby . $wpdb->comments . ".comment_ID ";
+            $args["orderby"] = $orderby . $wpdb->comments . ".`{$this->options->thread_display["orderCommentsBy"]}` ";
             $args["orderby"] .= isset($args["order"]) ? "" : $this->commentsArgs["order"];
         }
         return $args;
@@ -900,7 +899,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
             "caller" => "wpdiscuz",
             "post_id" => intval($postId),
             "last_parent_id" => 0,
-            "orderby" => "comment_ID",
+            "orderby" => $this->options->thread_display["orderCommentsBy"],
             "order" => $this->options->wp["commentOrder"],
             // max value of php int for limit
             "number" => $this->options->thread_display["commentListLoadType"] == 3 ? PHP_INT_MAX - 1 : $this->options->wp["commentPerPage"],
@@ -1093,6 +1092,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
                 "msgConfirmDeleteComment" => esc_html($this->options->phrases["wc_confirm_comment_delete"]),
                 "msgConfirmCancelSubscription" => esc_html($this->options->phrases["wc_confirm_cancel_subscription"]),
                 "msgConfirmCancelFollow" => esc_html($this->options->phrases["wc_confirm_cancel_follow"]),
+                "additionalTab" => (int) apply_filters("wpdiscuz_enable_content_modal", false),
             ];
             if ($this->options->thread_styles["enableFontAwesome"]) {
                 if ($this->form->hasIcon) {
@@ -1159,6 +1159,11 @@ class WpdiscuzCore implements WpDiscuzConstants {
                     wp_enqueue_script("wpdiscuz-user-content-js");
                     wp_localize_script("wpdiscuz-user-content-js", "wpdiscuzUCObj", $ucArgs);
                 }
+            }
+            if (!$loadQuill && $this->options->form["enableQuickTags"]) {
+                wp_enqueue_script("quicktags");
+                wp_register_script("wpdiscuz-quicktags", plugins_url("/assets/third-party/quicktags/wpdiscuz-quictags.js", __FILE__), [$this->options->general["loadComboVersion"] ? "wpdiscuz-combo-js" : "wpdiscuz-ajax-js"], $this->version, true);
+                wp_enqueue_script("wpdiscuz-quicktags");
             }
             do_action("wpdiscuz_front_scripts", $this->options);
         }
@@ -1384,6 +1389,15 @@ class WpdiscuzCore implements WpDiscuzConstants {
         if (version_compare($this->version, "7.0.0", ">=") && version_compare($this->version, "7.0.2", "<")) {
             $oldOptions[self::TAB_RATING]["enablePostRatingSchema"] = 0;
         }
+        if (version_compare($this->version, "7.0.0", ">=") && version_compare($this->version, "7.0.4", "<")) {
+            $newMimeTypes = [];
+            foreach ($oldOptions[self::TAB_CONTENT]["wmuMimeTypes"] as $exts => $type) {
+                foreach (explode('|', $exts) as $k => $ext) {
+                    $newMimeTypes[$ext] = $type;
+                }
+            }
+            $oldOptions[self::TAB_CONTENT]["wmuMimeTypes"] = $newMimeTypes;
+        }
         return $oldOptions;
     }
 
@@ -1547,7 +1561,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
             $this->options->phrases[$key] = $value;
         }
         $this->options->labels["blogRoles"] = $newBlogRoles;
-        $this->options->labels["blogRoleLabels"] = $newBlogRoleLabels;    
+        $this->options->labels["blogRoleLabels"] = $newBlogRoleLabels;
     }
 
     public function showReplies() {
@@ -1640,7 +1654,12 @@ class WpdiscuzCore implements WpDiscuzConstants {
         $postId = isset($_POST["postId"]) ? intval($_POST["postId"]) : 0;
         if ($postId) {
             $this->isWpdiscuzLoaded = true;
-            $parentCommentIds = $this->dbManager->getParentCommentsHavingReplies($postId);
+            $this->commentsArgs = $this->getDefaultCommentsArgs($postId);
+            $commentStatusIn = ["1"];
+            if ($this->commentsArgs["status"] === "all") {
+                $commentStatusIn[] = "0";
+            }
+            $parentCommentIds = $this->dbManager->getParentCommentsHavingReplies($postId, $commentStatusIn);
             $childCount = 0;
             $hottestCommentId = 0;
             $hottestChildren = [];
@@ -1656,11 +1675,6 @@ class WpdiscuzCore implements WpDiscuzConstants {
             }
 
             if ($hottestCommentId && $hottestChildren) {
-                $this->commentsArgs = $this->getDefaultCommentsArgs($postId);
-                $commentStatusIn = ["1"];
-                if ($this->commentsArgs["status"] === "all") {
-                    $commentStatusIn[] = "0";
-                }
                 $args = [
                     "format" => "flat",
                     "status" => $this->commentsArgs["status"],
@@ -1734,36 +1748,38 @@ class WpdiscuzCore implements WpDiscuzConstants {
     }
 
     public function addBubble($post) {
-        echo "<div id='wpd-bubble-wrapper'>";
-        $commentsNumber = get_comments_number($post->ID);
-        echo "<span id='wpd-bubble-all-comments-count'" . ($commentsNumber ? "" : " style='display:none;'") . ">" . esc_html($commentsNumber) . "</span>";
-        echo "<div id='wpd-bubble-count'>";
-        echo "<svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-count-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-count-second' d='M0 0h24v24H0z' /></svg>";
-        echo "<span class='wpd-new-comments-count'>0</span>";
-        echo "</div>";
-        echo "<div id='wpd-bubble'>";
-        echo "<svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-plus-first' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/><path class='wpd-bubble-plus-second' d='M0 0h24v24H0z' /></svg>";
-        echo "<div id='wpd-bubble-add-message'>" . esc_html($this->options->phrases["wc_bubble_invite_message"]) . "<span id='wpd-bubble-add-message-close'><a href='#'>x</a></span></div>";
-        echo "</div>";
-        echo "<div id='wpd-bubble-notification'><svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-notification-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-notification-second' d='M0 0h24v24H0z' /></svg>";
-        if ($this->options->live["bubbleShowNewCommentMessage"]) {
-            echo "<div id='wpd-bubble-notification-message'>";
-            echo "<div id='wpd-bubble-author'>";
-            echo "<div>";
-            echo "<span id='wpd-bubble-author-avatar'></span>";
-            echo "<span id='wpd-bubble-author-name'></span>";
-            echo "<span id='wpd-bubble-comment-date'>(<span class='wpd-bubble-spans'></span>)</span>";
+        if (comments_open($post->ID)) {
+            echo "<div id='wpd-bubble-wrapper'>";
+            $commentsNumber = get_comments_number($post->ID);
+            echo "<span id='wpd-bubble-all-comments-count'" . ($commentsNumber ? "" : " style='display:none;'") . ">" . esc_html($commentsNumber) . "</span>";
+            echo "<div id='wpd-bubble-count'>";
+            echo "<svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-count-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-count-second' d='M0 0h24v24H0z' /></svg>";
+            echo "<span class='wpd-new-comments-count'>0</span>";
             echo "</div>";
-            echo "<span id='wpd-bubble-comment-close'><a href='#'>x</a></span>";
+            echo "<div id='wpd-bubble'>";
+            echo "<svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-plus-first' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/><path class='wpd-bubble-plus-second' d='M0 0h24v24H0z' /></svg>";
+            echo "<div id='wpd-bubble-add-message'>" . esc_html($this->options->phrases["wc_bubble_invite_message"]) . "<span id='wpd-bubble-add-message-close'><a href='#'>x</a></span></div>";
             echo "</div>";
-            echo "<div id='wpd-bubble-comment'>";
-            echo "<span id='wpd-bubble-comment-text'></span>";
-            echo "<span id='wpd-bubble-comment-reply-link'>| <a href='#'>Reply</a></span>";
+            echo "<div id='wpd-bubble-notification'><svg xmlns='https://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-bubble-notification-first' d='M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z'/><path class='wpd-bubble-notification-second' d='M0 0h24v24H0z' /></svg>";
+            if ($this->options->live["bubbleShowNewCommentMessage"]) {
+                echo "<div id='wpd-bubble-notification-message'>";
+                echo "<div id='wpd-bubble-author'>";
+                echo "<div>";
+                echo "<span id='wpd-bubble-author-avatar'></span>";
+                echo "<span id='wpd-bubble-author-name'></span>";
+                echo "<span id='wpd-bubble-comment-date'>(<span class='wpd-bubble-spans'></span>)</span>";
+                echo "</div>";
+                echo "<span id='wpd-bubble-comment-close'><a href='#'>x</a></span>";
+                echo "</div>";
+                echo "<div id='wpd-bubble-comment'>";
+                echo "<span id='wpd-bubble-comment-text'></span>";
+                echo "<span id='wpd-bubble-comment-reply-link'>| <a href='#'>Reply</a></span>";
+                echo "</div>";
+                echo "</div>";
+            }
             echo "</div>";
             echo "</div>";
         }
-        echo "</div>";
-        echo "</div>";
     }
 
     public function registerRestRoutes() {
@@ -1868,8 +1884,8 @@ class WpdiscuzCore implements WpDiscuzConstants {
     }
 
     public function feedbackShortcode($atts, $content = "") {
-        if ($this->isWpdiscuzLoaded) {
-            global $post;
+        global $post;
+        if ($this->isWpdiscuzLoaded && comments_open($post->ID)) {
             $atts = shortcode_atts(["id" => "", "question" => "", "opened" => 0], $atts, self::WPDISCUZ_FEEDBACK_SHORTCODE);
             if ($atts["id"] && $atts["question"] && ($inline_form = $this->dbManager->getFeedbackFormByUid($post->ID, $atts["id"]))) {
                 $content = "<div class='wpd-inline-shortcode wpd-inline-" . ($inline_form->opened ? "opened" : "closed") . "' id='wpd-inline-" . $inline_form->id . "'>" . html_entity_decode($content);

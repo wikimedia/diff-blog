@@ -44,7 +44,8 @@ class wpDiscuzForm implements wpdFormConst {
         add_action("add_meta_boxes_comment", [&$this, "renderEditCommentForm"], 10);
         add_filter("comment_save_pre", [&$this, "validateMetaCommentSavePre"], 10);
         add_action("edit_comment", [&$this, "updateCommentMeta"], 10);
-        add_filter("comment_text", [&$this, "renderCommentMetaHtml"], 10, 3);
+        add_filter("comment_text", [&$this, "renderCommentMetaHtml"], 10, 2);
+        add_filter("wpdiscuz_after_read_more", [&$this, "afterReadMore"], 10, 2);
         add_filter("post_row_actions", [&$this, "addCloneFormAction"], 10, 2);
         add_filter("admin_post_cloneWpdiscuzForm", [&$this, "cloneForm"]);
         add_filter("the_content", [&$this->form, "displayRatingMeta"], 10);
@@ -263,12 +264,14 @@ class wpDiscuzForm implements wpdFormConst {
         }
         return $content;
     }
+    
+    public function afterReadMore($output, $comment) {
+        return $this->renderFrontCommentMetaHtml($output, $comment);
+    }
 
-    public function renderCommentMetaHtml($output, $comment, $args = []) {
+    public function renderCommentMetaHtml($output, $comment) {
         global $pagenow;
-        if (!empty($args["is_wpdiscuz_comment"])) {
-            return $this->renderFrontCommentMetaHtml($output, $comment);
-        } else if (strpos("edit-comments.php", $pagenow) !== false) {
+        if (is_admin() && strpos("edit-comments.php", $pagenow) !== false) {
             return $this->renderAdminCommentMetaHtml($output, $comment);
         }
         return $output;

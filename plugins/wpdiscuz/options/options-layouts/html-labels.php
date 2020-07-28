@@ -36,7 +36,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc" style="padding-top: 36px;">
-        <a href="<?php echo esc_url_raw($setting["options"]["blogRoleLabels"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["blogRoleLabels"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -60,7 +60,7 @@ if (!defined("ABSPATH")) {
         <div class="wpd-clear"></div>
     </div>
     <div class="wpd-opt-doc" style="padding-top: 36px;">
-        <a href="<?php echo esc_url_raw($setting["options"]["commenterLabelColors"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commenterLabelColors"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

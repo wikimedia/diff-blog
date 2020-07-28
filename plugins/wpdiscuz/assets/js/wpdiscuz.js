@@ -402,7 +402,7 @@ jQuery(document).ready(function ($) {
         wcForm.submit(function (e) {
             e.preventDefault();
         });
-        if ($('.wc_comment', wcForm).val().trim() === '' || $('.wc_comment', wcForm).val().trim() === '&nbsp;') {
+        if ($('.wc_comment', wcForm).val().trim() === '') {
             wpdiscuzAjaxObj.setCommentMessage(wpdiscuzAjaxObj.wc_msg_required_fields, 'error');
             return;
         }
@@ -1044,7 +1044,7 @@ jQuery(document).ready(function ($) {
                 .done(function (r) {
                     if (typeof r === 'object') {
                         if (r.success) {
-                            $('#comment-' + commentId + ' .wpd-comment-text').html(' ' + r.data.message);
+                            $('#comment-' + commentId + ' .wpd-comment-text').replaceWith(' ' + r.data.message);
                             $('#wpdiscuz-readmore-' + uniqueId).remove();
                         } else {
                             console.log(r.data);
@@ -1200,10 +1200,10 @@ jQuery(document).ready(function ($) {
         var textarea = form.find('.wc_comment');
         var commentText = textarea.val().trim();
         var replacedText = commentText.replace(/<p><br><\/p>/g, "\n").replace(/<p>(.*?)<\/p>/g, "$1\n");
-        replacedText = replacedText.replace(/<img src=["|']https\:\/\/s\.w\.org\/images\/core\/emoji\/([^"|']+)["|'](.*?)alt=["|']([^"|']+)["|'](.*?)[^>]*>/g, "$3");
-        replacedText = replacedText.replace(/<img[^>]+alt=["|']([^"|']+)["|'][^>]+src=["|']https\:\/\/s\.w\.org\/images\/core\/emoji\/([^"|']+)["|'][^>]?>/g, "$1");
-        replacedText = replacedText.replace(/<img\s+([^>]*)class=["|']wpdem\-sticker["|'](.*?)alt=["|']([^"|']+)["|'](.*?)[^>]*>/g, "$3");
-        replacedText = replacedText.replace(/<img\s+([^>]*)src=["|']([^"|']+)["|'](.*?)[^>]*>/g, "$2");
+        replacedText = replacedText.replace(/<img src=["|']https\:\/\/s\.w\.org\/images\/core\/emoji\/([^"|']+)["|'](.*?)alt=["|']([^"|']+)["|'](.*?)[^>]*>/g, " $3 ");
+        replacedText = replacedText.replace(/<img[^>]+alt=["|']([^"|']+)["|'][^>]+src=["|']https\:\/\/s\.w\.org\/images\/core\/emoji\/([^"|']+)["|'][^>]?>/g, " $1 ");
+        replacedText = replacedText.replace(/<img\s+([^>]*)class=["|']wpdem\-sticker["|'](.*?)alt=["|']([^"|']+)["|'](.*?)[^>]*>/g, " $3 ");
+        replacedText = replacedText.replace(/<img\s+([^>]*)src=["|']([^"|']+)["|'](.*?)[^>]*>/g, " $2 ");
         textarea.val(replacedText);
     }
 
@@ -1571,9 +1571,12 @@ jQuery(document).ready(function ($) {
             $('html, body').animate({
                 scrollTop: $('#wpdcom').offset().top - 60
             }, 1000, function () {
+                $('#wpd-bubble-wrapper').removeClass('wpd-bubble-hover');
                 if (wpdiscuzLoadRichEditor) {
-                    wpDiscuzEditor.createEditor('#wpd-editor-0_0').focus();
-                } else {
+                    if ($('#wpd-editor-0_0').length) {
+                        wpDiscuzEditor.createEditor('#wpd-editor-0_0').focus();
+                    }
+                } else if ($('#wc-textarea-0_0').length) {
                     $('#wc-textarea-0_0').focus();
                 }
             });

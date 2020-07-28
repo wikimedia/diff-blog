@@ -36,7 +36,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showInlineFilterButton"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showInlineFilterButton"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -66,7 +66,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["inlineFeedbackAttractionType"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["inlineFeedbackAttractionType"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

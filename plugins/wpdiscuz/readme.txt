@@ -3,7 +3,7 @@ Contributors: gVectors Team
 Tags: comment, comments, ajax comments, comment form, comment fields
 Requires at least: 5.0
 Tested up to: 5.4
-Stable tag: 7.0.3
+Stable tag: 7.0.5
 Requires PHP: 5.4 and higher
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -179,12 +179,35 @@ Nothing will be lost!  **Comments - wpDiscuz** will show all old comments.
 
 == Changelog ==
 
-= Comments - wpDiscuz v7.0.3 =
+= Comments - wpDiscuz v7.0.4 / 7.0.5 =
 
 **IMPORTANT!**
 1. Please don't forget delete all caches and purge CDN after the update.
-2. If you have customized comment background color or other colors please navigate to wpDiscuz > Settings > Styles & Colors Tab and use new background and colors options to reset them.
+2. If you have custom CSS code for fixing mobile view, tooltips and addon related issues, please consider removing those after the update and check again. Some issues are already fixed in this version, and they may conflict with your custom CSS code.
 3. If yo're updating from 5.x.x versions please read this topic: [https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/](https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/)
+
+* version 7.0.5
+* Changed: New and better way to check allowed comment attachments
+* Fixed bug: CSS conflicts with some themes
+* Fixed bug: Other minor bugs are fixed
+* ------
+* version 7.0.4
+* Added: Quick tags for simple comment editor (if rich editor is disabled)
+* Added: The wpDiscuz > Tools admin page is fully redesigned
+* New Tool: Import subscribers from "Lightweight Subscribe To Comments" plugin
+* New Option: Newest and oldest comment ordering by [ID | Date]
+* New Option: Insert custom login page URL
+* Optimized: CSS / JS files
+* Fixed Bug: Security issues
+* Fixed Bug: Color options for Rating Stars
+* Fixed Bug: Issues with WPBruiser plugin
+* Fixed Bug: Line-break issue in the rich editor blockquotes and codes
+* Fixed Bug: Problems with [Read More] feature
+* Fixed Bug: CSS issues on mobile view
+* Fixed Bug: CSS Issues on RTL websites
+* Fixed Bug: About two dozens of small bugs are fixed and the core is optimized
+
+= Comments - wpDiscuz v7.0.3 =
 
 * Added: New options to manage colors and backgrounds
 * Added: Change "Minimal" style label to "Off" to avoid using it as a ready style

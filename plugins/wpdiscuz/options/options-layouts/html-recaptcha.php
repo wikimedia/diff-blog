@@ -35,7 +35,7 @@ if (!defined("ABSPATH")) {
         </select>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["requestMethod"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["requestMethod"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -53,7 +53,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showForGuests"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showForGuests"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -71,7 +71,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showForUsers"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showForUsers"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -89,7 +89,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isShowOnSubscribeForm"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isShowOnSubscribeForm"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -108,7 +108,7 @@ if (!defined("ABSPATH")) {
         <input id="siteKey" type="text" name="<?php echo esc_attr(WpdiscuzCore::TAB_RECAPTCHA); ?>[siteKey]" placeholder="<?php esc_html_e("reCAPTCHA V2 Site Key", "wpdiscuz"); ?>" value="<?php echo esc_attr($this->recaptcha["siteKey"]); ?>" style="margin:1px;padding:3px 5px; width:90%;"/>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["siteKey"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["siteKey"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -123,7 +123,7 @@ if (!defined("ABSPATH")) {
         <input id="secretKey" type="text" name="<?php echo esc_attr(WpdiscuzCore::TAB_RECAPTCHA); ?>[secretKey]" placeholder="<?php esc_html_e("reCAPTCHA V2 Secret Key", "wpdiscuz"); ?>" value="<?php echo esc_attr($this->recaptcha["secretKey"]); ?>" style="margin: 1px;padding:3px 5px; width:90%;"/>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["secretKey"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["secretKey"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -141,7 +141,7 @@ if (!defined("ABSPATH")) {
         </select>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["theme"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["theme"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -157,7 +157,7 @@ if (!defined("ABSPATH")) {
         <a target="blanck" style="font-size: 10px;" href="https://developers.google.com/recaptcha/docs/language"><?php esc_html_e("Language codes", "wpdiscuz"); ?></a>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["lang"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["lang"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

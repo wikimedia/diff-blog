@@ -28,7 +28,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["socialLoginAgreementCheckbox"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["socialLoginAgreementCheckbox"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -46,7 +46,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["socialLoginInSecondaryForm"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["socialLoginInSecondaryForm"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -64,7 +64,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["displayIconOnAvatar"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["displayIconOnAvatar"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -89,7 +89,9 @@ if (!defined("ABSPATH")) {
             <label for="enableFbLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableFbLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -106,7 +108,9 @@ if (!defined("ABSPATH")) {
                 <label for="fbUseOAuth2"></label>
             </div>
         </div>
-        <div class="wpd-opt-doc"></div>
+        <div class="wpd-opt-doc">
+            <?php $this->printDocLink($setting["options"]["fbUseOAuth2"]["docurl"]) ?>
+        </div>
     </div>
     <!-- Option end -->
 <?php } ?>
@@ -123,7 +127,9 @@ if (!defined("ABSPATH")) {
             <label for="enableFbShare"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableFbShare"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -137,7 +143,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Application ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["fbAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[fbAppID]" id="wpd-fb-app-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["fbAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["fbAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -152,7 +158,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Application Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["fbAppSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[fbAppSecret]" id="wpd-fb-app-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["fbAppSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["fbAppSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -179,7 +185,9 @@ if (!defined("ABSPATH")) {
             <label for="enableTwitterLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableTwitterLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -195,7 +203,9 @@ if (!defined("ABSPATH")) {
             <label for="enableTwitterShare"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableTwitterShare"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -209,7 +219,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Consumer Key (API Key)", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["twitterAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[twitterAppID]" id="wpd-twitter-app-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["twitterAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["twitterAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -224,7 +234,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Consumer Secret (API Secret)", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["twitterAppSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[twitterAppSecret]" id="wpd-twitter-app-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["twitterAppSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["twitterAppSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -250,7 +260,9 @@ if (!defined("ABSPATH")) {
             <label for="enableGoogleLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableGoogleLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -264,7 +276,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Client ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["googleClientID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[googleClientID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["googleClientID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["googleClientID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -279,7 +291,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Client Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["googleClientSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[googleClientSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["googleClientSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["googleClientSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -306,7 +318,9 @@ if (!defined("ABSPATH")) {
             <label for="enableDisqusLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableDisqusLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -320,7 +334,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Public Key", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["disqusPublicKey"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[disqusPublicKey]" id="wpd-disqus-public-key" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["disqusPublicKey"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["disqusPublicKey"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -335,7 +349,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secure Key", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["disqusSecretKey"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[disqusSecretKey]" id="wpd-disqus-secret-key" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["disqusSecretKey"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["disqusSecretKey"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -361,7 +375,9 @@ if (!defined("ABSPATH")) {
             <label for="enableWordpressLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableWordpressLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -375,7 +391,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Client ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["wordpressClientID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[wordpressClientID]" id="wpd-wordpress-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wordpressClientID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wordpressClientID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -390,7 +406,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Client Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["wordpressClientSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[wordpressClientSecret]" id="wpd-wordpress-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wordpressClientSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wordpressClientSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -414,7 +430,9 @@ if (!defined("ABSPATH")) {
             <label for="enableInstagramLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableInstagramLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -428,7 +446,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("App ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["instagramAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[instagramAppID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["instagramAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["instagramAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -443,7 +461,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("App Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["instagramAppSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[instagramAppSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["instagramAppSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["instagramAppSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -468,7 +486,9 @@ if (!defined("ABSPATH")) {
             <label for="enableLinkedinLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableLinkedinLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -482,7 +502,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Client ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["linkedinClientID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[linkedinClientID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["linkedinClientID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["linkedinClientID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -497,7 +517,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Client Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["linkedinClientSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[linkedinClientSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["linkedinClientSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["linkedinClientSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -518,7 +538,9 @@ if (!defined("ABSPATH")) {
             <label for="enableWhatsappShare"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableWhatsappShare"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -542,7 +564,9 @@ if (!defined("ABSPATH")) {
             <label for="enableYandexLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableYandexLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -556,7 +580,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["yandexID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[yandexID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["yandexID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["yandexID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -571,7 +595,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Password", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["yandexPassword"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[yandexPassword]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["yandexPassword"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["yandexPassword"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -580,7 +604,7 @@ if (!defined("ABSPATH")) {
     <img src="<?php echo esc_url_raw(plugins_url(WPDISCUZ_DIR_NAME . "/assets/img/social-icons/vk-m.png")); ?>" style="vertical-align:bottom; height: 24px; margin-bottom: -2px; position: relative; border-radius: 50%;">&nbsp; VK
 </div>
 <p style="font-size: 14px; font-style: italic; margin-top: 5px;">
-    <?php esc_html_e("To start using VK Login Button you should get Application ID and Secure Key. Please follow to this ", "wpdiscuz"); ?> <a href="https://wpdiscuz.com/docs/wpdiscuz-documentation/social-login-and-share/vk-application-id-and-secure-key/" target="_blank" style="font-weight: 600;"><?php esc_html_e("instruction &raquo;", "wpdiscuz"); ?></a> &nbsp;
+    <?php esc_html_e("To start using VK Login Button you should get Application ID and Secure Key. Please follow to this ", "wpdiscuz"); ?> <a href="https://wpdiscuz.com/docs/wpdiscuz-7/plugin-settings/social-login-and-share/vk-app-configuration/" target="_blank" style="font-weight: 600;"><?php esc_html_e("instruction &raquo;", "wpdiscuz"); ?></a> &nbsp;
     <?php echo esc_html__("Redirect URI", "wpdiscuz") . " : <code>" . esc_url_raw(admin_url("admin-ajax.php")) . "</code>"; ?>
 </p>
 
@@ -597,7 +621,9 @@ if (!defined("ABSPATH")) {
             <label for="enableVkLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableVkLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -613,7 +639,9 @@ if (!defined("ABSPATH")) {
             <label for="enableVkShare"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableVkShare"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -627,7 +655,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Application ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["vkAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[vkAppID]" id="wpd-vk-app-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["vkAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["vkAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -642,7 +670,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secure Key", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["vkAppSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[vkAppSecret]" id="wpd-vk-app-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["vkAppSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["vkAppSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -667,7 +695,9 @@ if (!defined("ABSPATH")) {
             <label for="enableMailruLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableMailruLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -681,7 +711,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["mailruClientID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[mailruClientID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["mailruClientID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["mailruClientID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -696,7 +726,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secret Key", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["mailruClientSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[mailruClientSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["mailruClientSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["mailruClientSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -723,7 +753,9 @@ if (!defined("ABSPATH")) {
             <label for="enableOkLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableOkLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -739,7 +771,9 @@ if (!defined("ABSPATH")) {
             <label for="enableOkShare"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableOkShare"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -753,7 +787,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Application ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["okAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[okAppID]" id="wpd-ok-app-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["okAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["okAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -768,7 +802,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Application Key", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["okAppKey"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[okAppKey]" id="wpd-ok-app-key" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["okAppKey"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["okAppKey"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -783,7 +817,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Application Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["okAppSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[okAppSecret]" id="wpd-ok-app-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["okAppSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["okAppSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -807,7 +841,9 @@ if (!defined("ABSPATH")) {
             <label for="enableWechatLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableWechatLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -821,7 +857,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("App ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["wechatAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[wechatAppID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wechatAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wechatAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -836,7 +872,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["wechatSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[wechatSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wechatSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wechatSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -861,7 +897,9 @@ if (!defined("ABSPATH")) {
             <label for="enableWeiboLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableWeiboLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -875,7 +913,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Key", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["weiboKey"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[weiboKey]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["weiboKey"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["weiboKey"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -890,7 +928,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["weiboSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[weiboSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["weiboSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["weiboSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -915,7 +953,9 @@ if (!defined("ABSPATH")) {
             <label for="enableQQLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableQQLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -929,7 +969,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("App ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["qqAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[qqAppID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["qqAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["qqAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -944,7 +984,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["qqSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[qqSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["qqSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["qqSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -969,7 +1009,9 @@ if (!defined("ABSPATH")) {
             <label for="enableBaiduLogin"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["enableBaiduLogin"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -983,7 +1025,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("App ID", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["baiduAppID"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[baiduAppID]" id="wpd-google-client-id" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["baiduAppID"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["baiduAppID"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -998,7 +1040,7 @@ if (!defined("ABSPATH")) {
         <input placeholder="<?php esc_attr_e("Secret", "wpdiscuz"); ?>" type="text" value="<?php echo esc_attr($this->social["baiduSecret"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_SOCIAL); ?>[baiduSecret]" id="wpd-google-client-secret" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["baiduSecret"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["baiduSecret"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

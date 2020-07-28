@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz - User & Comment Mentioning
  * Description: Allows to mention certain comments and users in comment text using #comment-id and @username tags.
- * Version: 7.0.3
+ * Version: 7.0.4
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-user-comment-mentioning/
@@ -457,8 +457,11 @@ class WpdiscuzUCM {
 
     public function sendMail($users, $userList, $comment_author, $post_title, $comment_data) {
         $content_type = "text/html";
-        $from_name = get_option("blogname");
-        $from_email = get_option("admin_email");
+        $from_name = html_entity_decode(get_option("blogname"));
+        $siteUrl = get_site_url();
+        $parsedUrl = parse_url($siteUrl);
+        $domain = isset($parsedUrl["host"]) ? WpdiscuzHelper::fixEmailFrom($parsedUrl["host"]) : "";
+        $from_email = "no-reply@" . $domain;
         $headers[] = "Content-Type:  $content_type; charset=UTF-8";
         $headers[] = "From: " . $from_name . " <" . $from_email . "> \r\n";
         $comment_link = get_comment_link($comment_data->comment_ID);
@@ -468,7 +471,7 @@ class WpdiscuzUCM {
             $subject_author = __($this->option->authorMailSubject, "wpdiscuz_ucm");
             foreach ($userList as $value) {
                 if ($value["email"] && $value["email"] != $comment_author["email"] && apply_filters("wpducm_mail_to_comment_author", true, $value, $comment_data)) {
-                    $body_author = str_replace(["[mentionedUserName]", "[postTitle]", "[commentURL]", "[authorUserName]",], [$value["display_name"], $post_title, $comment_url, $comment_author["name"],], $message_author);
+                    $body_author = str_replace(["[mentionedUserName]", "[postTitle]", "[commentURL]", "[authorUserName]", "[commentContent]",], [$value["display_name"], $post_title, $comment_url, $comment_author["name"], wpautop($comment_data->comment_content),], $message_author);
                     wp_mail($value["email"], $subject_author, $body_author, $headers);
                 }
             }
@@ -479,7 +482,7 @@ class WpdiscuzUCM {
             foreach ($users as $user) {
                 if ($this->option->userEmail && $user["email"] && $user["email"] != $comment_author["email"]) {
                     if (apply_filters("wpducm_mail_to_mentioned_user", true, $user, $comment_data)) {
-                        $body_user = str_replace(["[mentionedUserName]", "[postTitle]", "[commentURL]", "[authorUserName]",], [$user["display_name"], $post_title, $comment_url, $comment_data->comment_author,], $message_user);
+                        $body_user = str_replace(["[mentionedUserName]", "[postTitle]", "[commentURL]", "[authorUserName]", "[commentContent]",], [$user["display_name"], $post_title, $comment_url, $comment_data->comment_author, wpautop($comment_data->comment_content),], $message_user);
                         wp_mail($user["email"], $subject_user, $body_user, $headers);
                     }
                 }

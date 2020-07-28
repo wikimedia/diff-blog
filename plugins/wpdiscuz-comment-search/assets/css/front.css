@@ -45,7 +45,7 @@ html[dir=rtl] .wpdiscuz-search-box .wpdiscuz-search-setting-img{margin-right:aut
 .wpdiscuz-comm-search-all-item .wpdscuz-comm-search-all-post-title b:hover{color:#ccc !important}
 .wpdiscuz-widget-search-form .wpdiscuz-search-setting.wpdiscuz-all-search-setting-wrap p{margin: 0; padding: 0;}
 .wpdiscuz-widget-search-form .wpdiscuz-search-setting.wpdiscuz-all-search-setting-wrap input[type="button"]{ background: none; padding: 3px 5px; line-height: initial; font-size: 12px; width: 100%; margin: 0;}
-.wpd-comment-footer .view-comment a{cursor:pointer; outline: none; font-size: 14px; color: #999999; align-self: center; text-decoration: none;}
+.wpd-comment-footer .view-comment a{cursor:pointer; outline: none; font-size: 14px; color: #999999; align-self: center; text-decoration: none; margin: 0 10px;}
 .wpd-comment-footer .view-comment a svg{fill: #999;vertical-align: bottom;}
 .wpd-comment-footer .view-comment a:hover,
 .wpd-comment-footer .view-comment a svg:hover{fill: #777; color: #777;}

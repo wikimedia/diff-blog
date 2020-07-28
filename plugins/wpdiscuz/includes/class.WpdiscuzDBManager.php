@@ -31,8 +31,9 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
      * check if table exists in database
      * return true if exists false otherwise
      */
-    public function isTableExists($tableName) {
-        return $this->db->get_var("SHOW TABLES LIKE '$tableName'");
+    public function isTableExists($tableName, $isFullname = true) {
+        $sql = $isFullname ? "SHOW TABLES LIKE '$tableName'" : "SHOW TABLES LIKE '{$this->db->prefix}{$tableName}'";
+        return $this->db->get_var($sql);
     }
 
     /**
@@ -42,26 +43,25 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         $this->initDB();
         require_once(ABSPATH . "wp-admin/includes/upgrade.php");
         $charset_collate = $this->db->get_charset_collate();
-        $engine = version_compare($this->db->db_version(), "5.6.4", ">=") ? "InnoDB" : "MyISAM";
-        $sql = "CREATE TABLE `{$this->usersVoted}`(`id` INT(11) NOT NULL AUTO_INCREMENT,`user_id` VARCHAR(32) NOT NULL, `comment_id` INT(11) NOT NULL, `vote_type` INT(11) DEFAULT NULL, `is_guest` TINYINT(1) DEFAULT 0, `post_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), KEY `comment_id` (`comment_id`),  KEY `vote_type` (`vote_type`), KEY `is_guest` (`is_guest`), KEY `post_id` (`post_id`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->usersVoted}`(`id` INT(11) NOT NULL AUTO_INCREMENT,`user_id` VARCHAR(32) NOT NULL, `comment_id` INT(11) NOT NULL, `vote_type` INT(11) DEFAULT NULL, `is_guest` TINYINT(1) DEFAULT 0, `post_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), KEY `comment_id` (`comment_id`),  KEY `vote_type` (`vote_type`), KEY `is_guest` (`is_guest`), KEY `post_id` (`post_id`)) {$charset_collate};";
         maybe_create_table($this->usersVoted, $sql);
 
-        $sql = "CREATE TABLE `{$this->phrases}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `phrase_key` VARCHAR(100) NOT NULL, `phrase_value` TEXT NOT NULL, PRIMARY KEY (`id`), KEY `phrase_key` (`phrase_key`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->phrases}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `phrase_key` VARCHAR(100) NOT NULL, `phrase_value` TEXT NOT NULL, PRIMARY KEY (`id`), KEY `phrase_key` (`phrase_key`)) {$charset_collate};";
         maybe_create_table($this->phrases, $sql);
 
-        $sql = "CREATE TABLE `{$this->emailNotification}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `email` VARCHAR(100) NOT NULL, `subscribtion_id` INT(11) NOT NULL, `post_id` INT(11) NOT NULL, `subscribtion_type` VARCHAR(20) NOT NULL, `activation_key` VARCHAR(32) NOT NULL, `confirm` TINYINT DEFAULT 0, `subscription_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `imported_from` VARCHAR(25) NOT NULL DEFAULT '', PRIMARY KEY (`id`), KEY `subscribtion_id` (`subscribtion_id`), KEY `post_id` (`post_id`), KEY `confirm`(`confirm`), UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`,`post_id`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->emailNotification}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `email` VARCHAR(100) NOT NULL, `subscribtion_id` INT(11) NOT NULL, `post_id` INT(11) NOT NULL, `subscribtion_type` VARCHAR(20) NOT NULL, `activation_key` VARCHAR(32) NOT NULL, `confirm` TINYINT DEFAULT 0, `subscription_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `imported_from` VARCHAR(25) NOT NULL DEFAULT '', PRIMARY KEY (`id`), KEY `subscribtion_id` (`subscribtion_id`), KEY `post_id` (`post_id`), KEY `confirm`(`confirm`), UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`,`post_id`)) {$charset_collate};";
         maybe_create_table($this->emailNotification, $sql);
 
-        $sql = "CREATE TABLE `{$this->avatarsCache}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL DEFAULT 0, `user_email` VARCHAR(100) NOT NULL, `url` VARCHAR(255) NOT NULL, `hash` VARCHAR(32) NOT NULL, `maketime` INT(11) NOT NULL DEFAULT 0, `cached` TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), UNIQUE KEY `user_email` (`user_email`), KEY `maketime` (`maketime`), KEY `cached` (`cached`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->avatarsCache}`(`id` INT(11) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL DEFAULT 0, `user_email` VARCHAR(100) NOT NULL, `url` VARCHAR(255) NOT NULL, `hash` VARCHAR(32) NOT NULL, `maketime` INT(11) NOT NULL DEFAULT 0, `cached` TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `user_id` (`user_id`), UNIQUE KEY `user_email` (`user_email`), KEY `maketime` (`maketime`), KEY `cached` (`cached`)) {$charset_collate};";
         maybe_create_table($this->avatarsCache, $sql);
 
-        $sql = "CREATE TABLE `{$this->followUsers}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT '0', `user_id` int(11) NOT NULL DEFAULT '0', `user_email` varchar(100) NOT NULL, `user_name` varchar(255) NOT NULL, `follower_id` int(11) NOT NULL DEFAULT '0', `follower_email` varchar(100) NOT NULL, `follower_name` varchar(255) NOT NULL, `activation_key` varchar(32) NOT NULL, `confirm` tinyint(1) NOT NULL DEFAULT '0', `follow_timestamp` int(11) NOT NULL, `follow_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`), KEY `user_email` (`user_email`), KEY `follower_id` (`follower_id`), KEY `follower_email` (`follower_email`), KEY `confirm` (`confirm`), KEY `follow_timestamp` (`follow_timestamp`), UNIQUE KEY `follow_unique_key` (`user_email`, `follower_email`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->followUsers}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT '0', `user_id` int(11) NOT NULL DEFAULT '0', `user_email` varchar(100) NOT NULL, `user_name` varchar(255) NOT NULL, `follower_id` int(11) NOT NULL DEFAULT '0', `follower_email` varchar(100) NOT NULL, `follower_name` varchar(255) NOT NULL, `activation_key` varchar(32) NOT NULL, `confirm` tinyint(1) NOT NULL DEFAULT '0', `follow_timestamp` int(11) NOT NULL, `follow_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`), KEY `user_email` (`user_email`), KEY `follower_id` (`follower_id`), KEY `follower_email` (`follower_email`), KEY `confirm` (`confirm`), KEY `follow_timestamp` (`follow_timestamp`), UNIQUE KEY `follow_unique_key` (`user_email`, `follower_email`)) {$charset_collate};";
         maybe_create_table($this->followUsers, $sql);
 
-        $sql = "CREATE TABLE `{$this->feedbackForms}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `unique_id` VARCHAR(15) NOT NULL, `question` varchar(255) NOT NULL, `opened` TINYINT(4) UNSIGNED NOT NULL DEFAULT 0, `content` LONGTEXT NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `unique_id` (`unique_id`), KEY `post_id` (`post_id`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->feedbackForms}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `unique_id` VARCHAR(15) NOT NULL, `question` varchar(255) NOT NULL, `opened` TINYINT(4) UNSIGNED NOT NULL DEFAULT 0, `content` LONGTEXT NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `unique_id` (`unique_id`), KEY `post_id` (`post_id`)) {$charset_collate};";
         maybe_create_table($this->feedbackForms, $sql);
 
-        $sql = "CREATE TABLE `{$this->usersRated}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `user_id` int(11) NOT NULL DEFAULT 0, `user_ip` VARCHAR(32) NOT NULL DEFAULT '', `rating` int(11) NOT NULL, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`)) ENGINE=$engine {$charset_collate};";
+        $sql = "CREATE TABLE `{$this->usersRated}` (`id` int(11) NOT NULL AUTO_INCREMENT, `post_id` int(11) NOT NULL DEFAULT 0, `user_id` int(11) NOT NULL DEFAULT 0, `user_ip` VARCHAR(32) NOT NULL DEFAULT '', `rating` int(11) NOT NULL, `date` INT(11) UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `post_id` (`post_id`), KEY `user_id` (`user_id`)) {$charset_collate};";
         maybe_create_table($this->usersRated, $sql);
     }
 
@@ -152,9 +152,9 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             } else {
                 $approved = " AND `c`.`comment_approved` = '1'";
             }
-            $sql = $this->db->prepare("SELECT `c`.`comment_ID` FROM `{$this->db->comments}` AS `c`$inlineType WHERE `c`.`comment_post_ID` = %d" . $approved . " ORDER BY `c`.`comment_ID` DESC LIMIT 1;", $args["post_id"]);
+            $sql = $this->db->prepare("SELECT MAX(`c`.`comment_ID`) FROM `{$this->db->comments}` AS `c`$inlineType WHERE `c`.`comment_post_ID` = %d" . $approved . ";", $args["post_id"]);
         } else {
-            $sql = "SELECT `c`.`comment_ID` FROM `{$this->db->comments}` AS `c`$inlineType ORDER BY `c`.`comment_ID` DESC LIMIT 1;";
+            $sql = "SELECT MAX(`c`.`comment_ID`) FROM `{$this->db->comments}` AS `c`$inlineType;";
         }
         return intval($this->db->get_var($sql));
     }
@@ -163,6 +163,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
      * retrives new comment ids for live update (UA - Update Automatically)
      */
     public function getNewCommentIds($args, $loadLastCommentId, $email, $visibleCommentIds) {
+        $wpdiscuz = wpDiscuz();
         $approved = "";
         if ($args["status"] == "all") {
             $approved = " AND `comment_approved` IN('1','0')";
@@ -173,7 +174,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         if ($visibleCommentIds) {
             $visible = " AND `comment_ID` NOT IN(" . rtrim($visibleCommentIds, ",") . ")";
         }
-        $sqlCommentIds = $this->db->prepare("SELECT `comment_ID` FROM `{$this->db->comments}` WHERE `comment_post_ID` = %d AND `comment_ID` > %d AND `comment_author_email` != %s" . $approved . $visible . " ORDER BY `comment_ID` ASC;", $args["post_id"], $loadLastCommentId, $email);
+        $sqlCommentIds = $this->db->prepare("SELECT `comment_ID` FROM `{$this->db->comments}` WHERE `comment_post_ID` = %d AND `comment_ID` > %d AND `comment_author_email` != %s" . $approved . $visible . " ORDER BY `{$wpdiscuz->options->thread_display["orderCommentsBy"]}` ASC;", $args["post_id"], $loadLastCommentId, $email);
         return $this->db->get_col($sqlCommentIds);
     }
 
@@ -187,8 +188,13 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         return $this->db->get_col($sql);
     }
 
-    public function getParentCommentsHavingReplies($postId) {
-        $sql = $this->db->prepare("SELECT `c1`.`comment_ID` FROM `{$this->db->comments}` AS `c1` INNER JOIN  `{$this->db->comments}` AS `c2` ON `c1`.`comment_post_ID` = `c2`.`comment_post_ID` AND `c2`.`comment_parent` = `c1`.`comment_ID` WHERE `c1`.`comment_post_ID` = %d AND `c1`.`comment_parent` = 0 GROUP BY `c1`.`comment_ID` ORDER BY `c1`.`comment_ID` DESC;", $postId);
+    public function getParentCommentsHavingReplies($postId, $commentStatusIn) {
+        if (count($commentStatusIn) === 1) {
+            $approved = " AND `c1`.`comment_approved` = '1' AND `c2`.`comment_approved` = '1'";
+        } else {
+            $approved = " AND `c1`.`comment_approved` IN('1','0') AND `c2`.`comment_approved` IN('1','0')";
+        }
+        $sql = $this->db->prepare("SELECT `c1`.`comment_ID` FROM `{$this->db->comments}` AS `c1` INNER JOIN  `{$this->db->comments}` AS `c2` ON `c1`.`comment_post_ID` = `c2`.`comment_post_ID` AND `c2`.`comment_parent` = `c1`.`comment_ID` WHERE `c1`.`comment_post_ID` = %d AND `c1`.`comment_parent` = 0$approved GROUP BY `c1`.`comment_ID` ORDER BY `c1`.`comment_ID` DESC;", $postId);
         $data = $this->db->get_col($sql);
         return $data;
     }
@@ -317,7 +323,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         $sql_alter = "ALTER TABLE `{$this->emailNotification}` DROP INDEX subscribe_unique_index, ADD UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`, `post_id`);";
         $this->db->query($sql_alter);
     }
-    
+
     public function alterSubscriptionTable() {
         $sql_alter = "ALTER TABLE `{$this->emailNotification}` ADD COLUMN `imported_from` VARCHAR(25) NOT NULL DEFAULT '';";
         $this->db->query($sql_alter);
@@ -449,7 +455,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
 
     /* === GRAVATARS CACHE === */
 
-    /* === STCR SUBSCRIPTIONS === */
+    /* === STCR SUBSCRIPTIONS - Subscribe To Comments Reloaded === */
 
     public function getStcrAllSubscriptions() {
         $sql = "SELECT COUNT(*) FROM `{$this->db->postmeta}` WHERE meta_key LIKE '%_stcr@%' AND SUBSTRING(meta_value, 21) IN ('Y', 'R');";
@@ -475,18 +481,19 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $subscriptionDate = $subscription["date"];
             $confirm = $subscription["status"];
             $userSubscription = $this->getUserSubscription($email, $postId);
+            $importedFrom = "subscribe-to-comments-reloaded"; // this is a slug in wp repo
 
             if ($userSubscription) {
                 if ($userSubscription["type"] == self::SUBSCRIPTION_POST) {
                     continue;
                 } else {
-                    $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s, `imported_from` = 'Subscribe to Comments Reloaded' WHERE `id` = %d;";
-                    $sql = $this->db->prepare($sql, $subscriptionId, $postId, $subscriptionType, $userSubscription["id"]);
+                    $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s, `imported_from` = %s WHERE `id` = %d;";
+                    $sql = $this->db->prepare($sql, $subscriptionId, $postId, $subscriptionType, $importedFrom, $userSubscription["id"]);
                     $this->db->query($sql);
                 }
             } else {
-                $sql = "INSERT INTO `{$this->emailNotification}` (`email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`, `imported_from`) VALUES (%s, %d, %d, %s, %s, %d, %s, 'Subscribe to Comments Reloaded');";
-                $sql = $this->db->prepare($sql, $email, $postId, $postId, $subscriptionType, $activationKey, $confirm, $subscriptionDate);
+                $sql = "INSERT INTO `{$this->emailNotification}` (`email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`, `imported_from`) VALUES (%s, %d, %d, %s, %s, %d, %s, %s);";
+                $sql = $this->db->prepare($sql, $email, $postId, $postId, $subscriptionType, $activationKey, $confirm, $subscriptionDate, $importedFrom);
                 $this->db->query($sql);
             }
         }
@@ -498,7 +505,55 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         return $this->db->get_row($sql, ARRAY_A);
     }
 
-    /* === STCR SUBSCRIPTIONS === */
+    /* === STCR SUBSCRIPTIONS - Subscribe To Comments Reloaded === */
+
+    /* === LSTC SUBSCRIPTIONS - Lightweight Subscribe To Comments === */
+
+    // TODO       
+
+    public function getLstcAllSubscriptions() {
+        $sql = "SELECT COUNT(*) FROM `{$this->db->prefix}comment_notifier`;";
+        return $this->db->get_var($sql);
+    }
+
+    public function getLstcSubscriptions($limit, $offset) {
+        $data = [];
+        if (intval($limit) && intval($offset) >= 0) {
+            $sql = "SELECT `post_id`, `email`, NOW() AS `date`, 'post' AS `subscription_type`, 1 AS `status` FROM `{$this->db->prefix}comment_notifier` ORDER BY `id` ASC LIMIT $offset, $limit;";
+            $data = $this->db->get_results($sql, ARRAY_A);
+        }
+        return $data;
+    }
+
+    public function addLstcSubscriptions($subscriptions = []) {
+        foreach ($subscriptions as $k => $subscription) {
+            $email = $subscription["email"];
+            $subscriptionId = $subscription["post_id"];
+            $postId = $subscription["post_id"];
+            $subscriptionType = self::SUBSCRIPTION_POST;
+            $activationKey = md5($email . uniqid() . time());
+            $subscriptionDate = $subscription["date"];
+            $confirm = $subscription["status"];
+            $userSubscription = $this->getUserSubscription($email, $postId);
+            $importedFrom = "comment-notifier-no-spammers"; // this is a slug in wp repo
+
+            if ($userSubscription) {
+                if ($userSubscription["type"] == self::SUBSCRIPTION_POST) {
+                    continue;
+                } else {
+                    $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s, `imported_from` = %s WHERE `id` = %d;";
+                    $sql = $this->db->prepare($sql, $subscriptionId, $postId, $subscriptionType, $importedFrom, $userSubscription["id"]);
+                    $this->db->query($sql);
+                }
+            } else {
+                $sql = "INSERT INTO `{$this->emailNotification}` (`email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`, `imported_from`) VALUES (%s, %d, %d, %s, %s, %d, %s, %s);";
+                $sql = $this->db->prepare($sql, $email, $postId, $postId, $subscriptionType, $activationKey, $confirm, $subscriptionDate, $importedFrom);
+                $this->db->query($sql);
+            }
+        }
+    }
+
+    /* === LSTC SUBSCRIPTIONS - Lightweight Subscribe To Comments === */
 
     /* === STATISTICS === */
 

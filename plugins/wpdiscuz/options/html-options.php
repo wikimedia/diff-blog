@@ -470,7 +470,7 @@ $settings = $this->settingsArray();
                 }
             } else {
                 ?>
-                <div id="wpd-settings-tab" class="wpd-box-wrap" style="align-items:flex-start;">
+                <div id="wpd-settings-tab" class="wpd-box-wrap wpd-settings-tab_<?php echo esc_attr($tab); ?>" style="align-items:flex-start;">
                     <!-- Settings Content start -->
                     <div class="wpd-box wpd-setcon">
                         <?php
@@ -525,9 +525,9 @@ $settings = $this->settingsArray();
                                 foreach ($settings["addons"] as $addon_key => $addon) {
                                     ?>
                                     <li<?php if ($tab === $addon_key) echo " class='wpd-active'"; ?>><a href="<?php echo esc_url_raw(admin_url("admin.php?page=" . WpdiscuzCore::PAGE_SETTINGS . "&wpd_tab=" . $addon_key)); ?>"><span class="dashicons dashicons-arrow-left-alt2"></span> <?php echo esc_html($addon["title"]); ?></a></li>
-                                        <?php
-                                    }
-                                    ?>
+                                    <?php
+                                }
+                                ?>
                             </ul>
                             <?php
                         }

@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz - Front-end Moderation
  * Description: All in one toolset to manage comments on front-end (approve, unapprove, trash, spam, email, move, blacklist, delete)
- * Version: 7.0.1
+ * Version: 7.0.2
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/wpdiscuz-frontend-moderation/
@@ -30,7 +30,7 @@ class wpDiscuzFrontEndModeration {
     private function __construct() {
         add_action("plugins_loaded", [&$this, "pluginsLoaded"], 13);
     }
-    
+
     public static function getInstance() {
         if (is_null(self::$instance)) {
             self::$instance = new self();
@@ -339,6 +339,7 @@ class wpDiscuzFrontEndModeration {
                     if (intval($comment->comment_post_ID) !== intval($post->ID)) {
                         if (current_user_can("edit_comment", $comment->comment_ID) || current_user_can("moderate_comments", $comment->comment_ID)) {
                             if (($post->post_status === "publish" || $post->post_status === "private") && comments_open($post->ID) && post_type_supports($post->post_type, "comments")) {
+                                $commentIdsToUpdate = [$comment->comment_ID];
                                 $parentCommentArray = [
                                     "comment_ID" => $comment->comment_ID,
                                     "comment_post_ID" => $post->ID,
@@ -352,12 +353,16 @@ class wpDiscuzFrontEndModeration {
                                     $this->wpdiscuz->helperOptimization->getTreeByParentId($comment->comment_ID, $children);
                                     if ($children) {
                                         foreach ($children as $child) {
+                                            $commentIdsToUpdate[] = intval($child);
                                             $commentArray["comment_ID"] = intval($child);
                                             wp_update_comment($commentArray);
                                         }
                                     }
                                     wp_update_comment_count($post->ID);
                                     wp_update_comment_count($comment->comment_post_ID);
+                                    global $wpdb;
+                                    $sql = $wpdb->prepare("UPDATE `" . $wpdb->prefix . "wc_users_voted` SET `post_id` = %d WHERE `comment_id` IN (" . implode(',', $commentIdsToUpdate) . ")", $post->ID);
+                                    $wpdb->query($sql);
                                     $response = "<div class='wpdiscuz-fem-response'><div class='wpdiscuz-fem-information'>" . __($this->settings->phrases["move_response_success"], "wpdiscuz-frontend-moderation") . "</div><div class='wpdiscuz-fem-button-align'><button type='button' class='wpdiscuz-fem-ok'>" . $this->settings->phrases["ok"] . "</button></div></div>";
                                     wp_die($response);
                                 }

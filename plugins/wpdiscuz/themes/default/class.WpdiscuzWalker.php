@@ -323,7 +323,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             $search[] = "{FOLLOW_ICON}";
             $replace[] = "wpd-follow-link wpd_not_clicked " . $followClass;
             $replace[] = esc_attr($followTip);
-            $replace[] = $args["layout"] == 1 ? "right" : "top";
+            $replace[] = $args["layout"] == 1 ? ( !is_rtl() ? ( wp_is_mobile() ? 'left' : 'right') : ( wp_is_mobile() ? 'right' : 'left') ) : "top";
             $replace[] = "<i class='fas fa-rss' aria-hidden='true'></i>";
         }
 
@@ -480,6 +480,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
         if ($commentReadMoreLimit && WpdiscuzHelper::strWordCount(wp_strip_all_tags($comment->comment_content)) > $commentReadMoreLimit) {
             $comment->comment_content = WpdiscuzHelper::getCommentExcerpt($comment->comment_content, $uniqueId, $this->options);
         }
+        $comment->comment_content = apply_filters("wpdiscuz_after_read_more", $comment->comment_content, $comment, $args);
 
         $lastEdited = "";
         if ($this->options->moderation["displayEditingInfo"] && isset($commentMetas[self::META_KEY_LAST_EDITED_AT]) && isset($commentMetas[self::META_KEY_LAST_EDITED_BY])) {

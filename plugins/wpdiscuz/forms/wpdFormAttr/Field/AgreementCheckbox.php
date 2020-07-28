@@ -50,7 +50,7 @@ class AgreementCheckbox extends Field {
     }
 
     public function editCommentHtml($key, $value, $data, $comment) {
-        if (current_user_can("moderate_comments") || (!$this->isCommentParentZero() && !$data["is_show_sform"]) || !$this->displayField($key, $data)) {
+        if (current_user_can("moderate_comments") || ($comment->comment_parent && !$data["is_show_sform"]) || !$this->displayField($key, $data)) {
             return "";
         }
         $showAgainClass = $data["donot_show_again_if_checked"] == 1 ? " wpd_agreement_hide " : "";

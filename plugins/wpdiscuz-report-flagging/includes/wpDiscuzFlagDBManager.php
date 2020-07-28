@@ -33,7 +33,7 @@ class wpDiscuzFlagDBManager {
 
     public function createTables() {
         require_once ABSPATH . "wp-admin/includes/upgrade.php";
-        $sql = "CREATE TABLE `{$this->users_flaged}`(`comment_ID` int(11) DEFAULT NULL,`user_id` int(11) DEFAULT NULL,`user_ip` varchar(32) DEFAULT NULL, KEY `comment_ID` (`comment_ID`), KEY `user_id` (`user_id`), KEY `user_ip` (`user_ip`)) DEFAULT CHARACTER SET {$this->db->charset} COLLATE {$this->db->collate};";
+        $sql = "CREATE TABLE `{$this->users_flaged}`(`comment_ID` int(11) DEFAULT NULL,`user_id` int(11) DEFAULT NULL,`user_ip` varchar(32) DEFAULT NULL, KEY `comment_ID` (`comment_ID`), KEY `user_id` (`user_id`), KEY `user_ip` (`user_ip`)) " . $this->db->get_charset_collate() . ";";
         maybe_create_table($this->users_flaged, $sql);
     }
 

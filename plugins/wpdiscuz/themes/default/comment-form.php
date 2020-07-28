@@ -140,7 +140,10 @@ if (!post_password_required($post->ID)) {
     $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
 
     $wpCommClasses[] = "wpd-layout-" . $form->getLayout();
+    $commentsOpen = comments_open($post);
+    $wpCommClasses[] = $commentsOpen ? "wpd-comments-open" : "wpd-comments-closed";
     $wpCommClasses = apply_filters("wpdiscuz_container_classes", $wpCommClasses);
+    
     $wpCommClasses = implode(" ", $wpCommClasses);
 
     $isShowSubscribeBar = $form->isShowSubscriptionBar();
@@ -152,8 +155,6 @@ if (!post_password_required($post->ID)) {
         $currentUserId = $currentUser->ID;
         $currentUserEmail = $currentUser->user_email;
     }
-
-    $commentsOpen = comments_open($post);
 
     $wpdiscuz->helper->superSocializerFix();
     if ($commentsOpen) {
@@ -210,8 +211,12 @@ if (!post_password_required($post->ID)) {
                                     echo apply_filters("wpdiscuz_user_info_and_logout_link", $logout_text);
                                 }
                             } else if ($wpdiscuz->options->login["showLoginLinkForGuests"]) {
-                                $login = wp_loginout(get_permalink(), false);
-                                $login = preg_replace("!>([^<]+)!is", "><i class='fas fa-sign-in-alt'></i> " . esc_html($wpdiscuz->options->phrases["wc_log_in"]), $login);
+                                if ($wpdiscuz->options->login["loginUrl"]) {
+                                    $login = "<a href='" . esc_url_raw($wpdiscuz->options->login["loginUrl"]) . "'><i class='fas fa-sign-in-alt'></i> " . esc_html($wpdiscuz->options->phrases["wc_log_in"]) . "</a>";
+                                } else {
+                                    $login = $wpdiscuz->options->login["loginUrl"] ? "<a href='" . esc_url_raw($wpdiscuz->options->login["loginUrl"]) . "'></a>" : wp_loginout(get_permalink(), false);
+                                    $login = preg_replace("!>([^<]+)!is", "><i class='fas fa-sign-in-alt'></i> " . esc_html($wpdiscuz->options->phrases["wc_log_in"]), $login);
+                                }
                                 if ($wpdiscuz->options->isShowLoginButtons()) {
                                     echo "<div class='wpd-sep'></div>";
                                 }
@@ -334,7 +339,7 @@ if (!post_password_required($post->ID)) {
                 <?php
                 if (($wpdiscuz->options->login["showActivityTab"] || $wpdiscuz->options->login["showSubscriptionsTab"] || $wpdiscuz->options->login["showFollowsTab"] || apply_filters("wpdiscuz_enable_content_modal", false)) && $currentUserEmail) {
                     ?>
-                    <div class="wpdiscuz-user-settings wpd-info wpd-not-clicked" wpd-tooltip="<?php echo esc_attr($wpdiscuz->options->phrases["wc_content_and_settings"]); ?>">
+                    <div class="wpdiscuz-user-settings wpd-info wpd-not-clicked" wpd-tooltip="<?php echo esc_attr($wpdiscuz->options->phrases["wc_content_and_settings"]); ?>"  wpd-tooltip-position="right">
                         <i class="fas fa-user-cog"></i>
                     </div>
                     <?php
@@ -363,21 +368,21 @@ if (!post_password_required($post->ID)) {
                     if (!$wpdiscuz->options->wp["isPaginate"] && $wpdiscuz->options->thread_display["showSortingButtons"] && $wpdiscuz->options->thread_display["mostVotedByDefault"]) {
                         $wpdiscuzCommentsOrderBy = "by_vote";
                     } else {
-                        $wpdiscuzCommentsOrderBy = "comment_ID";
+                        $wpdiscuzCommentsOrderBy = $wpdiscuz->options->thread_display["orderCommentsBy"];
                     }
                     $wpdiscuzCommentsOrderBy = apply_filters("wpdiscuz_comments_order_by", $wpdiscuzCommentsOrderBy);
                     $wpdiscuzCommentsOrder = apply_filters("wpdiscuz_comments_order", $wpdiscuzCommentsOrder);
                     if ($commentsCount && $wpdiscuz->options->thread_display["showSortingButtons"] && !$wpdiscuz->options->wp["isPaginate"]) {
                         $sortingButtons = [
                             [
-                                "orderBy" => "comment_ID",
+                                "orderBy" => $wpdiscuz->options->thread_display["orderCommentsBy"],
                                 "order" => "desc",
                                 "class" => "wpdiscuz-date-sort-desc",
                                 "text" => $wpdiscuz->options->phrases["wc_newest"],
                                 "type" => "newest",
                             ],
                             [
-                                "orderBy" => "comment_ID",
+                                "orderBy" => $wpdiscuz->options->thread_display["orderCommentsBy"],
                                 "order" => "asc",
                                 "class" => "wpdiscuz-date-sort-asc",
                                 "text" => $wpdiscuz->options->phrases["wc_oldest"],

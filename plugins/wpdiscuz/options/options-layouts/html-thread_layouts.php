@@ -52,7 +52,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showAvatars"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showAvatars"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -67,7 +67,7 @@ if (!defined("ABSPATH")) {
         <input type="url" value="<?php echo esc_attr($this->thread_layouts["defaultAvatarUrlForUser"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[defaultAvatarUrlForUser]" id="defaultAvatarUrlForUser" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["defaultAvatarUrlForUser"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["defaultAvatarUrlForUser"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -82,7 +82,7 @@ if (!defined("ABSPATH")) {
         <input type="url" value="<?php echo esc_attr($this->thread_layouts["defaultAvatarUrlForGuest"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[defaultAvatarUrlForGuest]" id="defaultAvatarUrlForGuest" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["defaultAvatarUrlForGuest"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["defaultAvatarUrlForGuest"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -100,7 +100,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["changeAvatarsEverywhere"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["changeAvatarsEverywhere"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -122,7 +122,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showVotingButtons"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showVotingButtons"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -146,7 +146,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["votingButtonsIcon"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["votingButtonsIcon"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -164,7 +164,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["votingButtonsStyle"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["votingButtonsStyle"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -182,7 +182,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableDislikeButton"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableDislikeButton"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -200,7 +200,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isGuestCanVote"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isGuestCanVote"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -218,7 +218,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["highlightVotingButtons"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["highlightVotingButtons"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -241,7 +241,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["showCommentLink"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["showCommentLink"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -258,6 +258,8 @@ if (!defined("ABSPATH")) {
             <label for="showCommentDate"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["showCommentDate"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->

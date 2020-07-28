@@ -63,6 +63,7 @@ _:-ms-lang(x), .wpd-social-login [wpd-tooltip]::before{top: -24px;}
 #wpdcom span.wpd-field-desc span {position: absolute; width:200px; color: #FFFFFF; background: #555555; height:auto; line-height: 17px; padding:8px 10px; font-size:12px; text-align: center; visibility: hidden; border-radius: 6px; right: -150px; }
 #wpdcom span.wpd-field-desc span:after { content: ''; position: absolute; top: 100%; right: 50%; width: 0; height: 0; border-top: 8px solid #555555; border-left: 8px solid transparent; border-right: 8px solid transparent; }
 #wpdcom span:hover.wpd-field-desc span {visibility: visible; opacity: 1; bottom: 38px; right: 50%; margin-right: -105px; z-index: 999999; }
+#comments #wpdcom .wpdiscuz-embed-wrapper .fb_iframe_widget > span{display: inline-block;}
 
 
 

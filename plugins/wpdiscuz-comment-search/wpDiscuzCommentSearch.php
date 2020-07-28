@@ -7,7 +7,7 @@ if (!defined("ABSPATH")) {
 /*
  * Plugin Name: wpDiscuz - Comment Search
  * Description: AJAX powered comment search form and widget. Starts searching while you're typing a word.
- * Version: 7.0.0
+ * Version: 7.0.1
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/wpdiscuz-comment-search/
@@ -114,7 +114,6 @@ class wpDiscuzCommentSearch {
                 add_filter("wpdiscuz_comment_wrap_classes", [&$this, "removeReplyClass"], 362, 2);
                 $args = $wpdiscuz->getCommentListArgs($post_id);
                 $args["max_depth"] = -1;
-                $args["reverse_top_level"] = true;
                 $print_data = wp_list_comments($args, $comments);
                 $search_results_phrase = isset($this->options->savedOptions["search_result_phrase"]) ? __($this->options->savedOptions["search_result_phrase"], "wpdiscuz-search") : __("Search result", "wpdiscuz-search");
                 $html = "<div class='search-result'><p class='wpd-search-result-title'>" . $search_results_phrase . "</p>" . $print_data . "</div>";
@@ -151,7 +150,7 @@ class wpDiscuzCommentSearch {
                 echo stripslashes($printed_data);
                 $args = [
                     "walker" => new wpDiscuzSearchWidgetWalker($this->options, $search_data, $display_avatar),
-                    "reverse_top_level" => true,
+                    "reverse_top_level" => false,
                     "style" => "div",
                     "echo" => false,
                 ];
@@ -225,7 +224,7 @@ class wpDiscuzCommentSearch {
     }
 
     public function searchCommentView($output, $comment, $user) {
-        $output .= "<div class='view-comment wpd-cta-button'><a href='" . get_comment_link($comment) . "' title='" . __('View Tree', 'wpdiscuz-search') . "' target='_blank'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\"><path fill=\"none\" d=\"M0 0h24v24H0V0z\"/><path d=\"M21 11.01L3 11v2h18zM3 16h12v2H3zM21 6H3v2.01L21 8z\"/></svg> " . __('View Tree', 'wpdiscuz-search') . "</a></div>";
+        $output .= "<div class='view-comment wpd-cta-button'><a href='" . get_comment_link($comment) . "' title='" . __("View Tree", "wpdiscuz-search") . "' target='_blank'><svg xmlns='https://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0V0z'/><path d='M21 11.01L3 11v2h18zM3 16h12v2H3zM21 6H3v2.01L21 8z'/></svg> " . __("View Tree", "wpdiscuz-search") . "</a></div>";
         return $output;
     }
 
