@@ -17,7 +17,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isEnableOnHome"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isEnableOnHome"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -35,7 +35,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isNativeAjaxEnabled"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isNativeAjaxEnabled"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -52,7 +52,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["loadComboVersion"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["loadComboVersion"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -69,7 +69,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["loadMinVersion"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["loadMinVersion"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -97,7 +97,9 @@ if (!defined("ABSPATH")) {
                 <label for="ignore-https"><?php esc_html_e("Ignore non-https content", "wpdiscuz") ?></label>
             </div>
         </div>
-        <div class="wpd-opt-doc"></div>
+        <div class="wpd-opt-doc">
+            <?php $this->printDocLink($setting["options"]["commentLinkFilter"]["docurl"]) ?>
+        </div>
     </div>
     <!-- Option end -->
 <?php } ?>
@@ -118,7 +120,7 @@ if (!defined("ABSPATH")) {
         ?>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["redirectPage"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["redirectPage"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -140,7 +142,7 @@ if (!defined("ABSPATH")) {
         </span>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["simpleCommentDate"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["simpleCommentDate"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -155,7 +157,7 @@ if (!defined("ABSPATH")) {
         <input type="text" value="<?php echo esc_attr($this->general["dateDiffFormat"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_GENERAL); ?>[dateDiffFormat]" id="dateDiffFormat" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["dateDiffFormat"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["dateDiffFormat"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -173,7 +175,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isUsePoMo"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isUsePoMo"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -190,7 +192,9 @@ if (!defined("ABSPATH")) {
             <span id="wpdiscuz_thank_you" style="color:#006600; font-size:13px;"> &nbsp;<?php esc_attr_e("Thank you!", "wpdiscuz"); ?></span>
         </label>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["showPluginPoweredByLink"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -214,7 +218,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["isGravatarCacheEnabled"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["isGravatarCacheEnabled"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -232,7 +236,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["gravatarCacheMethod"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["gravatarCacheMethod"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -248,7 +252,7 @@ if (!defined("ABSPATH")) {
         <input type="number" id="gravatarCacheTimeout" name="<?php echo esc_attr(WpdiscuzCore::TAB_GENERAL); ?>[gravatarCacheTimeout]" value="<?php echo esc_attr($gravatarCacheTimeout); ?>" style="width: 80px;"/>&nbsp; <?php esc_html_e("days", "wpdiscuz") ?>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["gravatarCacheTimeout"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["gravatarCacheTimeout"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -267,7 +271,9 @@ if (!defined("ABSPATH")) {
         <?php $voteUrl = admin_url("admin-post.php?action=removeVoteData"); ?>
         <a id="wpdiscuz-remove-votes" href="<?php echo esc_url_raw(wp_nonce_url($voteUrl, "removeVoteData")); ?>" class="button button-secondary" style="text-decoration: none;"><?php esc_html_e("Remove vote data", "wpdiscuz"); ?></a>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["removeVoteData"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -281,7 +287,9 @@ if (!defined("ABSPATH")) {
         <?php $expiredCacheUrl = admin_url("admin-post.php?action=purgeExpiredGravatarsCaches"); ?>
         <a id="wpdiscuz-purge-expired-gravatars-cache" href="<?php echo esc_url_raw(wp_nonce_url($expiredCacheUrl, "purgeExpiredGravatarsCaches")); ?>" class="button button-secondary" style="text-decoration: none;"><?php esc_html_e("Purge expired caches", "wpdiscuz"); ?></a>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["purgeAvatarCache"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -295,6 +303,8 @@ if (!defined("ABSPATH")) {
         <?php $allCacheUrl = admin_url("admin-post.php?action=purgeGravatarsCaches"); ?>
         <a id="wpdiscuz-purge-gravatars-cache" href="<?php echo esc_url_raw(wp_nonce_url($allCacheUrl, "purgeGravatarsCaches")); ?>" class="button button-secondary" style="text-decoration: none;"><?php esc_html_e("Purge all caches", "wpdiscuz"); ?></a>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["purgeAllCaches"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->

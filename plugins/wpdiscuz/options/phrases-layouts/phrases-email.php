@@ -25,6 +25,7 @@ if (!defined("ABSPATH")) {
                     <div class="wc_available_variables">
                         <div class="wc_available_variable">[BLOG_TITLE]</div>
                         <div class="wc_available_variable">[POST_TITLE]</div>
+                        <div class="wc_available_variable">[COMMENT_AUTHOR]</div>
                     </div>
                 </th>
                 <td colspan="3"><input type="text" value="<?php echo esc_attr($this->phrases["wc_email_subject"]); ?>" name="wc_email_subject" id="wc_email_subject" /></td>
@@ -57,6 +58,7 @@ if (!defined("ABSPATH")) {
                     <div class="wc_available_variables">
                         <div class="wc_available_variable">[BLOG_TITLE]</div>
                         <div class="wc_available_variable">[POST_TITLE]</div>
+                        <div class="wc_available_variable">[COMMENT_AUTHOR]</div>
                     </div>
                 </th>
                 <td colspan="3"><input type="text" value="<?php echo esc_attr($this->phrases["wc_all_comment_new_reply_subject"]); ?>" name="wc_all_comment_new_reply_subject" id="wc_all_comment_new_reply_subject" /></td>
@@ -89,6 +91,7 @@ if (!defined("ABSPATH")) {
                     <div class="wc_available_variables">
                         <div class="wc_available_variable">[BLOG_TITLE]</div>
                         <div class="wc_available_variable">[POST_TITLE]</div>
+                        <div class="wc_available_variable">[COMMENT_AUTHOR]</div>
                     </div>
                 </th>
                 <td colspan="3"><input type="text" value="<?php echo esc_attr($this->phrases["wc_new_reply_email_subject"]); ?>" name="wc_new_reply_email_subject" id="wc_new_reply_email_subject" /></td>
@@ -146,6 +149,7 @@ if (!defined("ABSPATH")) {
                     <div class="wc_available_variables">
                         <div class="wc_available_variable">[BLOG_TITLE]</div>
                         <div class="wc_available_variable">[POST_TITLE]</div>
+                        <div class="wc_available_variable">[COMMENT_AUTHOR]</div>
                     </div>
                 </th>
                 <td colspan="3"><input type="text" name="wc_comment_approved_email_subject" id="wc_comment_approved_email_subject" value="<?php echo esc_attr($this->phrases["wc_comment_approved_email_subject"]); ?>" /></td>

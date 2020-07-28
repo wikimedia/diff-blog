@@ -33,6 +33,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         if ($this->options->content["enableShortcodes"]) {
             add_filter("comment_text", [&$this, "doShortcode"], 10, 3);
         }
+        add_filter("comment_text", [&$this, "multipleBlockquotesToOne"], 100);
         add_filter("wp_update_comment_data", [&$this, "commentDataArr"], 10, 3);
         add_action("post_updated", [&$this, "checkFeedbackShortcodes"], 10, 3);
         add_filter("comment_row_actions", [&$this, "commentRowStickAction"], 10, 2);
@@ -155,7 +156,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         if (strpos($url, get_site_url()) !== 0) {
             $rel .= " nofollow";
         }
-        return "<a rel='$rel' target='_blank' href='" . esc_url_raw($url) . "'><img alt='comment image' src='" . esc_url_raw($url) . "' /></a>";
+        return apply_filters("wpdiscuz_source_to_image_conversion", "<a rel='$rel' target='_blank' href='" . esc_url_raw($url) . "'><img alt='comment image' src='" . esc_url_raw($url) . "' /></a>", $url);
     }
 
     /**
@@ -236,8 +237,8 @@ class WpdiscuzHelper implements WpDiscuzConstants {
 
     public static function strWordCount($content) {
         $words = preg_split("/[\n\r\t ]+/", $content, -1, PREG_SPLIT_NO_EMPTY);
-        $words = array_filter($words, function ($w){
-           return $w !== "&nbsp;";
+        $words = array_filter($words, function ($w) {
+            return $w !== "&nbsp;";
         });
         return count($words);
     }
@@ -680,7 +681,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         if (strlen($whatsapp_content) < $length) {
             $whatsapp_content .= "... ";
         }
-        $whatsapp_content = urlencode($whatsapp_content) . ' URL: ' . $commentLink;
+        $whatsapp_content = urlencode($whatsapp_content) . ' URL: ' . urlencode($commentLink);
         return $whatsapp_content;
     }
 
@@ -779,14 +780,14 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             foreach ($users as $k => $user) {
                 $user_link = "";
                 if (class_exists("BuddyPress")) {
-                    $user_link = bp_core_get_user_domain($user["ID"]);
+                    $user_link = bp_core_get_user_domain($user["u_id"]);
                 }
                 if (class_exists("UM_API")) {
-                    um_fetch_user($user["ID"]);
+                    um_fetch_user($user["u_id"]);
                     $user_link = um_user_profile_url();
                 }
                 if (!$user_link) {
-                    $user_link = get_author_posts_url($user["ID"]);
+                    $user_link = get_author_posts_url($user["u_id"]);
                 }
                 if ($user_link) {
                     $replacement = "<a href='" . $user_link . "' rel='author'>@" . $user["name"] . "</a>";
@@ -810,10 +811,11 @@ class WpdiscuzHelper implements WpDiscuzConstants {
     public function getMentionedUsers($content) {
         $users = [];
         if (preg_match_all("/(@[^\s\,\@\.\!\?\#\$\%\:\;\'\"\`\~\)\(\}\{\|\\\[\]]*)/is", $content, $nicenames)) {
-            $nicenames = array_unique($nicenames[0]);
+            $nicenames = array_map("strip_tags", $nicenames[0]);
+            $nicenames = array_unique($nicenames);
             foreach ($nicenames as $k => $nicename) {
                 if ($user = get_user_by("slug", ltrim($nicename, "@"))) {
-                    $users[] = ["replace" => $nicename, "ID" => $user->ID, "name" => $user->display_name, "email" => $user->user_email];
+                    $users[] = ["replace" => $nicename, "u_id" => $user->ID, "name" => $user->display_name, "email" => $user->user_email];
                 }
             }
         }
@@ -821,7 +823,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
     }
 
     public function checkFeedbackShortcodes($post_ID, $post_after, $post_before) {
-        if (comments_open($post_ID) && $post_after->post_status === "publish" && ($form = $this->wpdiscuzForm->getForm($post_ID)) && $form->getFormID()) {
+        if (comments_open($post_ID) && ($form = $this->wpdiscuzForm->getForm($post_ID)) && $form->getFormID()) {
             preg_match_all(self::$inlineFormPattern, $post_before->post_content, $matchesBefore, PREG_SET_ORDER);
             preg_match_all(self::$inlineFormPattern, $post_after->post_content, $matchesAfter, PREG_SET_ORDER);
             if ($matchesAfter || $matchesBefore) {
@@ -840,21 +842,26 @@ class WpdiscuzHelper implements WpDiscuzConstants {
                     }
                 }
                 foreach ($matchesAfter as $k => $matchAfter) {
-                    if (isset($matchAfter[3]) && preg_match_all(self::$inlineFormAttsPattern, $matchAfter[3], $attsAfter, PREG_SET_ORDER)) {
-                        $atts = [];
-                        foreach ($attsAfter as $k1 => $attrAfter) {
-                            $atts[$attrAfter[1]] = $attrAfter[2];
+                    if (isset($matchAfter[3])) {
+                        if (function_exists("use_block_editor_for_post") && use_block_editor_for_post($post_ID)) {
+                            $matchAfter[3] = json_decode('"' . $matchAfter[3] . '"');
                         }
-                        $atts["content"] = $matchAfter[5];
-                        $atts = array_merge($defaultAtts, $atts);
-                        if (($atts["id"] = trim($atts["id"])) && ($atts["question"] = strip_tags($atts["question"]))) {
-                            if (isset($inlineFormsBefore[$atts["id"]])) {
-                                if ($atts["question"] !== $inlineFormsBefore[$atts["id"]]["question"] || $atts["opened"] !== $inlineFormsBefore[$atts["id"]]["opened"]) {
-                                    $this->dbManager->updateFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"]);
+                        if (preg_match_all(self::$inlineFormAttsPattern, $matchAfter[3], $attsAfter, PREG_SET_ORDER)) {
+                            $atts = [];
+                            foreach ($attsAfter as $k1 => $attrAfter) {
+                                $atts[$attrAfter[1]] = $attrAfter[2];
+                            }
+                            $atts["content"] = $matchAfter[5];
+                            $atts = array_merge($defaultAtts, $atts);
+                            if (($atts["id"] = trim($atts["id"])) && ($atts["question"] = strip_tags($atts["question"]))) {
+                                if (isset($inlineFormsBefore[$atts["id"]])) {
+                                    if ($atts["question"] !== $inlineFormsBefore[$atts["id"]]["question"] || $atts["opened"] !== $inlineFormsBefore[$atts["id"]]["opened"]) {
+                                        $this->dbManager->updateFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"]);
+                                    }
+                                    unset($inlineFormsBefore[$atts["id"]]);
+                                } else {
+                                    $this->dbManager->addFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"], $atts["content"]);
                                 }
-                                unset($inlineFormsBefore[$atts["id"]]);
-                            } else {
-                                $this->dbManager->addFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"], $atts["content"]);
                             }
                         }
                     }
@@ -965,6 +972,12 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             }
         }
         return $author_name;
+    }
+
+    public function multipleBlockquotesToOne($content) {
+        $content = preg_replace('~<\/blockquote>\s?<blockquote>~is', '</p><p>', $content);
+        $content = preg_replace('~<\/code>\s?<code>~is', '</p><p>', $content);
+        return $content;
     }
 
     public function addRatingResetButton($postType, $post) {
@@ -1146,6 +1159,13 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked + label:hover ~ label,
             #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover ~ label, .wpd-custom-field .wcf-active-star,
             #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label{ color:<?php echo $this->options->rating["ratingActiveColor"]; ?>;}
+            #wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill: <?php echo $this->options->rating["ratingInactiveColor"]; ?>;}
+            #wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:<?php echo $this->options->rating["ratingActiveColor"]; ?>;}
+            #wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:<?php echo $this->options->rating["ratingInactiveColor"]; ?>;}
+            #wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:<?php echo $this->options->rating["ratingHoverColor"]; ?>;}
+            #wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover ~ svg .wpd-star{ fill:<?php echo $this->options->rating["ratingInactiveColor"]; ?>;}
+            .wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:<?php echo $this->options->rating["ratingInactiveColor"]; ?>;}
+            .wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:<?php echo $this->options->rating["ratingActiveColor"]; ?>;}
             #wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00;}
             #wpdcom .page-numbers{color:#555;border:#555 1px solid;}
             #wpdcom span.current{background:#555;}

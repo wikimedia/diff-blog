@@ -331,6 +331,16 @@
 #wpd-setbox .wpd-setcon .wpd-opt-row .wpd-opt-input .wpd-optset .wpd-switcher{margin: 0px;}
 #wpd-setbox .wpd-setcon .wpd-opt-row .wpd-opt-input .wpd-optset .wpd-optset-label{padding: 0px 10px 2px 10px; color: #777777;}
 #wpd-setbox .wpd-setcon .wpd-opt-row .wpd-opt-intro{width: calc(100% - 40px); font-size: 15px; line-height: 22px; padding: 5px 0px 20px 0px; text-align: justify;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper{flex-wrap:wrap;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-opt-input{width:100%;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group{margin-top:10px;display:flex;align-items:center;justify-content:space-between;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group.wpd-custom-option-group-default{display:none !important;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group .wpd-custom-option-label{width: 28%;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group .wpd-custom-option-value{width: 68%;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group .dashicons.dashicons-trash{color:#e51c23;cursor:pointer;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group-add{display:flex;align-items:center;justify-content:center;color:#07B290;background-color:#f5f5f5;margin:10px 0;height: 20px;font-size:23px;padding:15px;cursor:pointer;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group-add:hover{color:#f5f5f5;background-color:#07B290;}
+#wpd-setbox .wpd-setcon .wpd-opt-row.wpd-custom-option-group-wrapper .wpd-custom-option-group-add .dashicons.dashicons-plus{font-size:40px;width:40px;height:35px;}
 #wpd-setbox .wpd-setbar .wpd-box.wpd-menu-group{width: 100%; }
 #wpd-setbox .wpd-setbar .wpd-box.wpd-menu-group:first-child{margin-bottom: 20px;}
 #wpd-setbox .wpd-setbar ul{width: 100%; margin: 0px; padding: 0px; box-sizing: border-box;}

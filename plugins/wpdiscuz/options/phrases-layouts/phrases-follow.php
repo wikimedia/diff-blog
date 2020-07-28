@@ -85,6 +85,7 @@ if (!defined("ABSPATH")) {
                     <div class="wc_available_variables">
                         <div class="wc_available_variable">[BLOG_TITLE]</div>
                         <div class="wc_available_variable">[POST_TITLE]</div>
+                        <div class="wc_available_variable">[COMMENT_AUTHOR]</div>
                     </div>
                 </th>
                 <td colspan="3"><input type="text" name="wc_follow_email_subject" id="wc_follow_email_subject" value="<?php echo esc_attr($this->phrases["wc_follow_email_subject"]); ?>" /></td>

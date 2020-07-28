@@ -7,7 +7,7 @@ if (!defined("ABSPATH")) {
 /*
  * Plugin Name: wpDiscuz - Report and Flagging
  * Description: Adds comment reporting and flagging features. Auto-moderates comments based on number of reports and flags.
- * Version: 7.0.0
+ * Version: 7.0.1
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-report-flagging/

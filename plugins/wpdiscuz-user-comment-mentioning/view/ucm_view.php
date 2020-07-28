@@ -148,7 +148,8 @@ if (!defined("ABSPATH")) {
                 <i> [mentionedUserName] - <?php _e("Mentioned comment author name", "wpdiscuz_ucm"); ?></i><br/>
                 <i> [postTitle] - <?php _e("Post Title", "wpdiscuz_ucm"); ?></i><br/>
                 <i> [authorUserName] - <?php _e("Comment author name", "wpdiscuz_ucm"); ?></i><br/>
-                <i> [commentURL] - <?php _e("Comment URL", "wpdiscuz_ucm"); ?></i>
+                <i> [commentURL] - <?php _e("Comment URL", "wpdiscuz_ucm"); ?></i><br/>
+                <i> [commentContent] - <?php _e("Comment content", "wpdiscuz_ucm"); ?></i>
             </p>
         </div>
         <div class="wpd-opt-input">
@@ -195,7 +196,8 @@ if (!defined("ABSPATH")) {
             <i> [mentionedUserName] - <?php _e("Mentioned user name", "wpdiscuz_ucm"); ?></i><br/>
             <i> [postTitle] - <?php _e("Post Title", "wpdiscuz_ucm"); ?></i><br/>
             <i> [authorUserName] - <?php _e("Comment author name", "wpdiscuz_ucm"); ?></i><br/>
-            <i> [commentURL] - <?php _e("Comment URL", "wpdiscuz_ucm"); ?></i>
+            <i> [commentURL] - <?php _e("Comment URL", "wpdiscuz_ucm"); ?></i><br/>
+            <i> [commentContent] - <?php _e("Comment content", "wpdiscuz_ucm"); ?></i>
         </p>
     </div>
     <div class="wpd-opt-input">

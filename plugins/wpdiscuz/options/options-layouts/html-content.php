@@ -26,7 +26,7 @@ if (!defined("ABSPATH")) {
         <span for="commentTextMaxLength">&nbsp; <input type="number" placeholder="&infin;" value="<?php echo esc_attr($this->content["commentTextMaxLength"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[commentTextMaxLength]" id="commentTextMaxLength" style="width:70px;"> <?php esc_html_e("Max", "wpdiscuz") ?></span>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commentTextLength"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commentTextLength"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -44,7 +44,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableImageConversion"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableImageConversion"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -62,7 +62,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enableShortcodes"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enableShortcodes"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -77,7 +77,7 @@ if (!defined("ABSPATH")) {
         <input type="number" value="<?php echo esc_attr($this->content["commentReadMoreLimit"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[commentReadMoreLimit]" id="commentReadMoreLimit" style="width:100px;" />
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["commentReadMoreLimit"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["commentReadMoreLimit"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -99,7 +99,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wmuIsEnabled"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wmuIsEnabled"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -116,7 +116,9 @@ if (!defined("ABSPATH")) {
             <label for="wmuIsGuestAllowed"></label>
         </div>
     </div>
-    <div class="wpd-opt-doc"></div>
+    <div class="wpd-opt-doc">
+        <?php $this->printDocLink($setting["options"]["wmuIsGuestAllowed"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->
 
@@ -133,7 +135,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wmuIsLightbox"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wmuIsLightbox"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -146,7 +148,7 @@ if (!defined("ABSPATH")) {
             <p class="wpd-desc"><?php echo $setting["options"]["wmuMimeTypes"]["description"] ?></p>
         </div>
         <div class="wpd-opt-doc" style="float: right;">
-            <a href="<?php echo esc_url_raw($setting["options"]["wmuMimeTypes"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+            <?php $this->printDocLink($setting["options"]["wmuMimeTypes"]["docurl"]) ?>
         </div>
         <div class="wpd-clear"></div>
     </div>
@@ -172,6 +174,8 @@ if (!defined("ABSPATH")) {
 </div>
 <!-- Option end -->
 
+<?php do_action("wpdiscuz_mu_custom_mime_types", $setting, $this); ?>
+
 <!-- Option start -->
 <div class="wpd-opt-row" data-wpd-opt="wmuMaxFileSize">
     <div class="wpd-opt-name">
@@ -192,7 +196,7 @@ if (!defined("ABSPATH")) {
         </p>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wmuMaxFileSize"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wmuMaxFileSize"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -210,7 +214,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wmuIsShowFilesDashboard"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wmuIsShowFilesDashboard"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -226,7 +230,7 @@ if (!defined("ABSPATH")) {
         <input type="text" value="<?php echo esc_attr($this->content["wmuSingleImageHeight"]); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[wmuSingleImageHeight]" id="wmuSingleImageHeight" class="wmu-number wmu-image-dimension wmu-image-height" style="width: 80px;" /><span> <?php esc_html_e("Height (px)", "wpdiscuz"); ?> </span>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wmuSingleImageSize"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wmuSingleImageSize"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -258,7 +262,7 @@ if (!defined("ABSPATH")) {
         ?>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["wmuImageSizes"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["wmuImageSizes"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->

@@ -28,7 +28,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["enablePostRatingSchema"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["enablePostRatingSchema"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -58,7 +58,7 @@ if (!defined("ABSPATH")) {
         </div>
     </div>
     <div class="wpd-opt-doc">
-        <a href="<?php echo esc_url_raw($setting["options"]["displayRatingOnPost"]["docurl"]) ?>" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
+        <?php $this->printDocLink($setting["options"]["displayRatingOnPost"]["docurl"]) ?>
     </div>
 </div>
 <!-- Option end -->
@@ -83,6 +83,8 @@ if (!defined("ABSPATH")) {
         </div>
         <div style="clear: both"></div>
     </div>
-    <div class="wpd-opt-doc" style="padding-top: 36px;"></div>
+    <div class="wpd-opt-doc" style="padding-top: 36px;">
+        <?php $this->printDocLink($setting["options"]["ratingStarColors"]["docurl"]) ?>
+    </div>
 </div>
 <!-- Option end -->

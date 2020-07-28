@@ -107,9 +107,6 @@ class Row {
                     $field->frontFormHtml($fieldName, $fieldData, $options, $currentUser, $uniqueId, $isMainForm);
                 }
             }
-            if ($options->isGoodbyeCaptchaActive) {
-                echo $options->goodbyeCaptchaTocken;
-            }
             ?>
         </div>
         <?php

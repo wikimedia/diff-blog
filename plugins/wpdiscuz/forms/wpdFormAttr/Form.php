@@ -785,7 +785,6 @@ class Form {
         $message = "";
         ?>
         <div class="wpd-form wpd-form-wrapper <?php echo!$isMain ? "wpd-secondary-form-wrapper" : "wpd-main-form-wrapper"; ?>" <?php echo!$isMain ? "id='wpd-secondary-form-wrapper-" . esc_attr($uniqueId) . "' style='display: none;'" : "id='wpd-main-form-wrapper-" . esc_attr($uniqueId) . "'"; ?>>
-            <div class="wpdiscuz-comment-message" style="display: block;"></div>
             <?php if (!$isMain) { ?>
                 <div class="wpd-secondary-forms-social-content"><?php do_action("comment_reply_form_bar_top", $this); ?></div><div class="clearfix"></div>
             <?php } ?>
@@ -822,6 +821,11 @@ class Form {
                         }
                         ?>
                     </div>
+                    <?php
+                    if ($this->wpdOptions->isGoodbyeCaptchaActive) {
+                        echo $this->wpdOptions->goodbyeCaptchaTocken;
+                    }
+                    ?>
                     <input type="hidden" class="wpdiscuz_unique_id" value="<?php echo esc_attr($uniqueId); ?>" name="wpdiscuz_unique_id">
                 </form>
                 <?php
@@ -839,7 +843,7 @@ class Form {
                 <div id="wpd-editor-char-counter-<?php echo esc_attr($uniqueId); ?>" class="wpd-editor-char-counter"></div>
                 <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" required name="wc_comment" class="wc_comment wpd-field"></textarea>
                 <div id="wpd-editor-<?php echo esc_attr($uniqueId); ?>"></div>
-                <?php $this->renderTextEditorButtons($uniqueId); ?>
+            <?php $this->renderTextEditorButtons($uniqueId); ?>
             </div>
             <?php
         } else {
@@ -849,7 +853,9 @@ class Form {
                 $textarea_placeholder = $this->wpdOptions->phrases["wc_be_the_first_text"];
             }
             ?>
-            <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" placeholder="<?php echo esc_attr($textarea_placeholder); ?>" required name="wc_comment" class="wc_comment wpd-field"></textarea>
+            <div class="wpd-textarea-wrap">
+                <textarea id="wc-textarea-<?php echo esc_attr($uniqueId); ?>" placeholder="<?php echo esc_attr($textarea_placeholder); ?>" required name="wc_comment" class="wc_comment wpd-field"></textarea>
+            </div>
             <?php
             echo apply_filters("wpdiscuz_editor_buttons_html", "", $uniqueId);
         }
@@ -916,7 +922,7 @@ class Form {
         $uniqueId = $comment->comment_ID . "_" . $comment->comment_parent;
         $html = "<div class='wpdiscuz-edit-form-wrap'><form id='wpdiscuz-edit-form'>";
         $html .= "<div class='wpdiscuz-item wpdiscuz-textarea-wrap'>";
-        $content = str_replace(["<code>", "</code>"], ["`", "`"], ($this->wpdOptions->form["richEditor"] === "both" || (!wp_is_mobile() && $this->wpdOptions->form["richEditor"] === "desktop") ? str_replace(["</p>\n","<br />\n"],["</p><br>","<br />"],wpautop($comment->comment_content)) : $comment->comment_content));
+        $content = str_replace(["<code>", "</code>"], ["`", "`"], ($this->wpdOptions->form["richEditor"] === "both" || (!wp_is_mobile() && $this->wpdOptions->form["richEditor"] === "desktop") ? str_replace(["</p>\n", "<br />\n"], ["</p><br>", "<br />"], wpautop($comment->comment_content)) : $comment->comment_content));
         ob_start();
         $this->renderTextEditor("edit_" . $uniqueId, 1);
         $html .= ob_get_clean();
@@ -937,7 +943,7 @@ class Form {
         $html .= "<input type='hidden' name='wpdiscuz_unique_id' value='" . esc_attr($uniqueId) . "'>";
         $html .= "<div class='wc_save_wrap'><input class='wc_cancel_edit wpd-second-button' type='button' value='" . esc_attr($this->wpdOptions->phrases["wc_comment_edit_cancel_button"]) . "'><input id='wpd-field-submit-edit_" . esc_attr($uniqueId) . "' class='wc_save_edited_comment wpd-prim-button' type='submit' value='" . esc_attr($this->wpdOptions->phrases["wc_comment_edit_save_button"]) . "'></div>";
         $html .= "</form></div>";
-        return wp_send_json_success(['html'=>$html,'content'=>$content]);
+        return wp_send_json_success(['html' => $html, 'content' => $content]);
     }
 
     public function renderEditAdminCommentForm($comment) {
@@ -981,17 +987,17 @@ class Form {
                     <tbody>
                         <tr>
                             <th>
-                                <?php esc_html_e("Language", "wpdiscuz"); ?>
+        <?php esc_html_e("Language", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $lang = isset($this->generalOptions["lang"]) ? $this->generalOptions["lang"] : get_locale(); ?>
+        <?php $lang = isset($this->generalOptions["lang"]) ? $this->generalOptions["lang"] : get_locale(); ?>
                                 <input required="" type="text" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[lang]" value="<?php echo htmlentities($lang, ENT_QUOTES); ?>" >
                                 <a href="https://wpdiscuz.com/docs/wpdiscuz-7/getting-started/manage-comment-forms/comment-form-settings/#language" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
                             </td>
                         </tr>                        
                         <tr>
                             <th>
-                                <?php esc_html_e("Disable commenting for roles", "wpdiscuz"); ?>
+        <?php esc_html_e("Disable commenting for roles", "wpdiscuz"); ?>
                             </th>
                             <td>
                                 <?php
@@ -1013,10 +1019,10 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Allow guests to comment", "wpdiscuz"); ?>
+        <?php esc_html_e("Allow guests to comment", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $guestCanComment = isset($this->generalOptions["guest_can_comment"]) ? $this->generalOptions["guest_can_comment"] : 1; ?>
+        <?php $guestCanComment = isset($this->generalOptions["guest_can_comment"]) ? $this->generalOptions["guest_can_comment"] : 1; ?>
                                 <input <?php checked($guestCanComment, 1, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[guest_can_comment]" value="1" id="wpd_cf_guest_yes" > <label for="wpd_cf_guest_yes"><?php esc_html_e("Yes", "wpdiscuz"); ?></label>
                                 &nbsp; 
                                 <input <?php checked($guestCanComment, 0, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[guest_can_comment]" value="0" id="wpd_cf_guest_no"> <label for="wpd_cf_guest_no"><?php esc_html_e("No", "wpdiscuz"); ?></label>
@@ -1025,10 +1031,10 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Enable subscription bar", "wpdiscuz"); ?>
+        <?php esc_html_e("Enable subscription bar", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $showSubscriptionBar = isset($this->generalOptions["show_subscription_bar"]) ? $this->generalOptions["show_subscription_bar"] : 1; ?>
+        <?php $showSubscriptionBar = isset($this->generalOptions["show_subscription_bar"]) ? $this->generalOptions["show_subscription_bar"] : 1; ?>
                                 <input <?php checked($showSubscriptionBar, 1, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[show_subscription_bar]" value="1" id="wpd_cf_sbbar_yes" > <label for="wpd_cf_sbbar_yes"><?php esc_html_e("Yes", "wpdiscuz"); ?></label>
                                 &nbsp; 
                                 <input <?php checked($showSubscriptionBar, 0, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[show_subscription_bar]" value="0" id="wpd_cf_sbbar_no"> <label for="wpd_cf_sbbar_no"><?php esc_html_e("No", "wpdiscuz"); ?></label>
@@ -1037,10 +1043,10 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Display agreement checkbox in Comment Subscription bar", "wpdiscuz"); ?>
+        <?php esc_html_e("Display agreement checkbox in Comment Subscription bar", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $showSubscriptionAgreement = isset($this->generalOptions["show_subscription_agreement"]) ? $this->generalOptions["show_subscription_agreement"] : 0; ?>
+        <?php $showSubscriptionAgreement = isset($this->generalOptions["show_subscription_agreement"]) ? $this->generalOptions["show_subscription_agreement"] : 0; ?>
                                 <input <?php checked($showSubscriptionAgreement, 1, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[show_subscription_agreement]" value="1" id="wpd_cf_sbbar_agreement_yes" > <label for="wpd_cf_sbbar_agreement_yes"><?php esc_html_e("Yes", "wpdiscuz"); ?></label>
                                 &nbsp; 
                                 <input <?php checked($showSubscriptionAgreement, 0, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[show_subscription_agreement]" value="0" id="wpd_cf_sbbar_agreement_no"> <label for="wpd_cf_sbbar_agreement_no"><?php esc_html_e("No", "wpdiscuz"); ?></label>
@@ -1049,16 +1055,16 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Comment Subscription bar agreement checkbox label", "wpdiscuz"); ?>
+        <?php esc_html_e("Comment Subscription bar agreement checkbox label", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $subscriptionAgreementLabel = isset($this->generalOptions["subscription_agreement_label"]) && $this->generalOptions["subscription_agreement_label"] ? $this->generalOptions["subscription_agreement_label"] : esc_html__("I allow to use my email address and send notification about new comments and replies (you can unsubscribe at any time).", "wpdiscuz"); ?>
+        <?php $subscriptionAgreementLabel = isset($this->generalOptions["subscription_agreement_label"]) && $this->generalOptions["subscription_agreement_label"] ? $this->generalOptions["subscription_agreement_label"] : esc_html__("I allow to use my email address and send notification about new comments and replies (you can unsubscribe at any time).", "wpdiscuz"); ?>
                                 <textarea name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[subscription_agreement_label]" style="width:80%;"><?php echo $subscriptionAgreementLabel; ?></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Comment form header text (singular)", "wpdiscuz"); ?>
+        <?php esc_html_e("Comment form header text (singular)", "wpdiscuz"); ?>
                             </th>
                             <td >
                                 <div>
@@ -1069,7 +1075,7 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Comment form header text (plural)", "wpdiscuz"); ?>
+        <?php esc_html_e("Comment form header text (plural)", "wpdiscuz"); ?>
                             </th>
                             <td >
                                 <div>
@@ -1103,13 +1109,13 @@ class Form {
                                         <span><?php echo esc_html($typeValue); ?></span>
                                     </label>
                                 <?php } ?>
-                                <?php if ($hasForm) echo $formRelExistsInfo; ?>
+        <?php if ($hasForm) echo $formRelExistsInfo; ?>
                                 <a href="https://wpdiscuz.com/docs/wpdiscuz-7/getting-started/manage-comment-forms/comment-form-settings/#post-types" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a>
                             </td>
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Display comment form for post IDs", "wpdiscuz"); ?>
+        <?php esc_html_e("Display comment form for post IDs", "wpdiscuz"); ?>
                                 <p class="wpd-info"> <?php esc_html_e("You can use this form for certain posts/pages specified by comma separated IDs.", "wpdiscuz"); ?></p>
                             </th>
                             <td>
@@ -1124,7 +1130,7 @@ class Form {
                                 ?>
                                 <tr>
                                     <th>
-                                        <?php esc_html_e("Theme", "wpdiscuz"); ?>
+                <?php esc_html_e("Theme", "wpdiscuz"); ?>
                                     </th>
                                     <td>
                                         <?php
@@ -1143,7 +1149,7 @@ class Form {
                                 ?>
                                 <tr>
                                     <th>
-                                        <?php esc_html_e("Comment List Layout", "wpdiscuz"); ?>
+                <?php esc_html_e("Comment List Layout", "wpdiscuz"); ?>
                                     </th>
                                     <td>
                                         <div id="wpd_comment_layouts" style="width: 290px; margin: 15px 0 0 0">
@@ -1169,10 +1175,10 @@ class Form {
                         ?>
                         <tr>
                             <th>
-                                <?php esc_html_e("Enable Post Rating", "wpdiscuz"); ?>
+        <?php esc_html_e("Enable Post Rating", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $enablePostRating = isset($this->generalOptions["enable_post_rating"]) ? $this->generalOptions["enable_post_rating"] : 1; ?>
+        <?php $enablePostRating = isset($this->generalOptions["enable_post_rating"]) ? $this->generalOptions["enable_post_rating"] : 1; ?>
                                 <input <?php checked($enablePostRating, 1, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[enable_post_rating]" value="1" id="wpd_enable_post_rating_yes" > <label for="wpd_enable_post_rating_yes"><?php esc_html_e("Yes", "wpdiscuz"); ?></label>
                                 &nbsp; 
                                 <input <?php checked($enablePostRating, 0, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[enable_post_rating]" value="0" id="wpd_enable_post_rating_no"> <label for="wpd_enable_post_rating_no"><?php esc_html_e("No", "wpdiscuz"); ?></label>
@@ -1181,7 +1187,7 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Post Rating Title", "wpdiscuz"); ?>
+        <?php esc_html_e("Post Rating Title", "wpdiscuz"); ?>
                             </th>
                             <td >
                                 <div>
@@ -1191,10 +1197,10 @@ class Form {
                         </tr>
                         <tr>
                             <th>
-                                <?php esc_html_e("Allow Guests to Rate", "wpdiscuz"); ?>
+        <?php esc_html_e("Allow Guests to Rate", "wpdiscuz"); ?>
                             </th>
                             <td>
-                                <?php $allowGuestsRateOnPost = isset($this->generalOptions["allow_guests_rate_on_post"]) ? $this->generalOptions["allow_guests_rate_on_post"] : 1; ?>
+        <?php $allowGuestsRateOnPost = isset($this->generalOptions["allow_guests_rate_on_post"]) ? $this->generalOptions["allow_guests_rate_on_post"] : 1; ?>
                                 <input <?php checked($allowGuestsRateOnPost, 1, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[allow_guests_rate_on_post]" value="1" id="wpd_allow_guests_rate_on_post_yes" > <label for="wpd_allow_guests_rate_on_post_yes"><?php esc_html_e("Yes", "wpdiscuz"); ?></label>
                                 &nbsp; 
                                 <input <?php checked($allowGuestsRateOnPost, 0, true); ?> type="radio" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[allow_guests_rate_on_post]" value="0" id="wpd_allow_guests_rate_on_post_no"> <label for="wpd_allow_guests_rate_on_post_no"><?php esc_html_e("No", "wpdiscuz"); ?></label>
@@ -1205,7 +1211,7 @@ class Form {
                 </table>
             </div>
             <div class="wpdiscuz-wrapper">
-                <div class="wpdiscuz-form-builder-help"><a href="https://wpdiscuz.com/docs/wpdiscuz-documentation/getting-started/custom-comment-form/comment-form-builder/" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a></div>
+                <div class="wpdiscuz-form-builder-help"><a href="https://wpdiscuz.com/docs/wpdiscuz-7/getting-started/manage-comment-forms/comment-form-builder/" title="<?php esc_attr_e("Read the documentation", "wpdiscuz") ?>" target="_blank"><i class="far fa-question-circle"></i></a></div>
                 <div class="wpd-form">
                     <div class="wpd-col-wrap">
                         <div class="wpd-field">
