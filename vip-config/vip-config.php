@@ -37,3 +37,6 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         exit;
     }
 }
+
+//Photon power!
+defined('WPCOM_VIP_USE_JETPACK_PHOTON') || define('WPCOM_VIP_USE_JETPACK_PHOTON', true);
