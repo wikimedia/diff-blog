@@ -214,26 +214,3 @@ function diff_contributor_string_translation() {
         add_menu_page( __( 'Strings translations', 'polylang' ), __( 'Languages', 'polylang' ), 'edit_posts', 'mlang_strings', array( PLL(), 'languages_page' ), 'dashicons-translation' );
     }
 }
-
-//Add twitter card support
-
-function diff_insert_twittercard_in_head() {
-if(is_single() || is_page()) {
-	$twitter_url    = get_permalink();
-	$twitter_title  = get_the_title();
-	$twitter_desc   = get_the_excerpt();
-	$twitter_thumbs = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );
-    $twitter_thumb  = $twitter_thumbs[0];
-      if(!$twitter_thumb) {
-      $twitter_thumb = 'https://diff.wikimedia.org/wp-content/uploads/2020/07/1024px-Wikimedia-logo.svg_-1.png';
-    	}
-	}   
-
-?>
-<meta name="twitter:card" value="summary" />
-<meta name="twitter:url" value="<?php echo $twitter_url; ?>" />
-<meta name="twitter:title" value="<?php echo $twitter_title; ?>" />
-<meta name="twitter:description" value="<?php echo $twitter_desc; ?>" />
-<meta name="twitter:image" value="<?php echo $twitter_thumb; ?>" />
-  
-<?php } add_action( 'wp_head', 'diff_insert_twittercard_in_head', 5 ); 
