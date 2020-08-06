@@ -7,7 +7,6 @@ a {
 	}
 
 	&:hover,
-	&:focus,
 	&:active {
 		color: $color__link-hover;
 		text-decoration: underline;
@@ -25,22 +24,18 @@ a {
 
 .grid-post .entry-title a,
 .grid-post .entry-title a:visited {
-	color: $base10;
+	color: inherit;
 }
 
 .photo-credit-container {
-	a {
+	a, a:visited {
 		color: inherit;
 		text-decoration: underline;
-
-		&:hover {
-			color: $color__link;
-		}
 	}
 }
 
 .site-footer {
-	a {
+	a, a:hover, a:visited {
 		color: $base100;
 	}
 

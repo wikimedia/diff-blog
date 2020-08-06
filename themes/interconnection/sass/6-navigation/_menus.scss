@@ -8,8 +8,36 @@
 	border-bottom: 0.0625rem $base80 solid;
 
 	.top-nav {
-		height: rem($size__navigation);
+		padding-top: 0.25rem;
+		padding-bottom: 0.25rem;
+
+		@media screen and (min-width: $small-bp) {
+			padding-top: 0.375rem;
+			padding-bottom: 0.375rem;
+		}		
 	}
+
+	select {
+		max-width: 8rem;
+		padding-left: 1.875rem;
+		// style partially duplicating from _fields.scss to use 2 background images
+		background-image: url("assets/svg/down.svg"), url("assets/svg/language.svg");
+		background-position: right 0.25rem top 50%, left 0.375rem top 48%;
+		background-size: 0.75rem, 1.125rem;
+	}
+}
+
+.headroom {
+	will-change: transform;
+	transition: transform 200ms linear;
+}
+
+.headroom--pinned {
+	transform: translateY(0%);
+}
+
+.headroom--unpinned {
+	transform: translateY(-100%);
 }
 
 .admin-bar .site-header {
@@ -32,10 +60,6 @@
 				text-decoration: none;
 			}
 		}
-	}
-
-	@media screen and (max-width: $small-bp) {
-		display: none;
 	}
 }
 
@@ -88,6 +112,7 @@
 			background-color: rgba(255, 255, 255, 0.96);
 			border: 0.0625rem solid $base50;
 			border-radius: 0.125rem;
+			max-width: 100vw;
 
 			a {
 				@include padding(4, 4, 4, 0);
@@ -103,6 +128,7 @@
 		li:hover > ul,
 		li.focus > ul {
 			left: - rem(8); // based on .menu li padding-left
+			right: auto;
 		}
 
 		.active > a {
@@ -142,7 +168,7 @@
 	.menu {
 		position: absolute;
 		left: 0;
-		top: rem($size__navigation);
+		top: 3rem;
 		width: 100%;
 		padding: 1rem rem(30);
 		border-top: 0.0625rem $base80 solid;
@@ -164,6 +190,11 @@
 			}
 		}
 	}
+
+	#primary-menu {
+		max-height: 70vh;
+		overflow-y: scroll;
+	}
 }
 
 .secondary-navigation {
@@ -172,18 +203,29 @@
 	text-align: right;
 	
 	> div {
-		display: inline-block;
 		margin-left: 0.5rem;
+		display: none;
+		@media screen and (min-width: $medium-bp) {
+			display: inline-block;
+		}
+	}
+
+	> div:first-child {
+		display: inline-block;
 	}
 }
 
 .site-start {
-	margin-top: rem($site-main-shift);
+	margin-top: 4rem;
 	@include margin-bottom(0);
 	position: relative;
 
+	@media screen and (min-width: $small-bp) {
+		margin-top: 6rem;
+	}
+
 	.site-description {
-		margin-bottom: 4rem;
+		@include margin-bottom(1);
 		@include accent-line();
 	}
 }
@@ -192,6 +234,15 @@
 .menu-toggle,
 .main-navigation.toggled .menu {
 	display: block;
+}
+
+.menu-toggle {
+	min-height: 1.625rem;
+	min-width: 1.625rem;
+	background-image: url("assets/svg/menu.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 1rem;
 }
 
 @media screen and (min-width: $small-bp) {
@@ -227,9 +278,8 @@
 		flex-direction: row;
 	}
 
-	.nav-previous,
-	.nav-next {
-		flex: 1 0 49%;
+	.nav-previous {
+		margin-right: 1rem;
 	}
 }
 
