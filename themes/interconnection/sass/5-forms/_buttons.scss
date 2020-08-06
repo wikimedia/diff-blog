@@ -5,7 +5,8 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"],
 .home .nav-links a,
-.archive .nav-links a {
+.archive .nav-links a,
+.wp-block-button__link {
 	border: 0.08rem solid transparent;
 	border-radius: 0.125rem;
 	font-size: 1rem;
@@ -19,10 +20,15 @@ input[type="submit"],
 		cursor: pointer;
 	}
 
-	&:active,
-	&:focus {
+	&:active {
 		border-color: $color__border-button-focus;
 		text-decoration: none;
+	}
+
+	&:focus {
+		border-color: $base100;
+		outline: none; 
+		box-shadow: 0 0 0 0.16rem $accent50;
 	}
 }
 
@@ -33,8 +39,9 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"],
 .home .nav-links a,
-.archive .nav-links a {
-	background: $base10;
+.archive .nav-links a,
+.wp-block-button__link {
+	background-color: $base10;
 	color: $base100;
 
 	&:visited {
@@ -42,12 +49,11 @@ input[type="submit"],
 	}
 
 	&:hover {
-		background: $base20;
+		background-color: $base20;
 		color: $base100;
 	}
 
-	&:active,
-	&:focus {
+	&:active {
 		color: $base100;
 	}
 }
@@ -58,7 +64,7 @@ input[type="submit"],
 .site-footer input[type="submit"],
 .main-navigation button,
 .main-navigation input[type="button"] {
-	background: $base80;
+	background-color: $base80;
 	color: $base10;
 	border-color: $base10;
 
@@ -67,13 +73,12 @@ input[type="submit"],
 	}
 
 	&:hover {
-		background: $base70;
+		background-color: $base70;
 		color: $base0;
 		border-color: $base0;
 	}
 
-	&:active,
-	&:focus {
+	&:active {
 		color: $base20;
 		border-color: $base0;
 	}
@@ -81,7 +86,7 @@ input[type="submit"],
 
 // accent button
 .btn-accent {
-	background: $accent50;
+	background-color: $accent50;
 	color: $base100;
 
 	&:visited {
@@ -89,16 +94,21 @@ input[type="submit"],
 	}
 
 	&:hover {
-		background: $accent30;
+		background-color: $accent30;
 		color: $base100;
 	}
 
-	&:active,
-	&:focus {
+	&:active {
 		color: $base100;
 	}
 }
 
 .btn-big {
 	font-size: $font__size-h3;
+}
+
+// links with button style should not have link underline
+.entry-content a.wp-block-button__link,
+.entry-content a.btn-accent {
+	text-decoration: none;
 }
