@@ -1,12 +1,7 @@
-#cta {
-	@include shade("accent");
-
-	.wrapper {
-		@include column-2;
-	}
-
-	.widget img {
+.cta-section {
+	.widget_media_image img {
 		width: 100%;
+		border-radius: 0.125rem;
 	}
 
 	.wp-caption {
@@ -15,5 +10,32 @@
 		figcaption {
 			display: none;
 		}
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+
+		li {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	h1 a:visited,
+	h2 a:visited,
+	h3 a:visited {
+		color: inherit;
+	}
+}
+
+#cta {
+	@include shade("accent");
+}
+
+#cta2 {
+	.widget {
+		@include shade("light");
+		padding: 0.75rem 1.5rem;
+		border-radius: 0.125rem;
 	}
 }
