@@ -17,10 +17,9 @@ Diff is hosted on WordPress VIP. For local development, see this guide. https://
 Diff uses a WordPress theme called "Interconnection" based on \_s (underscores) a popular starter theme framework. It is designed by hang Do Thi Duc and follows the Wikimeida Design (https://design.wikimedia.org/style-guide/)  and branding (https://meta.wikimedia.org/wiki/Brand) style guides. 
 
 Diff uses the following plugins.
-* MultilingualPress 3 for translation
+* Polylang for translation
 * PublishPress for editoral workflow
 * wpDiscuz for comments
-* MiniOrange OAuth for authorization
 * Co-Authors Plus for authorship
 * Fieldmanager to assist media attribution
 * AMP for distribution
