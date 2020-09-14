@@ -214,3 +214,11 @@ function diff_contributor_string_translation() {
         add_menu_page( __( 'Strings translations', 'polylang' ), __( 'Languages', 'polylang' ), 'edit_posts', 'mlang_strings', array( PLL(), 'languages_page' ), 'dashicons-translation' );
     }
 }
+
+/* Verify domain for Facebook */
+add_action('wp_head', 'diff_fb_verify');
+function diff_fb_verify(){
+?>
+<meta name ="facebook-domain-verification" content="yk2blq9pquiyqqsigh6bsjsxyck9g0" />
+<?php				
+};
