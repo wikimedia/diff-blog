@@ -980,7 +980,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 "wmuIsShowFilesDashboard" => 1,
                 "wmuSingleImageWidth" => "auto",
                 "wmuSingleImageHeight" => 200,
-                "wmuImageSizes" => $this->getAllImageSizes(),
+                "wmuImageSizes" => $this->getDefaultImageSizes(),
             ],
             self::TAB_LIVE => [
                 "enableBubble" => 0,
@@ -1422,8 +1422,8 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                 $this->content["wmuMimeTypes"] = isset($_POST[self::TAB_CONTENT]["wmuMimeTypes"]) ? $_POST[self::TAB_CONTENT]["wmuMimeTypes"] : [];
                 $this->content["wmuMaxFileSize"] = isset($_POST[self::TAB_CONTENT]["wmuMaxFileSize"]) ? $_POST[self::TAB_CONTENT]["wmuMaxFileSize"] : $this->wmuUploadMaxFileSize / (1024 * 1024);
                 $this->content["wmuIsShowFilesDashboard"] = isset($_POST[self::TAB_CONTENT]["wmuIsShowFilesDashboard"]) ? absint($_POST[self::TAB_CONTENT]["wmuIsShowFilesDashboard"]) : 0;
-                $this->content["wmuSingleImageWidth"] = isset($_POST[self::TAB_CONTENT]["wmuSingleImageWidth"]) && ($v = trim($_POST[self::TAB_CONTENT]["wmuSingleImageWidth"])) && ($v == "auto" || ($v = absint($v))) ? $v : 320;
-                $this->content["wmuSingleImageHeight"] = isset($_POST[self::TAB_CONTENT]["wmuSingleImageHeight"]) && ($v = trim($_POST[self::TAB_CONTENT]["wmuSingleImageHeight"])) && ($v == "auto" || ($v = absint($v))) ? $v : 200;
+                $this->content["wmuSingleImageWidth"] = isset($_POST[self::TAB_CONTENT]["wmuSingleImageWidth"]) && ($v = trim($_POST[self::TAB_CONTENT]["wmuSingleImageWidth"])) && ($v === "auto" || ($v = absint($v))) ? $v : 320;
+                $this->content["wmuSingleImageHeight"] = isset($_POST[self::TAB_CONTENT]["wmuSingleImageHeight"]) && ($v = trim($_POST[self::TAB_CONTENT]["wmuSingleImageHeight"])) && ($v === "auto" || ($v = absint($v))) ? $v : 200;
                 $this->content["wmuImageSizes"] = isset($_POST[self::TAB_CONTENT]["wmuImageSizes"]) && is_array($_POST[self::TAB_CONTENT]["wmuImageSizes"]) && ($sizes = array_filter($_POST[self::TAB_CONTENT]["wmuImageSizes"])) ? $sizes : [];
             } else if (self::TAB_LIVE === $_POST["wpd_tab"]) {
                 $this->live["enableBubble"] = isset($_POST[self::TAB_LIVE]["enableBubble"]) ? absint($_POST[self::TAB_LIVE]["enableBubble"]) : 0;
@@ -1895,7 +1895,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
             $lastHash = get_option("wpdiscuz-addon-note-dismissed");
             $lastHashArray = explode(",", $lastHash);
             $currentHash = "wpDiscuz Addon Bundle";
-            if ($lastHash != $currentHash && !in_array("Addons Bundle", $lastHashArray)) {
+            if ($lastHash !== $currentHash && !in_array("Addons Bundle", $lastHashArray)) {
                 ?>
                 <div class="updated notice wpdiscuz_addon_note is-dismissible" style="margin-top:10px;">
                     <p style="font-weight:normal; font-size:15px; border-bottom:1px dotted #DCDCDC; padding-bottom:10px; clear: both;">
@@ -1905,7 +1905,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
                     <div style="font-size:14px;">
                         <?php
                         foreach ($this->addons as $key => $addon) {
-                            if ($addon["class"] != "Bundle")
+                            if ($addon["class"] !== "Bundle")
                                 continue;
                             if (in_array($addon["title"], $lastHashArray))
                                 continue;
@@ -1974,7 +1974,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
     public function refreshAddonPage() {
         $lastHash = get_option("wpdiscuz-addon-note-dismissed");
         $currentHash = $this->addonHash();
-        if ($lastHash != $currentHash) {
+        if ($lastHash !== $currentHash) {
             ?>
             <script language="javascript">jQuery(document).ready(function () {
                     location.reload();
@@ -2091,7 +2091,7 @@ class WpdiscuzOptions implements WpDiscuzConstants {
         return intval($value);
     }
 
-    private function getAllImageSizes() {
+    public function getDefaultImageSizes() {
         return ["thumbnail", "medium", "medium_large", "large"];
     }
 

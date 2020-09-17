@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang
+ */
 
 /**
  * A class for the Polylang settings pages
@@ -33,13 +36,6 @@ class PLL_Settings extends PLL_Admin_Base {
 	protected $modules;
 
 	/**
-	 * Reference to PLL_Import_Export
-	 *
-	 * @var PLL_Import_Export $import_export
-	 */
-	protected $import_export;
-
-	/**
 	 * Constructor
 	 *
 	 * @since 1.2
@@ -55,11 +51,6 @@ class PLL_Settings extends PLL_Admin_Base {
 
 		PLL_Admin_Strings::init();
 
-		if ( class_exists( 'PLL_Import_Export' ) ) {
-			$this->import_export = new PLL_Import_Export( $this );
-		}
-
-		// FIXME put this as late as possible
 		add_action( 'admin_init', array( $this, 'register_settings_modules' ) );
 
 		// Adds screen options and the about box in the languages admin panel
@@ -76,25 +67,18 @@ class PLL_Settings extends PLL_Admin_Base {
 	 * @since 1.8
 	 */
 	public function register_settings_modules() {
-		$modules = array(
-			'PLL_Settings_Licenses',
-		);
+		$modules = array();
 
 		if ( $this->model->get_languages_list() ) {
-			$modules = array_merge(
-				array(
-					'PLL_Settings_Url',
-					'PLL_Settings_Browser',
-					'PLL_Settings_Media',
-					'PLL_Settings_CPT',
-					'PLL_Settings_Sync',
-					'PLL_Settings_WPML',
-					'PLL_Settings_Share_Slug',
-					'PLL_Settings_Translate_Slugs',
-				),
-				$modules
+			$modules = array(
+				'PLL_Settings_Url',
+				'PLL_Settings_Browser',
+				'PLL_Settings_Media',
+				'PLL_Settings_CPT',
 			);
 		}
+
+		$modules[] = 'PLL_Settings_Licenses';
 
 		/**
 		 * Filter the list of setting modules
@@ -117,7 +101,7 @@ class PLL_Settings extends PLL_Admin_Base {
 	 * @since 0.8
 	 */
 	public function metabox_about() {
-		include PLL_SETTINGS_INC . '/view-about.php';
+		include __DIR__ . '/view-about.php';
 	}
 
 	/**
@@ -328,7 +312,7 @@ class PLL_Settings extends PLL_Admin_Base {
 		}
 
 		// Displays the page
-		include PLL_SETTINGS_INC . '/view-languages.php';
+		include __DIR__ . '/view-languages.php';
 	}
 
 	/**
@@ -341,6 +325,7 @@ class PLL_Settings extends PLL_Admin_Base {
 
 		wp_enqueue_script( 'pll_admin', plugins_url( '/js/admin' . $suffix . '.js', POLYLANG_FILE ), array( 'jquery', 'wp-ajax-response', 'postbox', 'jquery-ui-selectmenu' ), POLYLANG_VERSION );
 		wp_localize_script( 'pll_admin', 'pll_flag_base_url', plugins_url( '/flags/', POLYLANG_FILE ) );
+		wp_localize_script( 'pll_admin', 'pll_dismiss_notice', esc_html__( 'Dismiss this notice.', 'polylang' ) );
 
 		wp_enqueue_style( 'pll_selectmenu', plugins_url( '/css/selectmenu' . $suffix . '.css', POLYLANG_FILE ), array(), POLYLANG_VERSION );
 	}
@@ -387,7 +372,7 @@ class PLL_Settings extends PLL_Admin_Base {
 	public static function get_predefined_languages() {
 		require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
-		$languages    = include PLL_SETTINGS_INC . '/languages.php';
+		$languages    = include __DIR__ . '/languages.php';
 		$translations = wp_get_available_translations();
 
 		// Keep only languages with existing WP language pack

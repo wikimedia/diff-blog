@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang
+ */
 
 /**
  * Base class for both admin and frontend
@@ -6,7 +9,40 @@
  * @since 1.2
  */
 abstract class PLL_Base {
-	public $links_model, $model, $options;
+	/**
+	 * Stores the plugin options.
+	 *
+	 * @var array
+	 */
+	public $options;
+
+	/**
+	 * Instance of PLL_Model.
+	 *
+	 * @var PLL_Model
+	 */
+	public $model;
+
+	/**
+	 * Instance of a child class of PLL_Links_Model.
+	 *
+	 * @var PLL_Links_Model
+	 */
+	public $links_model;
+
+	/**
+	 * Registers hooks on insert / update post related actions and filters.
+	 *
+	 * @var PLL_CRUD_Posts
+	 */
+	public $posts;
+
+	/**
+	 * Registers hooks on insert / update term related action and filters.
+	 *
+	 * @var PLL_CRUD_Terms
+	 */
+	public $terms;
 
 	/**
 	 * Constructor
@@ -33,31 +69,15 @@ abstract class PLL_Base {
 	}
 
 	/**
-	 * Instantiate classes always needed
+	 * Instantiates classes reacting to CRUD operations on posts and terms,
+	 * only when at least one language is defined.
 	 *
 	 * @since 2.6
 	 */
 	public function init() {
-		// REST API
-		if ( class_exists( 'PLL_REST_API' ) ) {
-			$this->rest_api = new PLL_REST_API( $this );
-		}
-
 		if ( $this->model->get_languages_list() ) {
-			// Used by content duplicate and post synchronization
-			if ( class_exists( 'PLL_Sync_Content' ) ) {
-				$this->sync_content = new PLL_Sync_Content( $this );
-			}
-
-			// Active languages
-			if ( class_exists( 'PLL_Active_Languages' ) ) {
-				$this->active_languages = new PLL_Active_Languages( $this );
-			}
-
-			// Share post slugs
-			if ( get_option( 'permalink_structure' ) && $this->options['force_lang'] && class_exists( 'PLL_Share_Post_Slug' ) ) {
-				$this->share_post_slug = new PLL_Share_Post_Slug( $this );
-			}
+			$this->posts = new PLL_CRUD_Posts( $this );
+			$this->terms = new PLL_CRUD_Terms( $this );
 		}
 	}
 

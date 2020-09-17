@@ -2,7 +2,7 @@
 
 namespace Allex;
 
-class Textdomain extends Abstract_Service
+class TextDomain extends Abstract_Service
 {
     /**
      * @var string

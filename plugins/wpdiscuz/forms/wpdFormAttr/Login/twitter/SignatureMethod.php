@@ -51,7 +51,7 @@ abstract class SignatureMethod
             return false;
         }
 
-        if (strlen($built) != strlen($signature)) {
+        if (strlen($built) !== strlen($signature)) {
             return false;
         }
 

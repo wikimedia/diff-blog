@@ -135,13 +135,13 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <div class="wpd-switch-field" style="min-width: 220px;">
-            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] == "fa-plus|fa-minus") ?> value="fa-plus|fa-minus" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconPlusMinus" class="votingButtonsIconPlusMinus" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] === "fa-plus|fa-minus") ?> value="fa-plus|fa-minus" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconPlusMinus" class="votingButtonsIconPlusMinus" style="vertical-align: bottom;"/>
             <label for="votingButtonsIconPlusMinus" style="min-width:50px;"><i class="fas fa-plus"></i> <i class="fas fa-minus"></i></label>
-            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] == "fa-chevron-up|fa-chevron-down") ?> value="fa-chevron-up|fa-chevron-down" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconChevronUpDown" class="votingButtonsIconChevronUpDown" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] === "fa-chevron-up|fa-chevron-down") ?> value="fa-chevron-up|fa-chevron-down" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconChevronUpDown" class="votingButtonsIconChevronUpDown" style="vertical-align: bottom;"/>
             <label for="votingButtonsIconChevronUpDown" style="min-width:50px;"><i class="fas fa-chevron-up"></i> <i class="fas fa-chevron-down"></i></label>
-            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] == "fa-thumbs-up|fa-thumbs-down") ?> value="fa-thumbs-up|fa-thumbs-down" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconThumbsUpDown" class="votingButtonsIconThumbsUpDown" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] === "fa-thumbs-up|fa-thumbs-down") ?> value="fa-thumbs-up|fa-thumbs-down" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconThumbsUpDown" class="votingButtonsIconThumbsUpDown" style="vertical-align: bottom;"/>
             <label for="votingButtonsIconThumbsUpDown" style="min-width:50px;"><i class="fas fa-thumbs-up"></i> <i class="fas fa-thumbs-down"></i></label>
-            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] == "fa-smile|fa-frown") ?> value="fa-smile|fa-frown" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconSmileFrown" class="votingButtonsIconSmileFrown" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->thread_layouts["votingButtonsIcon"] === "fa-smile|fa-frown") ?> value="fa-smile|fa-frown" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_LAYOUTS); ?>[votingButtonsIcon]" id="votingButtonsIconSmileFrown" class="votingButtonsIconSmileFrown" style="vertical-align: bottom;"/>
             <label for="votingButtonsIconSmileFrown" style="min-width:50px;"><i class="far fa-smile"></i> <i class="far fa-frown"></i></label>
         </div>
     </div>

@@ -1,9 +1,12 @@
 /**
+ * @package Polylang
+ */
+
+/**
  * Filter REST API requests to add the language in the request
  *
  * @since 2.5
  */
-
 wp.apiFetch.use(
 	function( options, next ) {
 		// If options.url is defined, this is not a REST request but a direct call to post.php for legacy metaboxes.
@@ -92,25 +95,25 @@ jQuery( document ).ready(
 						// If the post is well saved, we can reload the page
 						unsubscribe();
 						window.location.reload();
-					}, 
+					},
 					function() {
 						// If the post save failed
 						unsubscribe();
-					} 
+					}
 				).catch(
 					function() {
 						// If an exception is thrown
 						unsubscribe();
 					}
 				);
-			} 
+			}
 		);
-	} 
+	}
 );
 
 /**
  * Handles internals of the metabox:
- * Language select, autocomplete input field and buttons.
+ * Language select, autocomplete input field.
  *
  * @since 1.5
  */
@@ -128,7 +131,7 @@ jQuery( document ).ready(
 				}
 
 				$.post(
-					ajaxurl, 
+					ajaxurl,
 					data,
 					function( response ) {
 						var res = wpAjax.parseAjaxResponse( response, 'ajax-response' );
@@ -193,41 +196,5 @@ jQuery( document ).ready(
 		}
 
 		init_translations();
-
-		// Handle the response to a click on a Languages metabox button
-		$( '#ml_box' ).on(
-			'click',
-			'.pll-button', 
-			function(){
-				var value = $( this ).hasClass( 'wp-ui-text-highlight' );
-				var id = $( this ).attr( 'id' );
-				var post_id = $( '#htr_lang_' + id.replace( 'pll_sync_post[', '' ).replace( ']', '' ) ).val();
-
-				if ( 'undefined' == typeof( post_id ) || 0 == post_id || value || confirm( confirm_text ) ) {
-					var data = {
-						action:     'toggle_' + id,
-						value:      value,
-						post_type:  $( '#post_type' ).val(),
-						_pll_nonce: $( '#_pll_nonce' ).val()
-					}
-
-					$.post(
-						ajaxurl,
-						data,
-						function( response ){
-							var res = wpAjax.parseAjaxResponse( response, 'ajax-response' );
-							$.each(
-								res.responses,
-								function() {
-									id = id.replace( '[', '\\[' ).replace( ']', '\\]' );
-									$( '#' + id ).toggleClass( 'wp-ui-text-highlight' ).attr( 'title', this.data ).children( 'span' ).text( this.data );
-									$( 'input[name="' + id + '"]' ).val( ! data['value'] );
-								}
-							);
-						}
-					);
-				}
-			}
-		);
 	}
 );

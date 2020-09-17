@@ -55,6 +55,7 @@ class WpdiscuzRest extends WP_REST_Controller {
                 $response["ids"] = $newCommentIds;
                 if ($this->options->live["bubbleShowNewCommentMessage"]) {
                     $comment = get_comment($commentId);
+                    $comment->comment_content = apply_filters("comment_text", $comment->comment_content, $comment, ["is_wpdiscuz_comment" => true]);
                     $comment->comment_content = strip_tags($comment->comment_content);
                     if (stripos($comment->comment_content, "[/spoiler]") === false) {
                         $user = "";

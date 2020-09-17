@@ -3,6 +3,11 @@
 namespace Allex\Module;
 
 use Allex\Container;
+use Exception;
+use Twig_Environment;
+use Twig_Error_Loader;
+use Twig_Error_Runtime;
+use Twig_Error_Syntax;
 
 class Addons extends Abstract_Module
 {
@@ -32,7 +37,7 @@ class Addons extends Abstract_Module
     protected $plugin_dir_path;
 
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     protected $twig;
 
@@ -113,9 +118,9 @@ class Addons extends Abstract_Module
      * @param string $addons_page_url
      * @param string $plugin_name
      *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws Twig_Error_Loader
+     * @throws Twig_Error_Runtime
+     * @throws Twig_Error_Syntax
      */
     public function echo_addons_page($addons_page_url, $plugin_name = null)
     {
@@ -212,7 +217,6 @@ class Addons extends Abstract_Module
      */
     public function filter_allex_addons_append_data($addons, $plugin_name)
     {
-
         // If not related to this plugin, we skip it.
         if ($plugin_name !== $this->plugin_name) {
             return $addons;
@@ -231,7 +235,7 @@ class Addons extends Abstract_Module
      */
     protected function set_addons_state(&$addons)
     {
-        if ( ! empty($addons)) {
+        if (!empty($addons)) {
             foreach ($addons as &$addon) {
                 $is_installed = $this->is_plugin_installed($addon['slug']);
                 $is_active    = false;
@@ -281,10 +285,16 @@ class Addons extends Abstract_Module
             $addon['license_key']    = get_option("{$addon_name}_license_key");
 
             // Applies filters to the license key and status.
-            $addon['license_status'] = apply_filters('allex_addons_get_license_status', $addon['license_status'],
-                $addon['slug']);
-            $addon['license_key']    = apply_filters('allex_addons_get_license_key', $addon['license_key'],
-                $addon['slug']);
+            $addon['license_status'] = apply_filters(
+                'allex_addons_get_license_status',
+                $addon['license_status'],
+                $addon['slug']
+            );
+            $addon['license_key']    = apply_filters(
+                'allex_addons_get_license_key',
+                $addon['license_key'],
+                $addon['slug']
+            );
         }
     }
 
@@ -298,7 +308,6 @@ class Addons extends Abstract_Module
      */
     public function filter_allex_installed_addons($addons, $plugin_name)
     {
-
         // If not related to this plugin, we skip it returning an empty array.
         if ($plugin_name !== $this->plugin_name) {
             return $addons;
@@ -307,7 +316,7 @@ class Addons extends Abstract_Module
         $addons = apply_filters('allex_addons', [], $plugin_name);
 
         foreach ($addons as $addon_slug => $addon) {
-            if ( ! $addon['is_installed']) {
+            if (!$addon['is_installed']) {
                 unset($addons[$addon_slug]);
             }
         }
@@ -322,7 +331,7 @@ class Addons extends Abstract_Module
     public function ajax_validate_license_key()
     {
         // If we are not in the valid plugin, we skip it. Maybe the method was called by another instance.
-        if ( ! isset($_POST['plugin_name']) || $_POST['plugin_name'] !== $this->plugin_name) {
+        if (!isset($_POST['plugin_name']) || $_POST['plugin_name'] !== $this->plugin_name) {
             return;
         }
 
@@ -334,36 +343,36 @@ class Addons extends Abstract_Module
         ];
 
         try {
-            if ( ! current_user_can('activate_plugins')) {
-                throw new \Exception(__("You're not allowed to do this.", 'allex'));
+            if (!current_user_can('activate_plugins')) {
+                throw new Exception(__("You're not allowed to do this.", 'allex'));
             }
 
-            if (empty($_POST) || ! isset($_POST['key']) || ! isset($_POST['plugin_name']) || ! isset($_POST['nonce'])) {
-                throw new \Exception(__('Invalid request.', 'allex'));
+            if (empty($_POST) || !isset($_POST['key']) || !isset($_POST['plugin_name']) || !isset($_POST['nonce'])) {
+                throw new Exception(__('Invalid request.', 'allex'));
             }
 
-            if ( ! check_ajax_referer('allex_activate_license', 'nonce', false)) {
-                throw new \Exception(__("You're not allowed to do this.", 'allex'));
+            if (!check_ajax_referer('allex_activate_license', 'nonce', false)) {
+                throw new Exception(__("You're not allowed to do this.", 'allex'));
             }
 
             $plugin_name = sanitize_text_field(trim($_POST['plugin_name']));
             if (empty($plugin_name)) {
-                throw new \Exception(__('Invalid plugin name.', 'allex'));
+                throw new Exception(__('Invalid plugin name.', 'allex'));
             }
 
             $addon_slug = sanitize_text_field(trim($_POST['addon_name']));
             if (empty($addon_slug)) {
-                throw new \Exception(__('Invalid addon name.', 'allex'));
+                throw new Exception(__('Invalid addon name.', 'allex'));
             }
 
             $addon_edd_id = sanitize_text_field(trim($_POST['addon_edd_id']));
             if (empty($addon_edd_id)) {
-                throw new \Exception(__('Invalid addon EDD ID.', 'allex'));
+                throw new Exception(__('Invalid addon EDD ID.', 'allex'));
             }
 
             $license_key = sanitize_text_field(trim($_POST['key']));
             if (empty($license_key)) {
-                throw new \Exception(__('Invalid license key.', 'allex'));
+                throw new Exception(__('Invalid license key.', 'allex'));
             }
 
             /**
@@ -380,11 +389,11 @@ class Addons extends Abstract_Module
 
             // Check if it is a valid add-on.
             if (empty($addons)) {
-                throw new \Exception(__("Invalid add-on.", 'allex'));
+                throw new Exception(__("Invalid add-on.", 'allex'));
             }
 
-            if ( ! array_key_exists($addon_slug, $addons)) {
-                throw new \Exception(__('Invalid addon name.', 'allex'));
+            if (!array_key_exists($addon_slug, $addons)) {
+                throw new Exception(__('Invalid addon name.', 'allex'));
             }
 
             // The default status.
@@ -412,20 +421,28 @@ class Addons extends Abstract_Module
                 $message = $edd_response->get_error_message();
 
                 if (empty($message)) {
-                    throw new \Exception(__('An error occurred. Please, try again or contact the support team.',
-                        'allex'));
+                    throw new Exception(
+                        __(
+                            'An error occurred. Please, try again or contact the support team.',
+                            'allex'
+                        )
+                    );
                 }
 
-                throw new \Exception($message, 'allex');
+                throw new Exception($message, 'allex');
             }
 
             // Convert data response to an object.
             $data = json_decode(wp_remote_retrieve_body($edd_response));
 
             // Do we have empty data? Throw an error.
-            if (empty($data) || ! is_object($data)) {
-                throw new \Exception(__('An error occurred. Please, try again or contact the support team.',
-                    'allex'));
+            if (empty($data) || !is_object($data)) {
+                throw new Exception(
+                    __(
+                        'An error occurred. Please, try again or contact the support team.',
+                        'allex'
+                    )
+                );
             }
 
             $response['success'] = true;
@@ -433,8 +450,8 @@ class Addons extends Abstract_Module
             $addon_name = str_replace('-', '_', $addon_slug);
 
             // Deal with invalid licenses.
-            if ( ! $data->success && $data->license === self::LICENSE_STATUS_INVALID) {
-                if (isset($data->error) && ! empty($data->error)) {
+            if (!$data->success && $data->license === self::LICENSE_STATUS_INVALID) {
+                if (isset($data->error) && !empty($data->error)) {
                     $response['license_status'] = $data->error;
 
                     update_option("{$addon_name}_license_key", $license_key, true);
@@ -452,10 +469,15 @@ class Addons extends Abstract_Module
                 update_option("{$addon_name}_license_key", $license_key, true);
                 update_option("{$addon_name}_license_status", static::LICENSE_STATUS_VALID, true);
 
-                do_action('allex_addon_update_license', $plugin_name, $addon_slug, $license_key,
-                    static::LICENSE_STATUS_VALID);
+                do_action(
+                    'allex_addon_update_license',
+                    $plugin_name,
+                    $addon_slug,
+                    $license_key,
+                    static::LICENSE_STATUS_VALID
+                );
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response['message'] = $e->getMessage();
         }
 
@@ -480,11 +502,19 @@ class Addons extends Abstract_Module
 
         foreach ($pool as $addon) {
             if (file_exists(WP_PLUGIN_DIR . '/' . $addon['slug'] . '/' . $addon['slug'] . '.php')) {
-                add_action('plugin_action_links_' . $addon['slug'] . '/' . $addon['slug'] . '.php',
-                    [$this, 'actionSetLicenseKeyLink'], 998, 2);
+                add_action(
+                    'plugin_action_links_' . $addon['slug'] . '/' . $addon['slug'] . '.php',
+                    [$this, 'actionSetLicenseKeyLink'],
+                    998,
+                    2
+                );
 
-                add_action('in_plugin_update_message-' . $addon['slug'] . '/' . $addon['slug'] . '.php',
-                    [$this, 'inPluginUpdateMessage'], 998, 2);
+                add_action(
+                    'in_plugin_update_message-' . $addon['slug'] . '/' . $addon['slug'] . '.php',
+                    [$this, 'inPluginUpdateMessage'],
+                    998,
+                    2
+                );
             }
         }
     }
@@ -500,7 +530,7 @@ class Addons extends Abstract_Module
         $addons = array_keys($addons);
 
         // If is not a plugin add-on, we stop.
-        if ( ! in_array($pluginData['slug'], $addons)) {
+        if (!in_array($pluginData['slug'], $addons)) {
             return;
         }
 
@@ -512,8 +542,10 @@ class Addons extends Abstract_Module
             // Update available, but there is no package probably because there is no valid license key.
             $context = [
                 'text' => [
-                    'please_enter_license_key' => __('Please enter a valid license key to enable automatic updates.',
-                        'allex'),
+                    'please_enter_license_key' => __(
+                        'Please enter a valid license key to enable automatic updates.',
+                        'allex'
+                    ),
                     'enter_license_key'        => __('Enter License Key', 'allex'),
                 ],
                 'link' => $this->setLicenseKeyLink,
