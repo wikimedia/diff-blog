@@ -10,7 +10,6 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
     private $dbManager;
     private $wpdiscuzForm;
     private $helper;
-    private $imageSizes;
     private $wpUploadsPath;
     private $wpUploadsUrl;
     private $currentUser;
@@ -22,7 +21,6 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
         $this->dbManager = $dbManager;
         $this->wpdiscuzForm = $wpdiscuzForm;
         $this->helper = $helper;
-        $this->imageSizes = $this->getImageSizes();
         $wpUploadsDir = wp_upload_dir();
         $this->wpUploadsPath = $wpUploadsDir["path"];
         $this->wpUploadsUrl = $wpUploadsDir["url"];
@@ -159,7 +157,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
                 if ($pagenow == self::PAGE_COMMENTS) {
                     $size = "thumbnail";
                 } else {
-                    foreach ($this->imageSizes as $sizeKey => $sizeValue) {
+                    foreach ($this->getImageSizes() as $sizeKey => $sizeValue) {
                         if (!intval($sizeValue["height"]) && !intval($sizeValue["width"])) {
                             continue;
                         }
@@ -321,7 +319,7 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
 
         foreach ($files as $file) {
             $error = false;
-            $extension = pathinfo($file["name"], PATHINFO_EXTENSION);
+            $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
             if ($mimeType = $this->isImage($file)) {
                 if ((strpos($mimeType, "image/") !== false) && empty($extension)) {
                     $file["name"] .= ".jpg";
@@ -412,6 +410,8 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
     }
 
     public function removeAttachmentPreview() {
+	    $nonceKey = ($key = get_home_url()) ? md5($key) : "wmu-nonce";
+	    check_ajax_referer($nonceKey, "wmu_nonce");
         $response = ["errorCode" => "", "error" => "", "attachmentsHtml" => ""];
         $attachmentId = isset($_POST["attachmentId"]) ? intval($_POST["attachmentId"]) : 0;
         $attachment = get_post($attachmentId);
@@ -422,9 +422,12 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
             wp_send_json_error($response);
         }
 
+	    if (empty($this->currentUser->ID)) {
+		    $this->setCurrentUser(WpdiscuzHelper::getCurrentUser());
+	    }
         $ip = WpdiscuzHelper::getRealIPAddr();
         $ownerIp = get_post_meta($attachmentId, self::METAKEY_ATTCHMENT_OWNER_IP, true);
-        if (!current_user_can("manage_options") && $ownerIp != $ip) {
+        if (!current_user_can("manage_options") && (($attachment->post_author != 0 && $attachment->post_author != $this->currentUser->ID) || ($attachment->post_author == 0 && $ownerIp !== $ip))) {
             $response["errorCode"] = "msgPermissionDenied";
             wp_send_json_error($response);
         }
@@ -462,6 +465,8 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
     }
 
     public function deleteAttachment() {
+	    $nonceKey = ($key = get_home_url()) ? md5($key) : "wmu-nonce";
+	    check_ajax_referer($nonceKey, "wmu_nonce");
         $response = ["errorCode" => "", "error" => ""];
         $attachmentId = isset($_POST["attachmentId"]) ? intval($_POST["attachmentId"]) : 0;
         $attachment = get_post($attachmentId);
@@ -571,15 +576,23 @@ class WpdiscuzHelperUpload implements WpDiscuzConstants {
 
     private function getImageSizes() {
         $sizes = [];
+	    $this->options->content["wmuImageSizes"] = array_filter($this->options->content["wmuImageSizes"], function ($v) {
+		    return in_array($v, get_intermediate_image_sizes());
+	    });
         foreach ($this->options->content["wmuImageSizes"] as $_size) {
-            $sizes[$_size]["width"] = get_option("{$_size}_size_w");
-            $sizes[$_size]["height"] = get_option("{$_size}_size_h");
+	        if (in_array($_size, $this->options->getDefaultImageSizes())) {
+		        $sizes[$_size]["width"]  = intval(get_option("{$_size}_size_w"));
+		        $sizes[$_size]["height"] = intval(get_option("{$_size}_size_h"));
+	        } else if (isset($additionalSizes[$_size])) {
+		        $sizes[$_size]["width"]  = $additionalSizes[$_size]["width"];
+		        $sizes[$_size]["height"] = $additionalSizes[$_size]["height"];
+	        }
         }
         return $sizes;
     }
 
     public function getImagesSizes() {
-        $sizes = $this->options->content["wmuImageSizes"];
+	    $sizes = $this->options->content["wmuImageSizes"];
         if ($sizes && is_array($sizes) && !in_array("full", $sizes)) {
             $sizes[] = "full";
         }

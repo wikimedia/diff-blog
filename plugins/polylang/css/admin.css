@@ -228,25 +228,6 @@
 	float: right;
 }
 
-/* Languages metabox buttons */
-.pll-button {
-	padding: 0;
-	height: 20px;
-	background: none;
-	border: none;
-	font-size: 20px;
-	cursor: pointer;
-}
-
-.pll-button:not(.wp-ui-text-highlight) {
-	color: #DDDDDD;
-}
-
-#pll-duplicate {
-	float: right;
-	margin: 13px 7px;
-}
-
 /* language and translations in edit-tags.php */
 .pll-translation-flag { /* also for media */
 	margin-right: 14px;
@@ -291,10 +272,6 @@
 }
 
 /* icon fonts */
-.pll_icon_tick:before {
-	content: "\f147";
-}
-
 .pll_icon_add:before {
 	content: "\f132";
 }
@@ -335,26 +312,6 @@
 
 .pll-notice .button {
 	margin-right: 10px;
-}
-
-/* Bulk translate */
-.bulk-translate-save .button {
-	margin-right: 20px;
-}
-
-#wpbody-content #pll-translate fieldset {
-	display: inline-block;
-	width: 300px;
-}
-
-#pll-translate .pll-translation-flag {
-	margin-right: 0.3em;
-}
-
-#pll-translate .title {
-	display: block;
-	margin: 0.2em 0;
-	line-height: 2.5;
 }
 
 @media screen and ( max-width: 782px ) {

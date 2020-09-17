@@ -6,6 +6,7 @@ use Allex\Module\Addons;
 use Allex\Module\Assets;
 use Allex\Module\Reviews;
 use Allex\Module\Upgrade;
+use Exception;
 
 class Core
 {
@@ -77,12 +78,14 @@ class Core
         $plugin_author,
         $updates_doc_url = ''
     ) {
-        $this->container = new Container([
-            'PLUGIN_BASENAME' => $plugin_base_name,
-            'EDD_API_URL'     => $edd_api_url,
-            'UPDATES_DOC_URL' => $updates_doc_url,
-            'PLUGIN_AUTHOR'   => $plugin_author,
-        ]);
+        $this->container = new Container(
+            [
+                'PLUGIN_BASENAME' => $plugin_base_name,
+                'EDD_API_URL'     => $edd_api_url,
+                'UPDATES_DOC_URL' => $updates_doc_url,
+                'PLUGIN_AUTHOR'   => $plugin_author,
+            ]
+        );
 
         return $this->container;
     }
@@ -91,14 +94,14 @@ class Core
      * @param $service_name
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function get_service($service_name)
     {
         $container = $this->get_container();
 
-        if ( ! isset($container[$service_name])) {
-            throw new \Exception('Service ' . $service_name . ' is undefined.');
+        if (!isset($container[$service_name])) {
+            throw new Exception('Service ' . $service_name . ' is undefined.');
         }
 
         return $container[$service_name];

@@ -45,11 +45,11 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <div class="wpd-switch-field">
-            <input type="radio" <?php checked($this->live["bubbleLocation"] == "content_left") ?> value="content_left" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleLocation]" id="content_left" class="content_left" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->live["bubbleLocation"] === "content_left") ?> value="content_left" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleLocation]" id="content_left" class="content_left" style="vertical-align: bottom;"/>
             <label for="content_left" style="min-width:60px;"><?php esc_html_e("Content Left", "wpdiscuz"); ?></label>
-            <input type="radio" <?php checked($this->live["bubbleLocation"] == "left_corner") ?> value="left_corner" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleLocation]" id="left_corner" class="left_corner" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->live["bubbleLocation"] === "left_corner") ?> value="left_corner" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleLocation]" id="left_corner" class="left_corner" style="vertical-align: bottom;"/>
             <label for="left_corner" style="min-width:60px;"><?php esc_html_e("Left Corner", "wpdiscuz"); ?></label>
-            <input type="radio" <?php checked($this->live["bubbleLocation"] == "right_corner") ?> value="right_corner" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleLocation]" id="right_corner" class="right_corner" style="vertical-align: bottom;"/>
+            <input type="radio" <?php checked($this->live["bubbleLocation"] === "right_corner") ?> value="right_corner" name="<?php echo esc_attr(WpdiscuzCore::TAB_LIVE); ?>[bubbleLocation]" id="right_corner" class="right_corner" style="vertical-align: bottom;"/>
             <label for="right_corner" style="min-width:60px;"><?php esc_html_e("Right Corner", "wpdiscuz"); ?></label>
         </div>
     </div>

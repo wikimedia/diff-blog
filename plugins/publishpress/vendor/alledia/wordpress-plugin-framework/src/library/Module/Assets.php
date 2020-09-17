@@ -80,7 +80,7 @@ class Assets extends Abstract_Module
     {
         global $wp_scripts;
 
-        if ( ! isset($wp_scripts->queue['react'])) {
+        if (!isset($wp_scripts->queue['react'])) {
             wp_enqueue_script(
                 'react',
                 "{$this->assets_base_url}/lib/react.min.js",
@@ -109,29 +109,39 @@ class Assets extends Abstract_Module
             $this->version
         );
 
-        wp_localize_script('allex-admin-addons', 'allexContext', [
-            'labels' => [
-                'installed'                          => __('Installed Extensions', 'allex'),
-                'browse_more'                        => __('Browse More Extensions', 'allex'),
-                'enter_license_key'                  => __('Enter your license key', 'allex'),
-                'activate'                           => __('Activate', 'allex'),
-                'license_key'                        => __('License Key', 'allex'),
-                'change'                             => __('Change', 'allex'),
-                'get_plugins'                        => __('Get Pro Add-ons!', 'allex'),
-                'please_wait'                        => __('Please, wait...', 'allex'),
-                'empty_license'                      => __('Please, enter a license key.', 'allex'),
-                'contact_support'                    => __('If the error persists, please contact the support team.',
-                    'allex'),
-                'all_plugins_installed'              => __('Awesome, it seems like you have all the add-ons installed. Thank you for supporting us.',
-                    'allex'),
-                'license_status_invalid'             => __('Invalid license', 'allex'),
-                'license_status_valid'               => __('Activated', 'allex'),
-                'license_status_missing'             => __('This license key was not found.', 'allex'),
-                'license_status_disabled'            => __('This license key is disabled.', 'allex'),
-                'license_status_expired'             => __('This license key has expired.', 'allex'),
-                'license_status_no_activations_left' => __('This license key has no activations left. Please, consider upgrading your plan.',
-                    'allex'),
-            ],
-        ]);
+        wp_localize_script(
+            'allex-admin-addons',
+            'allexContext',
+            [
+                'labels' => [
+                    'installed'                          => __('Installed Extensions', 'allex'),
+                    'browse_more'                        => __('Browse More Extensions', 'allex'),
+                    'enter_license_key'                  => __('Enter your license key', 'allex'),
+                    'activate'                           => __('Activate', 'allex'),
+                    'license_key'                        => __('License Key', 'allex'),
+                    'change'                             => __('Change', 'allex'),
+                    'get_plugins'                        => __('Get Pro Add-ons!', 'allex'),
+                    'please_wait'                        => __('Please, wait...', 'allex'),
+                    'empty_license'                      => __('Please, enter a license key.', 'allex'),
+                    'contact_support'                    => __(
+                        'If the error persists, please contact the support team.',
+                        'allex'
+                    ),
+                    'all_plugins_installed'              => __(
+                        'Awesome, it seems like you have all the add-ons installed. Thank you for supporting us.',
+                        'allex'
+                    ),
+                    'license_status_invalid'             => __('Invalid license', 'allex'),
+                    'license_status_valid'               => __('Activated', 'allex'),
+                    'license_status_missing'             => __('This license key was not found.', 'allex'),
+                    'license_status_disabled'            => __('This license key is disabled.', 'allex'),
+                    'license_status_expired'             => __('This license key has expired.', 'allex'),
+                    'license_status_no_activations_left' => __(
+                        'This license key has no activations left. Please, consider upgrading your plan.',
+                        'allex'
+                    ),
+                ],
+            ]
+        );
     }
 }

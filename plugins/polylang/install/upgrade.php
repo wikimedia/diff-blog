@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang
+ */
 
 /**
  * Manages Polylang upgrades
@@ -70,7 +73,7 @@ class PLL_Upgrade {
 	 * @since 1.0
 	 */
 	public function admin_notices() {
-		load_plugin_textdomain( 'polylang', false, basename( POLYLANG_DIR ) . '/languages' );
+		load_plugin_textdomain( 'polylang' );
 		printf(
 			'<div class="error"><p>%s</p><p>%s</p></div>',
 			esc_html__( 'Polylang has been deactivated because you upgraded from a too old version.', 'polylang' ),
@@ -89,7 +92,7 @@ class PLL_Upgrade {
 	 * @since 1.2
 	 */
 	public function _upgrade() {
-		foreach ( array( '0.9', '1.0', '1.1', '1.2', '1.2.1', '1.2.3', '1.3', '1.4', '1.4.1', '1.4.4', '1.5', '1.6', '1.7.4', '1.8', '2.0.8', '2.1', '2.3', '2.7' ) as $version ) {
+		foreach ( array( '0.9', '1.0', '1.1', '1.2', '1.2.1', '1.2.3', '1.3', '1.4', '1.4.1', '1.4.4', '1.5', '1.6', '1.7.4', '1.8', '2.0.8', '2.1', '2.7', '2.8.1' ) as $version ) {
 			if ( version_compare( $this->options['version'], $version, '<' ) ) {
 				call_user_func( array( $this, 'upgrade_' . str_replace( '.', '_', $version ) ) );
 			}
@@ -558,7 +561,7 @@ class PLL_Upgrade {
 	 */
 	protected function upgrade_1_8() {
 		// Adds the flag code in languages stored in DB
-		$languages = include PLL_SETTINGS_INC . '/languages.php';
+		$languages = include POLYLANG_DIR . '/settings/languages.php';
 
 		$terms = get_terms( 'language', array( 'hide_empty' => 0 ) );
 
@@ -607,18 +610,6 @@ class PLL_Upgrade {
 	}
 
 	/**
-	 * Upgrades if the previous version is < 2.3
-	 *
-	 * Deletes language cache due to 'redirect_lang' option removed for subdomains and multiple domains in 2.2
-	 * and W3C and Facebook locales added to PLL_Language objects in 2.3
-	 *
-	 * @since 2.3
-	 */
-	protected function upgrade_2_3() {
-		delete_transient( 'pll_languages_list' );
-	}
-
-	/**
 	 * Upgrades if the previous version is < 2.7
 	 * Replace numeric keys by hashes in WPML registered strings
 	 * Dismiss the wizard notice for existing sites
@@ -641,5 +632,20 @@ class PLL_Upgrade {
 		}
 
 		PLL_Admin_Notices::dismiss( 'wizard' );
+	}
+
+	/**
+	 * Upgrades if the previous version is < 2.8.1
+	 *
+	 * Deletes language cache due to:
+	 * - 'redirect_lang' option removed for subdomains and multiple domains in 2.2
+	 * - W3C and Facebook locales added to PLL_Language objects in 2.3
+	 * - flags moved to a different directory in Polylang Pro 2.8
+	 * - bug of flags url returning html fixed in 2.8.1
+	 *
+	 * @since 2.8.1
+	 */
+	protected function upgrade_2_8_1() {
+		delete_transient( 'pll_languages_list' );
 	}
 }
