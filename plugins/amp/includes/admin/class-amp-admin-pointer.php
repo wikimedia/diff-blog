@@ -10,7 +10,6 @@
  * Class representing a single admin pointer.
  *
  * @since 1.2
- * @internal
  */
 class AMP_Admin_Pointer {
 

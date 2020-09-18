@@ -33,7 +33,7 @@ class Captcha extends Field {
     }
 
     private function createRequestMethod($generalOptions) {
-        if ($generalOptions->recaptcha["requestMethod"] !== "auto") {
+        if ($generalOptions->recaptcha["requestMethod"] != "auto") {
             if ($generalOptions->recaptcha["requestMethod"] === "socket") {
                 return new ReCaptcha\RequestMethod\SocketPost();
             } else if ($generalOptions->recaptcha["requestMethod"] === "curl") {
@@ -60,7 +60,7 @@ class Captcha extends Field {
         $version = apply_filters("wpdiscuz_recaptcha_version", $options->recaptcha["version"]);
         $key = apply_filters("wpdiscuz_recaptcha_site_key", $options->recaptcha["siteKey"]);
         $secret = apply_filters("wpdiscuz_recaptcha_secret", $options->recaptcha["secretKey"]);
-        if ($this->isShowCaptcha($currentUser->ID, $options) && $key && $secret && $version === "2.0") {
+        if ($this->isShowCaptcha($currentUser->ID, $options) && $key && $secret && $version == "2.0") {
             ?>
             <div class="wpd-field-captcha wpdiscuz-item">
                 <div class="wpdiscuz-recaptcha" id='wpdiscuz-recaptcha-<?php echo esc_attr($uniqueId); ?>'></div>
@@ -104,7 +104,7 @@ class Captcha extends Field {
                     ];
                     foreach ($errors as $error) {
                         if (isset($errorMesages[$error])) {
-                            $errorMesage .= esc_html__("reCaptcha validation fails. ", "wpdiscuz") . $errorMesages[$error] . "<br>";
+                            $errorMesage .= $errorMesages[$error] . "<br>";
                         } else {
                             $errorMesage .= esc_html__("reCaptcha validation fails. Error code: ", "wpdiscuz") . $error . "<br>";
                         }
@@ -120,7 +120,7 @@ class Captcha extends Field {
         $key = apply_filters("wpdiscuz_recaptcha_site_key", $options->recaptcha["siteKey"]);
         $secret = apply_filters("wpdiscuz_recaptcha_secret", $options->recaptcha["secretKey"]);
         if (!is_user_logged_in() && $options->recaptcha["isShowOnSubscribeForm"] && $key && $secret) {
-            if ($version === "2.0") {
+            if ($version == "2.0") {
                 ?>
                 <div class="wpd-field-captcha wpdiscuz-item">
                     <div class="wpdiscuz-recaptcha" id='wpdiscuz-recaptcha-subscribe-form'></div>
@@ -162,7 +162,7 @@ class Captcha extends Field {
 
     private function reCaptchaVerify($token, $options, $action = "") {
         $recaptchaVersion = apply_filters("wpdiscuz_recaptcha_version", $options->recaptcha["version"]);
-        if ($recaptchaVersion === "2.0") {
+        if ($recaptchaVersion == "2.0") {
             $resp = $this->reCaptcha->verify($token, $this->getIP());
         } else {
             $score = apply_filters("wpdiscuz_recaptcha_score", $options->recaptcha["score"]);

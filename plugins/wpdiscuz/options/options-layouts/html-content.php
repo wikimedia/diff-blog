@@ -158,7 +158,7 @@ if (!defined("ABSPATH")) {
         foreach ($mimes as $ext => $mime) {
             ?>
             <div class="wpd-mublock-inline wpd-mu-mimes" style="margin-right: 2px;">
-                <input type="checkbox" <?php checked(isset($this->content["wmuMimeTypes"][$ext]) && $this->content["wmuMimeTypes"][$ext] === $mime); ?> value="<?php echo esc_attr($mime); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[wmuMimeTypes][<?php echo esc_attr($ext); ?>]" id="wmu-<?php echo esc_attr($ext); ?>" style="margin:0px; vertical-align: middle;" />
+                <input type="checkbox" <?php checked(isset($this->content["wmuMimeTypes"][$ext]) && $this->content["wmuMimeTypes"][$ext] == $mime); ?> value="<?php echo esc_attr($mime); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[wmuMimeTypes][<?php echo esc_attr($ext); ?>]" id="wmu-<?php echo esc_attr($ext); ?>" style="margin:0px; vertical-align: middle;" />
                 <label for="wmu-<?php echo esc_attr($ext); ?>" title="<?php echo esc_attr($ext); ?>" style="white-space:nowrap; font-size:13px;"><?php echo esc_html($ext); ?></label>
             </div>
             <?php
@@ -243,27 +243,19 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <?php
-        $allImageSizes   = get_intermediate_image_sizes();
-        $additionalSizes = wp_get_additional_image_sizes();
+        $allImageSizes = $this->getAllImageSizes();
         foreach ($allImageSizes as $imageSize) {
-	        $sizeWidth = 0;
-	        $sizeHeight = 0;
-	        if (in_array($imageSize, $this->getDefaultImageSizes())) {
-		        $sizeWidth  = intval(get_option("{$imageSize}_size_w"));
-		        $sizeHeight = intval(get_option("{$imageSize}_size_h"));
-	        } else if (isset($additionalSizes[$imageSize])) {
-		        $sizeWidth  = $additionalSizes[$imageSize]["width"];
-		        $sizeHeight = $additionalSizes[$imageSize]["height"];
-	        }
-	        $disabled = "";
-	        $checked  = checked(in_array($imageSize, $this->content["wmuImageSizes"]), true, false);
-	        if (!$sizeWidth && !$sizeHeight) {
-		        $disabled = "disabled='disabled'";
-	        }
+            $sizeWidth = intval(get_option("{$imageSize}_size_w"));
+            $sizeHeight = intval(get_option("{$imageSize}_size_h"));
+            $disabled = "";
+            $checked = checked(in_array($imageSize, $this->content["wmuImageSizes"]), true, false);
+            if (!$sizeWidth && !$sizeHeight) {
+                $disabled = "disabled='disabled'";
+            }
             ?>
             <div class="wpd-mublock">
                 <input type="checkbox" <?php echo $checked; ?> <?php echo $disabled; ?> value="<?php echo esc_attr($imageSize); ?>" name="<?php echo esc_attr(WpdiscuzCore::TAB_CONTENT); ?>[wmuImageSizes][]" id="wmu<?php echo esc_attr($imageSize); ?>" style="margin:0px; vertical-align: middle;" />
-                <label for="wmu<?php echo esc_attr($imageSize); ?>"><?php echo esc_html($imageSize . " ( " . $sizeWidth . " x " . $sizeHeight . " )"); ?></label>
+                <label for="wmu<?php echo esc_attr($imageSize); ?>"><?php echo esc_html($imageSize . " ( " . get_option("{$imageSize}_size_w") . " x " . get_option("{$imageSize}_size_h") . " )"); ?></label>
             </div>
             <?php
         }

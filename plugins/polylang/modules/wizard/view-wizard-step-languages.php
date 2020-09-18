@@ -1,8 +1,7 @@
 <?php
+
 /**
  * Displays the wizard languages step
- *
- * @package Polylang
  *
  * @since 2.7
  */

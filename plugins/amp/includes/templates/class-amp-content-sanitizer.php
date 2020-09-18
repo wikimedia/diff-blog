@@ -11,7 +11,6 @@ use AmpProject\Dom\Document;
  * Class AMP_Content_Sanitizer
  *
  * @since 0.4.1
- * @internal
  */
 class AMP_Content_Sanitizer {
 
@@ -23,9 +22,9 @@ class AMP_Content_Sanitizer {
 	 * @codeCoverageIgnore
 	 * @deprecated Since 1.0
 	 *
-	 * @param string  $content HTML content string or DOM document.
-	 * @param array[] $sanitizer_classes Sanitizers, with keys as class names and values as arguments.
-	 * @param array   $global_args       Global args.
+	 * @param string   $content HTML content string or DOM document.
+	 * @param string[] $sanitizer_classes Sanitizer classes.
+	 * @param array    $global_args       Global args.
 	 * @return array Tuple containing sanitized HTML, scripts array, and styles array (or stylesheets, if return_styles=false is passed in $global_args).
 	 */
 	public static function sanitize( $content, array $sanitizer_classes, $global_args = [] ) {
@@ -50,7 +49,7 @@ class AMP_Content_Sanitizer {
 	 * @since 0.7
 	 *
 	 * @param Document $dom               HTML document.
-	 * @param array[]  $sanitizer_classes Sanitizers, with keys as class names and values as arguments.
+	 * @param string[] $sanitizer_classes Sanitizer classes.
 	 * @param array    $args              Global args passed into sanitizers.
 	 * @return array {
 	 *     Scripts and stylesheets needed by sanitizers.
@@ -116,33 +115,8 @@ class AMP_Content_Sanitizer {
 		}
 
 		// Sanitize.
-		$sanitizers_to_surface = [
-			AMP_Style_Sanitizer::class,
-			AMP_Tag_And_Attribute_Sanitizer::class,
-		];
 		foreach ( $sanitizers as $sanitizer_class => $sanitizer ) {
-			/**
-			 * Starts the server-timing measurement for an individual sanitizer.
-			 *
-			 * @since 2.0
-			 * @internal
-			 *
-			 * @param string      $event_name        Name of the event to record.
-			 * @param string|null $event_description Optional. Description of the event
-			 *                                       to record. Defaults to null.
-			 * @param string[]    $properties        Optional. Additional properties to add
-			 *                                       to the logged record.
-			 * @param bool        $verbose_only      Optional. Whether to only show the
-			 *                                       event in verbose mode. Defaults to
-			 *                                       false.
-			 */
-			do_action(
-				'amp_server_timing_start',
-				strtolower( $sanitizer_class ),
-				'',
-				[],
-				! in_array( $sanitizer_class, $sanitizers_to_surface, true )
-			);
+			$sanitize_class_start = microtime( true );
 
 			$sanitizer->sanitize();
 
@@ -153,20 +127,10 @@ class AMP_Content_Sanitizer {
 				$stylesheets = array_merge( $stylesheets, $sanitizer->get_stylesheets() );
 			}
 
-			/**
-			 * Stops the server-timing measurement for an individual sanitizer.
-			 *
-			 * @since 2.0
-			 * @internal
-			 *
-			 * @param string $event_name Name of the event to stop.
-			 */
-			do_action(
-				'amp_server_timing_stop',
-				strtolower( $sanitizer_class )
-			);
+			AMP_HTTP::send_server_timing( 'amp_sanitize', -$sanitize_class_start, $sanitizer_class );
 		}
 
 		return compact( 'scripts', 'styles', 'stylesheets', 'sanitizers' );
 	}
 }
+

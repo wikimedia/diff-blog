@@ -7,8 +7,6 @@
 
 /**
  * Class with static HTML utility methods.
- *
- * @internal
  */
 class AMP_HTML_Utils {
 

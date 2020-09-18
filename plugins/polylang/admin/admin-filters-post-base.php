@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Some common code for PLL_Admin_Filters_Post and PLL_Admin_Filters_Media

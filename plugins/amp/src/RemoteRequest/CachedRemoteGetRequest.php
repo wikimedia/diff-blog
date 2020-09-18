@@ -21,8 +21,6 @@ use DateTimeInterface;
  * Caching uses WordPress transients.
  *
  * @package AmpProject\AmpWP
- * @since 2.0
- * @internal
  */
 final class CachedRemoteGetRequest implements RemoteGetRequest {
 

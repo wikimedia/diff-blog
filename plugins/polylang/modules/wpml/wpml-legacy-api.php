@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Compatibility with WPML legacy API

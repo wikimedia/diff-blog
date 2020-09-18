@@ -56,7 +56,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             $commentLink = get_comment_link($comment);
         } else {
             $commentLink = $args["post_permalink"] . "#comment-" . $comment->comment_ID;
-            if (!empty($args["last_visit"]) && !empty($args["current_user_email"]) && strtotime($comment->comment_date) > $args["last_visit"] && $args["current_user_email"] !== $comment->comment_author_email) {
+            if (!empty($args["last_visit"]) && !empty($args["current_user_email"]) && strtotime($comment->comment_date) > $args["last_visit"] && $args["current_user_email"] != $comment->comment_author_email) {
                 $commentWrapperClass[] = "wpd-new-loaded-comment";
             }
         }
@@ -71,7 +71,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             } else if ($this->options->login["isUserByEmail"]) {
                 $user["user"] = get_user_by("email", $comment->comment_author_email);
             }
-            $user["commentAuthorUrl"] = ("http://" === $comment->comment_author_url) ? "" : $comment->comment_author_url;
+            $user["commentAuthorUrl"] = ("http://" == $comment->comment_author_url) ? "" : $comment->comment_author_url;
             $user["commentAuthorUrl"] = apply_filters("get_comment_author_url", $user["commentAuthorUrl"], $comment->comment_ID, $comment);
             $user["commentWrapClass"] = [];
             $user["author_title"] = "";
@@ -112,17 +112,17 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
                 }
                 if ($this->options->social["displayIconOnAvatar"] && ($socialProvider = get_user_meta($user["user"]->ID, self::WPDISCUZ_SOCIAL_PROVIDER_KEY, true))) {
                     $user["commentWrapClass"][] = "wpd-soc-user-" . $socialProvider;
-                    if ($socialProvider === "facebook") {
+                    if ($socialProvider == "facebook") {
                         $user["socIcon"] = "<i class='fab fa-facebook-f'></i>";
-                    } elseif ($socialProvider === "disqus") {
+                    } elseif ($socialProvider == "disqus") {
                         $user["socIcon"] = "<i class='wpd-soc-user-disqus'>D</i>";
-                    } elseif ($socialProvider === "ok") {
+                    } elseif ($socialProvider == "ok") {
                         $user["socIcon"] = "<i class='fab fa-odnoklassniki'></i>";
-                    } elseif ($socialProvider === "yandex") {
+                    } elseif ($socialProvider == "yandex") {
                         $user["socIcon"] = "<i class='fab fa-yandex-international'></i>";
-                    } elseif ($socialProvider === "mailru") {
+                    } elseif ($socialProvider == "mailru") {
                         $user["socIcon"] = "<i class='fas fa-at'></i>";
-                    } elseif ($socialProvider === "baidu") {
+                    } elseif ($socialProvider == "baidu") {
                         $user["socIcon"] = "<i class='fas fa-paw'></i>";
                     } else {
                         $user["socIcon"] = "<i class='fab fa-{$socialProvider}'></i>";
@@ -244,17 +244,6 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             $showReplyTo = true;
         }
 
-        $comment->comment_content = apply_filters("comment_text", $comment->comment_content, $comment, $args);
-        $commentReadMoreLimit = $this->options->content["commentReadMoreLimit"];
-        if (stripos($comment->comment_content, "[/spoiler]") !== false) {
-            $commentReadMoreLimit = 0;
-            $comment->comment_content = $this->helper->spoiler($comment->comment_content);
-        }
-        if ($commentReadMoreLimit && WpdiscuzHelper::strWordCount(wp_strip_all_tags($comment->comment_content)) > $commentReadMoreLimit) {
-            $comment->comment_content = WpdiscuzHelper::getCommentExcerpt($comment->comment_content, $uniqueId, $this->options);
-        }
-        $comment->comment_content = apply_filters("wpdiscuz_after_read_more", $comment->comment_content, $comment, $args);
-
         $showShare = false;
         if ($isApproved) {
             if ($args["is_share_enabled"]) {
@@ -276,7 +265,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             $statusIcons .= "<div class='wpd-unapproved'><i class='fas fa-exclamation-circle'></i>" . esc_html($this->options->phrases["wc_awaiting_for_approval"]) . "</div>";
         }
 
-        $trackOrPingback = $comment->comment_type === "pingback" || $comment->comment_type === "trackback";
+        $trackOrPingback = $comment->comment_type == "pingback" || $comment->comment_type == "trackback";
 
         if ($isInline) {
             $commentWrapperClass[] = "wpd-inline-comment";
@@ -319,7 +308,7 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
         }
 
         $showFollow = false;
-        if ($args["can_user_follow"] && $args["current_user_email"] !== $comment->comment_author_email) {
+        if ($args["can_user_follow"] && $args["current_user_email"] != $comment->comment_author_email) {
             if (is_array($args["user_follows"]) && in_array($comment->comment_author_email, $args["user_follows"])) {
                 $followClass = "wpd-unfollow wpd-follow-active";
                 $followTip = $this->options->phrases["wc_unfollow_user"];
@@ -481,6 +470,17 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             $replace[] = $showToggle ? "<div class='wpd-sep wpd-hidden'></div>" : "";
             $showTools = true;
         }
+
+        $comment->comment_content = apply_filters("comment_text", $comment->comment_content, $comment, $args);
+        $commentReadMoreLimit = $this->options->content["commentReadMoreLimit"];
+        if (stripos($comment->comment_content, "[/spoiler]") !== false) {
+            $commentReadMoreLimit = 0;
+            $comment->comment_content = $this->helper->spoiler($comment->comment_content);
+        }
+        if ($commentReadMoreLimit && WpdiscuzHelper::strWordCount(wp_strip_all_tags($comment->comment_content)) > $commentReadMoreLimit) {
+            $comment->comment_content = WpdiscuzHelper::getCommentExcerpt($comment->comment_content, $uniqueId, $this->options);
+        }
+        $comment->comment_content = apply_filters("wpdiscuz_after_read_more", $comment->comment_content, $comment, $args);
 
         $lastEdited = "";
         if ($this->options->moderation["displayEditingInfo"] && isset($commentMetas[self::META_KEY_LAST_EDITED_AT]) && isset($commentMetas[self::META_KEY_LAST_EDITED_BY])) {

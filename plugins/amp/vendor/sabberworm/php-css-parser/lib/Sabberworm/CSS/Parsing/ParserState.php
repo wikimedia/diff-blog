@@ -3,12 +3,9 @@ namespace Sabberworm\CSS\Parsing;
 
 use Sabberworm\CSS\Comment\Comment;
 use Sabberworm\CSS\Parsing\UnexpectedTokenException;
-use Sabberworm\CSS\Parsing\UnexpectedEOFException;
 use Sabberworm\CSS\Settings;
 
 class ParserState {
-	const EOF = null;
-
 	private $oParserSettings;
 
 	private $sText;
@@ -30,9 +27,7 @@ class ParserState {
 	public function setCharset($sCharset) {
 		$this->sCharset = $sCharset;
 		$this->aText = $this->strsplit($this->sText);
-		if( is_array($this->aText) ) {
-			$this->iLength = count($this->aText);
-		}
+		$this->iLength = count($this->aText);
 	}
 
 	public function getCharset() {
@@ -77,11 +72,7 @@ class ParserState {
 		}
 		$sCharacter = null;
 		while (($sCharacter = $this->parseCharacter(true)) !== null) {
-			if (preg_match('/[a-zA-Z0-9\x{00A0}-\x{FFFF}_-]/Sux', $sCharacter)) {
-				$sResult .= $sCharacter;
-			} else {
-				$sResult .= '\\' . $sCharacter;
-			}
+			$sResult .= $sCharacter;
 		}
 		if ($bIgnoreCase) {
 			$sResult = $this->strtolower($sResult);
@@ -147,7 +138,8 @@ class ParserState {
 			if($this->oParserSettings->bLenientParsing) {
 				try {
 					$oComment = $this->consumeComment();
-				} catch(UnexpectedEOFException $e) {
+				} catch(UnexpectedTokenException $e) {
+					// When we can’t find the end of a comment, we assume the document is finished.
 					$this->iCurrentPosition = $this->iLength;
 					return;
 				}
@@ -188,7 +180,7 @@ class ParserState {
 			return $mValue;
 		} else {
 			if ($this->iCurrentPosition + $mValue > $this->iLength) {
-				throw new UnexpectedEOFException($mValue, $this->peek(5), 'count', $this->iLineNo);
+				throw new UnexpectedTokenException($mValue, $this->peek(5), 'count', $this->iLineNo);
 			}
 			$sResult = $this->substr($this->iCurrentPosition, $mValue);
 			$iLineCount = substr_count($sResult, "\n");
@@ -242,8 +234,7 @@ class ParserState {
 		$out = '';
 		$start = $this->iCurrentPosition;
 
-		while (!$this->isEnd()) {
-			$char = $this->consume(1);
+		while (($char = $this->consume(1)) !== '') {
 			if (in_array($char, $aEnd)) {
 				if ($bIncludeEnd) {
 					$out .= $char;
@@ -258,12 +249,8 @@ class ParserState {
 			}
 		}
 
-		if (in_array(self::EOF, $aEnd)) {
-			return $out;
-		}
-
 		$this->iCurrentPosition = $start;
-		throw new UnexpectedEOFException('One of ("'.implode('","', $aEnd).'")', $this->peek(5), 'search', $this->iLineNo);
+		throw new UnexpectedTokenException('One of ("'.implode('","', $aEnd).'")', $this->peek(5), 'search', $this->iLineNo);
 	}
 
 	private function inputLeft() {

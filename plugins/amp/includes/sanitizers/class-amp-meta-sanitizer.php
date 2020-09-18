@@ -20,7 +20,6 @@ use AmpProject\Tag;
  * Sanitizes meta tags found in the header.
  *
  * @since 1.5.0
- * @internal
  */
 class AMP_Meta_Sanitizer extends AMP_Base_Sanitizer {
 
@@ -94,7 +93,7 @@ class AMP_Meta_Sanitizer extends AMP_Base_Sanitizer {
 					}
 				)
 			);
-			$pattern  = '/' . $tag_spec['attr_spec_list']['name']['disallowed_value_regex'] . '/';
+			$pattern  = '/' . $tag_spec['attr_spec_list']['name']['blacklisted_value_regex'] . '/';
 		}
 		return $pattern;
 	}

@@ -7,8 +7,6 @@
 
 /**
  * Register hooks.
- *
- * @internal
  */
 function amp_post_template_init_hooks() {
 	add_action( 'amp_post_template_head', 'amp_post_template_add_title' );
@@ -18,23 +16,13 @@ function amp_post_template_init_hooks() {
 	add_action( 'amp_post_template_head', 'amp_add_generator_metadata' );
 	add_action( 'amp_post_template_head', 'wp_generator' );
 	add_action( 'amp_post_template_head', 'amp_post_template_add_block_styles' );
-	add_action( 'amp_post_template_head', 'amp_post_template_add_default_styles' );
 	add_action( 'amp_post_template_css', 'amp_post_template_add_styles', 99 );
 	add_action( 'amp_post_template_data', 'amp_post_template_add_analytics_script' );
 	add_action( 'amp_post_template_footer', 'amp_post_template_add_analytics_data' );
-
-	add_action( 'admin_bar_init', [ 'AMP_Theme_Support', 'init_admin_bar' ] );
-	add_action( 'amp_post_template_footer', 'wp_admin_bar_render' );
-
-	// Printing scripts here is done primarily for the benefit of the admin bar. Note that wp_enqueue_scripts() is not called.
-	add_action( 'amp_post_template_head', 'wp_print_head_scripts' );
-	add_action( 'amp_post_template_footer', 'wp_print_footer_scripts' );
 }
 
 /**
  * Add title.
- *
- * @internal
  *
  * @param AMP_Post_Template $amp_template template.
  */
@@ -47,8 +35,6 @@ function amp_post_template_add_title( $amp_template ) {
 /**
  * Add canonical link.
  *
- * @internal
- *
  * @param AMP_Post_Template $amp_template Template.
  */
 function amp_post_template_add_canonical( $amp_template ) {
@@ -60,21 +46,17 @@ function amp_post_template_add_canonical( $amp_template ) {
 /**
  * Print fonts.
  *
- * @internal
- *
  * @param AMP_Post_Template $amp_template Template.
  */
 function amp_post_template_add_fonts( $amp_template ) {
 	$font_urls = $amp_template->get( 'font_urls', [] );
-	foreach ( $font_urls as $url ) {
+	foreach ( $font_urls as $slug => $url ) {
 		printf( '<link rel="stylesheet" href="%s">', esc_url( esc_url( $url ) ) ); // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
 	}
 }
 
 /**
  * Add block styles for core blocks and third-party blocks.
- *
- * @internal
  *
  * @since 1.5.0
  */
@@ -83,25 +65,11 @@ function amp_post_template_add_block_styles() {
 	if ( function_exists( 'wp_common_block_scripts_and_styles' ) ) {
 		wp_common_block_scripts_and_styles();
 	}
-
-	// Note that this will also print the admin-bar styles since WP_Admin_Bar::initialize() has been called.
 	wp_styles()->do_items();
 }
 
 /**
- * Print default styles.
- *
- * @since 2.0.1
- * @internal
- */
-function amp_post_template_add_default_styles() {
-	wp_print_styles( 'amp-default' );
-}
-
-/**
  * Print styles.
- *
- * @internal
  *
  * @param AMP_Post_Template $amp_template Template.
  */
@@ -125,8 +93,6 @@ function amp_post_template_add_styles( $amp_template ) {
 /**
  * Add analytics scripts.
  *
- * @internal
- *
  * @param array $data Data.
  * @return array Data.
  */
@@ -139,8 +105,6 @@ function amp_post_template_add_analytics_script( $data ) {
 
 /**
  * Print analytics data.
- *
- * @internal
  *
  * @since 0.3.2
  */

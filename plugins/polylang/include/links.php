@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Manages links related functions

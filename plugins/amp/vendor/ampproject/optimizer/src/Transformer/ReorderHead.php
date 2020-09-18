@@ -10,7 +10,6 @@ use AmpProject\Optimizer\Transformer;
 use AmpProject\Tag;
 use DOMElement;
 use DOMNode;
-use DOMNodeList;
 
 /**
  * Transformer applying the head reordering transformations to the HTML input.
@@ -34,6 +33,7 @@ use DOMNodeList;
  * This is ported from the NodeJS optimizer while verifying against the Go version.
  *
  * NodeJS:
+ *
  * @version c92d6023ea4c9edadff593742a992da2b400a75d
  * @link    https://github.com/ampproject/amp-toolbox/blob/c92d6023ea4c9edadff593742a992da2b400a75d/packages/optimizer/lib/transformers/ReorderHeadTransformer.js
  *
@@ -82,7 +82,7 @@ final class ReorderHead implements Transformer
     {
         $nodes = $document->head->childNodes;
 
-        if (! $nodes instanceof DOMNodeList || $nodes->length === 0) {
+        if (! $nodes) {
             return;
         }
 

@@ -7,7 +7,7 @@ if (!defined("ABSPATH")) {
 /*
  * Plugin Name: wpDiscuz - Report and Flagging
  * Description: Adds comment reporting and flagging features. Auto-moderates comments based on number of reports and flags.
- * Version: 7.0.4
+ * Version: 7.0.1
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-report-flagging/
@@ -41,34 +41,19 @@ class wpDiscuzFlagComment {
     public $version;
     private static $instance;
     public static $VERSION_SLUG = "wpdiscuz_fc_version";
-	public $apimanager;
 
     private function __construct() {
         $this->version = get_option(self::$VERSION_SLUG, "1.0.0");
         $this->dbManager = new wpDiscuzFlagDBManager();
-        register_activation_hook(__FILE__, [$this, "createTablesMultisite"]);
+        register_activation_hook(__FILE__, [$this->dbManager, "createTables"]);
         add_action("wpmu_new_blog", [&$this->dbManager, "onNewBlog"], 10, 6);
         add_filter("wpmu_drop_tables", [&$this->dbManager, "onDeleteBlog"]);
         add_action("plugins_loaded", [&$this, "pluginsLoaded"], 14.5);
     }
 
-	public function createTablesMultisite($networkWide) {
-		if (is_multisite() && $networkWide) {
-			$oldBlogID            = $this->dbManager->getBlogID();
-			$blogIDs              = $this->dbManager->getBlogIDs();
-			foreach ($blogIDs as $k => $blogID) {
-				switch_to_blog($blogID);
-				$this->dbManager->createTables();
-			}
-			switch_to_blog($oldBlogID);
-		} else {
-			$this->dbManager->createTables();
-		}
-	}
-
     public function pluginsLoaded() {
         if (function_exists("wpDiscuz")) {
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             $this->options = new wpDiscuzFCommentOption();
             $this->helper = new wpDiscuzFlagHelper($this->dbManager, $this->options);
             $this->helperAjax = new wpDiscuzFlagHelperAjax($this->dbManager, $this->options);

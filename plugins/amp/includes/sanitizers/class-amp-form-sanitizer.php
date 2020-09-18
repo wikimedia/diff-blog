@@ -15,7 +15,6 @@ use AmpProject\Dom\Document;
  * Strips and corrects attributes in forms.
  *
  * @since 0.7
- * @internal
  */
 class AMP_Form_Sanitizer extends AMP_Base_Sanitizer {
 

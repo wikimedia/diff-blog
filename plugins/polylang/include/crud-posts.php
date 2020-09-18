@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Adds actions and filters related to languages when creating, updating or deleting posts

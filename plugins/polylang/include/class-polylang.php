@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Don't access directly
@@ -30,7 +27,8 @@ class Polylang {
 	 * @since 0.1
 	 */
 	public function __construct() {
-		require_once __DIR__ . '/functions.php'; // VIP functions
+		require_once PLL_INC . '/functions.php'; // VIP functions
+		spl_autoload_register( array( $this, 'autoload' ) ); // Autoload classes
 
 		// register an action when plugin is activating.
 		register_activation_hook( POLYLANG_BASENAME, array( 'PLL_Wizard', 'start_wizard' ) );
@@ -52,12 +50,60 @@ class Polylang {
 			PLL_OLT_Manager::instance();
 		}
 
-		/*
-		 * Loads the compatibility with some plugins and themes.
-		 * Loaded as soon as possible as we may need to act before other plugins are loaded.
-		 */
+		// Extra code for compatibility with some plugins
+		// Loaded as soon as possible as we may need to act before other plugins are loaded
 		if ( ! defined( 'PLL_PLUGINS_COMPAT' ) || PLL_PLUGINS_COMPAT ) {
-			PLL_Integrations::instance();
+			PLL_Plugins_Compat::instance();
+		}
+	}
+
+	/**
+	 * Autoload classes
+	 *
+	 * @since 1.2
+	 *
+	 * @param string $class
+	 */
+	public function autoload( $class ) {
+		// Not a Polylang class
+		if ( 0 !== strncmp( 'PLL_', $class, 4 ) ) {
+			return;
+		}
+
+		$class = str_replace( '_', '-', strtolower( substr( $class, 4 ) ) );
+		$dirs  = array();
+		$parts = explode( '-', $class );
+		$parts = array_values( array_diff( $parts, array( 'frontend', 'admin', 'settings', 'advanced' ) ) );
+		if ( isset( $parts[0] ) ) {
+			$dirs[] = PLL_MODULES_INC . "/{$parts[0]}";
+			if ( isset( $parts[1] ) ) {
+				$dirs[] = PLL_MODULES_INC . "/{$parts[0]}-{$parts[1]}";
+				if ( isset( $parts[2] ) && in_array( $parts[1], array( 'post', 'term' ) ) ) {
+					$dirs[] = PLL_MODULES_INC . "/{$parts[0]}-{$parts[2]}";
+				}
+			}
+		}
+
+		$dirs = array_merge(
+			array(
+				PLL_FRONT_INC,
+				PLL_MODULES_INC,
+			),
+			$dirs,
+			array(
+				PLL_MODULES_INC . '/plugins',
+				PLL_INSTALL_INC,
+				PLL_ADMIN_INC,
+				PLL_SETTINGS_INC,
+				PLL_INC,
+			)
+		);
+
+		foreach ( $dirs as $dir ) {
+			if ( file_exists( $file = "$dir/$class.php" ) ) {
+				require_once $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				return;
+			}
 		}
 	}
 
@@ -234,11 +280,11 @@ class Polylang {
 			 */
 			do_action_ref_array( 'pll_pre_init', array( &$polylang ) );
 
-			require_once __DIR__ . '/api.php'; // Loads the API
+			require_once PLL_INC . '/api.php'; // Loads the API
 
-			// Loads the modules.
-			foreach ( glob( POLYLANG_DIR . '/modules/*/load.php', GLOB_NOSORT ) as $load_script ) { // phpcs:ignore WordPressVIPMinimum.Variables.VariableAnalysis.UnusedVariable
-				require_once $load_script; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+			if ( ! defined( 'PLL_WPML_COMPAT' ) || PLL_WPML_COMPAT ) {
+				PLL_WPML_Compat::instance(); // WPML API
+				PLL_WPML_Config::instance(); // wpml-config.xml
 			}
 
 			$polylang->init();

@@ -3,7 +3,7 @@
 /*
  * Plugin Name: wpDiscuz - Comment Translation
  * Description: Smart, intuitive, fast and powerful tool to surprise your website visitors and comment readers. This is an unique function on your comment area which will translate comment content to more than 100 different languages. 
- * Version: 7.0.2
+ * Version: 7.0.0
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-comment-translation/
@@ -29,7 +29,6 @@ class wpDiscuzTranslate {
     private $apiKey;
     private $langList;
     private $trnsAjax;
-	public $apimanager;
 
     public function __construct() {
         add_action("plugins_loaded", [&$this, "pluginsLoaded"], 14);
@@ -37,7 +36,7 @@ class wpDiscuzTranslate {
 
     public function pluginsLoaded() {
         if (function_exists("wpDiscuz")) {
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             $settings = $this->getTrnsSettings();
             $this->langList = langList($this->apiType);
             $this->commentTrns = new CommentTrns($settings);
@@ -92,9 +91,9 @@ class wpDiscuzTranslate {
 
     public function styleWp($options) {
         $min = $options->general["loadMinVersion"] ? ".min" : "";
-        wp_register_style("trns-tr-style", plugins_url("assets/css/comm-trns-style$min.css", __FILE__), [], "7.0.0");
+        wp_register_style("trns-tr-style", plugins_url("assets/css/comm-trns-style$min.css", __FILE__));
         wp_enqueue_style("trns-tr-style");
-        wp_register_script("trns-google-translate-js", plugins_url("assets/js/translate-script$min.js", __FILE__), ["jquery"], "7.0.0", true);
+        wp_register_script("trns-google-translate-js", plugins_url("assets/js/translate-script$min.js", __FILE__), ["jquery"], "1.0.0", true);
         wp_enqueue_script("trns-google-translate-js");
     }
 

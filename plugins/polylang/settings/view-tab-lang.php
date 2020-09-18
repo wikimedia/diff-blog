@@ -1,8 +1,7 @@
 <?php
+
 /**
  * Displays the languages tab in Polylang settings
- *
- * @package Polylang
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -128,7 +127,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<select name="flag" id="flag_list">
 							<option value=""></option>
 							<?php
-							$flags = include __DIR__ . '/flags.php';
+							$flags = include PLL_SETTINGS_INC . '/flags.php';
 							foreach ( $flags as $code => $label ) {
 								printf(
 									'<option value="%s" data-flag-html="%s"%s>%s</option>' . "\n",

@@ -30,7 +30,7 @@ class WpdiscuzCache implements WpDiscuzConstants {
             wp_mkdir_p($this->avBaseDir);
             add_filter("pre_get_avatar", [&$this, "preGetGravatar"], 10, 3);
             add_filter("get_avatar", [&$this, "getAvatar"], 10, 6);
-            if ($this->options->general["gravatarCacheMethod"] === "runtime") {
+            if ($this->options->general["gravatarCacheMethod"] == "runtime") {
                 add_filter("get_avatar_url", [&$this, "gravatarsRunTime"], 10, 3);
             } else {
                 add_filter("get_avatar_url", [&$this, "gravatarsCronJob"], 10, 3);
@@ -190,7 +190,7 @@ class WpdiscuzCache implements WpDiscuzConstants {
         $files = function_exists("scandir") ? scandir($this->avBaseDir) : false;
         if ($files && is_array($files)) {
             foreach ($files as $k => $file) {
-                if ($file !== "." && $file !== ".." && $file !== ".htaccess") {
+                if ($file != "." && $file != ".." && $file != ".htaccess") {
                     @unlink($this->avBaseDir . $file);
                 }
             }

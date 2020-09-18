@@ -22,7 +22,7 @@ _deprecated_file(
 /**
  * Add amphtml link to frontend.
  *
- * @deprecated Use amp_add_amphtml_link() instead.
+ * @deprecated
  *
  * @since 0.2
  * @since 1.0 Deprecated

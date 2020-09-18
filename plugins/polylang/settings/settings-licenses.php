@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Settings class for licenses
@@ -9,18 +6,6 @@
  * @since 1.9
  */
 class PLL_Settings_Licenses extends PLL_Settings_Module {
-	/**
-	 * Stores the display order priority.
-	 *
-	 * @var int
-	 */
-	public $priority = 100;
-
-	/**
-	 * Stores an array of PLL_License instances.
-	 *
-	 * @var array
-	 */
 	protected $items;
 
 	/**

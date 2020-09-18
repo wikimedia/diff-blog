@@ -35,7 +35,7 @@
     if ($popular_authors_date_interval == "all_time") {
         $select_query = "SELECT 
                                     com.comment_author_email,
-                                    COUNT(com.comment_author_email) AS `count`,
+                                    COUNT(com.user_id) AS `count`,
                                     us.`ID`,
                                     us.`display_name`,
                                     MAX(com.`user_id`) AS `user_id`,

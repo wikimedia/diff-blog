@@ -1,17 +1,17 @@
 [
     {
         "name": "alledia/wordpress-plugin-framework",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "0.6.8",
+        "version_normalized": "0.6.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/publishpress/WordPress-Plugin-Framework.git",
-            "reference": "3fdd944a5561fcb1634483622debccb9060db266"
+            "reference": "d92bdbda933412f8d04f7088b758c81f1eb4fba0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/publishpress/WordPress-Plugin-Framework/zipball/3fdd944a5561fcb1634483622debccb9060db266",
-            "reference": "3fdd944a5561fcb1634483622debccb9060db266",
+            "url": "https://api.github.com/repos/publishpress/WordPress-Plugin-Framework/zipball/d92bdbda933412f8d04f7088b758c81f1eb4fba0",
+            "reference": "d92bdbda933412f8d04f7088b758c81f1eb4fba0",
             "shasum": ""
         },
         "require": {
@@ -19,7 +19,7 @@
             "pimple/pimple": "~3.0",
             "twig/twig": "~1.20"
         },
-        "time": "2020-08-11T17:24:46+00:00",
+        "time": "2019-11-19T16:38:51+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -33,9 +33,15 @@
         ],
         "authors": [
             {
-                "name": "PublishPress",
-                "email": "help@publishpress.com",
-                "homepage": "https://publishpress.com"
+                "name": "Alledia",
+                "email": "help@alledia.com",
+                "homepage": "https://alledia.com"
+            },
+            {
+                "name": "Anderson Grudtner Martins",
+                "email": "anderson@grudtner.me",
+                "homepage": "http://anderson.grudtner.me",
+                "role": "Lead Developer"
             }
         ],
         "description": "Alledia framework for creating WordPress plugins.",
@@ -150,17 +156,17 @@
     },
     {
         "name": "publishpress/wordpress-version-notices",
-        "version": "1.1.2",
-        "version_normalized": "1.1.2.0",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/publishpress/WordPress-Version-Notices.git",
-            "reference": "b710c9d4ddf15384546d2f2209554bfdb10c5339"
+            "reference": "ba2b8eba33577d8c9351a9437e09af0e8f601a2c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/publishpress/WordPress-Version-Notices/zipball/b710c9d4ddf15384546d2f2209554bfdb10c5339",
-            "reference": "b710c9d4ddf15384546d2f2209554bfdb10c5339",
+            "url": "https://api.github.com/repos/publishpress/WordPress-Version-Notices/zipball/ba2b8eba33577d8c9351a9437e09af0e8f601a2c",
+            "reference": "ba2b8eba33577d8c9351a9437e09af0e8f601a2c",
             "shasum": ""
         },
         "require": {
@@ -168,11 +174,11 @@
             "pimple/pimple": "^3"
         },
         "require-dev": {
-            "lucatume/wp-browser": "^2.4"
+            "lucatume/wp-browser": "^2.2"
         },
-        "time": "2020-08-11T03:28:34+00:00",
+        "time": "2020-04-08T13:59:35+00:00",
         "type": "library",
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "PPVersionNotices\\": "src/"
@@ -194,17 +200,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.18.1",
-        "version_normalized": "1.18.1.0",
+        "version": "v1.17.0",
+        "version_normalized": "1.17.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "1c302646f6efc070cd46856e600e5e0684d6b454"
+            "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/1c302646f6efc070cd46856e600e5e0684d6b454",
-            "reference": "1c302646f6efc070cd46856e600e5e0684d6b454",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
+            "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
             "shasum": ""
         },
         "require": {
@@ -213,15 +219,11 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2020-07-14T12:35:20+00:00",
+        "time": "2020-05-12T16:14:59+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.18-dev"
-            },
-            "thanks": {
-                "name": "symfony/polyfill",
-                "url": "https://github.com/symfony/polyfill"
+                "dev-master": "1.17-dev"
             }
         },
         "installation-source": "dist",

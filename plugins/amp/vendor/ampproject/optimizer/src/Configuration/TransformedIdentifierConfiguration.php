@@ -48,12 +48,7 @@ final class TransformedIdentifierConfiguration extends BaseTransformerConfigurat
         switch ($key) {
             case self::VERSION:
                 if (! is_int($value)) {
-                    throw InvalidConfigurationValue::forInvalidSubValueType(
-                        self::class,
-                        self::VERSION,
-                        'integer',
-                        gettype($value)
-                    );
+                    throw InvalidConfigurationValue::forInvalidSubValueType(self::class, self::VERSION, 'integer', gettype($value));
                 }
                 break;
         }

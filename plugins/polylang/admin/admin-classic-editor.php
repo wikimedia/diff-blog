@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Manages filters and actions related to the classic editor
@@ -115,11 +112,7 @@ class PLL_Admin_Classic_Editor {
 
 		echo '<div id="post-translations" class="translations">';
 		if ( $lang ) {
-			if ( 'attachment' === $post_type ) {
-				include __DIR__ . '/view-translations-media.php';
-			} else {
-				include __DIR__ . '/view-translations-post.php';
-			}
+			include PLL_ADMIN_INC . '/view-translations-' . ( 'attachment' == $post_type ? 'media' : 'post' ) . '.php';
 		}
 		echo '</div>' . "\n";
 	}
@@ -159,11 +152,7 @@ class PLL_Admin_Classic_Editor {
 
 		ob_start();
 		if ( $lang ) {
-			if ( 'attachment' === $post_type ) {
-				include __DIR__ . '/view-translations-media.php';
-			} else {
-				include __DIR__ . '/view-translations-post.php';
-			}
+			include PLL_ADMIN_INC . '/view-translations-' . ( 'attachment' == $post_type ? 'media' : 'post' ) . '.php';
 		}
 		$x = new WP_Ajax_Response( array( 'what' => 'translations', 'data' => ob_get_contents() ) );
 		ob_end_clean();

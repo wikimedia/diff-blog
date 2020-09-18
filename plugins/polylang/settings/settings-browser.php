@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Settings class for browser language preference detection
@@ -9,12 +6,6 @@
  * @since 1.8
  */
 class PLL_Settings_Browser extends PLL_Settings_Module {
-	/**
-	 * Stores the display order priority.
-	 *
-	 * @var int
-	 */
-	public $priority = 20;
 
 	/**
 	 * Constructor

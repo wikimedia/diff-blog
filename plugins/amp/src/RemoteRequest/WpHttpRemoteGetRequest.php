@@ -19,8 +19,6 @@ use WP_Http;
  * Remote request transport using the WordPress WP_Http abstraction layer.
  *
  * @package AmpProject\AmpWP
- * @since 2.0
- * @internal
  */
 final class WpHttpRemoteGetRequest implements RemoteGetRequest {
 

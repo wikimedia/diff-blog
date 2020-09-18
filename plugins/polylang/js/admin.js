@@ -1,7 +1,3 @@
-/**
- * @package Polylang
- */
-
 jQuery( document ).ready(
 	function( $ ) {
 		var transitionTimeout;
@@ -171,7 +167,7 @@ jQuery( document ).ready(
 											function() {
 												var $this = $( this ),
 													$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
-													btnText = pll_dismiss_notice || '';
+													btnText = commonL10n.dismiss || '';
 
 												// Ensure plain text
 												$button.find( '.screen-reader-text' ).text( btnText );

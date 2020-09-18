@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz - Subscription Manager
  * Description: Displays all users and guests subscriptions. Allows to monitor and manage comment subscribers. 
- * Version: 7.0.2
+ * Version: 7.0.0
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-subscribe-manager/
@@ -20,7 +20,6 @@ require_once WSM_DIR_PATH . "/includes/wpdUserSubscriptionsList.php";
 class wpdSubscribeManager {
 
     private $db;
-	public $apimanager;
 
     const WPDS_ADMIN_SLUG = "wpdiscuz-subscribe";
     const WPDS_USER_SLUG = "wpdiscuz-user-subscribe";
@@ -34,7 +33,7 @@ class wpdSubscribeManager {
 
     public function pluginLoad() {
         if (function_exists("wpDiscuz")) {
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             $this->db = new wpdSubscribersDBManager();
             load_plugin_textdomain("wpdiscuz_sbm", false, dirname(plugin_basename(__FILE__)) . "/languages/");
             add_action("admin_menu", [&$this, "addSubscriptionsToAdminMenu"], 876);
@@ -281,4 +280,4 @@ class wpdSubscribeManager {
 
 }
 
-$wpdiscuzSubscribeManager = new wpdSubscribeManager();
+new wpdSubscribeManager();

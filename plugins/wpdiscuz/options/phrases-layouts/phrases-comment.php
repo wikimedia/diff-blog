@@ -52,13 +52,13 @@ if (!defined("ABSPATH")) {
             foreach ($roles as $roleName => $color) {
                 $phraseRoleLabel = ucfirst(str_replace("_", " ", $roleName));
 
-                if ($roleName === "administrator") {
+                if ($roleName == "administrator") {
                     $roleTitle = isset($this->phrases["wc_blog_role_" . $roleName]) ? $this->phrases["wc_blog_role_" . $roleName] : esc_html__("Admin", "wpdiscuz");
-                } elseif ($roleName === "post_author") {
+                } elseif ($roleName == "post_author") {
                     $roleTitle = isset($this->phrases["wc_blog_role_" . $roleName]) ? $this->phrases["wc_blog_role_" . $roleName] : esc_html__("Author", "wpdiscuz");
-                } elseif ($roleName === "editor") {
+                } elseif ($roleName == "editor") {
                     $roleTitle = isset($this->phrases["wc_blog_role_" . $roleName]) ? $this->phrases["wc_blog_role_" . $roleName] : esc_html__("Editor", "wpdiscuz");
-                } elseif ($roleName === "guest") {
+                } elseif ($roleName == "guest") {
                     $roleTitle = isset($this->phrases["wc_blog_role_" . $roleName]) ? $this->phrases["wc_blog_role_" . $roleName] : esc_html__("Guest", "wpdiscuz");
                 } else {
                     $roleTitle = isset($this->phrases["wc_blog_role_" . $roleName]) ? $this->phrases["wc_blog_role_" . $roleName] : esc_html__("Member", "wpdiscuz");

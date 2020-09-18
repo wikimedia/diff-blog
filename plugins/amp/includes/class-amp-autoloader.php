@@ -10,8 +10,7 @@
  *
  * Class AMP_Autoloader
  *
- * @deprecated Use Composer autoloading instead.
- * @internal
+ * @deprecated Uses Composer autoloading instead.
  */
 class AMP_Autoloader {
 	/**

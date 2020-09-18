@@ -183,8 +183,8 @@ class WpdiscuzHelper implements WpDiscuzConstants {
      */
     public function isCommentEditable($comment) {
         $commentTimestamp = strtotime($comment->comment_date);
-        $timeDiff = self::$current_time - $commentTimestamp;
-        $editableTimeLimit = $this->options->moderation["commentEditableTime"] === "unlimit" ? abs($timeDiff) + 1 : intval($this->options->moderation["commentEditableTime"]);
+        $timeDiff = (self::$current_time - $commentTimestamp);
+        $editableTimeLimit = ($this->options->moderation["commentEditableTime"] == "unlimit") ? abs($timeDiff) + 1 : intval($this->options->moderation["commentEditableTime"]);
         return $editableTimeLimit && ($timeDiff < $editableTimeLimit);
     }
 
@@ -207,7 +207,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
 
         $ip = apply_filters("pre_comment_user_ip", $ip);
 
-        if ($ip === "::1") {
+        if ($ip == "::1") {
             $ip = "127.0.0.1";
         }
         return $ip;
@@ -331,14 +331,14 @@ class WpdiscuzHelper implements WpDiscuzConstants {
             $html .= "<ul class='wc_social_login_by_the_champ'>";
             foreach ($theChampLoginOptions["providers"] as $k => $provider) {
                 $html .= "<li><i ";
-                if ($provider === "google") {
+                if ($provider == "google") {
                     $html .= "id='theChamp" . esc_attr(ucfirst($provider)) . "Button' ";
                 }
                 $html .= "class='theChampLogin theChamp" . esc_attr(ucfirst($provider)) . "Background theChamp" . esc_attr(ucfirst($provider)) . "Login' ";
                 $html .= "alt='Login with ";
                 $html .= ucfirst($provider);
                 $html .= "' title='Login with ";
-                if ($provider === "live") {
+                if ($provider == "live") {
                     $html .= "Windows Live";
                 } else {
                     $html .= ucfirst($provider);
@@ -367,7 +367,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         } else {
             $storedCookieEmail = isset($_COOKIE["comment_author_email_" . COOKIEHASH]) ? $_COOKIE["comment_author_email_" . COOKIEHASH] : "";
         }
-        return !(!$this->options->moderation["enableEditingWhenHaveReplies"] && $comment->get_children(["post_id" => $comment->comment_post_ID])) && (($storedCookieEmail === $comment->comment_author_email && $_SERVER["REMOTE_ADDR"] === $comment->comment_author_IP) || ($currentUser && $currentUser->ID && $currentUser->ID == $comment->user_id));
+        return !(!$this->options->moderation["enableEditingWhenHaveReplies"] && $comment->get_children(["post_id" => $comment->comment_post_ID])) && (($storedCookieEmail == $comment->comment_author_email && $_SERVER["REMOTE_ADDR"] == $comment->comment_author_IP) || ($currentUser && $currentUser->ID && $currentUser->ID == $comment->user_id));
     }
 
     public function addCommentTypes($args) {
@@ -377,7 +377,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
 
     public function commentRowStickAction($actions, $comment) {
         if (!$comment->comment_parent) {
-            $stickText = $comment->comment_type === self::WPDISCUZ_STICKY_COMMENT ? $this->options->phrases["wc_unstick_comment"] : $this->options->phrases["wc_stick_comment"];
+            $stickText = $comment->comment_type == self::WPDISCUZ_STICKY_COMMENT ? $this->options->phrases["wc_unstick_comment"] : $this->options->phrases["wc_stick_comment"];
             if (intval(get_comment_meta($comment->comment_ID, self::META_KEY_CLOSED, true))) {
                 $closeText = $this->options->phrases["wc_open_comment"];
                 $closeIcon = "fa-lock";
@@ -639,14 +639,14 @@ class WpdiscuzHelper implements WpDiscuzConstants {
 
     public static function fixEmailFrom($domain) {
         $domain = strtolower($domain);
-        if (substr($domain, 0, 4) === "www.") {
+        if (substr($domain, 0, 4) == "www.") {
             $domain = substr($domain, 4);
         }
         return $domain;
     }
 
     public function fixLocalhostIp($ip) {
-        if (trim($ip) === "::1") {
+        if (trim($ip) == "::1") {
             $ip = "127.0.0.1";
         }
         return $ip;
@@ -899,7 +899,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         unset($scannedComponents[1]);
         $components = [];
         foreach ($scannedComponents as $k => $component) {
-            if ("index.html" !== $component) {
+            if ("index.html" != $component) {
                 $components[$component] = $path . $component;
             }
         }
@@ -1076,8 +1076,8 @@ class WpdiscuzHelper implements WpDiscuzConstants {
      */
     public function initCustomCss() {
         ob_start();
-        $left = is_rtl() ? "right" : "left";
-        $right = is_rtl() ? "left" : "right";
+        $left = ( is_rtl() ) ? 'right' : 'left';
+        $right = ( is_rtl() ) ? 'left' : 'right';
         $dark = $this->options->thread_styles["theme"] === "wpd-dark";
         $darkCommentAreaBG = $this->options->thread_styles["darkCommentAreaBG"] ? "background:" . $this->options->thread_styles["darkCommentAreaBG"] . ";" : "";
         $darkCommentTextColor = $this->options->thread_styles["darkCommentTextColor"] ? "color:" . $this->options->thread_styles["darkCommentTextColor"] . ";" : "";
@@ -1100,25 +1100,20 @@ class WpdiscuzHelper implements WpDiscuzConstants {
                 echo "\r\n";
                 echo "#wpdcom .wpd-blog-" . $role . " .wpd-comment-label{color: #ffffff; background-color: " . $color . "; border: none;}\r\n";
                 echo "#wpdcom .wpd-blog-" . $role . " .wpd-comment-author, #wpdcom .wpd-blog-" . $role . " .wpd-comment-author a{color: " . $color . ";}\r\n";
-                if ($role === "post_author") {
+                if ($role == 'post_author')
                     echo "#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color: " . $color . ";}";
-                }
-                if ($role !== "subscriber" && $role !== "guest") {
-	                echo "#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-" . $role . " .wpd-avatar img{border-color: " . $color . ";}\r\n";
-                }
-                if ($role === "administrator" || $role === "editor" || $role === "post_author") {
+                if ($role != 'subscriber' && $role != 'guest')
+                    echo "#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-" . $role . " .wpd-avatar img{border-color: " . $color . ";}\r\n";
+                if ($role == 'administrator' || $role == 'editor' || $role == 'post_author')
                     echo "#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-" . $role . "{border-" . $left . ": 3px solid " . $color . ";}\r\n";
-                }
-                if ($role !== "guest") {
-	                echo "#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-" . $role . " .wpd-avatar img{border-bottom-color: " . $color . ";}\r\n";
-                }
+                if ($role != 'guest')
+                    echo "#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-" . $role . " .wpd-avatar img{border-bottom-color: " . $color . ";}\r\n";
                 echo "#wpdcom.wpd-layout-3 .wpd-blog-" . $role . " .wpd-comment-subheader{border-top: 1px dashed " . $color . ";}\r\n";
-                if ($role !== "subscriber" && $role !== "guest") {
-	                echo "#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-" . $role . " .wpd-comment-right{border-" . $left . ": 1px solid " . $color . ";}\r\n";
-                }
+                if ($role != 'subscriber' && $role != 'guest')
+                    echo "#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-" . $role . " .wpd-comment-right{border-" . $left . ": 1px solid " . $color . ";}\r\n";
             }
             ?>
-            <?php echo ( $this->options->thread_styles["commentTextSize"] !== "14px") ? "#wpdcom .wpd-comment-text p{font-size:" . $this->options->thread_styles["commentTextSize"] . ";}\r\n" : ""; ?>
+            <?php echo ( $this->options->thread_styles["commentTextSize"] != '14px') ? "#wpdcom .wpd-comment-text p{font-size:" . $this->options->thread_styles["commentTextSize"] . ";}\r\n" : ""; ?>
             <?php if ($dark) { ?>
                 #comments, #respond, .comments-area, #wpdcom.wpd-dark{<?php echo $darkCommentAreaBG . $darkCommentTextColor ?>}
                 #wpdcom .ql-editor > *{<?php echo $darkCommentFieldsTextColor ?>}

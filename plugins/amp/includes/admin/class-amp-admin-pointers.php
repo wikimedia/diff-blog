@@ -10,7 +10,6 @@
  * Class managing admin pointers to enhance discoverability.
  *
  * @since 1.2
- * @internal
  */
 class AMP_Admin_Pointers {
 
