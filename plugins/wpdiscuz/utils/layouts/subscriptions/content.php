@@ -19,7 +19,7 @@ if ($items && is_array($items)) {
         $sPostId = $item->post_id;
         $sType = $item->subscribtion_type;
         $sKey = $item->activation_key;
-        if ($sType == "reply") {
+        if ($sType === "reply") {
             $object = get_comment($scId);
             $link = get_comment_link($scId);
             $author = $object->comment_author;
@@ -33,7 +33,7 @@ if ($items && is_array($items)) {
             $author = $postAuthor->display_name ? $postAuthor->display_name : $postAuthor->user_login;
             $postedDate = $this->getPostDate($object);
             $content = $object->post_title;
-            $sTypeInfo = ($sType == "all_comment") ? $this->options->phrases["wc_user_settings_subscribed_to_replies_own"] : $this->options->phrases["wc_user_settings_subscribed_to_all_comments"];
+            $sTypeInfo = $sType === "all_comment" ? $this->options->phrases["wc_user_settings_subscribed_to_replies_own"] : $this->options->phrases["wc_user_settings_subscribed_to_all_comments"];
         }
         if ($object && !is_wp_error($object)) {
             include WPDISCUZ_DIR_PATH . "/utils/layouts/subscriptions/item.php";

@@ -37,8 +37,8 @@ if (!defined("ABSPATH")) {
     <div class="wpdiscuz-addons-wrapper">
         <?php
         foreach ($this->addons as $key => $addon) {
-            $installed = class_exists($addon["class"]) ? true : false;
-            if( $addon["class"] == "Bundle" ) continue;
+            $installed = class_exists($addon["class"]);
+            if( $addon["class"] === "Bundle" ) continue;
             ?>
             <div class="wpdiscuz-addon-block">
                 <div id="wpdiscuz-addon-<?php echo esc_attr($key); ?>" class="addon-thumb" style="background:url(<?php echo esc_url_raw($installed ? str_replace(".png", "-off.png", $addon["thumb"]) : $addon["thumb"]); ?>) top center no-repeat;">
@@ -54,7 +54,7 @@ if (!defined("ABSPATH")) {
                                 <!--<li style="line-height:16px;"><?php //esc_html_e('Version', 'default'); ?>: <?php //echo $addon['version']; ?></li>--> 
                                 <li style="line-height:16px;">wpDiscuz: <?php esc_html_e("at least", "default"); ?> <?php echo esc_html($addon["requires"]); ?></li>
                             </ul>
-                            <?php if( $addon["class"] == "Bundle" ): ?>
+                            <?php if( $addon["class"] === "Bundle" ): ?>
                                 <a class="button button-primary addon-button" href="<?php echo esc_url_raw($addon["url"]); ?>" target="_blank" style="font-size:14px;"><?php echo esc_html__("More Info &raquo;", "wpdiscuz"); ?></a>
                             <?php else: ?>
                                 <a class="button button-primary addon-button" href="<?php echo esc_url_raw($addon["url"]); ?>" target="_blank" style="font-size:14px;"><?php echo esc_html__("Live Preview | Buy", "wpdiscuz"); ?></a>

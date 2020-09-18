@@ -1,8 +1,8 @@
 === wpDiscuz - User & Comment Mentioning ===
 Contributors: gVectors Team
 Requires at least: 5.0
-Tested up to: 5.4
-Stable tag: 7.0.4
+Tested up to: 5.5
+Stable tag: 7.0.6
 Requires PHP: 5.4 and higher
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html

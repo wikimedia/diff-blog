@@ -2,8 +2,8 @@
 Contributors: gVectors Team
 Tags: comment, comments, ajax comments, comment form, comment fields
 Requires at least: 5.0
-Tested up to: 5.4
-Stable tag: 7.0.5
+Tested up to: 5.5
+Stable tag: 7.0.7
 Requires PHP: 5.4 and higher
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -179,19 +179,44 @@ Nothing will be lost!  **Comments - wpDiscuz** will show all old comments.
 
 == Changelog ==
 
-= Comments - wpDiscuz v7.0.4 / 7.0.5 =
+= Comments - wpDiscuz v7.0.7 =
+
+* Added: Important changes for WordPress 5.5 compatibility
+* Added: Option to choose thumbnail size for uploaded images
+* Added: comment_text hook to bubble notification texts
+* Adapted: Avoid conflicts with `scroll-behavior: smooth` CSS
+* Fixed bug: Case-insensitive checking of file extensions
+* Fixed bug: reCAPTCHA validation for other ways of commenting
+* Fixed bug: Display unapproved comments to admins on live update
+* Fixed bug: Loading of correct initial avatar size in comment form
+
 
 **IMPORTANT!**
 1. Please don't forget delete all caches and purge CDN after the update.
-2. If you have custom CSS code for fixing mobile view, tooltips and addon related issues, please consider removing those after the update and check again. Some issues are already fixed in this version, and they may conflict with your custom CSS code.
-3. If yo're updating from 5.x.x versions please read this topic: [https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/](https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/)
+2. If you're updating from 5.x.x versions please read this topic: [https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/](https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/)
 
-* version 7.0.5
+
+= Comments - wpDiscuz v7.0.6 =
+
+* Changed: We've enabled replies by default for WooCommerce products review section. Do disable it you can use the new `wpdiscuz_product_review_replies` filter hook and return false.
+* Changed: Some changes for sg optimizer cache clearing
+* Fixed bug: Hottest comment filter button issue
+
+
+= Comments - wpDiscuz v7.0.5 =
+
+**IMPORTANT!**
+Security vulnerability issue is fixed, please update!
+We have got a report that, there is a security vulnerability issue in 7.0.0 > 7.0.4 versions. This issue was fixed on 23rd July with the new update 7.0.5. We recommend keep using the latest versions and update wpDiscuz to 7.0.5 and higher versions.
+
+* Security vulnerability issue is fixed
 * Changed: New and better way to check allowed comment attachments
 * Fixed bug: CSS conflicts with some themes
 * Fixed bug: Other minor bugs are fixed
-* ------
-* version 7.0.4
+
+
+= Comments - wpDiscuz 7.0.4 =
+
 * Added: Quick tags for simple comment editor (if rich editor is disabled)
 * Added: The wpDiscuz > Tools admin page is fully redesigned
 * New Tool: Import subscribers from "Lightweight Subscribe To Comments" plugin

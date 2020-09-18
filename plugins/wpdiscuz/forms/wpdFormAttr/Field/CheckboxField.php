@@ -87,7 +87,7 @@ class CheckboxField extends Field {
         $hasDesc = $args["desc"] ? true : false;
         $required = $args["required"] ? " wpd-required-group" : "";
 
-        if (count($args["values"]) == 1):
+        if (count($args["values"]) === 1):
             ?>
             <div class="wpdiscuz-item wpd-field-group wpd-field-checkbox wpd-field-single <?php echo esc_attr($name) . "-wrapper" . esc_attr($required) . ($hasDesc ? " wpd-has-desc" : ""); ?>">
                 <div class="wpd-field-group-title">

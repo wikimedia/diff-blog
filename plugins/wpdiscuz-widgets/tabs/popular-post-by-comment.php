@@ -14,6 +14,12 @@
     }else {
         $post_date_condition = "p.`post_date` > '" . $get_date_ppdi["from"] . "'";
     }
+    $posttypes = "";
+    if (!empty($this->options["enable_for_post_types"])) {
+	    $posttypes = "AND p.`post_type` IN('" . implode("', '", $this->options["enable_for_post_types"]) . "')";
+    } else {
+	    $posttypes = "AND 0";
+    }
     $post_query = "SELECT 
                             p.ID,
                             p.`post_author`,
@@ -28,7 +34,7 @@
                             INNER JOIN `" . $this->db_prefix . "users` u 
                               ON p.`post_author` = u.`ID` 
                               WHERE p.`post_status` = 'publish'
-                              AND p.`post_type` = 'post'
+                              " . $posttypes . "
                               AND " . $post_date_condition . " ORDER BY p.`comment_count` DESC LIMIT " . $count_popular_posts;
 
     $posts = $wpdb->get_results($post_query); 
