@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Polylang activation / de-activation class
@@ -37,7 +34,7 @@ class PLL_Install extends PLL_Install_Base {
 	 * @since 2.6.7
 	 */
 	public function php_version_notice() {
-		load_plugin_textdomain( 'polylang' ); // Plugin i18n.
+		load_plugin_textdomain( 'polylang', false, basename( POLYLANG_DIR ) . '/languages' ); // Plugin i18n.
 
 		printf(
 			'<div class="error"><p>%s</p></div>',
@@ -59,7 +56,7 @@ class PLL_Install extends PLL_Install_Base {
 	public function wp_version_notice() {
 		global $wp_version;
 
-		load_plugin_textdomain( 'polylang' ); // Plugin i18n.
+		load_plugin_textdomain( 'polylang', false, basename( POLYLANG_DIR ) . '/languages' ); // Plugin i18n.
 
 		printf(
 			'<div class="error"><p>%s</p></div>',

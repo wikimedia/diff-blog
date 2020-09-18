@@ -10,9 +10,7 @@ use AmpProject\Dom\Document;
 /**
  * Class AMP_Twitter_Embed_Handler
  *
- * Much of this class is borrowed from Jetpack embeds
- *
- * @internal
+ *  Much of this class is borrowed from Jetpack embeds
  */
 class AMP_Twitter_Embed_Handler extends AMP_Base_Embed_Handler {
 
@@ -156,7 +154,7 @@ class AMP_Twitter_Embed_Handler extends AMP_Base_Embed_Handler {
 	 */
 	private function create_amp_twitter_and_replace_node( Document $dom, DOMElement $node ) {
 		$tweet_id = $this->get_tweet_id( $node );
-		if ( empty( $tweet_id ) ) {
+		if ( ! $tweet_id ) {
 			return;
 		}
 
@@ -200,7 +198,7 @@ class AMP_Twitter_Embed_Handler extends AMP_Base_Embed_Handler {
 	 * Extracts Tweet id.
 	 *
 	 * @param DOMElement $node The DOMNode to adjust and replace.
-	 * @return string Tweet ID, or an empty string if not found.
+	 * @return string Tweet ID.
 	 */
 	private function get_tweet_id( $node ) {
 		/**
@@ -222,7 +220,7 @@ class AMP_Twitter_Embed_Handler extends AMP_Base_Embed_Handler {
 			}
 		}
 
-		return '';
+		return null;
 	}
 
 	/**

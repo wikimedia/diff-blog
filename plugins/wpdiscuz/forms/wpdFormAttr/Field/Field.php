@@ -57,9 +57,9 @@ abstract class Field {
             <div class="wpd-field-head">
                 <?php echo htmlentities($args["name"]); ?>
                 <?php
-                if ($args["type"] === "wpdFormAttr\Field\DefaultField\Submit") {
+                if ($args["type"] == "wpdFormAttr\Field\DefaultField\Submit") {
                     esc_html_e(" (Submit Button)", "wpdiscuz");
-                } elseif ($args["type"] === "wpdFormAttr\Field\DefaultField\Captcha") {
+                } elseif ($args["type"] == "wpdFormAttr\Field\DefaultField\Captcha") {
                     esc_html_e("Google reCAPTCHA", "wpdiscuz");
                 } elseif (strpos($args["type"], "wpdFormAttr\Field\DefaultField") === false) {
                     $fieldLable = str_replace("wpdFormAttr\Field\\", "", $args["type"]);
@@ -170,7 +170,7 @@ abstract class Field {
         $action = filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING);
         if ($uniqueID) {
             $commentParent = strstr($uniqueID, "_");
-            $isParent = ($action === "editedcomment" && $commentParent === "_0") || ($action === "wpdSaveEditedComment" && $commentParent === "_0") || ($action === "wpdAddComment" && $uniqueID === "0_0") ? true : false;
+            $isParent = ($action == "editedcomment" && $commentParent == "_0") || ($action == "wpdSaveEditedComment" && $commentParent == "_0") || ($action == "wpdAddComment" && $uniqueID == "0_0") ? true : false;
         }
         return $isParent;
     }

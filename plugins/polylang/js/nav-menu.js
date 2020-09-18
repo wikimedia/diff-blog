@@ -1,9 +1,3 @@
-/**
- * Handles the options in the language switcher nav menu metabox.
- *
- * @package Polylang
- */
-
 jQuery( document ).ready(
 	function( $ ) {
 		$( '#update-nav-menu' ).bind(
@@ -17,7 +11,7 @@ jQuery( document ).ready(
 
 							// item is a number part of id of parent menu item built by WordPress
 							// pll_data is built server side with i18n strings without HTML and data retrieved from post meta
-							// the usage of attr method is safe before append call.
+							// the usage of attr method is safe before append call. 
 							h = $( '<input>' ).attr(
 								{
 									type: 'hidden',
@@ -54,8 +48,7 @@ jQuery( document ).ready(
 							// add the fields
 							for ( var i = 0, idsLength = ids.length; i < idsLength; i++ ) {
 								p = $( '<p>' ).attr( 'class', 'description' );
-								// p is hardcoded just above by using attr method which is safe.
-								$( this ).prepend( p ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.prepend
+								$( this ).prepend( p );
 								// item is a number part of id of parent menu item built by WordPress
 								// pll_data is built server side with i18n strings without HTML
 								label = $( '<label>' ).attr( 'for', 'edit-menu-item-' + ids[ i ] + '-' + item ).text( ' ' + pll_data.strings[ ids[ i ] ] );
@@ -71,8 +64,7 @@ jQuery( document ).ready(
 								if ( ( typeof( pll_data.val[ item ] ) != 'undefined' && pll_data.val[ item ][ ids[ i ] ] == 1 ) || ( typeof( pll_data.val[ item ] ) == 'undefined' && ids[ i ] == 'show_names' ) ) { // show_names as default value
 									cb.prop( 'checked', true );
 								}
-								// See reasons above. Checkbox are totaly hardcoded here with safe value
-								label.prepend( cb ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.prepend
+								label.prepend( cb );
 							}
 						}
 					);
@@ -87,7 +79,7 @@ jQuery( document ).ready(
 								function( i, v ) {
 									$( '#edit-menu-item-show_' + v + id ).change(
 										function() {
-											if ( true != $( this ).prop( 'checked' ) ) {
+											if ( 'checked' != $( this ).attr( 'checked' ) ) {
 												$( '#edit-menu-item-show_' + options[ 1 - i ] + id ).prop( 'checked', true );
 											}
 										}

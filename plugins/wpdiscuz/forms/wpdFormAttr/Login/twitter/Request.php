@@ -199,7 +199,7 @@ class Request
         $first = true;
         $out = 'Authorization: OAuth';
         foreach ($this->parameters as $k => $v) {
-            if (substr($k, 0, 5) !== "oauth") {
+            if (substr($k, 0, 5) != "oauth") {
                 continue;
             }
             if (is_array($v)) {

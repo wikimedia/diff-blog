@@ -196,29 +196,6 @@ $contentCutting = $setting["values"]->options["wpdiscuz_widget_content_cutting"]
 </div>
 <!-- Option end -->
 <!-- Option start -->
-<div class="wpd-opt-row" data-wpd-opt="enable_for_post_types">
-    <div class="wpd-opt-name">
-        <label for="enable_for_post_types"><?php echo $setting["options"]["enable_for_post_types"]["label"] ?></label>
-        <p class="wpd-desc"><?php echo $setting["options"]["enable_for_post_types"]["description"] ?></p>
-    </div>
-    <div class="wpd-opt-input">
-        <?php
-        foreach (get_post_types() as $key => $posttype) {
-            if (post_type_supports($posttype, 'comments')) {
-            ?>
-                <div class="wpd-mublock-inline" style="width: 200px; min-width: 33%;">
-                    <input type="checkbox" <?php checked(in_array($posttype, $setting["values"]->options["enable_for_post_types"])); ?> value="<?php echo $posttype; ?>" name="<?php echo $setting["values"]->tabKey; ?>[enable_for_post_types][]" id="wpdicuz_widgets_post_type_<?php echo $posttype; ?>" style="margin:0px; vertical-align: middle;" />
-                    <label for="wpdicuz_widgets_post_type_<?php echo $posttype; ?>" style="white-space:nowrap; font-size:13px;"><?php echo $posttype; ?></label>
-                </div>
-            <?php
-            }
-        }
-        ?>
-        <div class="wpd-clear"></div>
-    </div>
-</div>
-<!-- Option end -->
-<!-- Option start -->
 <div class="wpd-opt-row" data-wpd-opt="wpdiscuz_widget_displaying_guests">
     <div class="wpd-opt-name">
         <label for="wpdiscuz_widget_displaying_guests"><?php echo $setting["options"]["wpdiscuz_widget_displaying_guests"]["label"] ?></label>

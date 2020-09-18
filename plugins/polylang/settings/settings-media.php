@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Settings class for media language and translation management
@@ -9,12 +6,6 @@
  * @since 1.8
  */
 class PLL_Settings_Media extends PLL_Settings_Module {
-	/**
-	 * Stores the display order priority.
-	 *
-	 * @var int
-	 */
-	public $priority = 30;
 
 	/**
 	 * Constructor

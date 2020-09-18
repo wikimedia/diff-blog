@@ -190,7 +190,7 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
-        if (!$state || ($provider !== "facebook")) {
+        if (!$state || ($provider != "facebook")) {
             $this->redirect($postID, esc_html__("Facebook authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -265,7 +265,7 @@ class SocialLogin {
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
 
-        if (!$state || ($provider !== "instagram")) {
+        if (!$state || ($provider != "instagram")) {
             $this->redirect($postID, esc_html__("Instagram authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -342,7 +342,7 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
-        if (!$state || ($provider !== "google")) {
+        if (!$state || ($provider != "google")) {
             $this->redirect($postID, esc_html__("Google authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -412,7 +412,7 @@ class SocialLogin {
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
 
-        if (!$state || ($provider !== "linkedin")) {
+        if (!$state || ($provider != "linkedin")) {
             $this->redirect($postID, esc_html__("Linkedin authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -521,7 +521,7 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
-        if (!$state || ($provider !== "disqus")) {
+        if (!$state || ($provider != "disqus")) {
             $this->redirect($postID, esc_html__("Disqus authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -607,7 +607,7 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
-        if (!$state || ($provider !== "wordpress")) {
+        if (!$state || ($provider != "wordpress")) {
             $this->redirect($postID, esc_html__("Wordpress.com authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -747,7 +747,7 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
-        if (!$state || ($provider !== "vk")) {
+        if (!$state || ($provider != "vk")) {
             $this->redirect($postID, esc_html__("VK authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -824,7 +824,7 @@ class SocialLogin {
         $providerData = Utils::getProviderByState($state);
         $provider = $providerData[wpdFormConst::WPDISCUZ_OAUTH_STATE_PROVIDER];
         $postID = $providerData[wpdFormConst::WPDISCUZ_OAUTH_CURRENT_POSTID];
-        if (!$state || ($provider !== "ok")) {
+        if (!$state || ($provider != "ok")) {
             $this->redirect($postID, esc_html__("OK authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -906,7 +906,7 @@ class SocialLogin {
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
-        if (!$state || ($provider !== "yandex")) {
+        if (!$state || ($provider != "yandex")) {
             $this->redirect($postID, esc_html__("Yandex authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -996,7 +996,7 @@ class SocialLogin {
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
-        if (!$state || ($provider !== "mailru")) {
+        if (!$state || ($provider != "mailru")) {
             $this->redirect($postID, esc_html__("Mail.ru authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -1085,7 +1085,7 @@ class SocialLogin {
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
-        if (!$state || ($provider !== "wechat")) {
+        if (!$state || ($provider != "wechat")) {
             $this->redirect($postID, esc_html__("WeChat authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -1170,7 +1170,7 @@ class SocialLogin {
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
-        if (!$state || ($provider !== "qq")) {
+        if (!$state || ($provider != "qq")) {
             $this->redirect($postID, esc_html__("QQ authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -1276,7 +1276,7 @@ class SocialLogin {
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
-        if (!$state || ($provider !== "weibo")) {
+        if (!$state || ($provider != "weibo")) {
             $this->redirect($postID, esc_html__("Weibo authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {
@@ -1365,7 +1365,7 @@ class SocialLogin {
         if ($error) {
             $this->redirect($postID, esc_html($errorDesc));
         }
-        if (!$state || ($provider !== "baidu")) {
+        if (!$state || ($provider != "baidu")) {
             $this->redirect($postID, esc_html__("Baidu authentication failed (OAuth state does not exist).", "wpdiscuz"));
         }
         if (!$code) {

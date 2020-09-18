@@ -1,9 +1,3 @@
-/**
- * Adds a flag to the widgets filtered by a language.
- *
- * @package Polylang
- */
-
 jQuery(
 	function( $ ) {
 		var widgets_container, widgets_selector, flags;
@@ -14,7 +8,7 @@ jQuery(
 
 		/**
 		 * Prepend widget titles with a flag once a language is selected.
-		 *
+		 * 
 		 * @param {object} widget The widget element.
 		 * @return {void} Nothing.
 		 */
@@ -35,8 +29,7 @@ jQuery(
 					current.html( icon ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
 				} else {
 					flag = $( '<span />' ).addClass( 'pll-lang' ).html( icon );  // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
-					// See the comment above about the icon which is safe. So it is also safe to prepend flag which uses icon.
-					title.prepend( flag ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.prepend
+					title.prepend( flag );
 				}
 			} else {
 				$( '.pll-lang', title ).remove();

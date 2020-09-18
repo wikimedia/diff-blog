@@ -19,8 +19,6 @@ use Exception;
  * This checks whether there's excessive cycling of CSS cached stylesheets and disables transient caching if so.
  *
  * @package AmpProject\AmpWP
- * @since 2.0
- * @internal
  */
 final class MonitorCssTransientCaching extends CronBasedBackgroundTask {
 
@@ -107,11 +105,11 @@ final class MonitorCssTransientCaching extends CronBasedBackgroundTask {
 		}
 
 		if ( null === $transient_count ) {
-			$transient_count = $this->query_css_transient_count();
+			$transient_count = self::query_css_transient_count();
 		}
 
 		$date_string = $date->format( 'Ymd' );
-		$time_series = $this->get_time_series();
+		$time_series = self::get_time_series();
 
 		$time_series[ $date_string ] = $transient_count;
 		ksort( $time_series );
@@ -149,7 +147,7 @@ final class MonitorCssTransientCaching extends CronBasedBackgroundTask {
 	 *
 	 * @return int Count of transients caching stylesheets.
 	 */
-	public function query_css_transient_count() {
+	public static function query_css_transient_count() {
 		global $wpdb;
 
 		return (int) $wpdb->get_var(
@@ -174,26 +172,8 @@ final class MonitorCssTransientCaching extends CronBasedBackgroundTask {
 	 *
 	 * @return int[] Time series with the count of transients per day.
 	 */
-	public function get_time_series() {
+	public static function get_time_series() {
 		return (array) get_option( self::TIME_SERIES_OPTION_KEY, [] );
-	}
-
-	/**
-	 * Get the default threshold to use.
-	 *
-	 * @return float Default threshold to use.
-	 */
-	public function get_default_threshold() {
-		return self::DEFAULT_THRESHOLD;
-	}
-
-	/**
-	 * Get the default sampling range to use.
-	 *
-	 * @return int Default sampling range to use.
-	 */
-	public function get_default_sampling_range() {
-		return self::DEFAULT_SAMPLING_RANGE;
 	}
 
 	/**

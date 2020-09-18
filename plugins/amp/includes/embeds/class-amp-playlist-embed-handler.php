@@ -12,7 +12,6 @@
  * Creates AMP-compatible markup for the WordPress 'playlist' shortcode.
  *
  * @package AMP
- * @internal
  */
 class AMP_Playlist_Embed_Handler extends AMP_Base_Embed_Handler {
 
@@ -96,9 +95,9 @@ class AMP_Playlist_Embed_Handler extends AMP_Base_Embed_Handler {
 	 * @return void
 	 */
 	public function unregister_embed() {
-		if ( isset( $this->removed_shortcode_callback ) ) {
+		if ( $this->removed_shortcode_callback ) {
 			add_shortcode( self::SHORTCODE, $this->removed_shortcode_callback );
-			unset( $this->removed_shortcode_callback );
+			$this->removed_shortcode_callback = null;
 		}
 		add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 	}

@@ -32,7 +32,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
         } else {
             $email = filter_input(INPUT_POST, "wpdiscuzSubscriptionEmail");
         }
-        if (!$currentUser->exists() && $form->isShowSubscriptionBarAgreement() && !$showSubscriptionBarAgreement && ($subscriptionType === WpdiscuzCore::SUBSCRIPTION_POST || $subscriptionType === WpdiscuzCore::SUBSCRIPTION_ALL_COMMENT)) {
+        if (!$currentUser->exists() && $form->isShowSubscriptionBarAgreement() && !$showSubscriptionBarAgreement && ($subscriptionType == WpdiscuzCore::SUBSCRIPTION_POST || $subscriptionType == WpdiscuzCore::SUBSCRIPTION_ALL_COMMENT)) {
             $email = "";
         }
         $addSubscription = apply_filters("wpdiscuz_before_subscription_added", true);
@@ -132,7 +132,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
             $siteUrl = get_site_url();
             $blogTitle = get_option("blogname");
             $postTitle = get_the_title($comment->comment_post_ID);
-            if ($subscriptionType === self::SUBSCRIPTION_COMMENT) {
+            if ($subscriptionType == self::SUBSCRIPTION_COMMENT) {
                 $parentComment = get_comment($comment->comment_parent);
                 $subscriber = $parentComment && $parentComment->comment_author ? $parentComment->comment_author : $this->options->phrases["wc_anonymous"];
             } else {
@@ -185,7 +185,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
                 $parentCommentId = $comment->comment_parent;
                 $parentComment = get_comment($parentCommentId);
                 $parentCommentEmail = $parentComment->comment_author_email;
-                if ($parentCommentEmail !== $email) {
+                if ($parentCommentEmail != $email) {
                     $this->notifyAllCommentSubscribers($postId, $commentId, $email);
                     $this->notifyCommentSubscribers($parentCommentId, $comment->comment_ID, $email);
                 }
@@ -270,14 +270,14 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
             $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
             $isLoadWpdiscuz = $form->getFormID() && (comments_open($post) || $post->comment_count) && post_type_supports($post->post_type, "comments");
         }
-        if ($approved === "1" && ($commentsPage || $postCommentsPage) && $comment && $isLoadWpdiscuz) {
+        if ($approved == 1 && ($commentsPage || $postCommentsPage) && $comment && $isLoadWpdiscuz) {
             $postId = $comment->comment_post_ID;
             $email = $comment->comment_author_email;
             $parentComment = $comment->comment_parent ? get_comment($comment->comment_parent) : 0;
             $this->notifyPostSubscribers($postId, $commentId, $email);
             if ($parentComment) {
                 $parentCommentEmail = $parentComment->comment_author_email;
-                if ($parentCommentEmail !== $email) {
+                if ($parentCommentEmail != $email) {
                     $this->notifyAllCommentSubscribers($postId, $commentId, $email);
                     $this->notifyCommentSubscribers($parentComment->comment_ID, $commentId, $email);
                 }
@@ -443,7 +443,7 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
         $search = ["[MENTIONED_USER_NAME]", "[POST_TITLE]", "[COMMENT_URL]", "[COMMENT_AUTHOR]"];
         $replace = ["", $post_title, $comment_link, $comment_data->comment_author];
         foreach ($users as $k => $user) {
-            if ($user["email"] !== $comment_data->comment_author_email) {
+            if ($user["email"] != $comment_data->comment_author_email) {
                 if (apply_filters("wpducm_mail_to_mentioned_user", true, $user, $comment_data)) {
                     $replace[0] = $user["name"];
                     $body = str_replace($search, $replace, $message);

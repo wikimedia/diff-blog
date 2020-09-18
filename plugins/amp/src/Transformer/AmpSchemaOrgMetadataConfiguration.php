@@ -17,8 +17,6 @@ use AmpProject\Optimizer\Transformer\TransformedIdentifier;
  * @property array $metadata Associative array of metadata.
  *
  * @package ampproject/optimizer
- * @since 2.0
- * @internal
  */
 final class AmpSchemaOrgMetadataConfiguration extends BaseTransformerConfiguration {
 

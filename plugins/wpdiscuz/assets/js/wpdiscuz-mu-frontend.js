@@ -91,7 +91,6 @@ jQuery(document).ready(function ($) {
             var attachmentId = btn.data('wmu-attachment');
             var data = new FormData();
             data.append('action', 'wmuDeleteAttachment');
-            data.append('wmu_nonce', wpdiscuzAjaxObj.wmuSecurity);
             data.append('attachmentId', attachmentId);
             wpdiscuzAjaxObj.getAjaxObj(true, true, data)
                     .done(function (r) {
@@ -136,7 +135,6 @@ jQuery(document).ready(function ($) {
         var data = new FormData();
         data.append('action', 'wmuRemoveAttachmentPreview');
         data.append('attachmentId', id);
-        data.append('wmu_nonce', wpdiscuzAjaxObj.wmuSecurity);
         data.append('wmuAttachmentsData', $('.wmu-attachments-data', form).val());
         wpdiscuzAjaxObj.getAjaxObj(true, true, data)
                 .done(function (r) {

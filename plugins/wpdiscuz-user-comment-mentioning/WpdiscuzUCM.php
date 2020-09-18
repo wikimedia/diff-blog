@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz - User & Comment Mentioning
  * Description: Allows to mention certain comments and users in comment text using #comment-id and @username tags.
- * Version: 7.0.6
+ * Version: 7.0.4
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-user-comment-mentioning/
@@ -26,7 +26,6 @@ class WpdiscuzUCM {
     public $pVersion;
     private static $instance;
     private $userList = [];
-	public $apimanager;
 
     private function __construct() {
         add_action("plugins_loaded", [&$this, "loaded"], 120);
@@ -34,7 +33,7 @@ class WpdiscuzUCM {
 
     function loaded() {
         if (function_exists("wpDiscuz")) {
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             $this->option = new WpdiscuzUCMOption();
             $this->pVersion = get_option($this->option->versionSlug);
             if (!$this->pVersion) {

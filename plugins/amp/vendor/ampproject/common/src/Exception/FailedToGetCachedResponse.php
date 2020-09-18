@@ -13,8 +13,7 @@ final class FailedToGetCachedResponse extends RuntimeException implements Failed
 {
 
     /**
-     * Instantiate a FailedToGetCachedResponseData exception for a URL if the cached response data could not be
-     * retrieved.
+     * Instantiate a FailedToGetCachedResponseData exception for a URL if the cached response data could not be retrieved.
      *
      * @param string $url URL that failed to be fetched.
      * @return self

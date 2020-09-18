@@ -1,7 +1,3 @@
-/**
- * @package Polylang
- */
-
 // quick edit
 (function( $ ) {
 	$( document ).bind(
@@ -66,10 +62,7 @@
 								res.responses,
 								function() {
 									if ( 'row' == this.what ) {
-										// data is built with a call to WP_Terms_List_Table::single_row method
-										// which uses internally other WordPress methods which escape correctly values.
-										// For Polylang language columns the HTML code is correctly escaped in PLL_Admin_Filters_Columns::term_column method.
-										$( "#tag-" + this.supplemental.term_id ).replaceWith( this.data ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.replaceWith
+										$( "#tag-" + this.supplemental.term_id ).replaceWith( this.data );
 									}
 								}
 							);
@@ -187,12 +180,10 @@ jQuery( document ).ready(
 										init_translations();
 									break;
 									case 'parent': // parent dropdown list for hierarchical taxonomies
-										// data correctly escaped in PLL_Admin_Filters_Term::term_lang_choice method which uses wp_dropdown_categories function.
-										$( '#parent' ).replaceWith( this.data ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.replaceWith
+										$( '#parent' ).replaceWith( this.data );
 									break;
 									case 'tag_cloud': // popular items
-										// data correctly escaped in PLL_Admin_Filters_Term::term_lang_choice method which uses wp_tag_cloud and wp_generate_tag_cloud functions.
-										$( '.tagcloud' ).replaceWith( this.data ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.replaceWith
+										$( '.tagcloud' ).replaceWith( this.data );
 									break;
 									case 'flag': // flag in front of the select dropdown
 										// Data is built and come from server side and is well escaped when necessary

@@ -50,17 +50,17 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <div class="wpd-radio">
-            <input type="radio" value="disable" <?php checked("disable" === $this->inline["inlineFeedbackAttractionType"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_INLINE); ?>[inlineFeedbackAttractionType]" id="inlineFeedbackAttractionTypeDisable" class="inlineFeedbackAttractionType"/>
+            <input type="radio" value="disable" <?php checked("disable" == $this->inline["inlineFeedbackAttractionType"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_INLINE); ?>[inlineFeedbackAttractionType]" id="inlineFeedbackAttractionTypeDisable" class="inlineFeedbackAttractionType"/>
             <label for="inlineFeedbackAttractionTypeDisable" class="wpd-radio-circle"></label>
             <label for="inlineFeedbackAttractionTypeDisable"><?php esc_html_e("Disable", "wpdiscuz") ?></label>
         </div>
         <div class="wpd-radio">
-            <input type="radio" value="blink" <?php checked("blink" === $this->inline["inlineFeedbackAttractionType"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_INLINE); ?>[inlineFeedbackAttractionType]" id="inlineFeedbackAttractionTypeBlink" class="inlineFeedbackAttractionType"/>
+            <input type="radio" value="blink" <?php checked("blink" == $this->inline["inlineFeedbackAttractionType"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_INLINE); ?>[inlineFeedbackAttractionType]" id="inlineFeedbackAttractionTypeBlink" class="inlineFeedbackAttractionType"/>
             <label for="inlineFeedbackAttractionTypeBlink" class="wpd-radio-circle"></label>
             <label for="inlineFeedbackAttractionTypeBlink"><?php esc_html_e("Animate (blink and wiggle)", "wpdiscuz") ?></label>
         </div>
         <div class="wpd-radio">
-            <input type="radio" value="scroll_open" <?php checked("scroll_open" === $this->inline["inlineFeedbackAttractionType"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_INLINE); ?>[inlineFeedbackAttractionType]" id="inlineFeedbackAttractionTypeScrollOpen" class="inlineFeedbackAttractionType"/>
+            <input type="radio" value="scroll_open" <?php checked("scroll_open" == $this->inline["inlineFeedbackAttractionType"]); ?> name="<?php echo esc_attr(WpdiscuzCore::TAB_INLINE); ?>[inlineFeedbackAttractionType]" id="inlineFeedbackAttractionTypeScrollOpen" class="inlineFeedbackAttractionType"/>
             <label for="inlineFeedbackAttractionTypeScrollOpen" class="wpd-radio-circle"></label>
             <label for="inlineFeedbackAttractionTypeScrollOpen"><?php esc_html_e("Open the Feedback Form on scroll", "wpdiscuz") ?></label>
         </div>

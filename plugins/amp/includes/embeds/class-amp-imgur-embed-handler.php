@@ -8,8 +8,6 @@
 
 /**
  * Class AMP_Imgur_Embed_Handler
- *
- * @internal
  */
 class AMP_Imgur_Embed_Handler extends AMP_Base_Embed_Handler {
 	/**

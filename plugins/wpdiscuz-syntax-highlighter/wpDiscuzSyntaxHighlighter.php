@@ -6,7 +6,7 @@ if (!defined("ABSPATH")) {
 /*
  * Plugin Name: wpDiscuz - Syntax Highlighter
  * Description: Syntax highlighting for comments, automatic language detection and multi-language code highlighting.
- * Version: 1.0.2
+ * Version: 1.0.0
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/product/wpdiscuz-syntax-highlighter/
@@ -22,7 +22,6 @@ class wpDiscuzSyntaxHighlighter {
 
     private $version;
     private $options;
-	public $apimanager;
 
     public function __construct() {
         add_action("plugins_loaded", [&$this, "pluginLoad"], 1);
@@ -30,7 +29,7 @@ class wpDiscuzSyntaxHighlighter {
 
     public function pluginLoad() {
         if (function_exists("wpDiscuz")) {
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             load_plugin_textdomain("wpdiscuz_syntax", false, dirname(plugin_basename(__FILE__)) . "/languages/");
             $this->options = new wpDiscuzSyntaxHighlighterOptions();
             add_action("wpdiscuz_front_scripts", [&$this, "frontFiles"]);

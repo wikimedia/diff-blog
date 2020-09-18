@@ -8,8 +8,6 @@
 
 /**
  * Class AMP_Editor_Blocks
- *
- * @internal
  */
 class AMP_Editor_Blocks {
 
@@ -43,7 +41,7 @@ class AMP_Editor_Blocks {
 	 */
 	public function init() {
 		if ( function_exists( 'register_block_type' ) ) {
-			add_filter( 'wp_kses_allowed_html', [ $this, 'include_block_atts_in_wp_kses_allowed_html' ], 10, 2 );
+			add_filter( 'wp_kses_allowed_html', [ $this, 'whitelist_block_atts_in_wp_kses_allowed_html' ], 10, 2 );
 
 			/*
 			 * Dirty AMP is required when a site is in AMP-first mode but not all templates are being served
@@ -64,7 +62,7 @@ class AMP_Editor_Blocks {
 	}
 
 	/**
-	 * Allowlist elements and attributes used for AMP.
+	 * Whitelist elements and attributes used for AMP.
 	 *
 	 * This prevents AMP markup from being deleted in
 	 *
@@ -72,7 +70,7 @@ class AMP_Editor_Blocks {
 	 * @param string $context Context.
 	 * @return mixed Modified array.
 	 */
-	public function include_block_atts_in_wp_kses_allowed_html( $tags, $context ) {
+	public function whitelist_block_atts_in_wp_kses_allowed_html( $tags, $context ) {
 		if ( 'post' !== $context ) {
 			return $tags;
 		}
@@ -130,7 +128,7 @@ class AMP_Editor_Blocks {
 	 * @return string Content (unmodified).
 	 */
 	public function tally_content_requiring_amp_scripts( $content ) {
-		if ( ! amp_is_request() ) {
+		if ( ! is_amp_endpoint() ) {
 			$pattern = sprintf( '/<(%s)\b.*?>/s', implode( '|', $this->amp_blocks ) );
 			if ( preg_match_all( $pattern, $content, $matches ) ) {
 				$this->content_required_amp_scripts = array_merge(
@@ -146,7 +144,7 @@ class AMP_Editor_Blocks {
 	 * Print AMP scripts required for AMP components used in a non-AMP document (dirty AMP).
 	 */
 	public function print_dirty_amp_scripts() {
-		if ( ! amp_is_request() && ! empty( $this->content_required_amp_scripts ) ) {
+		if ( ! is_amp_endpoint() && ! empty( $this->content_required_amp_scripts ) ) {
 			wp_scripts()->do_items( $this->content_required_amp_scripts );
 		}
 	}

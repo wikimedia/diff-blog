@@ -42,11 +42,6 @@ class HTMLField extends Field {
         if (isset($data["value"])) {
             $cleanData["value"] = trim($data["value"]);
         }
-	    if (isset($data["is_show_sform"])) {
-		    $cleanData["is_show_sform"] = intval($data["is_show_sform"]);
-	    } else {
-		    $cleanData["is_show_sform"] = 0;
-	    }
         return wp_parse_args($cleanData, $this->fieldDefaultData);
     }
 

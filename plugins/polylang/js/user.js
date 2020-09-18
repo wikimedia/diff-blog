@@ -1,9 +1,3 @@
-/**
- * Adds one biography input field per language in the user profile.
- *
- * @package Polylang
- */
-
 jQuery( document ).ready(
 	function( $ ) {
 		// biography

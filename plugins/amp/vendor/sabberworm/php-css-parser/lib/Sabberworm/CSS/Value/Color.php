@@ -39,33 +39,16 @@ class Color extends CSSFunction {
 			$sColorMode = $oParserState->parseIdentifier(true);
 			$oParserState->consumeWhiteSpace();
 			$oParserState->consume('(');
-
-			$bContainsVar = false;
 			$iLength = $oParserState->strlen($sColorMode);
 			for ($i = 0; $i < $iLength; ++$i) {
 				$oParserState->consumeWhiteSpace();
-				if ($oParserState->comes('var')) {
-					$aColor[$sColorMode[$i]] = CSSFunction::parseIdentifierOrFunction($oParserState);
-					$bContainsVar = true;
-				} else {
-					$aColor[$sColorMode[$i]] = Size::parse($oParserState, true);
-				}
-
-				if ($bContainsVar && $oParserState->comes(')')) {
-					// With a var argument the function can have fewer arguments
-					break;
-				}
-
+				$aColor[$sColorMode[$i]] = Size::parse($oParserState, true);
 				$oParserState->consumeWhiteSpace();
 				if ($i < ($iLength - 1)) {
 					$oParserState->consume(',');
 				}
 			}
 			$oParserState->consume(')');
-
-			if ($bContainsVar) {
-				return new CSSFunction($sColorMode, array_values($aColor), ',', $oParserState->currentLine());
-			}
 		}
 		return new Color($aColor, $oParserState->currentLine());
 	}

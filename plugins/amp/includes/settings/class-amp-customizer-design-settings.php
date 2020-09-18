@@ -5,12 +5,8 @@
  * @package AMP
  */
 
-use AmpProject\AmpWP\Option;
-
 /**
  * Class AMP_Customizer_Design_Settings
- *
- * @internal
  */
 class AMP_Customizer_Design_Settings {
 
@@ -44,7 +40,8 @@ class AMP_Customizer_Design_Settings {
 	 * @return bool AMP Customizer design settings enabled.
 	 */
 	public static function is_amp_customizer_enabled() {
-		if ( AMP_Theme_Support::READER_MODE_SLUG !== AMP_Options_Manager::get_option( Option::THEME_SUPPORT ) ) {
+
+		if ( AMP_Theme_Support::READER_MODE_SLUG !== AMP_Options_Manager::get_option( 'theme_support' ) ) {
 			return false;
 		}
 
@@ -62,8 +59,9 @@ class AMP_Customizer_Design_Settings {
 	 * Init.
 	 */
 	public static function init() {
+		add_action( 'amp_customizer_init', [ __CLASS__, 'init_customizer' ] );
+
 		if ( self::is_amp_customizer_enabled() ) {
-			add_action( 'amp_customizer_init', [ __CLASS__, 'init_customizer' ] );
 			add_filter( 'amp_customizer_get_settings', [ __CLASS__, 'append_settings' ] );
 		}
 	}
@@ -72,9 +70,11 @@ class AMP_Customizer_Design_Settings {
 	 * Init customizer.
 	 */
 	public static function init_customizer() {
-		add_action( 'amp_customizer_register_settings', [ __CLASS__, 'register_customizer_settings' ] );
-		add_action( 'amp_customizer_register_ui', [ __CLASS__, 'register_customizer_ui' ] );
-		add_action( 'amp_customizer_enqueue_preview_scripts', [ __CLASS__, 'enqueue_customizer_preview_scripts' ] );
+		if ( self::is_amp_customizer_enabled() ) {
+			add_action( 'amp_customizer_register_settings', [ __CLASS__, 'register_customizer_settings' ] );
+			add_action( 'amp_customizer_register_ui', [ __CLASS__, 'register_customizer_ui' ] );
+			add_action( 'amp_customizer_enqueue_preview_scripts', [ __CLASS__, 'enqueue_customizer_preview_scripts' ] );
+		}
 	}
 
 	/**
@@ -113,6 +113,17 @@ class AMP_Customizer_Design_Settings {
 				'type'              => 'option',
 				'default'           => self::DEFAULT_COLOR_SCHEME,
 				'sanitize_callback' => [ __CLASS__, 'sanitize_color_scheme' ],
+				'transport'         => 'postMessage',
+			]
+		);
+
+		// Display exit link.
+		$wp_customize->add_setting(
+			'amp_customizer[display_exit_link]',
+			[
+				'type'              => 'option',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'transport'         => 'postMessage',
 			]
 		);
@@ -173,18 +184,30 @@ class AMP_Customizer_Design_Settings {
 			]
 		);
 
+		// Display exit link.
+		$wp_customize->add_control(
+			'amp_display_exit_link',
+			[
+				'settings' => 'amp_customizer[display_exit_link]',
+				'label'    => __( 'Display link to exit reader mode?', 'amp' ),
+				'section'  => 'amp_design',
+				'type'     => 'checkbox',
+				'priority' => 40,
+			]
+		);
+
 		// Header.
 		$wp_customize->selective_refresh->add_partial(
 			'amp-wp-header',
 			[
 				'selector'         => '.amp-wp-header',
-				'settings'         => [ 'blogname' ], // @todo Site Icon.
+				'settings'         => [ 'blogname', 'amp_customizer[display_exit_link]' ], // @todo Site Icon.
 				'render_callback'  => [ __CLASS__, 'render_header_bar' ],
 				'fallback_refresh' => false,
 			]
 		);
 
-		// Footer.
+		// Header.
 		$wp_customize->selective_refresh->add_partial(
 			'amp-wp-footer',
 			[
@@ -225,16 +248,12 @@ class AMP_Customizer_Design_Settings {
 	public static function enqueue_customizer_preview_scripts() {
 		global $wp_customize;
 
-		$asset_file   = AMP__DIR__ . '/assets/js/amp-customizer-design-preview-legacy.asset.php';
-		$asset        = require $asset_file;
-		$dependencies = $asset['dependencies'];
-		$version      = $asset['version'];
-
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
 		wp_enqueue_script(
 			'amp-customizer-design-preview',
-			amp_get_asset_url( 'js/amp-customizer-design-preview-legacy.js' ),
-			array_merge( $dependencies, [ 'amp-customize-preview' ] ),
-			$version,
+			amp_get_asset_url( 'js/amp-customizer-design-preview.js' ),
+			[ 'amp-customize-preview' ],
+			false,
 			true
 		);
 		wp_localize_script(
@@ -267,6 +286,7 @@ class AMP_Customizer_Design_Settings {
 				'header_color'            => self::DEFAULT_HEADER_COLOR,
 				'header_background_color' => self::DEFAULT_HEADER_BACKGROUND_COLOR,
 				'color_scheme'            => self::DEFAULT_COLOR_SCHEME,
+				'display_exit_link'       => false,
 			]
 		);
 

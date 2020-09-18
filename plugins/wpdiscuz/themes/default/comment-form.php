@@ -234,14 +234,14 @@ if (!post_password_required($post->ID)) {
                     if ($wpdiscuz->subscriptionData) {
                         $isConfirmed = $wpdiscuz->subscriptionData["confirm"];
                         $subscriptionType = $wpdiscuz->subscriptionData["type"];
-                        if ($subscriptionType === WpdiscuzCore::SUBSCRIPTION_POST || $subscriptionType === WpdiscuzCore::SUBSCRIPTION_ALL_COMMENT) {
+                        if ($subscriptionType == WpdiscuzCore::SUBSCRIPTION_POST || $subscriptionType == WpdiscuzCore::SUBSCRIPTION_ALL_COMMENT) {
                             $unsubscribeLinkParams = $wpdiscuz->dbManager->getUnsubscribeLinkParams($post->ID, $currentUser->user_email);
                         }
                     }
                     ?>
                     <div class="wpdiscuz-subscribe-bar wpdiscuz-hidden">
                         <?php
-                        if ($subscriptionType !== WpdiscuzCore::SUBSCRIPTION_POST) {
+                        if ($subscriptionType != WpdiscuzCore::SUBSCRIPTION_POST) {
                             ?>
                             <form action="<?php echo esc_url_raw(admin_url("admin-ajax.php") . "?action=wpdAddSubscription"); ?>" method="post" id="wpdiscuz-subscribe-form">
                                 <div class="wpdiscuz-subscribe-form-intro"><?php echo esc_html($wpdiscuz->options->phrases["wc_notify_of"]); ?> </div>
@@ -294,9 +294,9 @@ if (!post_password_required($post->ID)) {
                         }
                         if (isset($unsubscribeLinkParams)) {
                             $subscribeMessage = $isConfirmed ? $wpdiscuz->options->phrases["wc_unsubscribe"] : $wpdiscuz->options->phrases["wc_ignore_subscription"];
-                            if ($subscriptionType === "all_comment") {
+                            if ($subscriptionType == "all_comment") {
                                 $introText = $wpdiscuz->options->phrases["wc_subscribed_to"] . " " . $wpdiscuz->options->phrases["wc_notify_on_all_new_reply"];
-                            } elseif ($subscriptionType === "post") {
+                            } elseif ($subscriptionType == "post") {
                                 $introText = $wpdiscuz->options->phrases["wc_subscribed_to"] . " " . $wpdiscuz->options->phrases["wc_notify_on_new_comment"];
                             }
                             echo "<div class='wpdiscuz_subscribe_status'>" . esc_html($introText) . " | <a class='wpd-unsubscribe' data-sid='" . esc_attr($unsubscribeLinkParams["id"]) . "' data-skey='" . esc_attr($unsubscribeLinkParams["activation_key"]) . "' href='#'>" . esc_html($subscribeMessage) . "</a></div>";
@@ -323,7 +323,7 @@ if (!post_password_required($post->ID)) {
             
         }
         do_action("wpdiscuz_before_comments", $post, $currentUser, $commentsCount);
-        $wooExists = class_exists("WooCommerce") && get_post_type($post->ID) === "product";
+        $wooExists = class_exists("WooCommerce") && get_post_type($post->ID) == "product";
         ?>                   
         <div id="wpd-threads" class="wpd-thread-wrapper">
             <div class="wpd-thread-head">

@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * It is best practice that plugins do nothing before plugins_loaded is fired

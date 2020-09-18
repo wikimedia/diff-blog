@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Manages custom menus translations as well as the language switcher menu item on admin side

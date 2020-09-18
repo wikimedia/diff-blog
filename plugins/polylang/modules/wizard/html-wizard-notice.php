@@ -1,8 +1,7 @@
 <?php
+
 /**
  * Displays the wizard notice content
- *
- * @package Polylang
  *
  * @since 2.7
  */

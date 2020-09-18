@@ -7,8 +7,6 @@
 
 /**
  * Class with static string utility methods.
- *
- * @internal
  */
 class AMP_String_Utils {
 

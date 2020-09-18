@@ -82,8 +82,8 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
             }
             if ($userCanStickComment && $comment && isset($comment->comment_ID) && $comment->comment_ID && !$comment->comment_parent) {
                 $commentarr = ["comment_ID" => $commentId];
-                if ($comment->comment_type === self::WPDISCUZ_STICKY_COMMENT) {
-                    $commentarr["comment_type"] = WpdiscuzCore::$DEFAULT_COMMENT_TYPE;
+                if ($comment->comment_type == self::WPDISCUZ_STICKY_COMMENT) {
+                    $commentarr["comment_type"] = "";
                     $response = esc_html($this->options->phrases["wc_stick_comment"]);
                 } else {
                     $commentarr["comment_type"] = self::WPDISCUZ_STICKY_COMMENT;
@@ -313,14 +313,14 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
             $message = "";
             $siteUrl = get_site_url();
             $blogTitle = html_entity_decode(get_option("blogname"), ENT_QUOTES);
-            if ($guestAction === "deleteComments") {
+            if ($guestAction == "deleteComments") {
                 $link = $mainUrl . "wpdiscuzUrlAnchor&deleteComments=$hashValue";
                 $subject = $this->options->phrases["wc_user_settings_delete_all_comments"];
                 $message = $this->options->phrases["wc_user_settings_delete_all_comments_message"];
                 if (strpos($message, "[DELETE_COMMENTS_URL]") !== false) {
                     $message = str_replace("[DELETE_COMMENTS_URL]", $link, $message);
                 }
-            } elseif ($guestAction === "deleteSubscriptions") {
+            } elseif ($guestAction == "deleteSubscriptions") {
                 $subject = $this->options->phrases["wc_user_settings_delete_all_subscriptions"];
                 $link = $mainUrl . "wpdiscuzUrlAnchor&deleteSubscriptions=$hashValue";
                 $message = $this->options->phrases["wc_user_settings_delete_all_subscriptions_message"];

@@ -6,7 +6,7 @@
             <input class="enable-tab-displaying" type="checkbox" name="<?php echo $most_voted_tabName ?>" <?php checked($most_voted_tab, "on", true) ?>>
         </label>
     </div>
-    <?php $tab_section_style = $most_voted_tab === "on" ? "" : "display: none;" ?>
+    <?php $tab_section_style = $most_voted_tab == "on" ? "" : "display: none;" ?> 
     <div class="tab-section-details" style="<?php echo $tab_section_style; ?>">
         <p style="">
             <label for='<?php echo $title_most_votedId; ?>'>
@@ -36,7 +36,7 @@
                 <option value="all_time" <?php selected($most_voted_date_interval, "all_time", true); ?>>All Time</option>
                 <option value="custom_date" <?php selected($most_voted_date_interval, "custom_date", true); ?>>Custom Date</option>
             </select>
-            <?php $datepicker_wrapper_style = $most_voted_date_interval === "custom_date" ? "" : "display:none;" ?>
+            <?php $datepicker_wrapper_style = $most_voted_date_interval == "custom_date" ? "" : "display:none;" ?>
             <div style="<?php echo $datepicker_wrapper_style; ?>" class="wpd_datepicker_wrapper">
                 <label>
                     <input placeholder="<?php _e("From: ", "wpdiscuz-widgets"); ?>" class="comments_date_from" type="text" name="<?php echo $most_voted_from_dateName; ?>" value="<?php echo $most_voted_from_date; ?>">
@@ -55,7 +55,7 @@
             <input class="enable-tab-displaying" type="checkbox" name="<?php echo $most_active_tabName ?>" <?php checked($most_active_tab, "on", true) ?>>
         </label>
     </div>
-    <?php $tab_section_style = $most_active_tab === "on" ? "" : "display: none;" ?>
+    <?php $tab_section_style = $most_active_tab == "on" ? "" : "display: none;" ?> 
     <div class="tab-section-details" style="<?php echo $tab_section_style; ?>">
         <p>
             <label for='<?php echo $title_active_threadsId; ?>'>
@@ -90,7 +90,7 @@
                 <option value="all_time" <?php selected($active_threads_date_interval, "all_time", true); ?>>All Time</option>
                 <option value="custom_date" <?php selected($active_threads_date_interval, "custom_date", true); ?>>Custom Date</option>
             </select>
-            <?php $datepicker_wrapper_style = $active_threads_date_interval === "custom_date" ? "" : "display:none;" ?>
+            <?php $datepicker_wrapper_style = $active_threads_date_interval == "custom_date" ? "" : "display:none;" ?>
                 <div style="<?php echo $datepicker_wrapper_style; ?>" class="wpd_datepicker_wrapper">
                     <label>
                         <input placeholder="<?php _e("From: ", "wpdiscuz-widgets"); ?>" class="comments_date_from" type="text" name="<?php echo $active_threads_from_dateName; ?>" value="<?php echo $active_threads_from_date; ?>">
@@ -109,7 +109,7 @@
             <input class="enable-tab-displaying" type="checkbox" name="<?php echo $popular_posts_tabName ?>" <?php checked($popular_posts_tab, "on", true) ?>>
         </label>
     </div>
-    <?php $tab_section_style = $popular_posts_tab === "on" ? "" : "display: none;" ?>
+    <?php $tab_section_style = $popular_posts_tab == "on" ? "" : "display: none;" ?>
     <div class="tab-section-details" style="<?php echo $tab_section_style; ?>">
         <p>
             <label for='<?php echo $title_popular_postsId; ?>'>
@@ -139,7 +139,7 @@
                 <option value="all_time" <?php selected($popular_posts_date_interval, "all_time", true); ?>>All Time</option>
                 <option value="custom_date" <?php selected($popular_posts_date_interval, "custom_date", true); ?>>Custom Date</option>
             </select>
-            <?php $datepicker_wrapper_style = $popular_posts_date_interval === "custom_date" ? "" : "display:none;" ?>
+            <?php $datepicker_wrapper_style = $popular_posts_date_interval == "custom_date" ? "" : "display:none;" ?>
                 <div style="<?php echo $datepicker_wrapper_style; ?>" class="wpd_datepicker_wrapper">
                     <label>
                         <input placeholder="<?php _e("From: ", "wpdiscuz-widgets"); ?>" class="comments_date_from" type="text" name="<?php echo $popular_posts_from_dateName; ?>" value="<?php echo $popular_posts_from_date; ?>">
@@ -157,7 +157,7 @@
             <input class="enable-tab-displaying" type="checkbox" name="<?php echo $popular_authors_tabName ?>" <?php checked($popular_authors_tab, "on", true) ?>>
         </label>
     </div>
-    <?php $tab_section_style = $popular_authors_tab === "on" ? "" : "display: none;" ?>
+    <?php $tab_section_style = $popular_authors_tab == "on" ? "" : "display: none;" ?>
     <div class="tab-section-details" style="<?php echo $tab_section_style; ?>">
         <p>
             <label for='<?php echo $title_popular_authorsId; ?>'>
@@ -187,7 +187,7 @@
                 <option value="all_time" <?php selected($popular_authors_date_interval, "all_time", true); ?>>All Time</option>
                 <option value="custom_date" <?php selected($popular_authors_date_interval, "custom_date", true); ?>>Custom Date</option>
             </select>
-            <?php $datepicker_wrapper_style = $popular_authors_date_interval === "custom_date" ? "" : "display:none;" ?>
+            <?php $datepicker_wrapper_style = $popular_authors_date_interval == "custom_date" ? "" : "display:none;" ?>
                 <div style="<?php echo $datepicker_wrapper_style; ?>" class="wpd_datepicker_wrapper">
                     <label>
                         <input placeholder="<?php _e("From: ", "wpdiscuz-widgets"); ?>" class="comments_date_from" type="text" name="<?php echo $popular_authors_from_dateName; ?>" value="<?php echo $popular_authors_from_date; ?>">
@@ -195,7 +195,7 @@
                     <label>
                         <input placeholder="<?php _e("To: ", "wpdiscuz-widgets"); ?>" class="comments_date_to" type="text" name="<?php echo $popular_authors_to_dateName; ?>" value="<?php echo $popular_authors_to_date; ?>"><i class="fas fa-info-circle" aria-hidden="true" title="Set empty for current date"></i>
                     </label>
-                </div>
+                </div>            
         </div>
     </div>
     <div class="tab_section_header">
@@ -205,7 +205,7 @@
             <input class="enable-tab-displaying" type="checkbox" name="<?php echo $recent_comments_tabName ?>" <?php checked($recent_comments_tab, "on", true) ?>>
         </label>
     </div>
-    <?php $tab_section_style = $recent_comments_tab === "on" ? "" : "display: none;" ?>
+    <?php $tab_section_style = $recent_comments_tab == "on" ? "" : "display: none;" ?>
     <div class="tab-section-details" style="<?php echo $tab_section_style; ?>">
         <p>
             <label for='<?php echo $title_recent_commentsID; ?>'>

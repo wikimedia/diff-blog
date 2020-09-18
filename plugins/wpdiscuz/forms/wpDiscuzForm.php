@@ -60,7 +60,7 @@ class wpDiscuzForm implements wpdFormConst {
     }
 
     public function validateMetaCommentSavePre($commentContent) {
-        if (filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING) === "editedcomment") {
+        if (filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING) == "editedcomment") {
             $postID = filter_input(INPUT_POST, "comment_post_ID", FILTER_SANITIZE_NUMBER_INT);
             $this->getForm($postID);
             if ($this->form) {
@@ -73,7 +73,7 @@ class wpDiscuzForm implements wpdFormConst {
     }
 
     public function updateCommentMeta($commentID) {
-        if (filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING) === "editedcomment") {
+        if (filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING) == "editedcomment") {
             $postID = filter_input(INPUT_POST, "comment_post_ID", FILTER_SANITIZE_NUMBER_INT);
             $this->getForm($postID);
             if ($this->form) {
@@ -144,7 +144,7 @@ class wpDiscuzForm implements wpdFormConst {
     }
 
     public function saveFormData($postId, $post, $update) {
-        if ($post->post_type !== self::WPDISCUZ_FORMS_CONTENT_TYPE || (isset($_REQUEST["action"]) && $_REQUEST["action"] === "inline-save")) {
+        if ($post->post_type != self::WPDISCUZ_FORMS_CONTENT_TYPE || (isset($_REQUEST["action"]) && $_REQUEST["action"] == "inline-save")) {
             return;
         }
         $this->canManageOptions();
@@ -181,7 +181,7 @@ class wpDiscuzForm implements wpdFormConst {
 
     public function customFormAdminScripts() {
         global $current_screen;
-        if ($current_screen->id === self::WPDISCUZ_FORMS_CONTENT_TYPE) {
+        if ($current_screen->id == self::WPDISCUZ_FORMS_CONTENT_TYPE) {
             wp_register_style("fontawesome-iconpicker-css", plugins_url(WPDISCUZ_DIR_NAME . "/assets/third-party/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css"), [], "1.12.1");
             wp_enqueue_style("fontawesome-iconpicker-css");
             wp_register_script("fontawesome-iconpicker-js", plugins_url(WPDISCUZ_DIR_NAME . "/assets/third-party/fontawesome-iconpicker/js/fontawesome-iconpicker.js"), ["jquery"], "1.12.1", true);
@@ -197,7 +197,7 @@ class wpDiscuzForm implements wpdFormConst {
             wp_enqueue_script("thickbox");
             wp_enqueue_script("jquery-ui-sortable");
         }
-        if ($current_screen->id === "edit-" . self::WPDISCUZ_FORMS_CONTENT_TYPE) {
+        if ($current_screen->id == "edit-" . self::WPDISCUZ_FORMS_CONTENT_TYPE) {
             wp_register_script("wpdiscuz-form-menu-item", plugins_url(WPDISCUZ_DIR_NAME . "/assets/js/wpdiscuz-admin-menu-item.js"), ["jquery"], $this->pluginVersion, true);
             wp_enqueue_script("wpdiscuz-form-menu-item");
         }
@@ -205,7 +205,7 @@ class wpDiscuzForm implements wpdFormConst {
 
     public function renderFormGeneralSettings($post) {
         global $current_screen;
-        if ($current_screen->id === self::WPDISCUZ_FORMS_CONTENT_TYPE) {
+        if ($current_screen->id == self::WPDISCUZ_FORMS_CONTENT_TYPE) {
             $this->form->setFormID($post->ID);
             $this->form->renderFormStructure();
         }
@@ -332,7 +332,7 @@ class wpDiscuzForm implements wpdFormConst {
     }
 
     public function deleteOrTrashForm($formId) {
-        if (get_post_type($formId) !== wpdFormConst::WPDISCUZ_FORMS_CONTENT_TYPE) {
+        if (get_post_type($formId) != wpdFormConst::WPDISCUZ_FORMS_CONTENT_TYPE) {
             return;
         }
         foreach ($this->formPostRel as $postId => $value) {
@@ -359,7 +359,7 @@ class wpDiscuzForm implements wpdFormConst {
     }
 
     public function createDefaultForm($version) {
-        if ($version === "1.0.0" || version_compare($version, "4.0.0", "<")) {
+        if ($version == "1.0.0" || version_compare($version, "4.0.0", "<")) {
             $oldForms = get_posts(["posts_per_page" => 1, "post_type" => self::WPDISCUZ_FORMS_CONTENT_TYPE]);
             if ($oldForms) {
                 return;
@@ -445,7 +445,7 @@ class wpDiscuzForm implements wpdFormConst {
     }
 
     public function addCloneFormAction($actions, $post) {
-        if ($post->post_type === self::WPDISCUZ_FORMS_CONTENT_TYPE && $post->post_status === "publish") {
+        if ($post->post_type == self::WPDISCUZ_FORMS_CONTENT_TYPE && $post->post_status == "publish") {
             $url = wp_nonce_url(admin_url("admin-post.php") . "?form_id=" . $post->ID . "&action=cloneWpdiscuzForm", "clone-form_" . $post->ID, "clone_form_nonce");
             $actions["inline hide-if-no-js"] = "<a href='" . esc_url_raw($url) . "'>" . esc_html__("Clone Form") . "</a>";
         }
@@ -457,7 +457,7 @@ class wpDiscuzForm implements wpdFormConst {
         $nonce = filter_input(INPUT_GET, "clone_form_nonce", FILTER_SANITIZE_STRING);
         if ($formID && $nonce && wp_verify_nonce($nonce, "clone-form_" . $formID)) {
             $form = get_post($formID);
-            if ($form && $form->post_type === self::WPDISCUZ_FORMS_CONTENT_TYPE) {
+            if ($form && $form->post_type == self::WPDISCUZ_FORMS_CONTENT_TYPE) {
                 $cform = [
                     "post_title" => $form->post_title . " ( " . esc_html__("Clone", "wpdiscuz") . " )",
                     "post_type" => wpdFormConst::WPDISCUZ_FORMS_CONTENT_TYPE,
@@ -523,9 +523,9 @@ class wpDiscuzForm implements wpdFormConst {
 
     public function changeCommentStatus($new_status, $old_status, $comment) {
         $rating = get_comment_meta($comment->comment_ID, "rating", true);
-        if ($old_status === "approved" && $rating) {
+        if ($old_status == "approved" && $rating) {
             $this->updatePostRating($comment, -1);
-        } else if ($new_status === "approved" && $rating) {
+        } else if ($new_status == "approved" && $rating) {
             $this->updatePostRating($comment, 1);
         }
     }
@@ -536,7 +536,7 @@ class wpDiscuzForm implements wpdFormConst {
         $form->initFormFields();
         $formFields = $form->getFormFields();
         foreach ($formFields as $key => $value) {
-            if ($value["type"] === "wpdFormAttr\Field\RatingField") {
+            if ($value["type"] == "wpdFormAttr\Field\RatingField") {
                 $postRatings = $this->chagePostSingleRating($key, $comment->comment_ID, $difference, $postRatings);
             }
         }

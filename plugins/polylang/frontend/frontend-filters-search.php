@@ -1,7 +1,4 @@
 <?php
-/**
- * @package Polylang
- */
 
 /**
  * Filters search forms when using permalinks
@@ -73,8 +70,8 @@ class PLL_Frontend_Filters_Search {
 	}
 
 	/**
-	 * Rewrites the admin bar search form to pass our get_search_form filter. See #21342.
-	 * Code last checked: WP 5.4.1.
+	 * Rewrites the admin bar search form to pass our get_search form filter. See #21342
+	 * Code base last checked with WP 4.9.7
 	 *
 	 * @since 0.9
 	 *
@@ -87,11 +84,11 @@ class PLL_Frontend_Filters_Search {
 		$form .= '<input type="submit" class="adminbar-button" value="' . esc_attr__( 'Search', 'polylang' ) . '"/>';
 		$form .= '</form>';
 
-		$wp_admin_bar->add_node(
+		$wp_admin_bar->add_menu(
 			array(
 				'parent' => 'top-secondary',
 				'id'     => 'search',
-				'title'  => $this->get_search_form( $form ), // Pass the get_search_form filter.
+				'title'  => $this->get_search_form( $form ), // Pass the get_search_form filter
 				'meta'   => array(
 					'class'    => 'admin-bar-search',
 					'tabindex' => -1,

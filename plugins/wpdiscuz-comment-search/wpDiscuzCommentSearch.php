@@ -7,7 +7,7 @@ if (!defined("ABSPATH")) {
 /*
  * Plugin Name: wpDiscuz - Comment Search
  * Description: AJAX powered comment search form and widget. Starts searching while you're typing a word.
- * Version: 7.0.3
+ * Version: 7.0.1
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/wpdiscuz-comment-search/
@@ -30,7 +30,6 @@ class wpDiscuzCommentSearch {
     private $options;
     private $version;
     private $search_data;
-	public $apimanager;
 
     public function __construct() {
         add_action("plugins_loaded", [&$this, "pluginsLoaded"], 13);
@@ -42,7 +41,7 @@ class wpDiscuzCommentSearch {
             if (!$this->version) {
                 $this->version = "1.0.0";
             }
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             $this->dbManager = new SearchDBManager();
             $this->options = new wpDiscuzCommentSearchOption();
             $this->dbManager->setOptions($this->options);

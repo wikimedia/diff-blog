@@ -147,7 +147,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         }
         if ($args["post_id"]) {
             $approved = "";
-            if ($args["status"] === "all") {
+            if ($args["status"] == "all") {
                 $approved = " AND `c`.`comment_approved` IN('1','0')";
             } else {
                 $approved = " AND `c`.`comment_approved` = '1'";
@@ -165,7 +165,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
     public function getNewCommentIds($args, $loadLastCommentId, $email, $visibleCommentIds) {
         $wpdiscuz = wpDiscuz();
         $approved = "";
-        if ($args["status"] === "all") {
+        if ($args["status"] == "all") {
             $approved = " AND `comment_approved` IN('1','0')";
         } else {
             $approved = " AND `comment_approved` = '1'";
@@ -211,7 +211,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         if (strpos($email, "@example.com") !== false) {
             return false;
         }
-        if ($subscriptionType !== self::SUBSCRIPTION_COMMENT) {
+        if ($subscriptionType != self::SUBSCRIPTION_COMMENT) {
             $this->deleteCommentNotifications($subsriptionId, $email);
         }
         $activationKey = md5($email . uniqid() . time());
@@ -476,7 +476,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $email = $subscription["email"];
             $subscriptionId = $subscription["post_id"];
             $postId = $subscription["post_id"];
-            $subscriptionType = $subscription["subscription_type"] === "y" ? self::SUBSCRIPTION_POST : self::SUBSCRIPTION_ALL_COMMENT;
+            $subscriptionType = $subscription["subscription_type"] == "y" ? self::SUBSCRIPTION_POST : self::SUBSCRIPTION_ALL_COMMENT;
             $activationKey = md5($email . uniqid() . time());
             $subscriptionDate = $subscription["date"];
             $confirm = $subscription["status"];
@@ -484,7 +484,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $importedFrom = "subscribe-to-comments-reloaded"; // this is a slug in wp repo
 
             if ($userSubscription) {
-                if ($userSubscription["type"] === self::SUBSCRIPTION_POST) {
+                if ($userSubscription["type"] == self::SUBSCRIPTION_POST) {
                     continue;
                 } else {
                     $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s, `imported_from` = %s WHERE `id` = %d;";
@@ -508,6 +508,8 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
     /* === STCR SUBSCRIPTIONS - Subscribe To Comments Reloaded === */
 
     /* === LSTC SUBSCRIPTIONS - Lightweight Subscribe To Comments === */
+
+    // TODO       
 
     public function getLstcAllSubscriptions() {
         $sql = "SELECT COUNT(*) FROM `{$this->db->prefix}comment_notifier`;";
@@ -536,7 +538,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $importedFrom = "comment-notifier-no-spammers"; // this is a slug in wp repo
 
             if ($userSubscription) {
-                if ($userSubscription["type"] === self::SUBSCRIPTION_POST) {
+                if ($userSubscription["type"] == self::SUBSCRIPTION_POST) {
                     continue;
                 } else {
                     $sql = "UPDATE `{$this->emailNotification}` SET `subscribtion_id` = %d, `post_id` = %d, `subscribtion_type` = %s, `imported_from` = %s WHERE `id` = %d;";
@@ -617,14 +619,14 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
 
     public function getGraphAllComments($interval) {
         $date = new DateTime();
-        if ($interval === "week") {
-            $date->modify("-7 days");
-        } else if ($interval === "month") {
-            $date->modify("-1 month");
-        } else if ($interval === "6months") {
-            $date->modify("-6 months");
-        } else if ($interval === "year") {
-            $date->modify("-1 year");
+        if ($interval === 'week') {
+            $date->modify('-7 days');
+        } else if ($interval === 'month') {
+            $date->modify('-1 month');
+        } else if ($interval === '6months') {
+            $date->modify('-6 months');
+        } else if ($interval === 'year') {
+            $date->modify('-1 year');
         }
         $sql = "SELECT COUNT(`comment_ID`) AS `count`, SUBSTR(`comment_date_gmt`, 1, 10) AS `date` FROM `{$this->db->comments}` WHERE `comment_approved` = '1'" . ($interval === "all" ? "" : " AND `comment_date_gmt` > '{$date->format('Y-m-d')}'") . " GROUP BY `date`;";
         $results = $this->db->get_results($sql, ARRAY_A);
@@ -637,14 +639,14 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
 
     public function getGraphInlineComments($interval) {
         $date = new DateTime();
-        if ($interval === "week") {
-            $date->modify("-7 days");
-        } else if ($interval === "month") {
-            $date->modify("-1 month");
-        } else if ($interval === "6months") {
-            $date->modify("-6 months");
-        } else if ($interval === "year") {
-            $date->modify("-1 year");
+        if ($interval === 'week') {
+            $date->modify('-7 days');
+        } else if ($interval === 'month') {
+            $date->modify('-1 month');
+        } else if ($interval === '6months') {
+            $date->modify('-6 months');
+        } else if ($interval === 'year') {
+            $date->modify('-1 year');
         }
         $sql = "SELECT COUNT(`c`.`comment_ID`) AS `count`, SUBSTR(`c`.`comment_date_gmt`, 1, 10) AS `date` FROM `{$this->db->comments}` AS `c` INNER JOIN `{$this->db->commentmeta}` AS `cm` ON `cm`.`comment_id` = `c`.`comment_ID` AND `cm`.`meta_key` = '" . self::META_KEY_FEEDBACK_FORM_ID . "' WHERE `c`.`comment_approved` = '1'" . ($interval === "all" ? "" : " AND `c`.`comment_date_gmt` > '{$date->format('Y-m-d')}'") . " GROUP BY `date`;";
         $results = $this->db->get_results($sql, ARRAY_A);
@@ -862,7 +864,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         $userOldEmail = trim($oldUser->user_email);
         $userNewName = trim($user->display_name);
         $userOldName = trim($oldUser->display_name);
-        if ($userNewEmail !== $userOldEmail) {
+        if ($userNewEmail != $userOldEmail) {
             $sql = $this->db->prepare("UPDATE `{$this->followUsers}` SET `user_email` = %s WHERE `user_email` = %s AND `follower_email` != %s;", $userNewEmail, $userOldEmail, $userNewEmail);
             $this->db->query($sql);
             $sql = $this->db->prepare("UPDATE `{$this->followUsers}` SET `follower_email` = %s WHERE `follower_email` = %s AND `user_email` != %s;", $userNewEmail, $userOldEmail, $userNewEmail);
@@ -871,7 +873,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $this->db->query($sql);
         }
 
-        if ($userNewName !== $userOldName) {
+        if ($userNewName != $userOldName) {
             $sql = $this->db->prepare("UPDATE `{$this->followUsers}` SET `user_name` = %s WHERE `user_name` = %s;", $userNewName, $userOldName);
             $this->db->query($sql);
             $sql = $this->db->prepare("UPDATE `{$this->followUsers}` SET `follower_name` = %s WHERE `follower_name` = %s;", $userNewName, $userOldName);

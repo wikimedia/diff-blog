@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz - Widgets
  * Description: Plugin for displaying the most popular and the newest comments
- * Version: 7.0.6
+ * Version: 7.0.3
  * Author: gVectors Team
  * Contributors: A. Chakhoyan, G. Zakaryan, H. Martirosyan
  * Author URI: https://gvectors.com/
@@ -22,7 +22,6 @@ class wpDiscuzWidgets {
     public $options;
     private $version;
     public $tabKey = "widg";
-	public $apimanager;
 
     /**
      * 
@@ -33,7 +32,7 @@ class wpDiscuzWidgets {
 
     public function pluginsLoaded() {
         if (function_exists("wpDiscuz")) {
-	        $this->apimanager = new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
+            new GVT_API_Manager(__FILE__, "wpdiscuz_options_page", "wpdiscuz_option_page");
             load_plugin_textdomain("wpdiscuz-widgets", false, dirname(plugin_basename(__FILE__)) . "/languages/");
             $this->version = get_option("widgetPluginVersion");
             if (!$this->version) {
@@ -142,7 +141,6 @@ class wpDiscuzWidgets {
             $this->options["wpdiscuz_widget_rpadding"] = isset($_POST[$this->tabKey]["wpdiscuz_widget_rpadding"]) ? intval($_POST[$this->tabKey]["wpdiscuz_widget_rpadding"]) : 10;
             $this->options["wpdiscuz_widget_displaying_guests"] = isset($_POST[$this->tabKey]["wpdiscuz_widget_displaying_guests"]) ? intval($_POST[$this->tabKey]["wpdiscuz_widget_displaying_guests"]) : 0;
             $this->options["excluded_user_roles"] = isset($_POST[$this->tabKey]["excluded_user_roles"]) ? $_POST[$this->tabKey]["excluded_user_roles"] : [];
-            $this->options["enable_for_post_types"] = isset($_POST[$this->tabKey]["enable_for_post_types"]) ? $_POST[$this->tabKey]["enable_for_post_types"] : [];
             $this->options["wpdiscuz_widget_author_link"] = isset($_POST[$this->tabKey]["wpdiscuz_widget_author_link"]) ? intval($_POST[$this->tabKey]["wpdiscuz_widget_author_link"]) : 0;
             $this->options["wpdiscuz_widget_slider_enable"] = isset($_POST[$this->tabKey]["wpdiscuz_widget_slider_enable"]) ? intval($_POST[$this->tabKey]["wpdiscuz_widget_slider_enable"]) : 0;
             $this->options["wpdiscuz_widget_theme_title_struct"] = isset($_POST[$this->tabKey]["wpdiscuz_widget_theme_title_struct"]) ? intval($_POST[$this->tabKey]["wpdiscuz_widget_theme_title_struct"]) : 0;
@@ -164,9 +162,6 @@ class wpDiscuzWidgets {
      * @return array
      */
     public function widgetDefaultOptions() {
-        $posttypes = array_filter(get_post_types(), function ($v) {
-	        return post_type_supports($v, 'comments');
-        });
         $def_opt = [
             "wpdiscuz_widget_post_title_cutting" => 1,
             "wpdiscuz_widgets_post_title_word_count" => 5,
@@ -184,7 +179,6 @@ class wpDiscuzWidgets {
             "wpdiscuz_widget_rpadding" => 10,
             "wpdiscuz_widget_displaying_guests" => 1,
             "excluded_user_roles" => [],
-            "enable_for_post_types" => $posttypes,
             "wpdiscuz_widget_author_link" => 1,
             "wpdiscuz_widget_slider_enable" => 1,
             "wpdiscuz_widget_theme_title_struct" => 1,
@@ -307,13 +301,6 @@ class wpDiscuzWidgets {
                     "description_original" => "",
                     "docurl" => "#"
                 ],
-                "enable_for_post_types" => [
-                    "label" => __("Display comments of certain post types", "wpdiscuz-widgets"),
-                    "label_original" => "Display comments of certain post types",
-                    "description" => __('This option is only for "Most Commented Posts" tab', "wpdiscuz-widgets"),
-                    "description_original" => 'This option is only for "Most Commented Posts" tab',
-                    "docurl" => "#"
-                ],
                 "wpdiscuz_widget_displaying_guests" => [
                     "label" => __("Show guest commenters", "wpdiscuz-widgets"),
                     "label_original" => "Show guest commenters",
@@ -356,4 +343,4 @@ class wpDiscuzWidgets {
 
 }
 
-$wpdiscuzWidgets = new wpDiscuzWidgets();
+$wpdiscuz_widgets = new wpDiscuzWidgets();

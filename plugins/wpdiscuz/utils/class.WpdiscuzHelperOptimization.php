@@ -60,7 +60,7 @@ class WpdiscuzHelperOptimization implements WpDiscuzConstants {
      * @param type $comment current comment object
      */
     public function statusEventHandler($newStatus, $oldStatus, $comment) {
-        if ($newStatus !== $oldStatus && $newStatus === "approved") {
+        if ($newStatus != $oldStatus && $newStatus == "approved") {
             $this->notifyOnApprove($comment);
             if ($this->options->subscription["isNotifyOnCommentApprove"]) {
                 $this->helperEmail->notifyOnApproving($comment);
@@ -81,7 +81,7 @@ class WpdiscuzHelperOptimization implements WpDiscuzConstants {
                 if ($comment->user_id == $includeUnapproved) {
                     $condition = true;
                 }
-            } else if ($comment->comment_author_email === $includeUnapproved) {
+            } else if ($comment->comment_author_email == $includeUnapproved) {
                 $condition = true;
             }
         }
@@ -113,7 +113,7 @@ class WpdiscuzHelperOptimization implements WpDiscuzConstants {
         $this->helperEmail->notifyPostSubscribers($postId, $commentId, $email);
         if ($parentComment) {
             $parentCommentEmail = $parentComment->comment_author_email;
-            if ($parentCommentEmail !== $email) {
+            if ($parentCommentEmail != $email) {
                 $this->helperEmail->notifyAllCommentSubscribers($postId, $commentId, $email);
                 $this->helperEmail->notifyCommentSubscribers($parentComment->comment_ID, $commentId, $email);
             }
@@ -158,72 +158,64 @@ class WpdiscuzHelperOptimization implements WpDiscuzConstants {
     }
 
     public function cleanPostCache($postId) {
-        if (apply_filters("wpdiscuz_manage_post_cache_clearing", true)) {
-            clean_post_cache($postId);
-            if (class_exists("\LiteSpeed\Purge")) {
-                \LiteSpeed\Purge::purge_url(get_the_permalink($postId));
-            }
-            if (function_exists("rocket_clean_post")) {
-                rocket_clean_post($postId);
-            }
-            if (function_exists("wpfc_clear_post_cache_by_id")) {
-                wpfc_clear_post_cache_by_id($postId);
-            }
-            if (function_exists("fvm_purge_all")) {
-                fvm_purge_all();
-            }
-            if (function_exists("fvm_purge_others")) {
-                fvm_purge_others();
-            }
-            if (function_exists("w3tc_flush_post")) {
-                w3tc_flush_post($postId);
-            }
-            if (class_exists("\SiteGround_Optimizer\Supercacher\Supercacher")) {
-                \SiteGround_Optimizer\Supercacher\Supercacher::purge_cache();
-                \SiteGround_Optimizer\Supercacher\Supercacher::flush_memcache();
-                \SiteGround_Optimizer\Supercacher\Supercacher::delete_assets();
-            }
+        $clean = apply_filters("wpdiscuz_manage_post_cache_clearing", true);
+        if( $clean ){
+	        clean_post_cache($postId);
+	        if (class_exists("\LiteSpeed\Purge")) {
+		        \LiteSpeed\Purge::purge_url(get_the_permalink($postId));
+	        }
+	        if (function_exists("rocket_clean_post")) {
+		        rocket_clean_post($postId);
+	        }
+	        if (function_exists("wpfc_clear_post_cache_by_id")) {
+		        wpfc_clear_post_cache_by_id($postId);
+	        }
+	        if (function_exists("fvm_purge_all")) {
+		        fvm_purge_all();
+	        }
+	        if (function_exists("fvm_purge_others")) {
+		        fvm_purge_others();
+	        }
+	        if (function_exists("w3tc_flush_post")) {
+		        w3tc_flush_post($postId);
+	        }
         }
     }
 
     public function cleanAllCaches() {
-        if (apply_filters("wpdiscuz_manage_all_cache_clearing", true)) {
-            wp_cache_flush();
-            if (class_exists("\LiteSpeed\Purge")) {
-                \LiteSpeed\Purge::purge_all();
-            }
-            if (function_exists("rocket_clean_domain")) {
-                rocket_clean_domain();
-            }
-            if (function_exists("wpfc_clear_all_cache")) {
-                wpfc_clear_all_cache(true);
-            }
-            $fvm = get_option("fastvelocity_min_ignore");
-            if (is_string($fvm) && strpos($fvm, "/wp-content/plugins/wpdiscuz/*") === false) {
-                if ($fvm) {
-                    $fvm .= "\n";
-                }
-                $fvm .= "/wp-content/plugins/wpdiscuz/*";
-                update_option("fastvelocity_min_ignore", $fvm);
-            }
-            if (function_exists("fvm_purge_all")) {
-                fvm_purge_all();
-            }
-            if (function_exists("fvm_purge_others")) {
-                fvm_purge_others();
-            }
-            if (function_exists("w3tc_flush_all")) {
-                w3tc_flush_all();
-            }
-            if (class_exists("autoptimizeCache")) {
-                autoptimizeCache::clearall();
-            }
-            if (class_exists("\SiteGround_Optimizer\Supercacher\Supercacher")) {
-                \SiteGround_Optimizer\Supercacher\Supercacher::purge_cache();
-                \SiteGround_Optimizer\Supercacher\Supercacher::flush_memcache();
-                \SiteGround_Optimizer\Supercacher\Supercacher::delete_assets();
-            }
-        }
+	    $clean = apply_filters("wpdiscuz_manage_all_cache_clearing", true);
+	    if( $clean ){
+		    wp_cache_flush();
+		    if (class_exists("\LiteSpeed\Purge")) {
+			    \LiteSpeed\Purge::purge_all();
+		    }
+		    if (function_exists("rocket_clean_domain")) {
+			    rocket_clean_domain();
+		    }
+		    if (function_exists("wpfc_clear_all_cache")) {
+			    wpfc_clear_all_cache(true);
+		    }
+		    $fvm = get_option("fastvelocity_min_ignore");
+		    if (is_string($fvm) && strpos($fvm, "/wp-content/plugins/wpdiscuz/*") === false) {
+			    if ($fvm) {
+				    $fvm .= "\n";
+			    }
+			    $fvm .= "/wp-content/plugins/wpdiscuz/*";
+			    update_option("fastvelocity_min_ignore", $fvm);
+		    }
+		    if (function_exists("fvm_purge_all")) {
+			    fvm_purge_all();
+		    }
+		    if (function_exists("fvm_purge_others")) {
+			    fvm_purge_others();
+		    }
+		    if (function_exists("w3tc_flush_all")) {
+			    w3tc_flush_all();
+		    }
+		    if (class_exists("autoptimizeCache")) {
+			    autoptimizeCache::clearall();
+		    }
+	    }
     }
 
 }

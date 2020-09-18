@@ -1,25 +1,21 @@
 <?php
+
 /**
- * Polylang
- *
- * @package           Polylang
- * @author            WP SYNTEX
- * @license           GPL-3.0-or-later
- *
- * @wordpress-plugin
- * Plugin Name:       Polylang
- * Plugin URI:        https://polylang.pro
- * Description:       Adds multilingual capability to WordPress
- * Version:           2.8.2
+ * Plugin Name: Polylang
+ * Plugin URI: https://polylang.pro
+ * Description: Adds multilingual capability to WordPress
+ * Version: 2.7.4
  * Requires at least: 4.9
- * Requires PHP:      5.6
- * Author:            WP SYNTEX
- * Author URI:        https://polylang.pro
- * Text Domain:       polylang
- * Domain Path:       /languages
- * License:           GPL v3 or later
- * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
- *
+ * Requires PHP: 5.6
+ * Author: WP SYNTEX
+ * Author uri: https://polylang.pro
+ * License: GPL v3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain: polylang
+ * Domain Path: /languages
+ */
+
+/*
  * Copyright 2011-2019 Frédéric Demarle
  * Copyright 2019-2020 WP SYNTEX
  *
@@ -38,35 +34,48 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Don't access directly.
+	exit; // don't access directly
 };
 
-if ( defined( 'POLYLANG_VERSION' ) ) {
-	// The user is attempting to activate a second plugin instance, typically Polylang and Polylang Pro.
+if ( defined( 'POLYLANG_BASENAME' ) ) {
+	// The user is attempting to activate a second plugin instance, typically Polylang and Polylang Pro
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	require_once ABSPATH . 'wp-includes/pluggable.php';
-	if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
-		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate this plugin.
-		// WP does not allow us to send a custom meaningful message, so just tell the plugin has been deactivated.
-		wp_safe_redirect( add_query_arg( 'deactivate', 'true', remove_query_arg( 'activate' ) ) );
-		exit;
+	if ( defined( 'POLYLANG_PRO' ) ) {
+		// Polylang Pro is already activated
+		if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
+			require_once ABSPATH . 'wp-includes/pluggable.php';
+			deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate this plugin
+			// WP does not allow us to send a custom meaningful message, so just tell the plugin has been deactivated
+			wp_safe_redirect( add_query_arg( 'deactivate', 'true', remove_query_arg( 'activate' ) ) );
+			exit;
+		}
+	} else {
+		// Polylang was activated, deactivate it to keep only what we expect to be Polylang Pro
+		deactivate_plugins( POLYLANG_BASENAME );
 	}
 } else {
 	// Go on loading the plugin
-	define( 'POLYLANG_VERSION', '2.8.2' );
+	define( 'POLYLANG_VERSION', '2.7.4' );
 	define( 'PLL_MIN_WP_VERSION', '4.9' );
 	define( 'PLL_MIN_PHP_VERSION', '5.6' );
 
-	define( 'POLYLANG_FILE', __FILE__ );
-	define( 'POLYLANG_DIR', __DIR__ );
-
-	if ( ! defined( 'POLYLANG_BASENAME' ) ) {
-		define( 'POLYLANG_BASENAME', plugin_basename( __FILE__ ) ); // Plugin name as known by WP.
-		require __DIR__ . '/vendor/autoload.php';
-	}
-
+	define( 'POLYLANG_FILE', __FILE__ ); // this file
+	define( 'POLYLANG_BASENAME', plugin_basename( POLYLANG_FILE ) ); // plugin name as known by WP
+	define( 'POLYLANG_DIR', dirname( POLYLANG_FILE ) ); // our directory
 	define( 'POLYLANG', ucwords( str_replace( '-', ' ', dirname( POLYLANG_BASENAME ) ) ) );
 
-	require __DIR__ . '/include/class-polylang.php';
+	define( 'PLL_ADMIN_INC', POLYLANG_DIR . '/admin' );
+	define( 'PLL_FRONT_INC', POLYLANG_DIR . '/frontend' );
+	define( 'PLL_INC', POLYLANG_DIR . '/include' );
+	define( 'PLL_INSTALL_INC', POLYLANG_DIR . '/install' );
+	define( 'PLL_MODULES_INC', POLYLANG_DIR . '/modules' );
+	define( 'PLL_SETTINGS_INC', POLYLANG_DIR . '/settings' );
+	define( 'PLL_PREFIX', 'pll_' );
+
+	if ( file_exists( PLL_MODULES_INC . '/pro.php' ) ) {
+		define( 'POLYLANG_PRO', true );
+	}
+
+	require_once PLL_INC . '/class-polylang.php';
 	new Polylang();
 }
