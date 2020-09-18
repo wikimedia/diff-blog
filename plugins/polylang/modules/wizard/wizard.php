@@ -1,5 +1,9 @@
 <?php
 /**
+ * @package Polylang
+ */
+
+/**
  * Main class for Polylang wizard.
  *
  * @since 2.7
@@ -22,7 +26,13 @@ class PLL_Wizard {
 	/**
 	 * List of steps
 	 *
-	 * @var array $steps
+	 * @var array $steps {
+	 *     @type string $name      i18n string which names the step.
+	 *     @type callable $view    The callback function use to display the step content.
+	 *     @type callable $handler The callback function use to process the step after it is submitted.
+	 *     @type array $scripts    List of scripts handle needed by the step.
+	 *     @type array $styles     The list of styles handle needed by the step.
+	 * }
 	 */
 	protected $steps = array();
 
@@ -112,7 +122,7 @@ class PLL_Wizard {
 	 * @since 2.7
 	 */
 	public function settings_tabs( $tabs ) {
-		$tabs['wizard'] = __( 'Setup', 'polylang' );
+		$tabs['wizard'] = esc_html__( 'Setup', 'polylang' );
 		return $tabs;
 	}
 
@@ -230,7 +240,7 @@ class PLL_Wizard {
 	 */
 	public function wizard_notice() {
 		ob_start();
-		include PLL_MODULES_INC . '/wizard/html-wizard-notice.php';
+		include __DIR__ . '/html-wizard-notice.php';
 		return ob_get_clean();
 	}
 
@@ -241,7 +251,7 @@ class PLL_Wizard {
 	 */
 	public function display_wizard_page() {
 		set_current_screen();
-		include PLL_MODULES_INC . '/wizard/view-wizard-page.php';
+		include __DIR__ . '/view-wizard-page.php';
 	}
 
 	/**
@@ -329,9 +339,10 @@ class PLL_Wizard {
 		add_action( 'wp_ajax_pll_deactivate_license', array( $this, 'deactivate_license' ) );
 
 		wp_enqueue_script( 'pll_admin', plugins_url( '/js/admin' . $this->get_suffix() . '.js', POLYLANG_FILE ), array( 'jquery', 'jquery-ui-selectmenu' ), POLYLANG_VERSION, true );
+		wp_localize_script( 'pll_admin', 'pll_dismiss_notice', esc_html__( 'Dismiss this notice.', 'polylang' ) );
 		if ( $this->is_licenses_step_displayable() ) {
 			$steps['licenses'] = array(
-				'name'    => __( 'Licenses', 'polylang' ),
+				'name'    => esc_html__( 'Licenses', 'polylang' ),
 				'view'    => array( $this, 'display_step_licenses' ),
 				'handler' => array( $this, 'save_step_licenses' ),
 				'scripts' => array( 'pll_admin' ), // Polylang admin script used by deactivate license button.
@@ -347,7 +358,7 @@ class PLL_Wizard {
 	 * @since 2.7
 	 */
 	public function display_step_licenses() {
-		include PLL_MODULES_INC . '/wizard/view-wizard-step-licenses.php';
+		include __DIR__ . '/view-wizard-step-licenses.php';
 	}
 
 	/**
@@ -418,32 +429,33 @@ class PLL_Wizard {
 	 */
 	public function add_step_languages( $steps ) {
 		wp_enqueue_script( 'pll-wizard-language-choice', plugins_url( '/js/admin' . $this->get_suffix() . '.js', POLYLANG_FILE ), array( 'jquery', 'jquery-ui-selectmenu' ), POLYLANG_VERSION, true );
+		wp_localize_script( 'pll-wizard-language-choice', 'pll_dismiss_notice', esc_html__( 'Dismiss this notice.', 'polylang' ) );
 		wp_register_script( 'pll-wizard-languages', plugins_url( '/modules/wizard/js/languages-step' . $this->get_suffix() . '.js', POLYLANG_FILE ), array( 'jquery', 'jquery-ui-dialog' ), POLYLANG_VERSION, true );
 		wp_localize_script(
 			'pll-wizard-languages',
 			'pll_wizard_params',
 			array(
-				'i18n_no_language_selected'   => __( 'You need to select a language to be added.', 'polylang' ),
-				'i18n_language_already_added' => __( 'You already added this language.', 'polylang' ),
-				'i18n_no_language_added'      => __( 'You need to add at least one language.', 'polylang' ),
-				'i18n_add_language_needed'    => __( 'You selected a language, however, to be able to continue, you need to add it.', 'polylang' ),
-				'i18n_pll_add_language'       => __( 'Impossible to add the language.', 'polylang' ),
-				'i18n_pll_invalid_locale'     => __( 'Enter a valid WordPress locale', 'polylang' ),
-				'i18n_pll_invalid_slug'       => __( 'The language code contains invalid characters', 'polylang' ),
-				'i18n_pll_non_unique_slug'    => __( 'The language code must be unique', 'polylang' ),
-				'i18n_pll_invalid_name'       => __( 'The language must have a name', 'polylang' ),
-				'i18n_pll_invalid_flag'       => __( 'The flag does not exist', 'polylang' ),
-				'i18n_dialog_title'           => __( "A language wasn't added.", 'polylang' ),
-				'i18n_dialog_yes_button'      => __( 'Yes', 'polylang' ),
-				'i18n_dialog_no_button'       => __( 'No', 'polylang' ),
-				'i18n_dialog_ignore_button'   => __( 'Ignore', 'polylang' ),
-				'i18n_remove_language_icon'   => __( 'Remove this language', 'polylang' ),
+				'i18n_no_language_selected'   => esc_html__( 'You need to select a language to be added.', 'polylang' ),
+				'i18n_language_already_added' => esc_html__( 'You already added this language.', 'polylang' ),
+				'i18n_no_language_added'      => esc_html__( 'You need to add at least one language.', 'polylang' ),
+				'i18n_add_language_needed'    => esc_html__( 'You selected a language, however, to be able to continue, you need to add it.', 'polylang' ),
+				'i18n_pll_add_language'       => esc_html__( 'Impossible to add the language.', 'polylang' ),
+				'i18n_pll_invalid_locale'     => esc_html__( 'Enter a valid WordPress locale', 'polylang' ),
+				'i18n_pll_invalid_slug'       => esc_html__( 'The language code contains invalid characters', 'polylang' ),
+				'i18n_pll_non_unique_slug'    => esc_html__( 'The language code must be unique', 'polylang' ),
+				'i18n_pll_invalid_name'       => esc_html__( 'The language must have a name', 'polylang' ),
+				'i18n_pll_invalid_flag'       => esc_html__( 'The flag does not exist', 'polylang' ),
+				'i18n_dialog_title'           => esc_html__( "A language wasn't added.", 'polylang' ),
+				'i18n_dialog_yes_button'      => esc_html__( 'Yes', 'polylang' ),
+				'i18n_dialog_no_button'       => esc_html__( 'No', 'polylang' ),
+				'i18n_dialog_ignore_button'   => esc_html__( 'Ignore', 'polylang' ),
+				'i18n_remove_language_icon'   => esc_html__( 'Remove this language', 'polylang' ),
 			)
 		);
 		wp_enqueue_script( 'pll-wizard-languages' );
 		wp_enqueue_style( 'pll-wizard-selectmenu', plugins_url( '/css/selectmenu' . $this->get_suffix() . '.css', POLYLANG_FILE ), array( 'dashicons', 'install', 'common', 'wp-jquery-ui-dialog' ), POLYLANG_VERSION );
 		$steps['languages'] = array(
-			'name'    => __( 'Languages', 'polylang' ),
+			'name'    => esc_html__( 'Languages', 'polylang' ),
 			'view'    => array( $this, 'display_step_languages' ),
 			'handler' => array( $this, 'save_step_languages' ),
 			'scripts' => array( 'pll-wizard-languages', 'pll-wizard-language-choice' ),
@@ -458,7 +470,7 @@ class PLL_Wizard {
 	 * @since 2.7
 	 */
 	public function display_step_languages() {
-		include PLL_MODULES_INC . '/wizard/view-wizard-step-languages.php';
+		include __DIR__ . '/view-wizard-step-languages.php';
 	}
 
 	/**
@@ -471,7 +483,7 @@ class PLL_Wizard {
 
 		$existing_languages = $this->model->get_languages_list();
 
-		$all_languages = include PLL_SETTINGS_INC . '/languages.php';
+		$all_languages = include POLYLANG_DIR . '/settings/languages.php';
 		$languages = isset( $_POST['languages'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['languages'] ) ) : false;
 		$saved_languages = array();
 
@@ -549,7 +561,7 @@ class PLL_Wizard {
 
 		if ( $this->is_media_step_displayable( $languages ) ) {
 			$steps['media'] = array(
-				'name'    => __( 'Media', 'polylang' ),
+				'name'    => esc_html__( 'Media', 'polylang' ),
 				'view'    => array( $this, 'display_step_media' ),
 				'handler' => array( $this, 'save_step_media' ),
 				'scripts' => array(),
@@ -565,7 +577,7 @@ class PLL_Wizard {
 	 * @since 2.7
 	 */
 	public function display_step_media() {
-		include PLL_MODULES_INC . '/wizard/view-wizard-step-media.php';
+		include __DIR__ . '/view-wizard-step-media.php';
 	}
 
 	/**
@@ -596,9 +608,10 @@ class PLL_Wizard {
 	public function add_step_untranslated_contents( $steps ) {
 		if ( ! $this->model->get_languages_list() || $this->model->get_objects_with_no_lang( 1 ) ) {
 			wp_enqueue_script( 'pll-wizard-language-choice', plugins_url( '/js/admin' . $this->get_suffix() . '.js', POLYLANG_FILE ), array( 'jquery', 'jquery-ui-selectmenu' ), POLYLANG_VERSION, true );
+			wp_localize_script( 'pll-wizard-language-choice', 'pll_dismiss_notice', esc_html__( 'Dismiss this notice.', 'polylang' ) );
 			wp_enqueue_style( 'pll-wizard-selectmenu', plugins_url( '/css/selectmenu' . $this->get_suffix() . '.css', POLYLANG_FILE ), array( 'dashicons', 'install', 'common' ), POLYLANG_VERSION );
 			$steps['untranslated-contents'] = array(
-				'name'    => __( 'Content', 'polylang' ),
+				'name'    => esc_html__( 'Content', 'polylang' ),
 				'view'    => array( $this, 'display_step_untranslated_contents' ),
 				'handler' => array( $this, 'save_step_untranslated_contents' ),
 				'scripts' => array( 'pll-wizard-language-choice' ),
@@ -614,7 +627,7 @@ class PLL_Wizard {
 	 * @since 2.7
 	 */
 	public function display_step_untranslated_contents() {
-		include PLL_MODULES_INC . '/wizard/view-wizard-step-untranslated-contents.php';
+		include __DIR__ . '/view-wizard-step-untranslated-contents.php';
 	}
 
 	/**
@@ -661,7 +674,7 @@ class PLL_Wizard {
 
 		if ( $home_page_id > 0 && ( ! $languages || count( $languages ) === 1 || count( $translations ) !== count( $languages ) ) ) {
 			$steps['home-page'] = array(
-				'name'    => __( 'Homepage', 'polylang' ),
+				'name'    => esc_html__( 'Homepage', 'polylang' ),
 				'view'    => array( $this, 'display_step_home_page' ),
 				'handler' => array( $this, 'save_step_home_page' ),
 				'scripts' => array(),
@@ -677,7 +690,7 @@ class PLL_Wizard {
 	 * @since 2.7
 	 */
 	public function display_step_home_page() {
-		include PLL_MODULES_INC . '/wizard/view-wizard-step-home-page.php';
+		include __DIR__ . '/view-wizard-step-home-page.php';
 	}
 
 	/**
@@ -750,7 +763,7 @@ class PLL_Wizard {
 	 */
 	public function add_step_last( $steps ) {
 		$steps['last'] = array(
-			'name'    => __( 'Ready!', 'polylang' ),
+			'name'    => esc_html__( 'Ready!', 'polylang' ),
 			'view'    => array( $this, 'display_step_last' ),
 			'handler' => array( $this, 'save_step_last' ),
 			'scripts' => array(),
@@ -767,7 +780,7 @@ class PLL_Wizard {
 	public function display_step_last() {
 		// We ran the wizard once. So we can dismiss its notice.
 		PLL_Admin_Notices::dismiss( 'wizard' );
-		include PLL_MODULES_INC . '/wizard/view-wizard-step-last.php';
+		include __DIR__ . '/view-wizard-step-last.php';
 	}
 
 	/**

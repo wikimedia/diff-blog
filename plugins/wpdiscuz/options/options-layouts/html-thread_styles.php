@@ -23,9 +23,9 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <div class="wpd-switch-field">
-            <input <?php checked($this->thread_styles["theme"] == "wpd-minimal"); ?> value="wpd-minimal" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeMinimal" type="radio"><label for="themeMinimal"><?php esc_html_e("Off", "wpdiscuz"); ?></label>
-            <input <?php checked($this->thread_styles["theme"] == "wpd-default"); ?> value="wpd-default" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeDefault" type="radio"><label for="themeDefault"><?php esc_html_e("Default", "wpdiscuz"); ?></label>
-            <input <?php checked($this->thread_styles["theme"] == "wpd-dark"); ?> value="wpd-dark" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeDark" type="radio"><label for="themeDark"><?php esc_html_e("Dark", "wpdiscuz"); ?></label>
+            <input <?php checked($this->thread_styles["theme"] === "wpd-minimal"); ?> value="wpd-minimal" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeMinimal" type="radio"><label for="themeMinimal"><?php esc_html_e("Off", "wpdiscuz"); ?></label>
+            <input <?php checked($this->thread_styles["theme"] === "wpd-default"); ?> value="wpd-default" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeDefault" type="radio"><label for="themeDefault"><?php esc_html_e("Default", "wpdiscuz"); ?></label>
+            <input <?php checked($this->thread_styles["theme"] === "wpd-dark"); ?> value="wpd-dark" name="<?php echo esc_attr(WpdiscuzCore::TAB_THREAD_STYLES); ?>[theme]" id="themeDark" type="radio"><label for="themeDark"><?php esc_html_e("Dark", "wpdiscuz"); ?></label>
         </div>
     </div>
     <div class="wpd-opt-doc">
