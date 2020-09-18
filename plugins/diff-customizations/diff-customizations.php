@@ -222,3 +222,19 @@ function diff_fb_verify(){
 <meta name ="facebook-domain-verification" content="yk2blq9pquiyqqsigh6bsjsxyck9g0" />
 <?php				
 };
+
+// filter domains so Jetpack Photon works
+add_filter( 'jetpack_photon_skip_for_url', 'jetpack_photon_unbanned_domains', 10, 2 );
+
+function jetpack_photon_unbanned_domains( $skip, $image_url ) {
+    $unbanned_host_patterns = array(
+        '/^(techblog|diff|policy)\.wikimedia\.org$/',
+    );
+    $host = wp_parse_url( $image_url, PHP_URL_HOST );
+    foreach ( $unbanned_host_patterns as $unbanned_host_pattern ) {
+        if ( 1 === preg_match( $unbanned_host_pattern, $host ) ) {
+            return false;
+        }
+    }
+    return $skip;
+}
