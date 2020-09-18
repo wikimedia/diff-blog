@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Polylang
+ */
 
 /**
  * Setups the objects languages and translations model
@@ -43,6 +46,11 @@ abstract class PLL_Translated_Object {
 		}
 
 		$object_id = (int) $object_id;
+
+		if ( $object_id < 0 ) {
+			return false;
+		}
+
 		$term = get_object_term_cache( $object_id, $taxonomy );
 
 		if ( false === $term ) {

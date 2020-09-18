@@ -25,6 +25,6 @@
     "pimple/pimple": "^3"
   },
   "require-dev": {
-    "lucatume/wp-browser": "^2.2"
+    "lucatume/wp-browser": "^2.4"
   }
 }
