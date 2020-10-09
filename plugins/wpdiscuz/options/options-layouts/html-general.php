@@ -231,8 +231,8 @@ if (!defined("ABSPATH")) {
     </div>
     <div class="wpd-opt-input">
         <div class="wpd-switch-field">
-            <input type="radio" <?php checked($this->general["gravatarCacheMethod"] == "runtime") ?> value="runtime" name="<?php echo esc_attr(WpdiscuzCore::TAB_GENERAL); ?>[gravatarCacheMethod]" id="gravatarCacheMethodRuntime" /><label for="gravatarCacheMethodRuntime"><?php esc_html_e("Runtime", "wpdiscuz"); ?></label>
-            <input type="radio" <?php checked($this->general["gravatarCacheMethod"] == "cronjob") ?> value="cronjob" name="<?php echo esc_attr(WpdiscuzCore::TAB_GENERAL); ?>[gravatarCacheMethod]" id="gravatarCacheMethodCronjob" /><label for="gravatarCacheMethodCronjob"><?php esc_html_e("Cron job", "wpdiscuz"); ?></label>
+            <input type="radio" <?php checked($this->general["gravatarCacheMethod"] === "runtime") ?> value="runtime" name="<?php echo esc_attr(WpdiscuzCore::TAB_GENERAL); ?>[gravatarCacheMethod]" id="gravatarCacheMethodRuntime" /><label for="gravatarCacheMethodRuntime"><?php esc_html_e("Runtime", "wpdiscuz"); ?></label>
+            <input type="radio" <?php checked($this->general["gravatarCacheMethod"] === "cronjob") ?> value="cronjob" name="<?php echo esc_attr(WpdiscuzCore::TAB_GENERAL); ?>[gravatarCacheMethod]" id="gravatarCacheMethodCronjob" /><label for="gravatarCacheMethodCronjob"><?php esc_html_e("Cron job", "wpdiscuz"); ?></label>
         </div>
     </div>
     <div class="wpd-opt-doc">

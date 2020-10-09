@@ -33,7 +33,7 @@ class Row {
     }
 
     private function renderRow($id, $args) {
-        $isTwoCol = $args["column_type"] == "two" ? true : false;
+        $isTwoCol = $args["column_type"] === "two";
         ?>
         <div class="wpd-form-row-body <?php echo $isTwoCol ? "two-col" : ""; ?>">
             <?php
@@ -80,7 +80,7 @@ class Row {
         ?>
         <div class="wpd-form-row">
             <?php
-            if ($args["column_type"] == "two") {
+            if ($args["column_type"] === "two") {
                 $left = $args["left"];
                 $right = $args["right"];
                 $this->renderFrontFormCol("left", $left, $options, $currentUser, $uniqueId, $isMainForm);
@@ -144,7 +144,7 @@ class Row {
             if (in_array($callableClass, $allowedFieldsType, true) && is_callable($callableClass . "::getInstance")) {
                 $field = call_user_func($callableClass . "::getInstance");
                 $fieldNewName = $this->changeFieldName($fieldName, $fieldData);
-                if ($fieldNewName != $fieldName) {
+                if ($fieldNewName !== $fieldName) {
                     $args = $this->chageArrayKey($args, $fieldName, $fieldNewName);
                     $args[$fieldNewName] = $field->sanitizeFieldData($fieldData);
                     $fields[$fieldNewName] = $field->sanitizeFieldData($fieldData);
@@ -160,7 +160,7 @@ class Row {
     private function changeFieldName($fieldName, $fieldData) {
         if (isset($fieldData["meta_key"])) {
             $metaKey = trim($fieldData["meta_key"]);
-            if ($metaKey && $fieldName != $metaKey) {
+            if ($metaKey && $fieldName !== $metaKey) {
                 $newName = str_replace(['-', ' '], '_', remove_accents($metaKey));
                 $this->replaceMetaKeyInDB($fieldName, $newName, $fieldData);
                 $this->chagePostRatingKey($fieldName, $newName, $fieldData);
@@ -171,7 +171,7 @@ class Row {
     }
 
     private function chagePostRatingKey($oldName, $newName, $fieldData) {
-        if (str_replace("\\\\", "\\", $fieldData["type"]) == "wpdFormAttr\Field\RatingField" && isset($fieldData["meta_key_replace"]) && $fieldData["meta_key_replace"]) {
+        if (str_replace("\\\\", "\\", $fieldData["type"]) === "wpdFormAttr\Field\RatingField" && isset($fieldData["meta_key_replace"]) && $fieldData["meta_key_replace"]) {
             if ($wpdiscuzRatingCount = $this->getPostRatingMeta()) {
                 foreach ($wpdiscuzRatingCount as $k => $row) {
                     $metaData = maybe_unserialize($row["meta_value"]);

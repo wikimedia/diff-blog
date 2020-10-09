@@ -3,6 +3,7 @@
 namespace Allex\Module;
 
 use Allex\Container;
+use Twig_Environment;
 
 class Upgrade extends Abstract_Module
 {
@@ -27,7 +28,7 @@ class Upgrade extends Abstract_Module
     protected $plugin_title;
 
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     protected $twig;
 
@@ -69,8 +70,11 @@ class Upgrade extends Abstract_Module
      */
     protected function add_hooks()
     {
-        add_action('plugin_action_links_' . $this->plugin_basename, [$this, 'plugin_action_links'],
-            999);
+        add_action(
+            'plugin_action_links_' . $this->plugin_basename,
+            [$this, 'plugin_action_links'],
+            999
+        );
         add_action('allex_upgrade_sidebar_ad', [$this, 'render_sidebar_ad']);
         add_filter('allex_upgrade_show_sidebar_ad', [$this, 'filter_allex_upgrade_show_sidebar_ad'], 10, 2);
     }
@@ -83,7 +87,7 @@ class Upgrade extends Abstract_Module
     public function plugin_action_links($links)
     {
         $link = '<a href="' . $this->url . '" target="_blank" class="allex-highlight allex-upgrade-link ' . $this->plugin_name . '">'
-                . __('Upgrade', 'allex') . '</a>';
+            . __('Upgrade', 'allex') . '</a>';
 
         $links = array_merge($links, [$link]);
 
@@ -126,7 +130,7 @@ class Upgrade extends Abstract_Module
         /**
          * Get the link for the subscription page.
          *
-         * @param array  $ad_link
+         * @param array $ad_link
          * @param string $plugin_name
          *
          * @return string
@@ -149,7 +153,7 @@ class Upgrade extends Abstract_Module
     }
 
     /**
-     * @param bool   $show_sidebar
+     * @param bool $show_sidebar
      * @param string $plugin_name
      *
      * @return bool
@@ -158,8 +162,7 @@ class Upgrade extends Abstract_Module
     {
         if ((defined('DOING_AJAX') && DOING_AJAX)
             || (defined('DOING_CRON') && DOING_CRON)
-            || ! is_admin()) {
-
+            || !is_admin()) {
             return false;
         }
 

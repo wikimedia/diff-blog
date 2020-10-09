@@ -80,7 +80,7 @@ class Form {
             return;
         }
         $form = get_post($formID);
-        if ($form && $form->post_status == "publish" && $form->post_type == wpdFormConst::WPDISCUZ_FORMS_CONTENT_TYPE) {
+        if ($form && $form->post_status === "publish" && $form->post_type === wpdFormConst::WPDISCUZ_FORMS_CONTENT_TYPE) {
             $this->formID = $formID;
             do_action("wpdiscuz_form_init", $this);
         } else {
@@ -257,7 +257,7 @@ class Form {
         $commentApproved = $comment->comment_approved;
         do_action("wpdiscuz_before_save_commentmeta", $comment, $this->fieldsBeforeSave);
         foreach ($this->fieldsBeforeSave as $mettaKey => $data) {
-            if ($this->ratingsExists && $this->formCustomFields[$mettaKey]["type"] == "wpdFormAttr\Field\RatingField") {
+            if ($this->ratingsExists && $this->formCustomFields[$mettaKey]["type"] === "wpdFormAttr\Field\RatingField") {
                 $oldCommentRating = get_comment_meta($commentID, $mettaKey, true);
                 if ($oldCommentRating && $commentApproved === "1") {
                     $postID = $comment->comment_post_ID;
@@ -289,7 +289,7 @@ class Form {
 
     private function savePostRatingMeta($comment, $rating) {
         $postID = $comment->comment_post_ID;
-        if (class_exists("WooCommerce") && get_post_type($postID) == "product") {
+        if (class_exists("WooCommerce") && get_post_type($postID) === "product") {
             $ratingCount = get_post_meta($postID, "_wc_rating_count", true);
             $ratingCount = is_string($ratingCount) ? [] : $ratingCount;
             $oldRatingMeta = get_comment_meta($comment->comment_ID, "rating", true);
@@ -338,7 +338,7 @@ class Form {
         foreach ($ratingMetaKeys as $key => $ratingMetaKey) {
             $exists = false;
             foreach ($ratings as $k => $rating) {
-                if ($rating["metakey"] == $ratingMetaKey) {
+                if ($rating["metakey"] === $ratingMetaKey) {
                     $exists = true;
                     break;
                 }
@@ -352,7 +352,7 @@ class Form {
 
     public function displayRatingMeta($content) {
         global $post;
-        if (!(class_exists("WooCommerce") && get_post_type($post) == "product")) {
+        if (!(class_exists("WooCommerce") && get_post_type($post) === "product")) {
             $this->initFormFields();
             if (in_array("before", $this->wpdOptions->rating["displayRatingOnPost"])) {
                 if ($this->ratingsExists) {
@@ -375,7 +375,7 @@ class Form {
     public function displayRatingMetaBeforeCommentForm() {
         global $post;
         $content = "";
-        if (!(class_exists("WooCommerce") && get_post_type($post) == "product")) {
+        if (!(class_exists("WooCommerce") && get_post_type($post) === "product")) {
             if (in_array("before_comment_form", $this->wpdOptions->rating["displayRatingOnPost"])) {
                 if ($this->ratingsExists) {
                     $content = $this->getRatingMetaHtml();
@@ -509,7 +509,7 @@ class Form {
                         $atts["show-label"] = false;
                     }
                     $html .= "<div class='wpdiscuz-post-rating-wrap wpd-custom-field'>";
-                    if (!isset($atts["metakey"]) || $atts["metakey"] == "" || $atts["metakey"] == "all") {
+                    if (!isset($atts["metakey"]) || $atts["metakey"] === "" || $atts["metakey"] === "all") {
                         $avg = 0;
                         $q = 0;
                         foreach ($ratingList as $key => $value) {
@@ -801,7 +801,7 @@ class Form {
                                     $authorEmail = $currentUser->ID ? $currentUser->user_email : "unknown@example.com";
                                     ?>
                                     <div class="wpd-avatar">
-                                        <?php echo get_avatar($currentUser->ID, 46, "", $authorName, ["wpdiscuz_current_user" => $currentUser, "wpdiscuz_gravatar_user_email" => $authorEmail]); ?>
+                                        <?php echo get_avatar($currentUser->ID, 56, "", $authorName, ["wpdiscuz_current_user" => $currentUser, "wpdiscuz_gravatar_user_email" => $authorEmail]); ?>
                                     </div>
                                     <?php
                                 }
@@ -1004,10 +1004,10 @@ class Form {
                                 $blogRoles = get_editable_roles();
                                 $rolesCannotComment = isset($this->generalOptions["roles_cannot_comment"]) ? $this->generalOptions["roles_cannot_comment"] : [];
                                 foreach ($blogRoles as $role => $info) {
-                                    if ($role != "administrator") {
+                                    if ($role !== "administrator") {
                                         ?>
                                         <div style="float:<?php echo (is_rtl()) ? 'right' : 'left'; ?>; display:inline-block; padding:3px 5px 3px 7px; min-width:25%;">
-                                            <input type="checkbox" <?php checked(in_array($role, $rolesCannotComment) == true); ?> value="<?php echo esc_attr($role); ?>" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[roles_cannot_comment][]" id="wpd-<?php echo esc_attr($role); ?>" style="margin:0px; vertical-align: middle;" />
+                                            <input type="checkbox" <?php checked(in_array($role, $rolesCannotComment)); ?> value="<?php echo esc_attr($role); ?>" name="<?php echo esc_attr(wpdFormConst::WPDISCUZ_META_FORMS_GENERAL_OPTIONS); ?>[roles_cannot_comment][]" id="wpd-<?php echo esc_attr($role); ?>" style="margin:0px; vertical-align: middle;" />
                                             <label for="wpd-<?php echo esc_attr($role); ?>" style="white-space:nowrap; font-size:13px;"><?php echo esc_html($info["name"]); ?></label>
                                         </div>
                                         <?php
@@ -1262,11 +1262,11 @@ class Form {
         } else {
             $user_can_comment = $this->generalOptions["guest_can_comment"];
         }
-        if ($user_can_comment && class_exists("WooCommerce") && get_post_type($postId) == "product") {
+        if ($user_can_comment && class_exists("WooCommerce") && get_post_type($postId) === "product") {
             if (get_option("woocommerce_review_rating_verification_required") === "no" || wc_customer_bought_product("", get_current_user_id(), $postId)) {
-                $user_can_comment = TRUE;
+                $user_can_comment = true;
             } else {
-                $user_can_comment = FALSE;
+                $user_can_comment = false;
                 $message = "<p class='woocommerce-verification-required'>" . esc_html__("Only logged in customers who have purchased this product may leave a review.", "woocommerce") . "</p>";
             }
         }
@@ -1379,8 +1379,7 @@ class Form {
 
     public function customFieldsExists() {
         $this->initFormFields();
-        $exists = $this->formCustomFields ? true : false;
-        return $exists;
+        return $this->formCustomFields ? true : false;
     }
 
     public function resetData() {

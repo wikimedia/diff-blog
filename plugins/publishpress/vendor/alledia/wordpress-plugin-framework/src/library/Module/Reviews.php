@@ -96,15 +96,15 @@ class Reviews extends Abstract_Module
         }
 
         // Check if the request is related to the current plugin.
-        if ( ! isset($_GET['review_plugin'])
-             || $_GET['review_plugin'] != $this->plugin_name) {
+        if (!isset($_GET['review_plugin'])
+            || $_GET['review_plugin'] != $this->plugin_name) {
             return;
         }
 
         // Check if the URL is related to any action
         $valid_actions = ['no', 'done'];
-        if ( ! isset($_GET['review_action'])
-             || ! in_array($_GET['review_action'], $valid_actions)) {
+        if (!isset($_GET['review_action'])
+            || !in_array($_GET['review_action'], $valid_actions)) {
             return;
         }
 
@@ -154,8 +154,7 @@ class Reviews extends Abstract_Module
      */
     protected function should_display_notice()
     {
-
-        if ( ! is_admin()) {
+        if (!is_admin()) {
             return false;
         }
 
