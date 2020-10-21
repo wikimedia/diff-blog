@@ -48,8 +48,7 @@ class Controller {
 
 		if ( empty( $key ) || empty( $secret ) || empty( $api_url ) ) {
 			$this->ready = false;
-			// var_dump($key, $secret, $api_url);
-			} else {
+		} else {
 			$this->ready                      = true;
 			$this->services['oauth_provider'] = new Services\OAuthProvider(
 				array(

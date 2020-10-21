@@ -5,7 +5,13 @@ namespace MW\WPOAuth\Admin;
 use MW\WPOAuth\Helpers;
 
 /**
- * [Description AdminContextualHelp]
+ * Contains the actions and hooks to add contextual help to the SSO
+ * Options page
+ *
+ * @package     mediawiki\wp-oauth-client
+ * @author      Brad Morris <hello@bradleymorris.co.uk>
+ * @license     Proprietary
+ * @copyright   Wikimedia Foundation
  */
 final class SettingsContextualHelp {
 	/**

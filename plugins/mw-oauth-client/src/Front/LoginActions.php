@@ -11,7 +11,13 @@ use MW\WPOAuth\Factory;
 use MW\WPOAuth\Helpers;
 
 /**
- * [Description WPLoginController]
+ * Contains all of the logic required to intiate and respond to an
+ * OAuth request
+ *
+ * @package     mediawiki\wp-oauth-client
+ * @author      Brad Morris <hello@bradleymorris.co.uk>
+ * @license     Proprietary
+ * @copyright   Wikimedia Foundation
  */
 final class LoginActions {
 
