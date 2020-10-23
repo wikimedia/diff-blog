@@ -274,10 +274,11 @@ function diff_csp_wp_headers( array $headers, WP $instance  ) {
 add_filter( 'wp_headers', 'diff_csp_wp_headers', 900, 2 );
 
 // Disable JS concatenation for admin users
-add_filter( 'diff_js_do_concat', function( $do_concat ) {
+add_filter( 'js_do_concat', 'diff_js_do_concat');
+function diff_js_do_concat( $do_concat) {
 if( is_admin() ) {
-return false;
-}
-return $do_concat;
-} );
+	return false;
+	}
+	return $do_concat;
+	};
 
