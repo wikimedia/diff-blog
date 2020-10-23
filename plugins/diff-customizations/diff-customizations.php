@@ -3,7 +3,7 @@
 Plugin Name: Diff Customizations
 Plugin URI: https://diff.wikimedia.org
 Description: Adds customizations seperate from theme.
-Version: 0.4
+Version: 0.5
 Author: Chris Koerner
 Author URI: https://meta.wikimedia.org/wiki/Community_Relations
 */
@@ -272,4 +272,12 @@ function diff_csp_wp_headers( array $headers, WP $instance  ) {
 	return $headers;
 }
 add_filter( 'wp_headers', 'diff_csp_wp_headers', 900, 2 );
+
+// Disable JS concatenation for admin users
+add_filter( 'diff_js_do_concat', function( $do_concat ) {
+if( is_admin() ) {
+return false;
+}
+return $do_concat;
+} );
 
