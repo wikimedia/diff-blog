@@ -239,40 +239,6 @@ function jetpack_photon_unbanned_domains( $skip, $image_url ) {
     return $skip;
 }
 
-//Filter the HTTP headers before they're sent to the browser.
-
-function diff_csp_wp_headers( array $headers, WP $instance  ) {
-	$allowedOrigins = [
-		"'self'",
-		'*.wikimedia.org',
-	];
-	if ( is_admin() ) {
-		$allowedOrigins[] = '*.wp.com';
-	}
-
-	$defaultOrigins = implode( ' ', $allowedOrigins );
-	$cspDirectives = [
-		"default-src {$defaultOrigins}",
-		"base-uri 'self'",
-		"font-src data: {$defaultOrigins}",
-		"img-src data: https://phab.wmfusercontent.org {$defaultOrigins}",
-		"script-src 'unsafe-inline' {$defaultOrigins}",
-		"style-src 'unsafe-inline' {$defaultOrigins}",
-		"form-action 'self'",
-		"frame-ancestors 'none'",
-		"block-all-mixed-content",
-	];
-
-	$headers['Content-Security-Policy'] = implode( '; ', $cspDirectives );
-	$headers['X-Frame-Options'] = 'deny';
-	$headers['X-XSS-Protection'] = '1; mode=block';
-	$headers['X-Content-Type-Options'] = 'nosniff';
-	$headers['X-DNS-Prefetch-Control'] = 'off';
-	$headers['Referrer-Policy'] = 'strict-origin-when-cross-origin';
-	return $headers;
-}
-add_filter( 'wp_headers', 'diff_csp_wp_headers', 900, 2 );
-
 // Disable JS concatenation for admin users
 add_filter( 'js_do_concat', 'diff_js_do_concat');
 function diff_js_do_concat( $do_concat) {
