@@ -67,7 +67,7 @@ final class LoginActions {
 
 		// Ensure the state passed in the initial request is valid in an
 		// attempt to protect against CSRF attacks
-		if ( ! $provider->validateState( $_GET['state'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( empty( $_GET['state'] ) || ! $provider->validateState( $_GET['state'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			wp_die( esc_html__( 'Could not verify the validity of the OAuth server\'s response. You should close this page and try again. If this problem persists contact the site administrator.', 'mw-oauth' ) );
 		}
 
