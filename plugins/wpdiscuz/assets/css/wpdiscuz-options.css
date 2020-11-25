@@ -413,7 +413,7 @@
 .wpd-zoom-image .wpd-lightbox:target{ outline: none; display: block; }
 .wp-core-ui #wpd-setbox .notice.is-dismissible {margin: 24px 0 0 0;}
 
-.wpd-enabled{background-image: url('../img/editor/active.png)');}
+.wpd-enabled{background-image: url('../img/editor/active.png');}
 .wpd-disabled{background-image: url('../img/editor/passive.png');}
 .wpd-editor-toolbar{display: flex; margin-top: 15px; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;} /*#f06653*/
 .wpd-editor-disable{cursor:pointer; margin-top:5px; background: #f5f5f5; font-size: 13px; font-weight: 600; padding: 2px 15px; line-height: 18px; border-radius: 3px;}
