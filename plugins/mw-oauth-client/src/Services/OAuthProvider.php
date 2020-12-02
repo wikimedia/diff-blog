@@ -123,19 +123,22 @@ final class OAuthProvider extends MWOAuthProvider {
 			'display_name' => sanitize_text_field( $response['realname'] ),
 		);
 
-		$user = UserStore::get_by_username_and_email( $response['username'], $response['email'] );
+		$user    = UserStore::get_by_username_and_email( $response['username'], $response['email'] );
+		$user_id = $user ? $user->ID : false;
 
-		if ( $user ) {
+		if ( ! $user_id ) {
 			/**
-			 * This will identify if there is an existing user within WordPress that has an
-			 * identical (case sensitive) username/email combination but has not yet tried
-			 * to login via SSO.
+			 * We were not able to find a user with the exact MediaWiki username/email combination
 			 *
-			 * We'll skip registering them, but still set the _mwoauth_username usermeta token
-			 * so that the account is linked to MediaWiki going forward.
+			 * The next best match will be a user with the same email but no MW username. Email's
+			 * are verified by WikiMedia and so if the account has not already been claimed we
+			 * can be somewhat certain that the user is the correct owner.
 			 */
-			$user_id = $user->ID;
-		} else {
+			$user    = UserStore::get_unclaimed_account_by_email( $response['email'] );
+			$user_id = $user ? $user->ID : false;
+		}
+
+		if ( ! $user_id ) {
 			// We haven't been able to find a user with those exact details so we can
 			// go ahead and register them
 

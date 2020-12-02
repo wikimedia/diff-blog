@@ -61,6 +61,32 @@ class UserStore {
 	}
 
 	/**
+	 * Identifies a user by email that has not been linked to a MW account
+	 *
+	 * @param string $email
+	 * @return array
+	 *
+	 * @return WP_User|false
+	 */
+	public static function get_unclaimed_account_by_email( string $email ) {
+		$users_by_email_query = new WP_User_Query(
+			array(
+				'user_email' => $email,
+			)
+		);
+
+		$users_by_email = $users_by_email_query->get_results();
+
+		foreach ( $users_by_email as $user ) {
+			$mw_username = get_user_meta( $user->ID, '_mwoauth_username', true );
+			if ( ! $mw_username || empty( $mw_username ) ) {
+				return $user;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @param string $username
 	 * @param int $index
 	 * @param int $limit
