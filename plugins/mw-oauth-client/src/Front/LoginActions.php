@@ -65,6 +65,14 @@ final class LoginActions {
 	public function handle_oauth_response(): void {
 		$provider = Factory::instance()->get_provider();
 
+		if ( isset( $_GET['error'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$error = isset( $_GET['error_description'] ) ? wp_kses( $_GET['error_description'], array( 'strong' ) ) : __( 'An unknown error occured', 'mw-oauth' );
+
+			$this->error_bag['oauth_error'] = $error;
+			return;
+		}
+
 		// Ensure the state passed in the initial request is valid in an
 		// attempt to protect against CSRF attacks
 		if ( empty( $_GET['state'] ) || ! $provider->validateState( $_GET['state'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -101,7 +109,12 @@ final class LoginActions {
 			$action = sprintf( '%s?action=%s', wp_login_url(), Helpers::PLUGIN_SLUG );
 			$url    = wp_nonce_url( $action, Helpers::PLUGIN_SLUG . '_begin' );
 
-			echo '<a class="button button-large" href="' . esc_attr( $url ) . '">' . esc_html__( 'Login with MediaWiki' ) . '</a>';
+			$output  = '<div class="mw-sso-login">';
+			$output .= '	<a class="button button-large" href="' . esc_attr( $url ) . '">' . esc_html__( 'Login with MediaWiki' ) . '</a>';
+			$output .= '	<span class="mw-sso-login__or">' . esc_html__( 'Or', 'mw-oauth' ) . '</span>';
+			$output .= '</div>';
+
+			echo apply_filters( 'mw_oauth_login_button_html', $output, $url ); // phpcs:ignore
 		}
 	}
 
