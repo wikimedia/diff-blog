@@ -64,7 +64,7 @@ final class LoginActions {
 	 */
 	public function handle_oauth_response(): void {
 		$provider = Factory::instance()->get_provider();
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['error'] ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$error = isset( $_GET['error_description'] ) ? wp_kses( $_GET['error_description'], array( 'strong' ) ) : __( 'An unknown error occured', 'mw-oauth' );
@@ -110,7 +110,7 @@ final class LoginActions {
 			$url    = wp_nonce_url( $action, Helpers::PLUGIN_SLUG . '_begin' );
 
 			$output  = '<div class="mw-sso-login">';
-			$output .= '	<a class="button button-large" href="' . esc_attr( $url ) . '">' . esc_html__( 'Login with MediaWiki' ) . '</a>';
+			$output .= '	<a class="button button-large" href="' . esc_url( $url ) . '">' . esc_html__( 'Login with MediaWiki' ) . '</a>';
 			$output .= '	<span class="mw-sso-login__or">' . esc_html__( 'Or', 'mw-oauth' ) . '</span>';
 			$output .= '</div>';
 
