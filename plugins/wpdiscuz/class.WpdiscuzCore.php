@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz
  * Description: #1 WordPress Comment Plugin. Innovative, modern and feature-rich comment system to supercharge your website comment section.
- * Version: 7.0.7
+ * Version: 7.0.9
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://wpdiscuz.com/
@@ -67,7 +67,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
 		$this->optionsSerialized->reCaptchaVersion = $this->options->recaptcha["version"];
 		$this->wpdiscuzForm                        = new wpDiscuzForm($this->options, $this->version);
 		$this->helper                              = new WpdiscuzHelper($this->options, $this->dbManager, $this->wpdiscuzForm);
-		$this->helperEmail                         = new WpdiscuzHelperEmail($this->options, $this->dbManager);
+		$this->helperEmail                         = new WpdiscuzHelperEmail($this->options, $this->dbManager, $this->helper);
 		$this->helperOptimization                  = new WpdiscuzHelperOptimization($this->options, $this->dbManager, $this->helperEmail);
 		$this->helperAjax                          = new WpdiscuzHelperAjax($this->options, $this->dbManager, $this->helper, $this->helperEmail, $this->wpdiscuzForm);
 		$this->helperUpload                        = new WpdiscuzHelperUpload($this->options, $this->dbManager, $this->wpdiscuzForm, $this->helper);
@@ -268,7 +268,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
 	public function updateAutomatically() {
 		$postId            = isset($_POST["postId"]) ? intval($_POST["postId"]) : 0;
 		$loadLastCommentId = isset($_POST["loadLastCommentId"]) ? intval($_POST["loadLastCommentId"]) : 0;
-		if ($postId && $loadLastCommentId) {
+		if ($postId) {
 			$this->isWpdiscuzLoaded = true;
 			$visibleCommentIds      = isset($_POST["visibleCommentIds"]) ? rtrim($_POST["visibleCommentIds"], ",") : "";
 			$cArgs                  = $this->getDefaultCommentsArgs($postId);
@@ -425,6 +425,9 @@ class WpdiscuzCore implements WpDiscuzConstants {
 				$held_moderate = 1;
 				if ($newComment->comment_approved === "1") {
 					$held_moderate = 0;
+                    if ($wooExists) {
+                        update_post_meta($postId, "_wc_review_count", get_comments(["count" => true, "post_id" => $postId]));
+                    }
 				}
 				if ($notificationType === WpdiscuzCore::SUBSCRIPTION_POST && class_exists("Prompt_Comment_Form_Handling") && $this->options->subscription["usePostmaticForCommentNotification"]) {
 					$_POST[Prompt_Comment_Form_Handling::SUBSCRIBE_CHECKBOX_NAME] = 1;
@@ -459,9 +462,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
 				$commentListArgs                         = $this->getCommentListArgs($postId);
 				$commentListArgs["addComment"]           = $commentDepth;
 				$commentListArgs["comment_author_email"] = $email;
-				if (apply_filters("wpdiscuz_enable_user_mentioning", true) && $this->options->subscription["enableUserMentioning"] && $this->options->subscription["sendMailToMentionedUsers"] && ($mentionedUsers = $this->helper->getMentionedUsers($newComment->comment_content))) {
-					$this->helperEmail->sendMailToMentionedUsers($mentionedUsers, $newComment);
-				}
+
 				$response["uniqueid"] = $uniqueId;
 				$response["message"]  = wp_list_comments($commentListArgs, [$newComment]);
 				$response["message"]  = wp_unslash($response["message"]);
@@ -881,7 +882,7 @@ class WpdiscuzCore implements WpDiscuzConstants {
 			if ($this->options->wp["threadComments"]) {
 				$where .= " AND comment_parent = 0";
 			}
-			$typesNotIn = apply_filters("wpdiscuz_found_comments_query", [self::WPDISCUZ_STICKY_COMMENT]);
+			$typesNotIn = apply_filters("wpdiscuz_found_comments_query", [self::WPDISCUZ_STICKY_COMMENT], $post->ID);
 			foreach ($typesNotIn as $k => &$type) {
 				$type = esc_sql($type);
 			}
@@ -2124,7 +2125,10 @@ class WpdiscuzCore implements WpDiscuzConstants {
 						],
 					];
 					$newComment = get_comment($new_comment_id);
-					if (apply_filters("wpdiscuz_enable_user_mentioning", true) && $this->options->subscription["enableUserMentioning"] && $this->options->subscription["sendMailToMentionedUsers"] && ($mentionedUsers = $this->helper->getMentionedUsers($newComment->comment_content))) {
+					if ($newComment->comment_approved === "1" && class_exists("WooCommerce") && get_post_type($inline_form->post_id) === "product") {
+						update_post_meta($inline_form->post_id, "_wc_review_count", get_comments(["count" => true, "post_id" => $inline_form->post_id]));
+					}
+					if (apply_filters("wpdiscuz_enable_user_mentioning", $this->options->subscription["enableUserMentioning"]) && $this->options->subscription["sendMailToMentionedUsers"] && ($mentionedUsers = $this->helper->getMentionedUsers($newComment->comment_content))) {
 						$this->helperEmail->sendMailToMentionedUsers($mentionedUsers, $newComment);
 					}
 					$notifiyMe = isset($_POST["wpd_inline_notify_me"]) ? absint($_POST["wpd_inline_notify_me"]) : 0;

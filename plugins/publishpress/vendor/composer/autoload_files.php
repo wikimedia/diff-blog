@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '320cde22f66dd4f5d3fd621d3e88b98f' => $vendorDir . '/symfony/polyfill-ctype/bootstrap.php',
+    '562b8a589a76743f9366d365f8f27f19' => $baseDir . '/defines-free-plugin-path.php',
 );

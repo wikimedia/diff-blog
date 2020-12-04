@@ -45,6 +45,7 @@ class PLL_WPSEO {
 			}
 			add_filter( 'wpseo_canonical', array( $this, 'wpseo_canonical' ) );
 			add_filter( 'wpseo_frontend_presentation', array( $this, 'frontend_presentation' ) );
+			add_filter( 'wpseo_breadcrumb_indexables', array( $this, 'breadcrumb_indexables' ) );
 		} else {
 			add_action( 'admin_init', array( $this, 'wpseo_register_strings' ) );
 
@@ -296,7 +297,7 @@ class PLL_WPSEO {
 			// Exclude cases where a post type archive is attached to a page (ex: WooCommerce).
 			$slug = ( true === $post_type_obj->has_archive ) ? $post_type_obj->rewrite['slug'] : $post_type_obj->has_archive;
 
-			if ( ! get_page_by_path( $slug ) ) {
+			if ( ! wpcom_vip_get_page_by_path( $slug ) ) {
 				// The post type archive in the current language is already added by WPSEO.
 				$languages = wp_list_filter( $languages, array( 'slug' => pll_current_language() ), 'NOT' );
 
@@ -402,27 +403,62 @@ class PLL_WPSEO {
 	 * @return object
 	 */
 	public function frontend_presentation( $presentation ) {
-		if ( is_front_page() ) {
-			$presentation->model->permalink = pll_home_url();
-		}
+		switch ( $presentation->model->object_type ) {
+			case 'home-page':
+				$presentation->model->permalink = pll_home_url();
+				$presentation->model->title = WPSEO_Options::get( 'title-home-wpseo' );
+				$presentation->model->description = WPSEO_Options::get( 'title-home-wpseo' );
+				break;
 
-		if ( is_post_type_archive() ) {
-			$presentation->model->permalink = get_post_type_archive_link( get_post_type() );
-		}
+			case 'post-type-archive':
+				if ( pll_is_translated_post_type( $presentation->model->object_sub_type ) ) {
+					$presentation->model->permalink = get_post_type_archive_link( $presentation->model->object_sub_type );
+					$presentation->model->title = WPSEO_Options::get( 'title-ptarchive-' . $presentation->model->object_sub_type );
+					$presentation->model->description = WPSEO_Options::get( 'metadesc-ptarchive-' . $presentation->model->object_sub_type );
+				}
+				break;
 
-		$strings = array(
-			'title',
-			'description',
-			'breadcrumb_title',
-		);
+			case 'user':
+				$presentation->model->permalink = get_author_posts_url( $presentation->model->object_id );
+				break;
 
-		foreach ( $strings as $string ) {
-			$presentation->model->$string = pll__( $presentation->model->$string );
+			case 'system-page':
+				if ( '404' === $presentation->model->object_sub_type ) {
+					$presentation->model->title = WPSEO_Options::get( 'title-404-wpseo' );
+				}
+				break;
 		}
 
 		return $presentation;
 	}
 
+	/**
+	 * Fixes the breadcrumb links and strings stored in the indexable table since Yoast SEO 14.0
+	 *
+	 * @since 2.8.3
+	 *
+	 * @param array $indexables An array of Indexable objects.
+	 * @return object
+	 */
+	public function breadcrumb_indexables( $indexables ) {
+		foreach ( $indexables as &$indexable ) {
+			switch ( $indexable->object_type ) {
+				case 'home-page':
+					$indexable->permalink = pll_home_url();
+					$indexable->breadcrumb_title = pll__( WPSEO_Options::get( 'breadcrumbs-home' ) );
+					break;
+
+				case 'post-type-archive':
+					if ( pll_is_translated_post_type( $indexable->object_sub_type ) ) {
+						$indexable->permalink = get_post_type_archive_link( $indexable->object_sub_type );
+						$indexable->breadcrumb_title = pll__( WPSEO_Options::get( 'bctitle-ptarchive-' . $indexable->object_sub_type ) );
+					}
+					break;
+			}
+		}
+
+		return $indexables;
+	}
 
 	/**
 	 * Helper function to register strings for custom post types and custom taxonomies titles and meta descriptions

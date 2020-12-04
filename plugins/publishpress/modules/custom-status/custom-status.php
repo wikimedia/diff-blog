@@ -389,6 +389,7 @@ if (!class_exists('PP_Custom_Status')) {
         {
             global $publishpress;
 
+
             if ($this->disable_custom_statuses_for_post_type()) {
                 return;
             }
@@ -841,6 +842,11 @@ if (!class_exists('PP_Custom_Status')) {
             $post_type_obj = get_post_type_object($this->get_current_post_type());
 
             if (!current_user_can($post_type_obj->cap->edit_posts)) {
+                return false;
+            }
+
+            // Disable the scripts for the post page if the plugin Visual Composer is enabled.
+            if (isset($_GET['vcv-action']) && $_GET['vcv-action'] === 'frontend') {
                 return false;
             }
 
@@ -1501,12 +1507,23 @@ if (!class_exists('PP_Custom_Status')) {
                 );
             }
             // Check that the status name doesn't exceed 20 chars
-            if (strlen($status_name) > 20) {
+            $name_is_valid = true;
+            if (function_exists('mb_strlen')) {
+                if (mb_strlen($status_name) > 20) {
+                    $name_is_valid = false;
+                }
+            } else {
+                if (strlen($status_name) > 20) {
+                    $name_is_valid = false;
+                }
+            }
+            if (!$name_is_valid) {
                 $_REQUEST['form-errors']['name'] = __(
                     'Status name cannot exceed 20 characters. Please try a shorter name.',
                     'publishpress'
                 );
             }
+
             // Check to make sure the status doesn't already exist as another term because otherwise we'd get a weird slug
             if (term_exists($status_slug, self::taxonomy_key)) {
                 $_REQUEST['form-errors']['name'] = __(
@@ -1602,7 +1619,17 @@ if (!class_exists('PP_Custom_Status')) {
                     );
                 }
                 // Check that the status name doesn't exceed 20 chars
-                if (strlen($name) > 20) {
+                $name_is_valid = true;
+                if (function_exists('mb_strlen')) {
+                    if (mb_strlen($name) > 20) {
+                        $name_is_valid = false;
+                    }
+                } else {
+                    if (strlen($name) > 20) {
+                        $name_is_valid = false;
+                    }
+                }
+                if (!$name_is_valid) {
                     $_REQUEST['form-errors']['name'] = __(
                         'Status name cannot exceed 20 characters. Please try a shorter name.',
                         'publishpress'

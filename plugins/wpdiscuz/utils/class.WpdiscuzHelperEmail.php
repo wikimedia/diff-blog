@@ -8,10 +8,12 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
 
     private $options;
     private $dbManager;
+    private $helper;
 
-    public function __construct($options, $dbManager) {
+    public function __construct($options, $dbManager, $helper) {
         $this->options = $options;
         $this->dbManager = $dbManager;
+        $this->helper = $helper;
         add_action("wp_ajax_wpdAddSubscription", [&$this, "addSubscription"]);
         add_action("wp_ajax_nopriv_wpdAddSubscription", [&$this, "addSubscription"]);
         add_action("wp_ajax_wpdCheckNotificationType", [&$this, "checkNotificationType"]);
@@ -178,6 +180,9 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
             $email = $currentUser->user_email;
         }
         if ($commentId && $email && $postId) {
+			if (apply_filters("wpdiscuz_enable_user_mentioning", $this->options->subscription["enableUserMentioning"]) && $this->options->subscription["sendMailToMentionedUsers"] && ($newComment = get_comment($commentId)) && ($mentionedUsers = $this->helper->getMentionedUsers($newComment->comment_content))) {
+				$this->sendMailToMentionedUsers($mentionedUsers, $newComment);
+			}
             $this->notifyPostSubscribers($postId, $commentId, $email);
             $this->notifyFollowers($postId, $commentId, $email);
             if (!$isParent) {
@@ -270,10 +275,13 @@ class WpdiscuzHelperEmail implements WpDiscuzConstants {
             $form = $wpdiscuz->wpdiscuzForm->getForm($post->ID);
             $isLoadWpdiscuz = $form->getFormID() && (comments_open($post) || $post->comment_count) && post_type_supports($post->post_type, "comments");
         }
-        if ($approved === "1" && ($commentsPage || $postCommentsPage) && $comment && $isLoadWpdiscuz) {
+        if ($approved == 1 && ($commentsPage || $postCommentsPage) && $comment && $isLoadWpdiscuz) {
             $postId = $comment->comment_post_ID;
             $email = $comment->comment_author_email;
             $parentComment = $comment->comment_parent ? get_comment($comment->comment_parent) : 0;
+			if (apply_filters("wpdiscuz_enable_user_mentioning", $this->options->subscription["enableUserMentioning"]) && $this->options->subscription["sendMailToMentionedUsers"] && ($mentionedUsers = $this->helper->getMentionedUsers($comment->comment_content))) {
+				$this->sendMailToMentionedUsers($mentionedUsers, $comment);
+			}
             $this->notifyPostSubscribers($postId, $commentId, $email);
             if ($parentComment) {
                 $parentCommentEmail = $parentComment->comment_author_email;

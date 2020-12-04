@@ -2,7 +2,7 @@
 /*
  * Plugin Name: wpDiscuz - Front-end Moderation
  * Description: All in one toolset to manage comments on front-end (approve, unapprove, trash, spam, email, move, blacklist, delete)
- * Version: 7.0.4
+ * Version: 7.0.5
  * Author: gVectors Team
  * Author URI: https://gvectors.com/
  * Plugin URI: https://gvectors.com/wpdiscuz-frontend-moderation/
@@ -418,9 +418,12 @@ class wpDiscuzFrontEndModeration {
             if ($comment = get_comment($commentID)) {
                 $current_user = wp_get_current_user();
                 if ((current_user_can("edit_comment", $commentID) || current_user_can("moderate_comments", $commentID)) || ($this->settings->options["userCanDelete"] && !empty($current_user->ID) && $comment->user_id == $current_user->ID)) {
+                    remove_action("bp_activity_post_type_remove_comment", "bp_blogs_post_type_remove_comment", 10);
                     if (wp_delete_comment($commentID, true)) {
+                        add_action("bp_activity_post_type_remove_comment", "bp_blogs_post_type_remove_comment", 10, 4);
                         wp_send_json_success();
                     }
+                    add_action("bp_activity_post_type_remove_comment", "bp_blogs_post_type_remove_comment", 10, 4);
                 } else {
                     wp_send_json_error(__($this->settings->phrases["delete_cant_delete"], "wpdiscuz-frontend-moderation"));
                 }

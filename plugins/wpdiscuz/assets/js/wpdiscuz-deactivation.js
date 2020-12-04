@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
                 var checkedItem = $('.wpd-deactivation-reason:checked');
                 var parentItem = checkedItem.parents('.wpd-deactivation-reason-item');
                 var reasonDesc = $('.dr_more_info', parentItem);
-                var receiveEmail = $('[name=deactivation_feedback_receive_email]', parentItem).attr('checked');
+                var receiveEmail = $('[name=deactivation_feedback_receive_email]', parentItem).prop('checked');
                 var receiverEmail = $('[name=deactivation_feedback_email]', parentItem);
                 var isValid = true;
 

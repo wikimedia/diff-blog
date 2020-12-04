@@ -46,7 +46,7 @@ class WpdiscuzCache implements WpDiscuzConstants {
         return $this->getAvatarHtml($avatar, $idOrEmail, $args);
     }
 
-    public function getAvatar($avatar, $idOrEmail, $size, $default, $alt, $args) {
+    public function getAvatar($avatar, $idOrEmail, $size, $default, $alt, $args = []) {
         if (strpos($avatar, self::GRAVATARS_CACHE_DIR) === false) {
             $avatar = $this->getAvatarHtml($avatar, $idOrEmail, $args);
         }

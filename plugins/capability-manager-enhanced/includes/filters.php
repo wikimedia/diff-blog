@@ -31,8 +31,8 @@ if ( defined( 'WC_PLUGIN_FILE' ) ) {
 if (!defined('CME_DISABLE_WP_EDIT_PUBLISHED_WORKAROUND')) {
 	global $wp_version;
 	if (version_compare($wp_version, '4.9.7', '>=')) { // avoid any issues with old REST API implementations
-		require_once (dirname(__FILE__) . '/filters-wp_rest_workarounds.php');
-		new PublishPress\Capabilities\WP_REST_Workarounds();
+	require_once (dirname(__FILE__) . '/filters-wp_rest_workarounds.php');
+	new PublishPress\Capabilities\WP_REST_Workarounds();
 	}
 }
 
@@ -50,6 +50,16 @@ add_filter('plugin_action_links_' . plugin_basename(CME_FILE), '_cme_fltPluginAc
 add_filter('pp_custom_status_list', 'cme_filter_custom_status_list', 10, 2);
 
 add_action('plugins_loaded', '_cme_migrate_pp_options');
+
+add_filter('cme_filterable_post_types', '_cme_filterable_post_types');
+
+function _cme_filterable_post_types($post_type_objects) {
+	if ($advgb_profiles = get_post_type_object('advgb_profiles')) {
+		$post_type_objects['advgb_profiles'] = $advgb_profiles;
+	}
+
+	return $post_type_objects;
+}
 
 function _cme_publishpress_roles_js() {
 	if (defined('PUBLISHPRESS_VERSION') && ((strpos($_SERVER['REQUEST_URI'], 'page=pp-manage-roles')))) {
@@ -233,12 +243,13 @@ function cme_get_assisted_post_types() {
 	
 	$post_types = get_post_types( $type_args, 'names', 'or' );
 	
-	if ( $omit_types = apply_filters( 'pp_unfiltered_post_types', array( 'wp_block' ) ) ) {
+	if ( $omit_types = apply_filters( 'pp_unfiltered_post_types', array('forum', 'topic', 'reply', 'wp_block', 'customize_changeset') ) ) {
 		$post_types = array_diff_key( $post_types, array_fill_keys( (array) $omit_types, true ) );
 	}
 	
 	$option_name = (defined('PPC_VERSION') && !defined('PRESSPERMIT_VERSION')) ? 'pp_enabled_post_types' : 'presspermit_enabled_post_types';
 	$enabled = (array) get_option( $option_name, array( 'post' => true, 'page' => true ) );
+
 	$post_types = array_intersect( $post_types, array_keys( array_filter( $enabled ) ) );
 	
 	return apply_filters( 'cme_assisted_post_types', $post_types, $type_args );

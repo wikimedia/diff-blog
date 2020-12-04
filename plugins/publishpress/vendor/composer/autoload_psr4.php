@@ -10,5 +10,4 @@ return array(
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PPVersionNotices\\' => array($vendorDir . '/publishpress/wordpress-version-notices/src'),
-    'Allex\\' => array($vendorDir . '/alledia/wordpress-plugin-framework/src/library'),
 );
