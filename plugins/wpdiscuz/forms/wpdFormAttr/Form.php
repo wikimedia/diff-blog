@@ -259,9 +259,10 @@ class Form {
         foreach ($this->fieldsBeforeSave as $mettaKey => $data) {
             if ($this->ratingsExists && $this->formCustomFields[$mettaKey]["type"] === "wpdFormAttr\Field\RatingField") {
                 $oldCommentRating = get_comment_meta($commentID, $mettaKey, true);
-                if ($oldCommentRating && $commentApproved === "1") {
-                    $postID = $comment->comment_post_ID;
+                $postID = $comment->comment_post_ID;
+                if (!(class_exists("WooCommerce") && get_post_type($postID) === "product") && $oldCommentRating && $commentApproved === "1") {
                     $postRatingMeta = get_post_meta($postID, wpdFormConst::WPDISCUZ_RATING_COUNT, true);
+					$postRatingMeta = is_array($postRatingMeta) ? $postRatingMeta : [];
                     $oldCommentRatingCount = $postRatingMeta[$mettaKey][$oldCommentRating] - 1;
                     if ($oldCommentRatingCount > 0) {
                         $postRatingMeta[$mettaKey][$oldCommentRating] = $oldCommentRatingCount;

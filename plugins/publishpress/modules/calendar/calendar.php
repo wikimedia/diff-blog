@@ -122,7 +122,7 @@ if (!class_exists('PP_Calendar')) {
          *
          * @var integer
          */
-        public $max_visible_posts_per_date = 4;
+        public $default_max_visible_posts_per_date = 4;
 
         /**
          * [$post_date_cache description]
@@ -167,6 +167,7 @@ if (!class_exists('PP_Calendar')) {
                     'ics_subscription'        => 'on',
                     'ics_secret_key'          => wp_generate_password(),
                     'show_posts_publish_time' => ['publish' => 'on', 'future' => 'on'],
+                    'default_publish_time'    => '',
                 ],
                 'messages'              => [
                     'post-date-updated'   => __('Post date updated.', 'publishpress'),
@@ -246,6 +247,10 @@ if (!class_exists('PP_Calendar')) {
 
             // Update metadata
             add_action('wp_ajax_pp_calendar_update_metadata', [$this, 'handle_ajax_update_metadata']);
+
+            add_action('wp_ajax_publishpress_calendar_search_authors', [$this, 'searchAuthors']);
+            add_action('wp_ajax_publishpress_calendar_search_categories', [$this, 'searchCategories']);
+            add_action('wp_ajax_publishpress_calendar_search_tags', [$this, 'searchTags']);
 
             // Clear li cache for a post when post cache is cleared
             add_action('clean_post_cache', [$this, 'action_clean_li_html_cache']);
@@ -456,8 +461,16 @@ if (!class_exists('PP_Calendar')) {
                 wp_enqueue_style(
                     'publishpress-calendar-css',
                     $this->module_url . 'lib/calendar.css',
-                    false,
+                    ['publishpress-select2'],
                     PUBLISHPRESS_VERSION
+                );
+
+                wp_enqueue_style(
+                    'publishpress-select2',
+                    PUBLISHPRESS_URL . 'common/libs/select2/css/select2.min.css',
+                    false,
+                    PUBLISHPRESS_VERSION,
+                    'screen'
                 );
             }
         }
@@ -494,6 +507,7 @@ if (!class_exists('PP_Calendar')) {
                     'jquery-ui-draggable',
                     'jquery-ui-droppable',
                     'clipboard-js',
+                    'publishpress-select2'
                 ];
                 foreach ($js_libraries as $js_library) {
                     wp_enqueue_script($js_library);
@@ -513,8 +527,16 @@ if (!class_exists('PP_Calendar')) {
                     true
                 );
 
+                wp_enqueue_script(
+                    'publishpress-select2',
+                    PUBLISHPRESS_URL . 'common/libs/select2/js/select2.min.js',
+                    ['jquery'],
+                    PUBLISHPRESS_VERSION
+                );
+
                 $pp_cal_js_params = [
                     'can_add_posts' => current_user_can($this->create_post_cap) ? 'true' : 'false',
+                    'nonce' => wp_create_nonce('calendar_filter_nonce'),
                 ];
                 wp_localize_script('publishpress-calendar-js', 'pp_calendar_params', $pp_cal_js_params);
             }
@@ -1181,22 +1203,24 @@ if (!class_exists('PP_Calendar')) {
                                 <?php foreach ($week_dates as $day_num => $week_single_date) : ?>
                                     <?php
                                     // Somewhat ghetto way of sorting all of the day's posts by post status order
-                                    if (!empty($week_posts[$week_single_date])) {
-                                        $week_posts_by_status = [];
-                                        foreach ($post_statuses as $post_status) {
-                                            $week_posts_by_status[$post_status->slug] = [];
-                                        }
-                                        // These statuses aren't handled by custom statuses or post statuses
-                                        $week_posts_by_status['private'] = [];
-                                        $week_posts_by_status['publish'] = [];
-                                        $week_posts_by_status['future']  = [];
-                                        foreach ($week_posts[$week_single_date] as $num => $post) {
-                                            $week_posts_by_status[$post->post_status][$num] = $post;
-                                        }
-                                        unset($week_posts[$week_single_date]);
-                                        foreach ($week_posts_by_status as $status) {
-                                            foreach ($status as $num => $post) {
-                                                $week_posts[$week_single_date][] = $post;
+                                    if (isset($this->module->options->sort_by) && $this->module->options->sort_by === 'status') {
+                                        if (!empty($week_posts[$week_single_date])) {
+                                            $week_posts_by_status = [];
+                                            foreach ($post_statuses as $post_status) {
+                                                $week_posts_by_status[$post_status->slug] = [];
+                                            }
+                                            // These statuses aren't handled by custom statuses or post statuses
+                                            $week_posts_by_status['private'] = [];
+                                            $week_posts_by_status['publish'] = [];
+                                            $week_posts_by_status['future']  = [];
+                                            foreach ($week_posts[$week_single_date] as $num => $post) {
+                                                $week_posts_by_status[$post->post_status][$num] = $post;
+                                            }
+                                            unset($week_posts[$week_single_date]);
+                                            foreach ($week_posts_by_status as $status) {
+                                                foreach ($status as $num => $post) {
+                                                    $week_posts[$week_single_date][] = $post;
+                                                }
                                             }
                                         }
                                     }
@@ -1322,13 +1346,8 @@ if (!class_exists('PP_Calendar')) {
                                                         <select id="post-insert-dialog-post-author-<?php echo $week_single_date; ?>"
                                                                 name="post-insert-dialog-post-author"
                                                                 class="post-insert-dialog-post-author">
-                                                            <?php foreach ($authors as $author): ?>
-                                                                <option value="<?php echo $author->ID; ?>">
-                                                                    <?php echo $author->display_name; ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
+                                                            <option value=""></option>
                                                         </select>
-                                                        <?php unset($author); ?>
                                                     </label>
 
                                                     <div>
@@ -1491,9 +1510,16 @@ if (!class_exists('PP_Calendar')) {
             }
 
             // Hide posts over a certain number to prevent clutter, unless user is only viewing 1 or 2 weeks
+            $max_visible_posts_option = isset($this->module->options->max_visible_posts_per_date) && !empty($this->default_max_visible_posts_per_date) ?
+                (int)$this->module->options->max_visible_posts_per_date : $this->default_max_visible_posts_per_date;
+
+            if ($max_visible_posts_option < 0) {
+                $max_visible_posts_option = 9999;
+            }
+
             $max_visible_posts = apply_filters(
                 'pp_calendar_max_visible_posts_per_date',
-                $this->max_visible_posts_per_date
+                $max_visible_posts_option
             );
 
             if ($num >= $max_visible_posts && $this->total_weeks > 2) {
@@ -1619,7 +1645,7 @@ if (!class_exists('PP_Calendar')) {
         {
             ?>
             <table class="item-information">
-                <?php foreach ($this->get_post_information_fields($post) as $field => $values) : ?>
+                <?php foreach ($pp_calendar_item_information_fields as $field => $values) : ?>
                     <tr class="item-field item-information-<?php echo esc_attr($field); ?>">
                         <th class="label"><?php echo esc_html($values['label']); ?>:</th>
                         <?php if ($values['value'] && isset($values['type'])) : ?>
@@ -1886,6 +1912,7 @@ if (!class_exists('PP_Calendar')) {
             }// End foreach().
 
             $information_fields = apply_filters('pp_calendar_item_information_fields', $information_fields, $post->ID);
+
             foreach ($information_fields as $field => $values) {
                 // Allow filters to hide empty fields or to hide any given individual field. Hide empty fields by default.
                 if ((apply_filters(
@@ -2319,6 +2346,22 @@ if (!class_exists('PP_Calendar')) {
                 $this->module->options_group_name,
                 $this->module->options_group_name . '_general'
             );
+
+            add_settings_field(
+                'sort_by',
+                __('Field used for sorting the calendar items in a day cell', 'publishpress'),
+                [$this, 'settings_sort_by_option'],
+                $this->module->options_group_name,
+                $this->module->options_group_name . '_general'
+            );
+
+            add_settings_field(
+                'max_visible_posts_per_date',
+                __('Max visible posts per date', 'publishpress'),
+                [$this, 'settings_max_visible_posts_per_date'],
+                $this->module->options_group_name,
+                $this->module->options_group_name . '_general'
+            );
         }
 
         /**
@@ -2507,6 +2550,79 @@ if (!class_exists('PP_Calendar')) {
             echo '</div>';
         }
 
+        public function settings_sort_by_option()
+        {
+            $fields = [
+                'time'   => __('Publishing Time', 'publishpress'),
+                'status' => __('Post Status', 'publishpress'),
+            ];
+
+            $sortByOptionValue = !isset($this->module->options->sort_by) || is_null(
+                $this->module->options->sort_by
+            )
+                ? 'time'
+                : $this->module->options->sort_by;
+
+            echo '<div class="c-input-group c-pp-calendar-options-sort_by">';
+
+            foreach ($fields as $key => $label) {
+                printf(
+                    '
+                    <div style="max-width: 175px; display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 5px;">
+                        <label>
+                            <input
+                                class="o-radio"
+                                type="radio"
+                                name="%s"
+                                value="%s"
+                                %s
+                            />
+                            <span>%s</span>
+                        </label>
+                    </div>',
+                    esc_attr($this->module->options_group_name) . '[sort_by]',
+                    $key,
+                    $key === $sortByOptionValue ? 'checked' : '',
+                    $label
+                );
+            }
+
+            echo '</div>';
+        }
+
+        public function settings_max_visible_posts_per_date()
+        {
+            $maxVisiblePostsPerDate = !isset($this->module->options->max_visible_posts_per_date) || is_null(
+                $this->module->options->max_visible_posts_per_date
+            )
+                ? (int)$this->default_max_visible_posts_per_date
+                : (int)$this->module->options->max_visible_posts_per_date;
+
+            echo '<div class="c-input-group c-pp-calendar-options-max_visible_posts_per_date">';
+
+            echo sprintf(
+                    '<select name="%s" id="%d">',
+                    esc_attr($this->module->options_group_name) . '[max_visible_posts_per_date]',
+                    'max_visible_posts_per_date'
+            );
+
+            echo sprintf(
+                    '<option value="-1" %s>%s</option>',
+                    selected($maxVisiblePostsPerDate, -1, false),
+                    __('All posts', 'publishpress')
+            );
+
+            for ($i = 4; $i <= 30; $i++) {
+                echo sprintf(
+                    '<option value="%2$d" %s>%2$d</option>',
+                    selected($maxVisiblePostsPerDate, $i, false),
+                    $i
+                );
+            }
+
+            echo '</select></div>';
+        }
+
         /**
          * Validate the data submitted by the user in calendar settings
          *
@@ -2573,6 +2689,16 @@ if (!class_exists('PP_Calendar')) {
             if (isset($new_options['default_publish_time'])) {
                 $options['default_publish_time'] = sanitize_text_field($new_options['default_publish_time']);
             }
+
+            // Sort by
+            $options['sort_by'] = isset($new_options['sort_by'])
+                ? sanitize_text_field($new_options['sort_by'])
+                : 'time';
+
+            // Max visible posts per date
+            $options['max_visible_posts_per_date'] = isset($new_options['max_visible_posts_per_date'])
+                ? (int)$new_options['max_visible_posts_per_date']
+                : $this->default_max_visible_posts_per_date;
 
             return $options;
         }
@@ -2662,16 +2788,7 @@ if (!class_exists('PP_Calendar')) {
             }
 
             if (empty($post_author)) {
-                $authorsPermissions = self::getAuthorPermissions();
-                $user               = wp_get_current_user();
-                if (count(array_intersect($authorsPermissions, $user->roles)) === 0) {
-                    $this->print_ajax_response(
-                        'error',
-                        __('You do not have necessary permissions to complete this action.', 'publishpress')
-                    );
-                }
-
-                $post_author = $user->ID;
+                $post_author = apply_filters('publishpress_calendar_default_author', get_current_user_id());
             }
 
             $post_date           = sanitize_text_field($_POST['pp_insert_date']);
@@ -2725,6 +2842,7 @@ if (!class_exists('PP_Calendar')) {
             $post_id = wp_insert_post($post_placeholder);
             remove_filter('wp_insert_post_data', [$this, 'alter_post_modification_time'], 99, 2);
 
+            do_action('publishpress_calendar_after_create_post', $post_id, $post_author);
 
             if ($post_id) { // success!
 
@@ -2893,6 +3011,103 @@ if (!class_exists('PP_Calendar')) {
             return apply_filters('pp_calendar_filter_names', $select_filter_names);
         }
 
+        public function searchAuthors()
+        {
+            header('Content-type: application/json;');
+
+            if (!wp_verify_nonce($_GET['nonce'], 'calendar_filter_nonce')) {
+                return '[]';
+            }
+
+            $queryText = isset($_GET['q']) ? sanitize_text_field($_GET['q']) : '';
+
+            /**
+             * @param array $results
+             * @param string $searchText
+             */
+            $results = apply_filters('publishpress_search_authors_results_pre_search', [], $queryText);
+
+            if (!empty($results)) {
+                echo wp_json_encode($results);
+                exit;
+            }
+
+            $user_args = [
+                'number'   => 20,
+                'orderby' => 'display_name',
+            ];
+
+            if (!empty($queryText)) {
+                $user_args['search'] = '*' . $queryText . '*';
+            }
+
+            $users = get_users($user_args);
+
+            foreach ($users as $user) {
+                $results[] = [
+                    'id'   => $user->ID,
+                    'text' => $user->display_name,
+                ];
+            }
+            echo wp_json_encode($results);
+
+            exit;
+        }
+
+        public function searchCategories()
+        {
+            header('Content-type: application/json;');
+
+            if (!wp_verify_nonce($_GET['nonce'], 'calendar_filter_nonce')) {
+                return '[]';
+            }
+
+            $queryText = isset($_GET['q']) ? sanitize_text_field($_GET['q']) : '';
+            global $wpdb;
+
+            $queryResult = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT DISTINCT t.term_id AS id, t.name AS text
+                FROM {$wpdb->term_taxonomy} as tt
+                INNER JOIN {$wpdb->terms} as t ON (tt.term_id = t.term_id)
+                WHERE taxonomy = 'category' AND t.name LIKE %s
+                ORDER BY 2
+                LIMIT 20",
+                    '%' . $wpdb->esc_like($queryText) . '%'
+                )
+            );
+
+            echo wp_json_encode($queryResult);
+            exit;
+        }
+
+        public function searchTags()
+        {
+            header('Content-type: application/json;');
+
+            if (!wp_verify_nonce($_GET['nonce'], 'calendar_filter_nonce')) {
+                return '[]';
+            }
+
+            $queryText = isset($_GET['q']) ? sanitize_text_field($_GET['q']) : '';
+            global $wpdb;
+
+            $queryResult = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT DISTINCT t.term_id AS id, t.name AS text
+                FROM {$wpdb->term_taxonomy} as tt
+                INNER JOIN {$wpdb->terms} as t ON (tt.term_id = t.term_id)
+                WHERE taxonomy = 'post_tag' AND t.name LIKE %s
+                ORDER BY 2
+                LIMIT 20",
+                    '%' . $wpdb->esc_like($queryText) . '%'
+                )
+            );
+
+            echo wp_json_encode($queryResult);
+            exit;
+        }
+
         /**
          * Sanitize a $_GET or similar filter being used on the calendar
          *
@@ -2967,43 +3182,59 @@ if (!class_exists('PP_Calendar')) {
                     <?php
                     break;
                 case 'cat':
-                    // Filter by categories, borrowed from wp-admin/edit.php
-                    if (taxonomy_exists('category')) {
-                        $category_dropdown_args = [
-                            'show_option_all' => __('All categories', 'publishpress'),
-                            'hide_empty'      => 0,
-                            'hierarchical'    => 1,
-                            'show_count'      => 0,
-                            'orderby'         => 'name',
-                            'selected'        => $filters['cat'],
-                        ];
-                        wp_dropdown_categories($category_dropdown_args);
-                    }
+                    $categoryId = isset($filters['cat']) ? (int)$filters['cat'] : 0;
+                    ?>
+                    <select id="filter_category" name="cat">
+                        <option value=""><?php _e('View all categories', 'publishpress'); ?></option>
+                        <?php
+                        if (!empty($categoryId)) {
+                            $category = get_term($categoryId, 'category');
+
+                            echo "<option value='" . esc_attr($categoryId) . "' selected='selected'>" . esc_html($category->name) . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <?php
                     break;
                 case 'tag':
-                    if (taxonomy_exists('post_tag')) {
-                        $tag_dropdown_args = [
-                            'show_option_all' => __('All tags', 'publishpress'),
-                            'hide_empty'      => 0,
-                            'hierarchical'    => 0,
-                            'show_count'      => 0,
-                            'orderby'         => 'name',
-                            'selected'        => $filters['tag'],
-                            'taxonomy'        => 'post_tag',
-                            'name'            => 'tag',
-                        ];
-                        wp_dropdown_categories($tag_dropdown_args);
-                    }
+                    $tagId = isset($filters['tag']) ? (int)$filters['tag'] : 0;
+                    ?>
+                    <select id="filter_tag" name="tag">
+                        <option value=""><?php _e('All tags', 'publishpress'); ?></option>
+                        <?php
+                        if (!empty($tagId)) {
+                            $tag = get_term($tagId, 'post_tag');
+
+                            echo "<option value='" . esc_attr($tagId) . "' selected='selected'>" . esc_html($tag->name) . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <?php
                     break;
                 case 'author':
-                    $users_dropdown_args = [
-                        'show_option_all' => __('All users', 'publishpress'),
-                        'name'            => 'author',
-                        'selected'        => $filters['author'],
-                        'who'             => 'authors',
-                    ];
-                    $users_dropdown_args = apply_filters('pp_calendar_users_dropdown_args', $users_dropdown_args);
-                    wp_dropdown_users($users_dropdown_args);
+                    $authorId = isset($filters['author']) ? (int)$filters['author'] : 0;
+                    $selectedOptionAll = empty($authorId) ? 'selected="selected"' : '';
+                    ?>
+                    <select id="filter_author" name="author">
+                        <option value="" <?php echo $selectedOptionAll; ?>>
+                            <?php _e('All authors', 'publishpress'); ?>
+                        </option>
+                        <?php
+                        if (!empty($authorId)) {
+                            $author = get_user_by('id', $authorId);
+                            $option = '';
+
+                            if (!empty($author)) {
+                                $option = '<option value="' . esc_attr($authorId) . '" selected="selected">' . esc_html($author->display_name) . '</option>';
+                            }
+
+                            $option = apply_filters('publishpress_author_filter_selected_option', $option, $authorId);
+
+                            echo $option;
+                        }
+                        ?>
+                    </select>
+                    <?php
                     break;
                 case 'type':
                     $supported_post_types = $this->get_post_types_for_module($this->module);
@@ -3028,7 +3259,7 @@ if (!class_exists('PP_Calendar')) {
                         $filters['weeks'] = self::DEFAULT_NUM_WEEKS;
                     }
 
-                    $output = '<select name="weeks">';
+                    $output = '<select id="weeks" name="weeks">';
                     for ($i = 1; $i <= 12; $i++) {
                         $output .= '<option value="' . esc_attr($i) . '" ' . selected(
                                 $i,
@@ -3150,9 +3381,11 @@ if (!class_exists('PP_Calendar')) {
                 return null;
             }
 
-            $authorsPermissions = self::getAuthorPermissions();
-            $user               = get_user_by('id', $post_author_id);
-            if (count(array_intersect($authorsPermissions, $user->roles)) === 0) {
+            $user = get_user_by('id', $post_author_id);
+
+            $is_valid = (is_object($user) && !is_wp_error($user)) ? $user->has_cap('edit_posts') : false;
+
+            if (!apply_filters('publishpress_author_can_edit_posts', $is_valid, $post_author_id)) {
                 throw new Exception(
                     __(
                         "The selected user doesn't have enough permissions to be set as the post author.",
@@ -3161,26 +3394,7 @@ if (!class_exists('PP_Calendar')) {
                 );
             }
 
-            return (int)$user->ID;
-        }
-
-        /**
-         * Retrieve a set of permissions that an Author user might have.
-         *
-         * @access  private
-         * @static
-         * @return  array
-         * @since   1.20.0
-         *
-         */
-        private static function getAuthorPermissions()
-        {
-            return [
-                'administrator',
-                'author',
-                'editor',
-                'contributor',
-            ];
+            return (int)$post_author_id;
         }
 
         public function setDefaultCapabilities()

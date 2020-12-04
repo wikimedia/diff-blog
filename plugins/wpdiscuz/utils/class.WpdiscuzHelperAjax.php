@@ -143,34 +143,36 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
                 update_option(self::OPTION_SLUG_DEACTIVATION, $v);
                 $response["code"] = "dismiss_and_deactivate";
             } else if (isset($data["deactivation_reason"]) && ($reason = trim($data["deactivation_reason"]))) {
-                $pluginData = get_plugin_data(WPDISCUZ_DIR_PATH . "/class.WpdiscuzCore.php");
-                $blogTitle = get_option("blogname");
-                $to = "feedback@wpdiscuz.com";
-                $subject = "[wpDiscuz Feedback - " . $pluginData["Version"] . "] - " . $reason;
-                $headers = [];
-                $contentType = "text/html";
-                $fromName = html_entity_decode($blogTitle, ENT_QUOTES);
-                $siteUrl = get_site_url();
-                $parsedUrl = parse_url($siteUrl);
-                $domain = isset($parsedUrl["host"]) ? WpdiscuzHelper::fixEmailFrom($parsedUrl["host"]) : "";
-                $fromEmail = "no-reply@" . $domain;
-                $headers[] = "Content-Type:  $contentType; charset=UTF-8";
-                $headers[] = "From: " . $fromName . " <" . $fromEmail . "> \r\n";
-                $message = "<strong>Deactivation subject:</strong> " . $reason . "\r\n" . "<br/>";
-                if (isset($data["deactivation_reason_desc"]) && ($reasonDesc = trim($data["deactivation_reason_desc"]))) {
-                    $message .= "<strong>Deactivation reason:</strong> " . $reasonDesc . "\r\n" . "<br/>";
-                }
-                if (isset($data["deactivation_feedback_email"]) && ($feedback_email = trim($data["deactivation_feedback_email"]))) {
-                    if (filter_var($feedback_email, FILTER_VALIDATE_EMAIL) === false) {
-                        $response["code"] = "send_and_deactivate";
-                        wp_die(json_encode($response));
+				if ($reason !== "I'll reactivate it later") {
+                    $pluginData = get_plugin_data(WPDISCUZ_DIR_PATH . "/class.WpdiscuzCore.php");
+                    $blogTitle = get_option("blogname");
+                    $to = "feedback@wpdiscuz.com";
+                    $subject = "[wpDiscuz Feedback - " . $pluginData["Version"] . "] - " . $reason;
+                    $headers = [];
+                    $contentType = "text/html";
+                    $fromName = html_entity_decode($blogTitle, ENT_QUOTES);
+                    $siteUrl = get_site_url();
+                    $parsedUrl = parse_url($siteUrl);
+                    $domain = isset($parsedUrl["host"]) ? WpdiscuzHelper::fixEmailFrom($parsedUrl["host"]) : "";
+                    $fromEmail = "no-reply@" . $domain;
+                    $headers[] = "Content-Type:  $contentType; charset=UTF-8";
+                    $headers[] = "From: " . $fromName . " <" . $fromEmail . "> \r\n";
+                    $message = "<strong>Deactivation subject:</strong> " . $reason . "\r\n" . "<br/>";
+                    if (isset($data["deactivation_reason_desc"]) && ($reasonDesc = trim($data["deactivation_reason_desc"]))) {
+                        $message .= "<strong>Deactivation reason:</strong> " . $reasonDesc . "\r\n" . "<br/>";
                     }
-                    $to = "support@wpdiscuz.com";
-                    $message .= "<strong>Feedback Email:</strong> " . $feedback_email . "\r\n" . "<br/>";
-                }
-                $subject = html_entity_decode($subject, ENT_QUOTES);
-                $message = html_entity_decode($message, ENT_QUOTES);
-                $sent = wp_mail($to, $subject, do_shortcode($message), $headers);
+                    if (isset($data["deactivation_feedback_email"]) && ($feedback_email = trim($data["deactivation_feedback_email"]))) {
+                        if (filter_var($feedback_email, FILTER_VALIDATE_EMAIL) === false) {
+                            $response["code"] = "send_and_deactivate";
+                            wp_die(json_encode($response));
+                        }
+                        $to = "support@wpdiscuz.com";
+                        $message .= "<strong>Feedback Email:</strong> " . $feedback_email . "\r\n" . "<br/>";
+                    }
+                    $subject = html_entity_decode($subject, ENT_QUOTES);
+                    $message = html_entity_decode($message, ENT_QUOTES);
+                    $sent = wp_mail($to, $subject, do_shortcode($message), $headers);
+			    }
                 $response["code"] = "send_and_deactivate";
             }
         }
@@ -744,6 +746,7 @@ class WpdiscuzHelperAjax implements WpDiscuzConstants {
             }
             $response .= "<button class='wpd-inline-submit wpd_not_clicked' type='submit' name='wpd_inline_submit'><span>" . esc_html($this->options->phrases["wc_inline_form_comment_button"]) . "</span><svg xmlns='https://www.w3.org/2000/svg' class='wpd-inline-submit-icon' width='24' height='24' viewBox='0 0 24 24'><path class='wpd-inline-submit-icon-first' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/><path class='wpd-inline-submit-icon-second' d='M0 0h24v24H0z'/></svg></button>";
             $response .= "</div>";
+            $response .= apply_filters("wpdiscuz_after_feedback_form_fields", "", $post_id);
             $response .= wp_nonce_field("wpd_inline_nonce_" . $post_id, "_wpd_inline_nonce", false, false);
             $response .= "</form>";
             $response .= "</div>";

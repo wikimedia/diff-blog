@@ -217,7 +217,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				$custom_tax = get_taxonomies( array( '_builtin' => false ), 'names' );
 				
 				$defined = array();
-				$defined['type'] = get_post_types( array( 'public' => true, 'show_ui' => true ), 'object', 'or' );
+				$defined['type'] = apply_filters('cme_filterable_post_types', get_post_types( array( 'public' => true, 'show_ui' => true), 'object', 'or' ));
 				$defined['taxonomy'] = get_taxonomies( array( 'public' => true ), 'object' );
 				
 				$unfiltered['type'] = apply_filters( 'pp_unfiltered_post_types', array( 'forum','topic','reply','wp_block' ) );  // bbPress' dynamic role def requires additional code to enforce stored caps
@@ -359,7 +359,9 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 								if ( empty($force_distinct_ui) && empty( $cap_properties[$cap_type][$item_type] ) )
 									continue;
 							
-								$row .= "<td><a class='cap_type' href='#toggle_type_caps'>" . $type_obj->labels->name . '</a>';
+								$type_label = (!empty($type_obj->labels->menu_name)) ? $type_obj->labels->menu_name : $type_obj->labels->name;
+
+								$row .= "<td><a class='cap_type' href='#toggle_type_caps'>" . $type_label . '</a>';
 								$row .= '<a href="#" class="neg-type-caps">&nbsp;x&nbsp;</a>';
 								$row .= '</td>';
 								
@@ -421,7 +423,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 												$disabled = '';
 												$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 												
-												$checkbox = '<input type="checkbox"' . $title . ' name="caps[' . $cap_name . ']" value="1" ' . $checked . $disabled . ' />';
+												$checkbox = '<input type="checkbox"' . $title . ' name="caps[' . $cap_name . ']" autocomplete="off" value="1" ' . $checked . $disabled . ' />';
 												
 												$type_caps [$cap_name] = true;
 												$display_row = true;
@@ -491,6 +493,10 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 						$(chks).prop( 'checked', ! $(chks).first().is(':checked') );
 						return false;
 					});
+					
+					$('input[name^="caps["]').click(function() {
+						$('input[name="' + $(this).attr('name') + '"]').prop('checked', $(this).prop('checked'));
+					});
 				});
 				/* ]]> */
 				</script>
@@ -506,7 +512,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				foreach( array_keys($core_caps) as $cap_name ) {
 					if ( ! $is_administrator && ! current_user_can($cap_name) )
 						continue;
-				
+
 					if ( $i == $checks_per_row ) {
 						echo '</tr><tr>';
 						$i = 0;
@@ -546,7 +552,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 					}
 					
 					?>
-					<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" value="1" <?php echo $checked . $disabled;?> />
+					<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" autocomplete="off" value="1" <?php echo $checked . $disabled;?> />
 					<span>
 					<?php
 					echo str_replace( '_', ' ', $cap_name );
@@ -581,7 +587,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				<tr class="cme-bulk-select">
 				<td colspan="<?php echo $checks_per_row;?>">
 				<span style="float:right">
-				<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
+				<input type="checkbox" class="cme-check-all" autocomplete="off" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
 				</span>
 				</td></tr>
 				
@@ -604,14 +610,14 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				if (defined('PUBLISHPRESS_VERSION')) {
 					$plugin_caps['PublishPress'] = apply_filters('cme_publishpress_capabilities',
 						array(
-							'edit_metadata',
-							'edit_post_subscriptions',
-							'ppma_edit_orphan_post',
-							'pp_manage_roles',
-							'pp_set_notification_channel',
-							'pp_view_calendar',
-							'pp_view_content_overview',
-							'status_change',
+						'edit_metadata',
+						'edit_post_subscriptions',
+						'ppma_edit_orphan_post',
+						'pp_manage_roles',
+						'pp_set_notification_channel',
+						'pp_view_calendar',
+						'pp_view_content_overview',
+						'status_change',
 						)
 					);
 				}
@@ -790,7 +796,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 						$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 						$title = $title_text;
 						?>
-						<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" value="1" <?php echo $checked . $disabled;?> />
+						<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" autocomplete="off" value="1" <?php echo $checked . $disabled;?> />
 						<span>
 						<?php
 						echo str_replace( '_', ' ', $cap_name );
@@ -820,7 +826,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 					<tr class="cme-bulk-select">
 					<td colspan="<?php echo $checks_per_row;?>">
 					<span style="float:right">
-					<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
+					<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" autocomplete="off" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
 					</span>
 					</td></tr>
 					
@@ -894,7 +900,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 						}
 					}
 				?>
-					<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title_text;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" value="1" <?php echo $checked . $disabled;?> />
+					<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title_text;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" autocomplete="off" value="1" <?php echo $checked . $disabled;?> />
 					<span>
 					<?php
 					echo str_replace( '_', ' ', $cap );
@@ -929,7 +935,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				<tr class="cme-bulk-select">
 				<td colspan="<?php echo $checks_per_row;?>">
 				<span style="float:right">
-				<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
+				<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" autocomplete="off" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
 				</span>
 				</td></tr>
 				
@@ -981,7 +987,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 					$disabled = '';
 					$checked = checked(1, ! empty($rcaps[$cap_name]), false );
 				?>
-					<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title_text;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" value="1" <?php echo $checked . $disabled;?> />
+					<td class="<?php echo $class; ?>"><span class="cap-x">X</span><label title="<?php echo $title_text;?>"><input type="checkbox" name="caps[<?php echo $cap_name; ?>]" autocomplete="off" value="1" <?php echo $checked . $disabled;?> />
 					<span>
 					<?php
 					echo str_replace( '_', ' ', $cap );
@@ -1016,7 +1022,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				<tr class="cme-bulk-select">
 				<td colspan="<?php echo $checks_per_row;?>">
 				<span style="float:right">
-				<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
+				<input type="checkbox" class="cme-check-all" title="<?php _e('check/uncheck all', 'capsman-enhanced');?>">&nbsp;&nbsp;<a class="cme-neg-all" href="#" autocomplete="off" title="<?php _e('negate all (storing as disabled capabilities)', 'capsman-enhanced');?>">X</a> <a class="cme-switch-all" href="#" title="<?php _e('negate none (add/remove all capabilities normally)', 'capsman-enhanced');?>">X</a>
 				</span>
 				</td></tr>
 
@@ -1094,7 +1100,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 					<p><input type="text" name="create-name" class="<?php echo $class;?>" placeholder="<?php _e('Role Name', 'capsman-enhanced') ?>" />
 					
 					<?php if( $support_pp_only_roles ) : ?>
-					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman-enhanced');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" value="1"> <?php _e('hidden', 'capsman-enhanced'); ?> </label>
+					<label for="new_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman-enhanced');?>"> <input type="checkbox" name="new_role_pp_only" id="new_role_pp_only" autocomplete="off" value="1"> <?php _e('hidden', 'capsman-enhanced'); ?> </label>
 					<?php endif; ?>
 					
 					<br />
@@ -1110,7 +1116,7 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 					<p><input type="text" name="copy-name"  class="<?php echo $class;?>" placeholder="<?php _e('Role Name', 'capsman-enhanced') ?>" />
 					
 					<?php if( $support_pp_only_roles ) : ?>
-					<label for="copy_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman-enhanced');?>"> <input type="checkbox" name="copy_role_pp_only" id="copy_role_pp_only" value="1"> <?php _e('hidden', 'capsman-enhanced'); ?> </label>
+					<label for="copy_role_pp_only" title="<?php _e('Make role available for supplemental assignment to Permission Groups only', 'capsman-enhanced');?>"> <input type="checkbox" name="copy_role_pp_only" id="copy_role_pp_only" autocomplete="off" value="1"> <?php _e('hidden', 'capsman-enhanced'); ?> </label>
 					<?php endif; ?>
 					
 					<br />
@@ -1191,8 +1197,9 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 
 <?php
 function cme_network_role_ui( $default ) {
-	if ( ! is_multisite() || ! is_super_admin() || ( 1 != get_current_blog_id() ) )
+	if (!is_multisite() || !is_super_admin() || !is_main_site()) {
 		return false;
+	}
 	?>
 
 	<div style="float:right;margin-left:10px;margin-right:10px">
@@ -1203,10 +1210,10 @@ function cme_network_role_ui( $default ) {
 		$checked = ( in_array( $default, $autocreate_roles ) ) ? 'checked="checked"': '';
 		?>
 		<div style="margin-bottom: 5px">
-		<label for="cme_autocreate_role" title="<?php _e('Create this role definition in new (future) sites', 'capsman-enhanced');?>"><input type="checkbox" name="cme_autocreate_role" id="cme_autocreate_role" value="1" <?php echo $checked;?>> <?php _e('include in new sites', 'capsman-enhanced'); ?> </label>
+		<label for="cme_autocreate_role" title="<?php _e('Create this role definition in new (future) sites', 'capsman-enhanced');?>"><input type="checkbox" name="cme_autocreate_role" id="cme_autocreate_role" autocomplete="off" value="1" <?php echo $checked;?>> <?php _e('include in new sites', 'capsman-enhanced'); ?> </label>
 		</div>
 		<div>
-		<label for="cme_net_sync_role" title="<?php echo esc_attr(__('Copy / update this role definition to all sites now', 'capsman-enhanced'));?>"><input type="checkbox" name="cme_net_sync_role" id="cme_net_sync_role" value="1"> <?php _e('sync role to all sites now', 'capsman-enhanced'); ?> </label>
+		<label for="cme_net_sync_role" title="<?php echo esc_attr(__('Copy / update this role definition to all sites now', 'capsman-enhanced'));?>"><input type="checkbox" name="cme_net_sync_role" id="cme_net_sync_role" autocomplete="off" value="1"> <?php _e('sync role to all sites now', 'capsman-enhanced'); ?> </label>
 		</div>
 	</div>
 <?php
