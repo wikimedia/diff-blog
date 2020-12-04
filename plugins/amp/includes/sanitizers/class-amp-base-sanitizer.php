@@ -321,6 +321,7 @@ abstract class AMP_Base_Sanitizer {
 					$attributes['style'] = $this->reassemble_style_string( $styles );
 				}
 				$attributes['layout'] = 'fill';
+				unset( $attributes['height'], $attributes['width'] );
 				return $attributes;
 			}
 
@@ -594,7 +595,13 @@ abstract class AMP_Base_Sanitizer {
 			}
 
 			// Capture element contents.
-			if ( ( 'script' === $node->nodeName && ! $node->hasAttribute( 'src' ) ) || 'style' === $node->nodeName ) {
+			if (
+				( 'script' === $node->nodeName && ! $node->hasAttribute( 'src' ) )
+				||
+				// Include stylesheet text except for amp-custom and amp-keyframes since it is large and since it should
+				// already be detailed in the stylesheets metabox.
+				( 'style' === $node->nodeName && ! $node->hasAttribute( 'amp-custom' ) && ! $node->hasAttribute( 'amp-keyframes' ) )
+			) {
 				$error['text'] = $node->textContent;
 			}
 

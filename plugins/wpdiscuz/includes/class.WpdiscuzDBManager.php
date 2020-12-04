@@ -164,7 +164,6 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
      */
     public function getNewCommentIds($args, $loadLastCommentId, $email, $visibleCommentIds) {
         $wpdiscuz = wpDiscuz();
-        $approved = "";
         if ($args["status"] === "all") {
             $approved = " AND `comment_approved` IN('1','0')";
         } else {
@@ -902,6 +901,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $like = (int) $votes[0];
             $dislike = (int) $votes[1];
             update_comment_meta($id, self::META_KEY_VOTES_SEPARATE, ["like" => $like, "dislike" => $dislike]);
+            update_comment_meta($id, self::META_KEY_VOTES, $like - $dislike);
         }
     }
 
@@ -1027,8 +1027,8 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
         return $this->db->get_row($sql);
     }
 
-    public function updateFeedbackForm($post_id, $uid, $question, $opened) {
-        $sql = $this->db->prepare("UPDATE `{$this->feedbackForms}` SET `question` = %s, `opened` = %d WHERE `post_id` = %d AND `unique_id` = %s;", $question, $opened, $post_id, $uid);
+    public function updateFeedbackForm($post_id, $uid, $question, $opened, $content) {
+        $sql = $this->db->prepare("UPDATE `{$this->feedbackForms}` SET `question` = %s, `opened` = %d, `content` = %s WHERE `post_id` = %d AND `unique_id` = %s;", $question, $opened, $content, $post_id, $uid);
         return $this->db->get_var($sql);
     }
 
@@ -1113,6 +1113,7 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
     /* === Fix Tables === */
 
     public function fixTables() {
+        $this->dbCreateTables();
         $sql = "SHOW INDEX FROM `{$this->avatarsCache}` WHERE Key_name = 'url'";
         if ($this->db->get_results($sql)) {
             $sql = "ALTER TABLE `{$this->avatarsCache}` DROP INDEX `url`;";
@@ -1123,15 +1124,35 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             $sql = "ALTER TABLE `{$this->avatarsCache}` DROP INDEX `hash`;";
             $this->db->query($sql);
         }
-        $sql_alter = "ALTER TABLE `{$this->avatarsCache}` DROP INDEX `user_email`, MODIFY `user_email` VARCHAR(100) NOT NULL, MODIFY `hash` VARCHAR(32) NOT NULL, ADD UNIQUE KEY `user_email` (`user_email`);";
+        $sql_alter = "ALTER TABLE `{$this->avatarsCache}` DROP INDEX `user_email`;";
         $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->emailNotification}` DROP INDEX `subscribe_unique_index`, MODIFY `email` VARCHAR(100) NOT NULL, MODIFY `subscribtion_type` VARCHAR(20) NOT NULL, MODIFY `activation_key` VARCHAR(32) NOT NULL, ADD UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`,`post_id`);";
+        $sql_alter = "ALTER TABLE `{$this->avatarsCache}` MODIFY `user_email` VARCHAR(100) NOT NULL, MODIFY `hash` VARCHAR(32) NOT NULL;";
         $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->followUsers}` DROP INDEX `follow_unique_key`, DROP INDEX `user_email`, DROP INDEX `follower_email`, MODIFY `user_email` VARCHAR(100) NOT NULL, MODIFY `follower_email` VARCHAR(100) NOT NULL, ADD KEY `user_email` (`user_email`), ADD KEY `follower_email` (`follower_email`), ADD UNIQUE KEY `follow_unique_key` (`user_email`,`follower_email`);";
+        $sql_alter = "ALTER TABLE `{$this->avatarsCache}` ADD UNIQUE KEY `user_email` (`user_email`);";
         $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->phrases}` DROP INDEX `phrase_key`, MODIFY `phrase_key` VARCHAR(100) NOT NULL, ADD KEY `phrase_key` (`phrase_key`);";
+        $sql_alter = "ALTER TABLE `{$this->emailNotification}` DROP INDEX `subscribe_unique_index`;";
         $this->db->query($sql_alter);
-        $sql_alter = "ALTER TABLE `{$this->usersVoted}` DROP INDEX `user_id`, MODIFY `user_id` VARCHAR(32) NOT NULL, ADD KEY `user_id` (`user_id`);";
+        $sql_alter = "ALTER TABLE `{$this->emailNotification}` MODIFY `email` VARCHAR(100) NOT NULL, MODIFY `subscribtion_type` VARCHAR(20) NOT NULL, MODIFY `activation_key` VARCHAR(32) NOT NULL;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->emailNotification}` ADD UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`,`post_id`);";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->followUsers}` DROP INDEX `follow_unique_key`, DROP INDEX `user_email`, DROP INDEX `follower_email`;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->followUsers}` MODIFY `user_email` VARCHAR(100) NOT NULL, MODIFY `follower_email` VARCHAR(100) NOT NULL;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->followUsers}` ADD KEY `user_email` (`user_email`), ADD KEY `follower_email` (`follower_email`), ADD UNIQUE KEY `follow_unique_key` (`user_email`,`follower_email`);";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->phrases}` DROP INDEX `phrase_key`;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->phrases}` MODIFY `phrase_key` VARCHAR(100) NOT NULL;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->phrases}` ADD KEY `phrase_key` (`phrase_key`);";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->usersVoted}` DROP INDEX `user_id`;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->usersVoted}` MODIFY `user_id` VARCHAR(32) NOT NULL;";
+        $this->db->query($sql_alter);
+        $sql_alter = "ALTER TABLE `{$this->usersVoted}` ADD KEY `user_id` (`user_id`);";
         $this->db->query($sql_alter);
         $sql_alter = "ALTER TABLE `{$this->usersRated}` MODIFY `user_ip` VARCHAR(32) NOT NULL;";
         $this->db->query($sql_alter);
@@ -1156,7 +1177,11 @@ class WpdiscuzDBManager implements WpDiscuzConstants {
             }
         }
         if (is_plugin_active("wpdiscuz-online-users/wpdiscuz-ou.php")) {
-            $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` DROP INDEX `unique_online_user`, DROP INDEX `user_ip`, MODIFY `user_email` VARCHAR (100) NOT NULL, MODIFY `user_ip` VARCHAR (32) NOT NULL, ADD UNIQUE KEY `unique_online_user` (`blog_id`,`user_id`,`user_email`), ADD KEY `user_ip` (`user_ip`);";
+            $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` DROP INDEX `unique_online_user`, DROP INDEX `user_ip`;";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` MODIFY `user_email` VARCHAR (100) NOT NULL, MODIFY `user_ip` VARCHAR (32) NOT NULL;";
+            $this->db->query($sql_alter);
+            $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` ADD UNIQUE KEY `unique_online_user` (`blog_id`,`user_id`,`user_email`), ADD KEY `user_ip` (`user_ip`);";
             $this->db->query($sql_alter);
             if (!empty($this->db->charset)) {
                 $sql_alter = "ALTER TABLE `{$this->db->prefix}wc_online_users` CONVERT TO CHARACTER SET {$this->db->charset}" . ($this->db->collate ? " COLLATE {$this->db->collate}" : "") . ";";

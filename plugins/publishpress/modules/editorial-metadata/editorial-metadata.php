@@ -490,7 +490,6 @@ if (!class_exists('PP_Editorial_Metadata')) {
          */
         public function save_meta_box($id, $post)
         {
-
             // Authentication checks: make sure data came from our meta box and that the current user is allowed to edit the post
             // TODO: switch to using check_admin_referrer? See core (e.g. edit.php) for usage
             if (! isset($_POST[self::metadata_taxonomy . "_nonce"])
@@ -787,8 +786,6 @@ if (!class_exists('PP_Editorial_Metadata')) {
          */
         public function filter_calendar_item_fields($calendar_fields, $post_id)
         {
-
-
             // Make sure we respect which post type we're on
             if (!in_array(get_post_type($post_id), $this->get_post_types_for_module($this->module))) {
                 return $calendar_fields;
@@ -1084,9 +1081,16 @@ if (!class_exists('PP_Editorial_Metadata')) {
             }
             // Check to make sure the status doesn't already exist as another term because otherwise we'd get a weird slug
             // Check that the term name doesn't exceed 200 chars
-            if (strlen($term_name) > 200) {
-                $_REQUEST['form-errors']['name'] = __('Name cannot exceed 200 characters. Please try a shorter name.', 'publishpress');
+            if (function_exists('mb_strlen')) {
+                if (mb_strlen($term_name) > 200) {
+                    $_REQUEST['form-errors']['name'] = __('Name cannot exceed 200 characters. Please try a shorter name.', 'publishpress');
+                }
+            } else {
+                if (strlen($term_name) > 200) {
+                    $_REQUEST['form-errors']['name'] = __('Name cannot exceed 200 characters. Please try a shorter name.', 'publishpress');
+                }
             }
+
             // Metadata type needs to pass our whitelist check
             $metadata_types = $this->get_supported_metadata_types();
             if (empty($_POST['metadata_type']) || !isset($metadata_types[$_POST['metadata_type']])) {

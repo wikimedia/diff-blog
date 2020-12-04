@@ -9,11 +9,10 @@
 
 namespace PublishPress\Notifications;
 
-use Allex\Core;
 use Pimple\Container;
 use PP_Debug;
-use PublishPress\AsyncNotifications\QueueInterface;
-use PublishPress\AsyncNotifications\WPCron;
+use PublishPress\AsyncNotifications\SchedulerInterface;
+use PublishPress\AsyncNotifications\WPCronAdapter;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFunction;
@@ -31,14 +30,6 @@ class Pimple_Container extends Container
             $instance = new self;
 
             // Define the services
-
-            $instance['EDD_API_URL'] = function ($c) {
-                return 'https://publishpress.com';
-            };
-
-            $instance['PLUGIN_AUTHOR'] = function ($c) {
-                return 'PublishPress';
-            };
 
             $instance['twig_function_checked'] = function ($c) {
                 return new Twig_SimpleFunction(
@@ -92,8 +83,8 @@ class Pimple_Container extends Container
                 return $publishpress;
             };
 
-            $instance['workflow_controller'] = function ($c) {
-                return new Workflow\Controller;
+            $instance['workflows_controller'] = function ($c) {
+                return new Workflow\WorkflowsController;
             };
 
             $instance['shortcodes'] = function ($c) {
@@ -103,26 +94,10 @@ class Pimple_Container extends Container
             /**
              * @param $c
              *
-             * @return QueueInterface
+             * @return SchedulerInterface
              */
-            $instance['notification_queue'] = function ($c) {
-                $queue = apply_filters('publishpress_notification_queue', false, $c);
-
-                if (empty($queue)) {
-                    $queue = new WPCron();
-                }
-
-                return $queue;
-            };
-
-            $instance['framework'] = function ($c) {
-                // The 4th param is there just for backward compatibility with older versions of the Allex framework
-                // packed in UpStream.
-                return new Core($c['PLUGIN_BASENAME'], $c['EDD_API_URL'], $c['PLUGIN_AUTHOR'], '');
-            };
-
-            $instance['PLUGIN_BASENAME'] = function ($c) {
-                return PUBLISHPRESS_BASENAME;
+            $instance['notification_scheduler'] = function ($c) {
+                return apply_filters('publishpress_notifications_notification_scheduler', new WPCronAdapter(), $c);
             };
 
             /**

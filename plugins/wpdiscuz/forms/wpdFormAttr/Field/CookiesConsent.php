@@ -62,7 +62,8 @@ class CookiesConsent extends Field {
 
     public function validateFieldData($fieldName, $args, $options, $currentUser) {
         $this->cookiesConsent = filter_input(INPUT_POST, $fieldName, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-        if ($this->cookiesConsent === false) {
+        $action = filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING);
+        if ($this->cookiesConsent === false && $action !== "wpdSaveEditedComment") {
             $past = time() - YEAR_IN_SECONDS;
             setcookie("comment_author_" . COOKIEHASH, " ", $past, "/", COOKIE_DOMAIN);
             setcookie("comment_author_email_" . COOKIEHASH, " ", $past, "/", COOKIE_DOMAIN);

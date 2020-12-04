@@ -2,8 +2,8 @@
 Contributors: gVectors Team
 Tags: comment, comments, ajax comments, comment form, comment fields
 Requires at least: 5.0
-Tested up to: 5.5
-Stable tag: 7.0.7
+Tested up to: 5.6
+Stable tag: 7.0.9
 Requires PHP: 5.4 and higher
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -179,6 +179,38 @@ Nothing will be lost!  **Comments - wpDiscuz** will show all old comments.
 
 == Changelog ==
 
+= Comments - wpDiscuz v7.0.9 =
+
+* Core optimization
+
+
+
+= Comments - wpDiscuz v7.0.8 =
+
+* Added: WordPress 5.6 compatibility
+* Added: Confirmation alert for page reloading if comment editor is not empty
+* Added: Counting WooCommerce product reviews with wpDiscuz product rating
+* Added: Create table function in wpDiscuz database table fixing tool
+* Added: New filter hook `wpdiscuz_is_comment_editable`
+* Added: New filter hook `wpdiscuz_after_feedback_form_fields`
+* Added: New filter hook `wpdiscuz_comment_author`
+* Fixed bug: Missing permission_callback function for rest api calls
+* Fixed bug: reCAPTCHA bug when subscription form is disabled
+* Fixed bug: Better compatibility with wp-optimize plugin cache
+* Fixed bug: Live update issues on posts with no comments
+* Fixed bug: Comment rich editor placeholder issue
+* Fixed bug: Cookie consent field issue on comment editing
+* Fixed bug: Direct comment link issue if the native pagination is enabled
+* Fixed bug: Email notifications issue if replies are posted in dashboard
+* Fixed bug: User mentioning notification issue if replies are posted in dashboard
+
+
+**IMPORTANT!**
+1. Please don't forget delete all caches and purge CDN after the update.
+2. If you're updating from 5.x.x versions please read this topic: [https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/](https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/)
+
+
+
 = Comments - wpDiscuz v7.0.7 =
 
 * Added: Important changes for WordPress 5.5 compatibility
@@ -189,11 +221,6 @@ Nothing will be lost!  **Comments - wpDiscuz** will show all old comments.
 * Fixed bug: reCAPTCHA validation for other ways of commenting
 * Fixed bug: Display unapproved comments to admins on live update
 * Fixed bug: Loading of correct initial avatar size in comment form
-
-
-**IMPORTANT!**
-1. Please don't forget delete all caches and purge CDN after the update.
-2. If you're updating from 5.x.x versions please read this topic: [https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/](https://wordpress.org/support/topic/before-updating-to-wpdiscuz-7-version/)
 
 
 = Comments - wpDiscuz v7.0.6 =

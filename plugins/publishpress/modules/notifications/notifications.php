@@ -293,22 +293,44 @@ if (!class_exists('PP_Notifications')) {
         {
             if ($this->is_whitelisted_functional_view()) {
                 wp_enqueue_script(
+                    'publishpress-select2',
+                    PUBLISHPRESS_URL . 'common/libs/select2/js/select2.min.js',
+                    ['jquery'],
+                    PUBLISHPRESS_VERSION
+                );
+
+                wp_enqueue_script(
                     'publishpress-notifications-js',
                     $this->module_url . 'assets/notifications.js',
                     [
                         'jquery',
+                        'publishpress-select2'
                     ],
                     PUBLISHPRESS_VERSION,
                     true
                 );
-
-                wp_enqueue_script(
-                    'publishpress-chosen-js',
-                    PUBLISHPRESS_URL . 'common/libs/chosen-v1.8.3/chosen.jquery.js',
-                    ['jquery'],
-                    PUBLISHPRESS_VERSION
-                );
             }
+        }
+
+        /**
+         * Whether or not the current page is a user-facing PublishPress View
+         *
+         * @param string $module_name (Optional) Module name to check against
+         *
+         * @since 0.7
+         *
+         * @todo  Think of a creative way to make this work
+         *
+         */
+        public function is_whitelisted_functional_view($module_name = null)
+        {
+            global $current_screen;
+
+            if (!is_object($current_screen)) {
+                return false;
+            }
+
+            return $current_screen->base === 'post';
         }
 
         /**
@@ -330,8 +352,8 @@ if (!class_exists('PP_Notifications')) {
                 );
 
                 wp_enqueue_style(
-                    'publishpress-chosen-css',
-                    PUBLISHPRESS_URL . 'common/libs/chosen-v1.8.3/chosen.css',
+                    'publishpress-select2',
+                    PUBLISHPRESS_URL . 'common/libs/select2/css/select2.min.css',
                     false,
                     PUBLISHPRESS_VERSION
                 );
@@ -607,17 +629,17 @@ if (!class_exists('PP_Notifications')) {
          */
         protected function get_workflows_related_to_post($post)
         {
-            $workflow_controller = $this->get_service('workflow_controller');
+            $workflows_controller = $this->get_service('workflows_controller');
 
             $args = [
-                'action'       => '',
+                'event'        => '',
                 'post'         => $post,
                 'new_status'   => $post->post_status,
                 'old_status'   => $post->post_status,
                 'ignore_event' => true,
             ];
 
-            return $workflow_controller->get_filtered_workflows($args);
+            return $workflows_controller->get_filtered_workflows($args);
         }
 
         public function action_save_post($postId)
@@ -659,6 +681,15 @@ if (!class_exists('PP_Notifications')) {
                 }
             }
             wp_remove_object_terms($postId, $emails, $this->notify_email_taxonomy);
+
+            if (apply_filters('pp_notification_auto_subscribe_current_user', true)) {
+                if (!isset($_POST['to_notify'])) {
+                    $_POST['to_notify'] = [];
+                }
+                if (!array_search(get_current_user_id(), $_POST['to_notify'])) {
+                    $_POST['to_notify'][] = get_current_user_id();
+                }
+            }
 
             if (isset($_POST['to_notify'])) {
                 foreach ($_POST['to_notify'] as $id) {
@@ -731,11 +762,10 @@ if (!class_exists('PP_Notifications')) {
 
         /**
          * @param $default
-         * @param $context
          *
          * @return bool
          */
-        public function filter_pp_notification_auto_subscribe_current_user($default, $context)
+        public function filter_pp_notification_auto_subscribe_current_user($default)
         {
             if (!isset($this->module->options->notify_current_user_by_default)) {
                 return $default;
@@ -854,21 +884,11 @@ if (!class_exists('PP_Notifications')) {
                 return false;
             }
 
-            $user         = get_userdata($post->post_author);
             $current_user = wp_get_current_user();
 
             $post_id    = $post->ID;
             $post_type  = get_post_type_object($post->post_type)->labels->singular_name;
             $post_title = pp_draft_or_post_title($post_id);
-
-            // Check if this a reply
-            //$parent_ID = isset( $comment->comment_parent_ID ) ? $comment->comment_parent_ID : 0;
-            //if( $parent_ID ) $parent = get_comment( $parent_ID );
-
-            // Set user to be notified for a post, but make it filterable
-            if (apply_filters('pp_notification_auto_subscribe_current_user', true, 'comment')) {
-                $this->post_set_users_to_notify($post, (int )$current_user->ID);
-            }
 
             // Set the post author to be notified for the post but make it filterable
             if (apply_filters('pp_notification_auto_subscribe_post_author', true, 'comment')) {

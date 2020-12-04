@@ -8,6 +8,7 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '562b8a589a76743f9366d365f8f27f19' => __DIR__ . '/../..' . '/defines-free-plugin-path.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -23,10 +24,6 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
         array (
             'Psr\\Container\\' => 14,
             'PPVersionNotices\\' => 17,
-        ),
-        'A' => 
-        array (
-            'Allex\\' => 6,
         ),
     );
 
@@ -46,10 +43,6 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
         'PPVersionNotices\\' => 
         array (
             0 => __DIR__ . '/..' . '/publishpress/wordpress-version-notices/src',
-        ),
-        'Allex\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library',
         ),
     );
 
@@ -71,15 +64,6 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
     );
 
     public static $classMap = array (
-        'Allex\\Abstract_Service' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Abstract_Service.php',
-        'Allex\\Container' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Container.php',
-        'Allex\\Core' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Core.php',
-        'Allex\\Module\\Abstract_Module' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Module/Abstract_Module.php',
-        'Allex\\Module\\Addons' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Module/Addons.php',
-        'Allex\\Module\\Assets' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Module/Assets.php',
-        'Allex\\Module\\Reviews' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Module/Reviews.php',
-        'Allex\\Module\\Upgrade' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Module/Upgrade.php',
-        'Allex\\TextDomain' => __DIR__ . '/..' . '/alledia/wordpress-plugin-framework/src/library/Textdomain.php',
         'PPVersionNotices\\Module\\AdInterface' => __DIR__ . '/..' . '/publishpress/wordpress-version-notices/src/Module/AdInterface.php',
         'PPVersionNotices\\Module\\Footer\\Module' => __DIR__ . '/..' . '/publishpress/wordpress-version-notices/src/Module/Footer/Module.php',
         'PPVersionNotices\\Module\\MenuLink\\Module' => __DIR__ . '/..' . '/publishpress/wordpress-version-notices/src/Module/MenuLink/Module.php',
@@ -155,11 +139,13 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
         'Twig\\Node\\BlockReferenceNode' => __DIR__ . '/..' . '/twig/twig/src/Node/BlockReferenceNode.php',
         'Twig\\Node\\BodyNode' => __DIR__ . '/..' . '/twig/twig/src/Node/BodyNode.php',
         'Twig\\Node\\CheckSecurityNode' => __DIR__ . '/..' . '/twig/twig/src/Node/CheckSecurityNode.php',
+        'Twig\\Node\\CheckToStringNode' => __DIR__ . '/..' . '/twig/twig/src/Node/CheckToStringNode.php',
         'Twig\\Node\\DeprecatedNode' => __DIR__ . '/..' . '/twig/twig/src/Node/DeprecatedNode.php',
         'Twig\\Node\\DoNode' => __DIR__ . '/..' . '/twig/twig/src/Node/DoNode.php',
         'Twig\\Node\\EmbedNode' => __DIR__ . '/..' . '/twig/twig/src/Node/EmbedNode.php',
         'Twig\\Node\\Expression\\AbstractExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/AbstractExpression.php',
         'Twig\\Node\\Expression\\ArrayExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/ArrayExpression.php',
+        'Twig\\Node\\Expression\\ArrowFunctionExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/ArrowFunctionExpression.php',
         'Twig\\Node\\Expression\\AssignNameExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/AssignNameExpression.php',
         'Twig\\Node\\Expression\\Binary\\AbstractBinary' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/Binary/AbstractBinary.php',
         'Twig\\Node\\Expression\\Binary\\AddBinary' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/Binary/AddBinary.php',
@@ -195,6 +181,7 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
         'Twig\\Node\\Expression\\Filter\\DefaultFilter' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/Filter/DefaultFilter.php',
         'Twig\\Node\\Expression\\FunctionExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/FunctionExpression.php',
         'Twig\\Node\\Expression\\GetAttrExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/GetAttrExpression.php',
+        'Twig\\Node\\Expression\\InlinePrint' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/InlinePrint.php',
         'Twig\\Node\\Expression\\MethodCallExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/MethodCallExpression.php',
         'Twig\\Node\\Expression\\NameExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/NameExpression.php',
         'Twig\\Node\\Expression\\NullCoalesceExpression' => __DIR__ . '/..' . '/twig/twig/src/Node/Expression/NullCoalesceExpression.php',
@@ -258,6 +245,7 @@ class ComposerStaticInit6b28807d8074d3f19904fd6cf8db753f
         'Twig\\Test\\NodeTestCase' => __DIR__ . '/..' . '/twig/twig/src/Test/NodeTestCase.php',
         'Twig\\Token' => __DIR__ . '/..' . '/twig/twig/src/Token.php',
         'Twig\\TokenParser\\AbstractTokenParser' => __DIR__ . '/..' . '/twig/twig/src/TokenParser/AbstractTokenParser.php',
+        'Twig\\TokenParser\\ApplyTokenParser' => __DIR__ . '/..' . '/twig/twig/src/TokenParser/ApplyTokenParser.php',
         'Twig\\TokenParser\\AutoEscapeTokenParser' => __DIR__ . '/..' . '/twig/twig/src/TokenParser/AutoEscapeTokenParser.php',
         'Twig\\TokenParser\\BlockTokenParser' => __DIR__ . '/..' . '/twig/twig/src/TokenParser/BlockTokenParser.php',
         'Twig\\TokenParser\\DeprecatedTokenParser' => __DIR__ . '/..' . '/twig/twig/src/TokenParser/DeprecatedTokenParser.php',

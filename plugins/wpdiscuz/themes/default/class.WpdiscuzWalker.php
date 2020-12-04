@@ -52,10 +52,8 @@ class WpdiscuzWalker extends Walker_Comment implements WpDiscuzConstants {
             }
         }
 
-        if ($this->options->wp["isPaginate"]) {
-            $commentLink = get_comment_link($comment);
-        } else {
-            $commentLink = $args["post_permalink"] . "#comment-" . $comment->comment_ID;
+		$commentLink = get_comment_link($comment);
+        if (!$this->options->wp["isPaginate"]) {
             if (!empty($args["last_visit"]) && !empty($args["current_user_email"]) && strtotime($comment->comment_date) > $args["last_visit"] && $args["current_user_email"] !== $comment->comment_author_email) {
                 $commentWrapperClass[] = "wpd-new-loaded-comment";
             }

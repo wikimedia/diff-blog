@@ -185,7 +185,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
         $commentTimestamp = strtotime($comment->comment_date);
         $timeDiff = self::$current_time - $commentTimestamp;
         $editableTimeLimit = $this->options->moderation["commentEditableTime"] === "unlimit" ? abs($timeDiff) + 1 : intval($this->options->moderation["commentEditableTime"]);
-        return $editableTimeLimit && ($timeDiff < $editableTimeLimit);
+        return apply_filters("wpdiscuz_is_comment_editable", $editableTimeLimit && ($timeDiff < $editableTimeLimit), $comment);
     }
 
     /**
@@ -837,7 +837,7 @@ class WpdiscuzHelper implements WpDiscuzConstants {
                         }
                         $atts = array_merge($defaultAtts, $atts);
                         if (($atts["id"] = trim($atts["id"])) && ($atts["question"] = strip_tags($atts["question"]))) {
-                            $inlineFormsBefore[$atts["id"]] = ["question" => $atts["question"], "opened" => $atts["opened"]];
+                            $inlineFormsBefore[$atts["id"]] = ["question" => $atts["question"], "opened" => $atts["opened"], "content" => $matchBefore[5]];
                         }
                     }
                 }
@@ -855,8 +855,12 @@ class WpdiscuzHelper implements WpDiscuzConstants {
                             $atts = array_merge($defaultAtts, $atts);
                             if (($atts["id"] = trim($atts["id"])) && ($atts["question"] = strip_tags($atts["question"]))) {
                                 if (isset($inlineFormsBefore[$atts["id"]])) {
-                                    if ($atts["question"] !== $inlineFormsBefore[$atts["id"]]["question"] || $atts["opened"] !== $inlineFormsBefore[$atts["id"]]["opened"]) {
-                                        $this->dbManager->updateFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"]);
+                                    if ($this->dbManager->getFeedbackFormByUid($post_ID, $atts["id"])) {
+										if ($atts["question"] !== $inlineFormsBefore[$atts["id"]]["question"] || $atts["opened"] !== $inlineFormsBefore[$atts["id"]]["opened"] || $atts["content"] !== $inlineFormsBefore[$atts["id"]]["content"]) {
+											$this->dbManager->updateFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"], $atts["content"]);
+										}
+                                    } else {
+										$this->dbManager->addFeedbackForm($post_ID, $atts["id"], $atts["question"], $atts["opened"], $atts["content"]);
                                     }
                                     unset($inlineFormsBefore[$atts["id"]]);
                                 } else {

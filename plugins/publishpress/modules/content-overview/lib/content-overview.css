@@ -1,13 +1,4 @@
 /** Content Overview **/
-#pp-content-overview-tablenav {
-    height: auto;
-    overflow: hidden;
-}
-
-#pp-content-overview-tablenav select {
-    max-width: 300px;
-}
-
 #post-query-clear {
     margin-top: -2px;
     margin-left: 4px;
@@ -38,6 +29,7 @@ header h2 a.change-date-cancel {
 .postbox-container {
     float: left;
     padding-right: 0;
+    width: 100%;
 }
 
 .postbox {
