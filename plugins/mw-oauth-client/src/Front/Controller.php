@@ -5,7 +5,12 @@ namespace MW\WPOAuth\Front;
 use MW\WPOAuth\Controller as RootController;
 
 /**
- * Front Controller
+ * Bootstraps the front-facing features of the plguin
+ *
+ * @package     mediawiki\wp-oauth-client
+ * @author      Brad Morris <hello@bradleymorris.co.uk>
+ * @license     Proprietary
+ * @copyright   Wikimedia Foundation
  */
 final class Controller {
 	/**

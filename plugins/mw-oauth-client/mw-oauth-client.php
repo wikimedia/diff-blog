@@ -5,7 +5,7 @@
  * @package     mediawiki\wp-oauth-client
  * @author      Brad Morris <hello@bradleymorris.co.uk>
  * @license     Proprietary
- * @copyright   Radfunds
+ * @copyright   MediaWiki
  *
  * @wordpress-plugin
  * Plugin Name:         MediaWiki OAuth Client
@@ -14,7 +14,7 @@
  * Author:              Brad Morris (Codeable)
  * Author URI:          https://codeable.io/developers/brad-morris/
  *
- * Version:             1.0.0
+ * Version:             1.1.0
  * Requires at least:   4.2
  * Tested up to:        5.4
  *
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const PLUGIN_VERSION = '1.0.0';
+const PLUGIN_VERSION = '1.1.0';
 const PLUGIN_FILE    = __FILE__;
 const PLUGIN_SLUG    = 'mw-oauth-client';
 
