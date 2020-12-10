@@ -40,7 +40,8 @@ class UserStore {
 
 		$users_by_email_query = new WP_User_Query(
 			array(
-				'user_email' => $email,
+				'search'         => $email,
+				'search_columns' => array( 'user_email' ),
 			)
 		);
 
@@ -71,7 +72,8 @@ class UserStore {
 	public static function get_unclaimed_account_by_email( string $email ) {
 		$users_by_email_query = new WP_User_Query(
 			array(
-				'user_email' => $email,
+				'search'         => $email,
+				'search_columns' => array( 'user_email' ),
 			)
 		);
 
