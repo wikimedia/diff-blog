@@ -42,6 +42,15 @@ final class LoginActions {
 		add_filter( 'wp_login_errors', array( $this, 'render_login_errors' ) );
 
 		add_action( 'mw_oauth_login_user', array( static::class, 'login_user' ), 10, 1 );
+
+		add_action( 'login_enqueue_scripts', array( $this, 'login_enqueue_scripts' ), 10 );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function login_enqueue_scripts(): void {
+		Helpers::enqueue_style( 'mw-oauth-login', 'wp-login.css' );
 	}
 
 	/**
@@ -106,14 +115,18 @@ final class LoginActions {
 	 */
 	public function render_login_button(): void {
 		if ( Factory::instance()->is_ready() ) {
-			$action = sprintf( '%s?action=%s', wp_login_url(), Helpers::PLUGIN_SLUG );
-			$url    = wp_nonce_url( $action, Helpers::PLUGIN_SLUG . '_begin' );
+			$action   = sprintf( '%s?action=%s', wp_login_url(), Helpers::PLUGIN_SLUG );
+			$url      = wp_nonce_url( $action, Helpers::PLUGIN_SLUG . '_begin' );
+			$position = 'top'; // @todo: provide this as an option in the plugin settings
 
-			$output  = '<div class="mw-sso-login">';
+			$output  = '<div class="mw-sso-login mw-sso-login--'. esc_attr( $position ) . '">';
 			$output .= '	<a class="button button-large" href="' . esc_url( $url ) . '">' . esc_html__( 'Login with MediaWiki' ) . '</a>';
 			$output .= '	<span class="mw-sso-login__or">' . esc_html__( 'Or', 'mw-oauth' ) . '</span>';
 			$output .= '</div>';
 
+			if ( 'top' === $position ) {
+				add_action( 'login_footer', array($this, 'output_button_position_script'), 100 );
+			}
 			echo apply_filters( 'mw_oauth_login_button_html', $output, $url ); // phpcs:ignore
 		}
 	}
@@ -130,6 +143,20 @@ final class LoginActions {
 		}
 
 		return $errors;
+	}
+
+	/**
+	 * Outputs Javascript snippet that will move SSO button to the top
+	 * of the login form
+	 *
+	 * @return void
+	 */
+	public function output_button_position_script(): void {
+		?>
+			<script type="text/javascript">
+				jQuery('.mw-sso-login').prependTo('#loginform')
+			</script>
+		<?php
 	}
 
 	/**

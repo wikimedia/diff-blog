@@ -1,0 +1,10 @@
+#loginform .mw-sso-login .button {
+  display: block;
+  text-align: center;
+}
+
+.mw-sso-login__or {
+  margin: 1rem 0;
+  display: block;
+  text-align: center;
+}

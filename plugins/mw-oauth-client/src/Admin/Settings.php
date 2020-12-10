@@ -194,8 +194,18 @@ final class Settings {
 		);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function settings_section_callback(): void {
 		echo esc_html__( 'The following details will be provided to you by MediaWiki when a new OAuth consumer is registered.', 'mw-outh' );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function appearance_section_callback(): void {
+		echo esc_html__( 'Control how the login button appears on the WordPress Login Screen', 'mw-outh' );
 	}
 
 	/**
