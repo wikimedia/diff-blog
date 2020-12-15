@@ -248,3 +248,22 @@ if( is_admin() ) {
 	return $do_concat;
 	};
 
+//Add fallback image for related posts feature
+
+function diff_custom_image( $media, $post_id, $args ) {
+if ( $media ) {
+	return $media;
+} else {
+	$permalink = get_permalink( $post_id );
+	$url = apply_filters( 'jetpack_photon_url', 'https://diff.wikimedia.org/wp-content/uploads/2020/07/1024px-Wikimedia-logo.svg_.png' );
+
+	return array( array(
+		'type'  => 'image',
+		'from'  => 'custom_fallback',
+		'src'   => esc_url( $url ),
+		'href'  => $permalink,
+	) );
+}
+}
+add_filter( 'jetpack_images_get_images', 'diff_custom_image', 10, 3 );
+
