@@ -255,7 +255,7 @@ if ( $media ) {
 	return $media;
 } else {
 	$permalink = get_permalink( $post_id );
-	$url = apply_filters( 'jetpack_photon_url', 'https://diff.wikimedia.org/wp-content/uploads/2020/07/1024px-Wikimedia-logo.svg_.png' );
+	$url = apply_filters( 'jetpack_photon_url', 'https://diff.wikimedia.org/wp-content/uploads/2020/12/related-post-placeholder.jpg' );
 
 	return array( array(
 		'type'  => 'image',
