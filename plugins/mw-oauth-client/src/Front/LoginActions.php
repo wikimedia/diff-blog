@@ -16,7 +16,7 @@ use MW\WPOAuth\Helpers;
  *
  * @package     mediawiki\wp-oauth-client
  * @author      Brad Morris <hello@bradleymorris.co.uk>
- * @license     Proprietary
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright   Wikimedia Foundation
  */
 final class LoginActions {
@@ -119,13 +119,13 @@ final class LoginActions {
 			$url      = wp_nonce_url( $action, Helpers::PLUGIN_SLUG . '_begin' );
 			$position = 'top'; // @todo: provide this as an option in the plugin settings
 
-			$output  = '<div class="mw-sso-login mw-sso-login--'. esc_attr( $position ) . '">';
+			$output  = '<div class="mw-sso-login mw-sso-login--' . esc_attr( $position ) . '">';
 			$output .= '	<a class="button button-large" href="' . esc_url( $url ) . '">' . esc_html__( 'Login with MediaWiki' ) . '</a>';
 			$output .= '	<span class="mw-sso-login__or">' . esc_html__( 'Or', 'mw-oauth' ) . '</span>';
 			$output .= '</div>';
 
 			if ( 'top' === $position ) {
-				add_action( 'login_footer', array($this, 'output_button_position_script'), 100 );
+				add_action( 'login_footer', array( $this, 'output_button_position_script' ), 100 );
 			}
 			echo apply_filters( 'mw_oauth_login_button_html', $output, $url ); // phpcs:ignore
 		}

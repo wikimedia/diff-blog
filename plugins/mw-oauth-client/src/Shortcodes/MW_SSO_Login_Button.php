@@ -11,7 +11,7 @@ use MW\WPOAuth\Factory;
  *
  * @package     mediawiki\wp-oauth-client
  * @author      Brad Morris <hello@bradleymorris.co.uk>
- * @license     Proprietary
+ * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright   Wikimedia Foundation
  */
 class MW_SSO_Login_Button extends ShortcodeAbstract {
