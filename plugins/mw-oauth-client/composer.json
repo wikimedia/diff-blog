@@ -1,0 +1,24 @@
+{
+    "name": "mediawiki/wp-oauth-client",
+    "type": "wordpress-plugin",
+    "description": "WordPress plugin providing SSO login compatibility with MediaWiki",
+    "authors": [
+        {
+            "name": "Brad Morris",
+            "email": "hello@bradleymorris.co.uk"
+        }
+    ],
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "paquettg/php-html-parser": "^2.2",
+        "league/oauth2-client": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MW\\WPOAuth\\": "src",
+            "MW\\Lib\\": "lib"
+        },
+        "files": [
+        ]
+    }
+}
