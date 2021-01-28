@@ -4,7 +4,7 @@
  *
  * @package     mediawiki\wp-oauth-client
  * @author      Brad Morris <hello@bradleymorris.co.uk>
- * @license     http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license     https://opensource.org/licenses/GPL-2.0 GPL2.0
  * @copyright   Wikimedia Foundation
  *
  * @wordpress-plugin
