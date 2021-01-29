@@ -2,10 +2,10 @@
 
 === License ===
 
-MediaWiki is licensed under the terms of the GNU General Public License,
+MediaWiki OAuth Client is licensed under the terms of the GNU General Public License,
 version 2 or later. Derivative works and later versions of the code must be
 free software licensed under the same or a compatible license. This includes
-"extensions" that use MediaWiki functions or variables; see
+"extensions" that use MediaWiki OAuth Client functions or variables; see
 https://www.gnu.org/licenses/gpl-faq.html#GPLAndPlugins for details.
 
 For the full text of version 2 of the license, see
@@ -14,12 +14,12 @@ below.
 
 === Copyright owners ===
 
-MediaWiki contributors, including those listed in the CREDITS file, hold the
+MediaWiki OAuth Client contributors, including those listed in the CREDITS file, hold the
 copyright to this work.
 
 === Additional license information ===
 
-Some components of MediaWiki imported from other projects may be under other
+Some components of MediaWiki OAuth Client imported from other projects may be under other
 Free and Open Source, or Free Culture, licenses. Specific details of their
 licensing information can be found in those components.
 
@@ -27,7 +27,7 @@ Sections of code written exclusively by Lee Crocker or Erik Moeller are also
 released into the public domain, which does not impair the obligations of users
 under the GPL for use of the whole code or other sections thereof.
 
-MediaWiki uses the following Creative Commons icons to illustrate links to the
+MediaWiki OAuth Client uses the following Creative Commons icons to illustrate links to the
 CC licenses:
 
 * resources/assets/licenses/cc-0.png
