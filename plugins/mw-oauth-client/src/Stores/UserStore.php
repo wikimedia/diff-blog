@@ -17,7 +17,7 @@
  *
  * @package     mediawiki\wp-oauth-client
  * @author      Brad Morris <hello@bradleymorris.co.uk>
- * @license     https://opensource.org/licenses/GPL-2.0 GPL2.0
+ * @license     https://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (or later)
  * @copyright   Wikimedia Foundation
  */
 
@@ -31,8 +31,6 @@ use WP_User_Query;
  *
  * @package     mediawiki\wp-oauth-client
  * @author      Brad Morris <hello@bradleymorris.co.uk>
- * @license     https://opensource.org/licenses/GPL-2.0 GPL2.0
- * @copyright   Wikimedia Foundation
  */
 class UserStore {
 	/**
