@@ -34,9 +34,9 @@ use MW\WPOAuth\Services\OAuthProvider;
 class Controller {
 
 	/**
-	 * @var OAuthProvider
+	 * @var mixed
 	 */
-	protected $oauth_provider;
+	protected $services;
 
 	/**
 	 * @var bool
