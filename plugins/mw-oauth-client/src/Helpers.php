@@ -72,7 +72,7 @@ final class Helpers {
 	 * @return void
 	 */
 	public static function enqueue_style( string $handle, string $src, array $deps = array() ): void {
-		wp_enqueue_style( PLUGIN_SLUG . '-' . $handle, static::plugins_url( $src ), $deps, time() );
+		wp_enqueue_style( PLUGIN_SLUG . '-' . $handle, self::plugins_url( $src ), $deps, time() );
 	}
 
 	/**
@@ -83,7 +83,7 @@ final class Helpers {
 	 * @return void
 	 */
 	public static function enqueue_script( string $handle, string $src, array $deps, $in_footer = true ): void {
-		wp_enqueue_script( PLUGIN_SLUG . '-' . $handle, static::plugins_url( $src ), $deps, time(), $in_footer );
+		wp_enqueue_script( PLUGIN_SLUG . '-' . $handle, self::plugins_url( $src ), $deps, time(), $in_footer );
 	}
 
 	/**

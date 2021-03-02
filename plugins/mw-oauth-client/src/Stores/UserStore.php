@@ -23,6 +23,7 @@
 
 namespace MW\WPOAuth\Stores;
 
+use Exception;
 use WP_User_Query;
 
 /**
