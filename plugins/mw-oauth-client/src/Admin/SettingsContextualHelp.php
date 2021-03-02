@@ -58,18 +58,18 @@ final class SettingsContextualHelp {
 
 		?>
 		<h2>Registering an OAuth Consumer</h2>
-			<p><?php echo wp_kses_post( __( 'This plugin can be used with any MediaWiki<small>&gt;1.35</small> installation that has the <a href="https://www.mediawiki.org/wiki/Extension:OAuth">OAuth extension</a> installed and correctly configured.', 'mw-outh' ) ); ?></p>
-			<p><?php echo wp_kses_post( __( 'You will need to have an approved OAuth 2.0 consumer registered on the Wiki. Registering a consumer can be done by submitting a proposal on the <strong>Special:OAuthConsumerRegistration/propose</strong> page, and entering the following details exactly as shown:' ) ); ?></p>
-			<dl>
-				<dt>OAuth protocol version:</dt>
-		<dd>OAuth 2.0</dd>
-				<dt>OAuth "callback" URL:</dt>
-		<dd><?php echo esc_html( $callback_url ); ?></dd>
-				<dt>Types of grants being requested:</dt>
-		<dd>User identity verification only with access to real name and email address, no ability to read pages or act on a user's behalf.</dd>
-			</dl>
-		<h2>General Settings</h2>
-		<p>Where possible, you should use http<strong>s</strong>:// for your REST API address. The plugin will accept plain http, although this is strongly discouraged as it presents numerous security issues.</p>
+		<p><?php echo wp_kses_post( __( 'This plugin can be used with any MediaWiki<small>&gt;1.35</small> installation that has the <a href="https://www.mediawiki.org/wiki/Extension:OAuth">OAuth extension</a> installed and correctly configured.', 'mw-oauth' ) ); ?></p>
+		<p><?php echo wp_kses_post( __( 'You will need to have an approved OAuth 2.0 consumer registered on the Wiki. Registering a consumer can be done by submitting a proposal on the <strong>Special:OAuthConsumerRegistration/propose</strong> page, and entering the following details exactly as shown:', 'mw-oauth' ) ); ?></p>
+		<dl>
+			<dt><?php esc_html_e( 'OAuth protocol version:', 'mw-oauth' ); ?></dt>
+			<dd><?php esc_html_e( 'OAuth 2.0', 'mw-oauth' ); ?></dd>
+			<dt><?php esc_html_e( 'OAuth "callback" URL:', 'mw-oauth' ); ?></dt>
+			<dd><?php echo esc_html( $callback_url ); ?></dd>
+			<dt><?php esc_html_e( 'Types of grants being requested:', 'mw-oauth' ); ?></dt>
+			<dd><?php esc_html_e( 'User identity verification only with access to real name and email address, no ability to read pages or act on a user\'s behalf.', 'mw-oauth' ); ?></dd>
+		</dl>
+		<h2><?php esc_html_e( 'General Settings', 'mw-oauth' ); ?></h2>
+		<p><?php wp_kses( __( 'Where possible, you should use http<strong>s</strong>:// for your REST API address. The plugin will accept plain http, although this is strongly discouraged as it presents numerous security issues.', 'mw-oauth' ), array( 'strong' ) ); ?></p>
 		<?php
 	}
 }

@@ -162,7 +162,7 @@ final class Settings {
 			esc_attr( $this->key ),
 			esc_attr( $value )
 		);
-		echo '<p class="description">' . esc_html__( 'If left blank this will default to the homepage' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'If left blank this will default to the homepage', 'mw-oauth' ) . '</p>';
 	}
 
 	/**
@@ -178,7 +178,7 @@ final class Settings {
 			esc_attr( $this->key ),
 			esc_attr( $value )
 		);
-		echo '<p class="description">' . esc_html__( 'For most wikis this will be https://yourdomain/rest.php.' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'For most wikis this will be https://yourdomain/rest.php.', 'mw-oauth' ) . '</p>';
 
 	}
 
@@ -217,14 +217,14 @@ final class Settings {
 	 * @return void
 	 */
 	public function settings_section_callback(): void {
-		echo esc_html__( 'The following details will be provided to you by MediaWiki when a new OAuth consumer is registered.', 'mw-outh' );
+		echo esc_html__( 'The following details will be provided to you by MediaWiki when a new OAuth consumer is registered.', 'mw-oauth' );
 	}
 
 	/**
 	 * @return void
 	 */
 	public function appearance_section_callback(): void {
-		echo esc_html__( 'Control how the login button appears on the WordPress Login Screen', 'mw-outh' );
+		echo esc_html__( 'Control how the login button appears on the WordPress Login Screen', 'mw-oauth' );
 	}
 
 	/**
@@ -233,8 +233,8 @@ final class Settings {
 	public function render_settings_page(): void {
 		?>
 		<div class="wrap">
-			<h1>MediaWiki SSO Settings</h1>
-			<p class="description">Not sure what to enter on this page? Check the help tab in the top right of the page for more info</p>
+			<h1><?php esc_html_e( 'MediaWiki SSO Settings', 'mw-oauth' ); ?></h1>
+			<p class="description"><?php esc_html_e( 'Not sure what to enter on this page? Check the help tab in the top right of the page for more info', 'mw-oauth' ); ?></p>
 			<form method="POST" action="options.php">
 					<?php
 					settings_fields( $this->key );

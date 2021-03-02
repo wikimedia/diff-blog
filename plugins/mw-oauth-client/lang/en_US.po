@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MW OAuth Client\n"
+"POT-Creation-Date: 2021-03-01 19:50-0700\n"
+"PO-Revision-Date: 2021-03-01 19:57-0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ../src\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Admin/Settings.php:56 Admin/Settings.php:57
+msgid "MediaWiki SSO"
+msgstr ""
+
+#: Admin/Settings.php:77
+msgid "General Settings"
+msgstr ""
+
+#: Admin/Settings.php:84
+msgid "New User Role"
+msgstr ""
+
+#: Admin/Settings.php:92
+msgid "Redirect Url"
+msgstr ""
+
+#: Admin/Settings.php:100
+msgid "Consumer Credentials"
+msgstr ""
+
+#: Admin/Settings.php:107
+msgid "REST API Address"
+msgstr ""
+
+#: Admin/Settings.php:115
+msgid "Key"
+msgstr ""
+
+#: Admin/Settings.php:123
+msgid "Secret"
+msgstr ""
+
+#: Admin/Settings.php:165
+msgid "If left blank this will default to the homepage"
+msgstr ""
+
+#: Admin/Settings.php:181
+msgid "For most wikis this will be https://yourdomain/rest.php."
+msgstr ""
+
+#: Admin/Settings.php:220
+msgid ""
+"The following details will be provided to you by MediaWiki when a new OAuth "
+"consumer is registered."
+msgstr ""
+
+#: Admin/Settings.php:227
+msgid "Control how the login button appears on the WordPress Login Screen"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:46
+msgid "SSO Configuration"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:61
+msgid ""
+"This plugin can be used with any MediaWiki<small>&gt;1.35</small> "
+"installation that has the <a href=\"https://www.mediawiki.org/wiki/Extension:"
+"OAuth\">OAuth extension</a> installed and correctly configured."
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:62
+msgid ""
+"You will need to have an approved OAuth 2.0 consumer registered on the Wiki. "
+"Registering a consumer can be done by submitting a proposal on the "
+"<strong>Special:OAuthConsumerRegistration/propose</strong> page, and "
+"entering the following details exactly as shown:"
+msgstr ""
+
+#: Factory.php:78 Factory.php:91
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: Front/LoginActions.php:82
+msgid "Nonce verification failed"
+msgstr ""
+
+#: Front/LoginActions.php:98
+msgid "An unknown error occured"
+msgstr ""
+
+#: Front/LoginActions.php:107
+msgid ""
+"Could not verify the validity of the OAuth server's response. You should "
+"close this page and try again. If this problem persists contact the site "
+"administrator."
+msgstr ""
+
+#: Front/LoginActions.php:142 Shortcodes/MW_SSO_Login_Button.php:49
+msgid "Login with MediaWiki"
+msgstr ""
+
+#: Front/LoginActions.php:143
+msgid "Or"
+msgstr ""
+
+#: Front/LoginActions.php:161
+msgid "SSO Error:"
+msgstr ""
+
+#: Services/OAuthProvider.php:77
+msgid "This user has been blocked"
+msgstr ""
+
+#: Services/OAuthProvider.php:81
+msgid ""
+"Please verify your email address in your Wikimedia account and try again."
+msgstr ""
+
+#: Services/OAuthProvider.php:104
+msgid "There was an unknown error logging you in."
+msgstr ""
+
+#: Services/OAuthProvider.php:180
+msgid "There was an unknown problem when trying to register your account"
+msgstr ""
+
+#: Shortcodes/MW_SSO_Login_Button.php:54
+msgid "MediaWiki SSO is currently not available."
+msgstr ""
