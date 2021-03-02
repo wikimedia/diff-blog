@@ -23,8 +23,6 @@
 
 namespace MW\WPOAuth;
 
-use MW\WPOAuth\Factory;
-
 /**
  * Factory to return the shared plugin instance in addition
  * to enforcing dependencies
