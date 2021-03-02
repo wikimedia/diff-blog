@@ -54,7 +54,7 @@ abstract class MWOAuthProvider extends AbstractProvider {
 	 * @return string
 	 */
 	public function getRestUrl( string $endpoint ): string {
-    // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		return $this->restApiUrl . '/' . $endpoint;
 	}
 
