@@ -51,7 +51,7 @@ class Factory {
 	public static function create() {
 		if ( ! static::passes_dependency_check() ) {
 			add_action( 'admin_notices', array( static::class, 'dependency_not_met_notice' ) );
-			return false;
+			return;
 		}
 
 		return static::instance();
