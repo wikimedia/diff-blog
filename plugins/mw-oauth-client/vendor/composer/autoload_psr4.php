@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
-    'PHPHtmlParser\\' => array($vendorDir . '/paquettg/php-html-parser/src/PHPHtmlParser'),
     'MW\\WPOAuth\\' => array($baseDir . '/src'),
     'MW\\Lib\\' => array($baseDir . '/lib'),
     'League\\OAuth2\\Client\\' => array($vendorDir . '/league/oauth2-client/src'),

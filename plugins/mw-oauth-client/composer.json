@@ -10,7 +10,6 @@
     ],
     "license": "GPL-2.0-or-later",
     "require": {
-        "paquettg/php-html-parser": "^2.2",
         "league/oauth2-client": "^2.5"
     },
     "autoload": {

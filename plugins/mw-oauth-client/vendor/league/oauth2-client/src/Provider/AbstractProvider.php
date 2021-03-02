@@ -533,10 +533,8 @@ abstract class AbstractProvider
         ];
 
         $params   = $grant->prepareRequestParameters($params, $options);
-
         $request  = $this->getAccessTokenRequest($params);
         $response = $this->getParsedResponse($request);
-
         if (false === is_array($response)) {
             throw new UnexpectedValueException(
                 'Invalid response received from Authorization Server. Expected JSON.'
@@ -624,6 +622,7 @@ abstract class AbstractProvider
         } catch (BadResponseException $e) {
             $response = $e->getResponse();
         }
+
         $parsed = $this->parseResponse($response);
 
         $this->checkResponse($response, $parsed);
@@ -783,7 +782,7 @@ abstract class AbstractProvider
         $request = $this->getAuthenticatedRequest(self::METHOD_GET, $url, $token);
 
         $response = $this->getParsedResponse($request);
-        
+
         if (false === is_array($response)) {
             throw new UnexpectedValueException(
                 'Invalid response received from Authorization Server. Expected JSON.'

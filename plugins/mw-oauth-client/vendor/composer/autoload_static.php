@@ -18,7 +18,6 @@ class ComposerStaticInitd89a1ca8565aed162edd39ede7dc5076
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
-            'PHPHtmlParser\\' => 14,
         ),
         'M' => 
         array (
@@ -46,10 +45,6 @@ class ComposerStaticInitd89a1ca8565aed162edd39ede7dc5076
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'PHPHtmlParser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser',
-        ),
         'MW\\WPOAuth\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -76,22 +71,11 @@ class ComposerStaticInitd89a1ca8565aed162edd39ede7dc5076
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        's' => 
-        array (
-            'stringEncode' => 
-            array (
-                0 => __DIR__ . '/..' . '/paquettg/string-encode/src',
-            ),
-        ),
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitd89a1ca8565aed162edd39ede7dc5076::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitd89a1ca8565aed162edd39ede7dc5076::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd89a1ca8565aed162edd39ede7dc5076::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
