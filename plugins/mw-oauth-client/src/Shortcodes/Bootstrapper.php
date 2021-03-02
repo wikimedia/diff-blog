@@ -44,15 +44,13 @@ class Bootstrapper {
 	protected $instances = array();
 
 	public function __construct() {
-		if ( empty( $this->shortcodes ) ) {
-			return $this;
-		}
+		if ( ! empty( $this->shortcodes ) ) {
+			foreach ( $this->shortcodes as $shortcode ) {
+				$class = sprintf( '%s\%s', __NAMESPACE__, $shortcode );
 
-		foreach ( $this->shortcodes as $shortcode ) {
-			$class = sprintf( '%s\%s', __NAMESPACE__, $shortcode );
-
-			if ( class_exists( $class ) ) {
-				$this->instances = new $class();
+				if ( class_exists( $class ) ) {
+					$this->instances[] = new $class();
+				}
 			}
 		}
 	}
