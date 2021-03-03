@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MW OAuth Client\n"
-"POT-Creation-Date: 2021-03-01 19:50-0700\n"
-"PO-Revision-Date: 2021-03-01 19:57-0700\n"
+"POT-Creation-Date: 2021-03-01 19:57-0700\n"
+"PO-Revision-Date: 2021-03-03 11:05-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "MediaWiki SSO"
 msgstr ""
 
-#: Admin/Settings.php:77
+#: Admin/Settings.php:77 Admin/SettingsContextualHelp.php:71
 msgid "General Settings"
 msgstr ""
 
@@ -65,6 +65,16 @@ msgstr ""
 msgid "Control how the login button appears on the WordPress Login Screen"
 msgstr ""
 
+#: Admin/Settings.php:236
+msgid "MediaWiki SSO Settings"
+msgstr ""
+
+#: Admin/Settings.php:237
+msgid ""
+"Not sure what to enter on this page? Check the help tab in the top right of "
+"the page for more info"
+msgstr ""
+
 #: Admin/SettingsContextualHelp.php:46
 msgid "SSO Configuration"
 msgstr ""
@@ -82,6 +92,35 @@ msgid ""
 "Registering a consumer can be done by submitting a proposal on the "
 "<strong>Special:OAuthConsumerRegistration/propose</strong> page, and "
 "entering the following details exactly as shown:"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:64
+msgid "OAuth protocol version:"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:65
+msgid "OAuth 2.0"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:66
+msgid "OAuth \"callback\" URL:"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:68
+msgid "Types of grants being requested:"
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:69
+msgid ""
+"User identity verification only with access to real name and email address, "
+"no ability to read pages or act on a user's behalf."
+msgstr ""
+
+#: Admin/SettingsContextualHelp.php:72
+msgid ""
+"Where possible, you should use http<strong>s</strong>:// for your REST API "
+"address. The plugin will accept plain http, although this is strongly "
+"discouraged as it presents numerous security issues."
 msgstr ""
 
 #: Factory.php:78 Factory.php:91
