@@ -68,7 +68,7 @@ function diff_contributor_admin_notice(){
     $user = wp_get_current_user();
     if ( in_array( 'contributor', (array) $user->roles ) ) {
     echo '<div class="notice notice-info is-dismissible">
-          <p>Welcome to Diff. Please review the <a href="#">editorial guidelines</a>. Click on <a href="post-new.php">+ New</a> to start writing.</p>
+          <p>Welcome to Diff. Please review the <a href="https://diff.wikimedia.org/editorial-guidelines/">editorial guidelines</a>. Click on <a href="post-new.php">+ New</a> to start writing.</p>
          </div>';
     }
 }

@@ -7,7 +7,7 @@
             // Any actions the user can perform.
             actions: [
                 {
-                    url: 'https://#',
+                    url: 'https://diff.wikimedia.org/editorial-guidelines/',
                     label: 'editorial guidelines.'
                 }
             ]
