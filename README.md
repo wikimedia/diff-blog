@@ -10,14 +10,14 @@ The maintenance and support of Diff is facilitated by the Communications team at
 ## Reporting issues
 Site not working? Have a bug to report? Let us know!
 
-* Create a Phabricator task (https://phabricator.wikimedia.org) and add the #wmf-communications tag
+* Create a [Phabricator](https://www.mediawiki.org/wiki/Phabricator/Help) task (https://phabricator.wikimedia.org) and add the #Diff-blog project tag
 * Leave a note on the project talk page https://meta.wikimedia.org/wiki/Diff_(blog)
 * Email the team at diff{{at}}wikimedia.org
 
 ## Architecture
 Diff is hosted on WordPress VIP.
 
-Diff uses a WordPress theme called "Interconnection." It is designed by hang Do Thi Duc and follows the Wikimedia Design (https://design.wikimedia.org/style-guide/) and branding (https://meta.wikimedia.org/wiki/Brand) style guides. Development of Interconnection is handled in [the theme's own repository, wikimedia/interconnection-wordpress-theme](https://github.com/wikimedia/interconnection-wordpress-theme).
+Diff uses a WordPress theme called "Interconnection." It is designed by Hang Do Thi Duc and follows the Wikimedia Design (https://design.wikimedia.org/style-guide/) and branding (https://meta.wikimedia.org/wiki/Brand) style guides. Development of Interconnection is handled in [the theme's own repository, wikimedia/interconnection-wordpress-theme](https://github.com/wikimedia/interconnection-wordpress-theme).
 
 Diff uses the following plugins:
 
